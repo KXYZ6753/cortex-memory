@@ -11,3 +11,37 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model Entry {
+  id          String   @id @default(cuid())
+  source      String                          // "email" | "discord" | "manual" | ...
+  externalId  String?                         // original ID from the source
+  author      String?                         // sender, username, etc.
+  title       String?                         // subject line, message title
+  content     String?                         // the actual body / text
+  metadata    Json?                           // anything source-specific
+  occurredAt  DateTime?                       // when the entry itself happened
+  createdAt   DateTime @default(now())        // when we ingested it
+
+  // AI-generated fields
+  summary     String?
+  sentiment   String?
+  tags        String[]                        // flat tags for agentic search
+
+  events      Event[]                         // upcoming events found in the content
+
+  @@unique([source, externalId])
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  entry       Entry    @relation(fields: [entryId], references: [id])
+  entryId     String
+  title       String                          // "Dentist appointment"
+  date        DateTime                         // when it actually happens
+  description String?
+  reminded    Boolean  @default(false)        // has Cortex Remind already pinged about this?
+  createdAt   DateTime @default(now())
+
+  @@index([date])                             // makes "upcoming events" queries fast
+}

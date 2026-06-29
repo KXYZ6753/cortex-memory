@@ -7,3 +7,25 @@ services:
       POSTGRES_DB: cortex-memory
     ports:
       - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d cortex-memory"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+
+  migrate:
+    image: node:22-slim
+    working_dir: /app
+    volumes:
+      - .:/app
+    environment:
+      DATABASE_URL: postgresql://user:password@db:5432/cortex-memory
+    command: npx prisma migrate deploy
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:

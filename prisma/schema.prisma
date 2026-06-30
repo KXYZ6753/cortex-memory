@@ -15,7 +15,7 @@ datasource db {
 model Entry {
   id          String   @id @default(cuid())
   source      String                          // "email" | "discord" | "manual" | ...
-  externalId  String?                 i        // original ID from the source
+  externalId  String?                         // original ID from the source
   author      String?                         // sender, username, etc.
   title       String?                         // subject line, message title
   content     String?                         // the actual body / text

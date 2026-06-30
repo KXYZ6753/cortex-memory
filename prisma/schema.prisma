@@ -15,7 +15,7 @@ datasource db {
 model Entry {
   id          String   @id @default(cuid())
   source      String                          // "email" | "discord" | "manual" | ...
-  externalId  String?                         // original ID from the source
+  externalId  String?                 i        // original ID from the source
   author      String?                         // sender, username, etc.
   title       String?                         // subject line, message title
   content     String?                         // the actual body / text
@@ -25,7 +25,7 @@ model Entry {
 
   // AI-generated fields
   summary     String?
-  sentiment   String?
+  importance  Int?                            // 1-5; 1 = spam/junk, 5 = critical
   tags        String[]                        // flat tags for agentic search
 
   events      Event[]                         // upcoming events found in the content

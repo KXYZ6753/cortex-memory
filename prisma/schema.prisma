@@ -27,6 +27,7 @@ model Entry {
   summary     String?
   importance  Int?                            // 1-5; 1 = spam/junk, 5 = critical
   tags        String[]                        // flat tags for agentic search
+  summaryEmbedding Unsupported("vector(768)")? // semantic embedding of `summary` for similarity search (nomic-embed-text)
 
   events      Event[]                         // upcoming events found in the content
 

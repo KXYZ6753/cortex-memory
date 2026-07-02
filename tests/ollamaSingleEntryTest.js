@@ -1,5 +1,5 @@
-import { prisma } from './db/client.js'
-import { processText } from './process/ollama.js'
+import { prisma } from '../src/db/client.js'
+import { processText } from '../src/process/ollama.js'
 
 const sample = `Confirming the dentist next Tuesday at 3pm.
 Also car insurance is due Friday.`

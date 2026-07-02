@@ -1,4 +1,4 @@
-import { processText } from './ollama.js'
+import { processText } from '../src/process/ollama.js'
 
 const sample = `Confirming the dentist next Tuesday at 3pm.
 Also car insurance is due Friday.`

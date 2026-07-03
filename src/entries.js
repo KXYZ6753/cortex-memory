@@ -22,6 +22,15 @@ import { embed } from './process/embed.js'
 //     additionalTags: ["gmail", "mail", "work", "etc..."],     // merged with the AI-generated tags
 //   })
 export async function createEntry({ content, source = 'unknown', externalId = null, occurredAt = null, title = null, metadata = null, author = null, additionalTags = [] }) {
+    // Cheap dedupe: skip the expensive Ollama calls if this entry is already stored.
+    // Only possible when the connector supplied an externalId (manual entries have none).
+    if (externalId) {
+        const existing = await prisma.entry.findUnique({
+            where: { source_externalId: { source, externalId } },
+        })
+        if (existing) return existing
+    }
+
     const { summary, importance, tags, events } = await processText(content)
 
     // Embed the summary and insert the row at the same time — both only need `summary`.

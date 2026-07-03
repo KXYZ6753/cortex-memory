@@ -22,7 +22,8 @@
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "express": "^5.2.1",
-    "imapflow": "^1.4.0",
+    "imapflow": "^1.4.3",
+    "mailparser": "^3.9.12",
     "pg": "^8.22.0"
   },
   "devDependencies": {

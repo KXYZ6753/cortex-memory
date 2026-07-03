@@ -1,6 +1,6 @@
 import { prisma } from '../src/db/client.js'
 import { processText } from '../src/process/ollama.js'
-
+// Old import system made for testing creating entries please use: src/
 const sample = `Confirming the dentist next Tuesday at 3pm.
 Also car insurance is due Friday.`
 

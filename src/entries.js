@@ -5,7 +5,23 @@ import { embed } from './process/embed.js'
 
 // Process text through ollama and persist it as an Entry (+ nested events).
 // Returns the created entry with events included. Caller owns prisma.$disconnect().
-export async function createEntry(content, source = 'unknown', externalId = null, occurredAt = null, title = null,metadata = null, author = null, additionalTags = []) {
+//
+// This is if you want to develop custom connectors! Please do!
+//
+// The connector contract: every input source builds one of these objects and calls createEntry.
+// Only `content` is required; everything else is optional.
+//   await createEntry({ content: "Don't forget the dentist Friday" })                  // manual note with minimal parameters
+//   await createEntry({
+//     content: body,
+//     source: "email",
+//     externalId: messageId,        // enables dedupe via @@unique([source, externalId])
+//     title: subject,
+//     author: fromAddress,
+//     occurredAt: receivedDate,     // Date object or ISO string, e.g. "2026-07-03T12:34:56.000Z"
+//     metadata: { folder: "inbox" },
+//     additionalTags: ["gmail", "mail", "work", "etc..."],     // merged with the AI-generated tags
+//   })
+export async function createEntry({ content, source = 'unknown', externalId = null, occurredAt = null, title = null, metadata = null, author = null, additionalTags = [] }) {
     const { summary, importance, tags, events } = await processText(content)
 
     // Embed the summary and insert the row at the same time — both only need `summary`.

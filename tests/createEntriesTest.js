@@ -1,5 +1,5 @@
 import { prisma } from '../src/db/client.js'
-import { createEntry } from '../src/createEntry.js'
+import { createEntry } from '../src/entries.js'
 
 const inputs = [
     "Confirming the dentist next Tuesday at 3pm.\nAlso car insurance is due Friday.",
@@ -56,7 +56,7 @@ const inputs = [
 
 async function main() {
     for (const text of inputs) {
-        const entry = await createEntry(text)
+        const entry = await createEntry({ content: text })
         console.log('Created entry:', entry)
     }
 }

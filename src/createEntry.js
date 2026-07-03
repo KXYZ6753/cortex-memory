@@ -5,7 +5,7 @@ import { embed } from './process/embed.js'
 
 // Process text through ollama and persist it as an Entry (+ nested events).
 // Returns the created entry with events included. Caller owns prisma.$disconnect().
-export async function createEntry(content, source = 'manual') {
+export async function createEntry(content, source = 'unknown', externalId = null, occurredAt = null, title = null,metadata = null, author = null, additionalTags = []) {
     const { summary, importance, tags, events } = await processText(content)
 
     // Embed the summary and insert the row at the same time — both only need `summary`.
@@ -14,12 +14,15 @@ export async function createEntry(content, source = 'manual') {
         prisma.entry.create({
             data: {
                 source,
-                title: summary,
+                externalId,
+                author,
+                title,
                 content,
                 summary,
                 importance,
-                tags,
-                occurredAt: new Date(),
+                tags: [...tags, ...additionalTags],
+                metadata,
+                occurredAt, //future note, format: new Date() OR 2026-07-03T12:34:56.000Z
                 events: {
                     create: events.map((e) => ({
                         title: e.title,

@@ -45,11 +45,12 @@ ${text}
 `
 }
 
-const MAX_CHARS = 4000 // large emails cause model to take too much time, thats why it cuts of after 4000 chars. gemma4:e4b runs at 4096 ctx
+const MAX_CHARS = 4000 // large emails cause model to take too much time, that's why it cuts of after 4000 chars. gemma4:e4b runs at 4096 ctx
 //look into if a lot of info is lost after cutting that many characters
 
 export async function processText(text, { signal } = {}) {
-    if (process.env.DEBUG_LOGGING === 'true') {console.log("Ollama, PROCESS START")}
+    const processStartTime = Date.now()
+    if (process.env.DEBUG_LOGGING === 'true') {console.log("Ollama - processText, PROCESS START")}
     let res
     try {
         res = await fetch(OLLAMA_URL, {
@@ -74,6 +75,8 @@ export async function processText(text, { signal } = {}) {
 
     if (!res.ok) {
         throw new Error(`Ollama error: ${res.status} ${await res.text()}`)
+    } else {
+        if (process.env.DEBUG_LOGGING === 'true') {console.log("Ollama - processText, PROCESS COMPLETE - " +((Date.now() - processStartTime)/1000) + "s - "+ (Date.now() - processStartTime) + "ms");}
     }
 
     const data = await res.json()

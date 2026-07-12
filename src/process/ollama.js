@@ -1,6 +1,6 @@
 
 const OLLAMA_URL = "http://localhost:11434/api/chat"
-const MODEL = "gemma4:e4b-mlx" // non-thinking; honors `format`. Failed models: qwen3.5
+const MODEL = "gemma4:e4b" // non-thinking; honors `format`. Failed models: qwen3.5, gemma4:e4b-mlx (MLX tag hangs on load via ollama's GGML runner) -> try mlx later maybe an initial boot wait time?
 
 // Constrained decoding: the model is forced to match this exact shape.
 // additionalProperties:false stops the model sneaking in extra keys.
@@ -45,7 +45,11 @@ ${text}
 `
 }
 
+const MAX_CHARS = 4000 // large emails cause model to take too much time, thats why it cuts of after 4000 chars. gemma4:e4b runs at 4096 ctx
+//look into if a lot of info is lost after cutting that many characters
+
 export async function processText(text, { signal } = {}) {
+    if (process.env.DEBUG_LOGGING === 'true') {console.log("Ollama, PROCESS START")}
     let res
     try {
         res = await fetch(OLLAMA_URL, {
@@ -53,17 +57,17 @@ export async function processText(text, { signal } = {}) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 model: MODEL,
-                messages: [{ role: "user", content: buildPrompt(text) }],
+                messages: [{ role: "user", content: buildPrompt(text.slice(0, MAX_CHARS)) }],
                 format: schema,             // constrained decoding does the real work
                 stream: false,
-                // Think: false silently disables the format grammar on old thinking models, so the model returns prose, not JSON. Leave it out.
+                // Think: false //silently disables the format grammar on old thinking models, so the model returns prose, not JSON. Leave it out.
                 options: { temperature: 0 }, // deterministic extraction
             }),
-            signal: signal ?? AbortSignal.timeout(60_000), // don't hang forever
+            signal: signal ?? AbortSignal.timeout(120_000), // Longer wait times for cold loads or initial start up times (compared to 60)
         })
     } catch (err) {
         if (err.name === "TimeoutError") {
-            throw new Error(`Ollama process timed out after 60s — the model may still be loading. Try again.`)
+            throw new Error(`Ollama process timed out after 120s — the model may still be loading. Try again.`)
         }
         throw new Error(`Could not reach Ollama at ${OLLAMA_URL} — is it running? (${err.message})`)
     }

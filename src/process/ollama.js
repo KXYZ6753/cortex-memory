@@ -1,6 +1,6 @@
 
 const OLLAMA_URL = "http://localhost:11434/api/chat"
-const MODEL = "gemma4:e4b" // non-thinking; honors `format`. Failed models: qwen3.5
+const MODEL = "gemma4:e4b-mlx" // non-thinking; honors `format`. Failed models: qwen3.5
 
 // Constrained decoding: the model is forced to match this exact shape.
 // additionalProperties:false stops the model sneaking in extra keys.
@@ -63,7 +63,7 @@ export async function processText(text, { signal } = {}) {
         })
     } catch (err) {
         if (err.name === "TimeoutError") {
-            throw new Error(`Ollama timed out after 60s — the model may still be loading. Try again.`)
+            throw new Error(`Ollama process timed out after 60s — the model may still be loading. Try again.`)
         }
         throw new Error(`Could not reach Ollama at ${OLLAMA_URL} — is it running? (${err.message})`)
     }

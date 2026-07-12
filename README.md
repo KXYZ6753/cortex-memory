@@ -1,0 +1,60 @@
+# Cortex Memory
+
+A self-hosted, AI-powered personal memory and productivity system — a unified
+context layer for your LLM workflows.
+
+# TODO LIST:
+* API Endpoints
+  * [ ] createEntry
+  * [ ] search
+  * [ ] listEntrySources
+  * [ ] Update memory
+* MCP Server that uses API
+  * [ ] createEntry
+  * [ ] search
+  * [ ] listEntrySources
+  * [ ] Update memory
+  * [ ] Add Quick note -> Act as a persistent LLM memory 
+* Getting Started CLI
+* Read me and documentation
+
+## How it works
+
+// todo: do here //
+
+## Tech stack
+
+- **Node.js** (ES modules) + **Express**
+- **PostgreSQL** + **pgvector** (via **Prisma**)
+- **Ollama** for local LLM summarization, extraction, and embeddings
+  - **nomic-embed-text** for embeddings
+  - **gemma4:e4b** for summarization and extraction
+- **Docker Compose** for the database and migrations
+
+## Getting started
+
+### Prerequisites
+
+- [Docker](https://www.docker.com/) + Docker Compose
+- [Node.js](https://nodejs.org/) 22+
+- [Ollama](https://ollama.com) running locally, with the models you want pulled:
+  ```bash
+  ollama pull nomic-embed-text
+  ollama pull gemma4:e4b
+  ```
+
+### Setup // todo: change after moving production into docker env //
+
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Start Postgres (pgvector) and run migrations
+docker compose up -d
+
+# 3. [SKIP] Point the app at the database / Works out the box by default
+export DATABASE_URL="postgresql://user:password@localhost:5432/cortex-memory"
+
+# 4. Run
+node src/index.js
+```

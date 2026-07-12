@@ -35,7 +35,7 @@ export async function createEntry({ content, source = 'unknown', externalId = nu
 
     // Embed the summary and insert the row at the same time — both only need `summary`.
     const [vector, entry] = await Promise.all([
-        embed(summary),
+        embed(summary, { prefix: "search_document: " }),
         prisma.entry.create({
             data: {
                 source,

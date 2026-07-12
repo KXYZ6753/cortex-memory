@@ -3,13 +3,13 @@ const MODEL = "nomic-embed-text" // 768-dim; must match Entry.summaryEmbedding v
 
 // Turn text into a 768-dim vector for semantic search. Returns number[].
 // Uses ollama's nomic-embed-text, works a lot better than I expected
-export async function embed(text, { signal } = {}) {
+export async function embed(text, { signal, prefix = "" } = {}) {
     let res
     try {
         res = await fetch(OLLAMA_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ model: MODEL, prompt: text }),
+            body: JSON.stringify({ model: MODEL, prompt: prefix + text }),
             signal: signal ?? AbortSignal.timeout(60_000),
         })
     } catch (err) {

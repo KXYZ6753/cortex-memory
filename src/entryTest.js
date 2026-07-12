@@ -1,3 +1,4 @@
+// This entry test for testing if entry creation works without any AI processing, all manual entry
 import { prisma } from './db/client.js'
 
 async function main() {

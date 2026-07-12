@@ -1,4 +1,3 @@
-//Note to self: Start a new file only when a different noun appears (users.js, settings.js). Avoid a catch-all db.js.
 import { prisma } from './db/client.js'
 import { processText } from './process/ollama.js'
 import { embed } from './process/embed.js'
@@ -10,21 +9,20 @@ import { embed } from './process/embed.js'
 //
 // The connector contract: every input source builds one of these objects and calls createEntry.
 // Only `content` is required; everything else is optional.
-//   await createEntry({ content: "Don't forget the dentist Friday" })                  // manual note with minimal parameters
+//   await createEntry({ content: "Don't forget the dentist Friday" }) // Minimum use, highly suggested to provide much info as possible if you are creating a connector
 //   await createEntry({
 //     content: body,
 //     source: "email",
-//     externalId: messageId,        // enables dedupe via @@unique([source, externalId])
+//     externalId: messageId,        // enables dedupe via @@unique([source, externalId]), highly suggested if you are creating a connector to keep the program efficient
 //     title: subject,
 //     author: fromAddress,
-//     occurredAt: receivedDate,     // Date object or ISO string, e.g. "2026-07-03T12:34:56.000Z"
+//     occurredAt: receivedDate,     // Date object or ISO string, example: "2026-07-03T12:34:56.000Z"
 //     metadata: { folder: "inbox" },
-//     additionalTags: ["gmail", "mail", "work", "etc..."],     // merged with the AI-generated tags
+//     additionalTags: ["gmail", "mail", "work", "etc..."],     // merged with the AI-generated tags, (AI tags + additionalTags)
 //   })
 export async function createEntry({ content, source = 'unknown', externalId = null, occurredAt = null, title = null, metadata = null, author = null, additionalTags = [] }) {
-    // Cheap dedupe: skip the expensive Ollama calls if this entry is already stored.
-    // Only possible when the connector supplied an externalId (manual entries have none).
-    if (externalId) {
+
+    if (externalId) { // skip processes if item already exist
         const existing = await prisma.entry.findUnique({
             where: { source_externalId: { source, externalId } },
         })
@@ -59,7 +57,7 @@ export async function createEntry({ content, source = 'unknown', externalId = nu
         }),
     ])
 
-    // Prisma can't write the Unsupported vector type, so set it with a raw cast.
+    // note: Prisma can't write the Unsupported vector type, so set it with a raw cast.
     await prisma.$executeRaw`UPDATE "Entry" SET "summaryEmbedding" = ${`[${vector.join(",")}]`}::vector WHERE id = ${entry.id}`
     return entry
 }

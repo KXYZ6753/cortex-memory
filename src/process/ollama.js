@@ -1,10 +1,14 @@
 
 const OLLAMA_URL = "http://localhost:11434/api/chat"
-const MODEL = "gemma4:e4b" // non-thinking; honors `format`. Failed models: qwen3.5, gemma4:e4b-mlx (MLX tag hangs on load via ollama's GGML runner) -> try mlx later maybe an initial boot wait time?
+const MODEL = "gemma4:e4b"
+/*
+Notes about past models:
+*  Thiking with some models didn't work, for that reason it is disabled.
+*  Failed models: qwen3.5, gemma4:e4b-mlx
+   * MLX took too long to load, try again later with a different setup (maybe)
+*/
 
-// Constrained decoding: the model is forced to match this exact shape.
-// additionalProperties:false stops the model sneaking in extra keys.
-const schema = {
+const schema = { // Format the LLM must follow
     type: "object",
     additionalProperties: false,
     properties: {
@@ -28,9 +32,9 @@ const schema = {
     required: ["summary", "importance", "tags", "events"],
 }
 
-// The instructions to the model. This is the part you'll tune the most.
+// todo: give / pass the type of entry it is such as an email or a message etc
 function buildPrompt(text) {
-    const today = new Date().toISOString().slice(0, 10) // e.g. "2026-06-21"
+    const today = new Date().toISOString().slice(0, 10) // example: "2026-06-21"
     return `
 Today's date is ${today}.
 Extract structured info from the text below.
@@ -45,8 +49,8 @@ ${text}
 `
 }
 
-const MAX_CHARS = 4000 // large emails cause model to take too much time, that's why it cuts of after 4000 chars. gemma4:e4b runs at 4096 ctx
-//look into if a lot of info is lost after cutting that many characters
+const MAX_CHARS = 4000 // Cutoff to keep model efficient since they have relatively small context
+// todo: look into if a lot of info is lost after cutting that many characters and see if there is an efficient way to handle this
 
 export async function processText(text, { signal } = {}) {
     const processStartTime = Date.now()
@@ -59,9 +63,9 @@ export async function processText(text, { signal } = {}) {
             body: JSON.stringify({
                 model: MODEL,
                 messages: [{ role: "user", content: buildPrompt(text.slice(0, MAX_CHARS)) }],
-                format: schema,             // constrained decoding does the real work
+                format: schema,
                 stream: false,
-                // Think: false //silently disables the format grammar on old thinking models, so the model returns prose, not JSON. Leave it out.
+                // Think: false // Had some issues with not responding in JSON when thinking is on
                 options: { temperature: 0 }, // deterministic extraction
             }),
             signal: signal ?? AbortSignal.timeout(120_000), // Longer wait times for cold loads or initial start up times (compared to 60)

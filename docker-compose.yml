@@ -6,7 +6,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: cortex-memory
     ports:
-      - "127.0.0.1:5432:5432"   # changed to local host only for security reasons, change it back to "5432:5432" if you want to access from local network
+      - "127.0.0.1:5432:5432"   # Use "5432:5432" if you want to access from local network
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:

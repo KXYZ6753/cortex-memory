@@ -2,7 +2,6 @@ const OLLAMA_URL = "http://localhost:11434/api/embeddings"
 const MODEL = "nomic-embed-text" // 768-dim; must match Entry.summaryEmbedding vector(768)
 
 // Turn text into a 768-dim vector for semantic search. Returns number[].
-// Uses ollama's nomic-embed-text, works a lot better than I expected
 export async function embed(text, { signal, prefix = "" } = {}) {
     let res
     try {

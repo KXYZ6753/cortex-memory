@@ -15,8 +15,11 @@ context layer for your LLM workflows.
   * [ ] listEntrySources
   * [ ] Update memory
   * [ ] Add Quick note -> Act as a persistent LLM memory 
+* index.js runtime
 * Getting Started CLI
 * Read me and documentation
+  * update readme.md with instructions to change .env and how to setup .env.example
+  * rest of documentation
 
 ## How it works
 

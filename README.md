@@ -20,6 +20,7 @@ context layer for your LLM workflows.
 * Read me and documentation
   * update readme.md with instructions to change .env and how to setup .env.example
   * rest of documentation
+* npm tests
 
 ## How it works
 

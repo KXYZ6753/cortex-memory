@@ -40,11 +40,7 @@ context layer for your LLM workflows.
 
 - [Docker](https://www.docker.com/) + Docker Compose
 - [Node.js](https://nodejs.org/) 22+
-- [Ollama](https://ollama.com) running locally, with the models you want pulled:
-  ```bash
-  ollama pull nomic-embed-text
-  ollama pull gemma4:e4b
-  ```
+- [Ollama](https://ollama.com)
 
 ### Setup // todo: change after moving production into docker env //
 
@@ -52,12 +48,15 @@ context layer for your LLM workflows.
 # 1. Install dependencies
 npm install
 
-# 2. Start Postgres (pgvector) and run migrations
+# 2. Pull required models
+ollama pull nomic-embed-text
+ollama pull gemma4:e4b
+
+# 3. Start Postgres (pgvector) and run migrations
 docker compose up -d
 
-# 3. [SKIP] Point the app at the database / Works out the box by default
-export DATABASE_URL="postgresql://user:password@localhost:5432/cortex-memory"
+# 4. Make a copy of .env.example and name it ".env". After it follow the directions there.
 
-# 4. Run
+# 5. Run
 node src/index.js
 ```

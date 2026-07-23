@@ -2,6 +2,14 @@ import { prisma } from './db/client.js'
 import { processText } from './process/ollama.js'
 import { embed } from './process/embed.js'
 
+export function normalizeEvents(events) {
+    return events.flatMap(({ title, date }) => {
+        if (typeof date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return []
+        const parsed = new Date(`${date}T00:00:00.000Z`)
+        return !Number.isNaN(parsed.valueOf()) && parsed.toISOString().slice(0, 10) === date ? [{ title, date: parsed }] : []
+    })
+}
+
 // Process text through ollama and persist it as an Entry (+ nested events).
 // Returns the created entry with events included. Caller owns prisma.$disconnect().
 //
@@ -29,12 +37,12 @@ export async function createEntry({ content, source = 'unknown', externalId = nu
         if (existing) return existing
     }
 
-    const { summary, importance, tags, events } = await processText(content)
+    const { summary, importance, tags, events } = await processText(content, { referenceDate: occurredAt ?? new Date() })
 
-    // Embed the summary and insert the row at the same time — both only need `summary`.
-    const [vector, entry] = await Promise.all([
-        embed(summary, { prefix: "search_document: " }),
-        prisma.entry.create({
+    // Finish fallible AI work before opening an atomic database transaction.
+    const vector = await embed(summary, { prefix: "search_document: " })
+    return prisma.$transaction(async (tx) => {
+        const entry = await tx.entry.create({
             data: {
                 source,
                 externalId,
@@ -47,17 +55,14 @@ export async function createEntry({ content, source = 'unknown', externalId = nu
                 metadata,
                 occurredAt, //future note, format: new Date() OR 2026-07-03T12:34:56.000Z
                 events: {
-                    create: events.map((e) => ({
-                        title: e.title,
-                        date: new Date(e.date),
-                    })),
+                    create: normalizeEvents(events),
                 },
             },
             include: { events: true },
-        }),
-    ])
+        })
 
-    // note: Prisma can't write the Unsupported vector type, so set it with a raw cast.
-    await prisma.$executeRaw`UPDATE "Entry" SET "summaryEmbedding" = ${`[${vector.join(",")}]`}::vector WHERE id = ${entry.id}`
-    return entry
+        // Prisma can't write the Unsupported vector type, so set it with a raw cast.
+        await tx.$executeRaw`UPDATE "Entry" SET "summaryEmbedding" = ${`[${vector.join(",")}]`}::vector WHERE id = ${entry.id}`
+        return entry
+    })
 }

@@ -1,8 +1,8 @@
 # Cortex Memory
 
-A self-hosted, AI-powered personal memory and productivity system — a unified
-context layer for your LLM workflows.
+A self-hosted, AI-powered personal memory and productivity system — a unified context layer for your LLM workflows.
 
+Cortex Memory aims to provide a universal connector foundation and all in one ecosystem for knowledge about you, such as emails, slack, notifications and 3rd party connectors for supporting anything [coming soon].
 # TODO LIST:
 * API Endpoints
   * [ ] createEntry

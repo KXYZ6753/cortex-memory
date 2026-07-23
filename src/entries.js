@@ -16,7 +16,8 @@ export function normalizeEvents(events) {
 // This is if you want to develop custom connectors! Please do!
 //
 // The connector contract: every input source builds one of these objects and calls createEntry.
-// Only `content` is required; everything else is optional.
+// Only `content` is required; everything else is optional. `processingContent`
+// can hold a cleaned runtime copy while `content` remains the original stored text.
 //   await createEntry({ content: "Don't forget the dentist Friday" }) // Minimum use, highly suggested to provide much info as possible if you are creating a connector
 //   await createEntry({
 //     content: body,
@@ -28,7 +29,7 @@ export function normalizeEvents(events) {
 //     metadata: { folder: "inbox" },
 //     additionalTags: ["gmail", "mail", "work", "etc..."],     // merged with the AI-generated tags, (AI tags + additionalTags)
 //   })
-export async function createEntry({ content, source = 'unknown', externalId = null, occurredAt = null, title = null, metadata = null, author = null, additionalTags = [] }) {
+export async function createEntry({ content, processingContent = content, source = 'unknown', externalId = null, occurredAt = null, title = null, metadata = null, author = null, additionalTags = [] }) {
 
     if (externalId) { // skip processes if item already exist
         const existing = await prisma.entry.findUnique({
@@ -37,7 +38,7 @@ export async function createEntry({ content, source = 'unknown', externalId = nu
         if (existing) return existing
     }
 
-    const { summary, importance, tags, events } = await processText(content, { referenceDate: occurredAt ?? new Date() })
+    const { summary, importance, tags, events } = await processText(processingContent, { referenceDate: occurredAt ?? new Date() })
 
     // Finish fallible AI work before opening an atomic database transaction.
     const vector = await embed(summary, { prefix: "search_document: " })

@@ -66,13 +66,14 @@ export async function run({ recent } = {}) { //todo: !!! Optimize for larger mai
                     skipTextToHtml: true,
                     keepCidLinks: true,
                 });
-                const content = cleanMailText(mail.text) || mail.subject?.trim();
+                const content = mail.text?.trim() ? mail.text : mail.subject?.trim();
                 if (!content) {
                     skipped++;
                     return;
                 }
                 await createEntry({
                     content,
+                    processingContent: cleanMailText(content) || content,
                     source: "email",
                     externalId: externalId ?? mail.messageId,
                     title: mail.subject,

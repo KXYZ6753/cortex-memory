@@ -43,10 +43,18 @@ export async function createEntry({ content, processingContent = content, source
         if (existing) return existing
     }
 
-    const { summary, importance, tags, events } = await processText(processingContent, { referenceDate: occurredAt ?? new Date() })
+    const { summary, importance, tags, events } = process.env.LLM_PROCESSING_ENABLED !== "false"
+        ? await processText(processingContent, { referenceDate: occurredAt ?? new Date() })
+        : { summary: null, importance: null, tags: [], events: [] }
 
-    const summaryVector = await embed(summary, { prefix: "search_document: " })
-    const contentVector = await embed(buildSearchText({ title, author, content }), { prefix: "search_document: " })
+    const summaryVector = (process.env.LLM_PROCESSING_ENABLED !== "false" && process.env.EMBEDDING_PROCESSING_ENABLED !== "false")
+        ? await embed(summary, { prefix: "search_document: " })
+        : null
+
+    const contentVector = process.env.EMBEDDING_PROCESSING_ENABLED !== "false"
+        ? await embed(buildSearchText({ title, author, content }), { prefix: "search_document: " })
+        : null
+
     return prisma.$transaction(async (tx) => {
         const entry = await tx.entry.create({
             data: {

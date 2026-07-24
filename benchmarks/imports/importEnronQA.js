@@ -1,4 +1,5 @@
 import { writeFile } from "node:fs/promises"
+import { setTimeout as delay } from "node:timers/promises"
 import { prisma } from "../../src/db/client.js"
 import { createEntry } from "../../src/entries.js"
 import { cleanMailText } from "../../src/connectors/connector-imap.js"
@@ -18,11 +19,20 @@ for (let offset = 0; offset < count; offset += 100) {
         length: String(length),
     })
 
-    const response = await fetch(url)
+    let response
+    for (let attempt = 0; attempt < 6; attempt++) {
+        response = await fetch(url)
+        if (response.status !== 429 && response.status < 500) break
+        const waitMs = 5000 * 2 ** attempt
+        console.warn(`[download] HTTP ${response.status}; retrying in ${waitMs / 1000}s`)
+        await delay(waitMs)
+    }
     if (!response.ok) throw new Error(`EnronQA download failed: ${response.status} ${await response.text()}`)
     const page = (await response.json()).rows
     if (!Array.isArray(page) || page.length !== length) throw new Error(`Expected ${length} EnronQA rows at offset ${offset}`)
     rows.push(...page)
+    console.log(`[download] ${rows.length}/${count}`)
+    if (rows.length < count) await delay(1000)
 }
 
 const cases = []
@@ -41,10 +51,11 @@ try {
             author: email.match(/^Sender:\s*(.*)$/m)?.[1]?.trim() || null,
         })
         cases.push({ query: question, relevantIds: [row.path] })
-        console.log(`${cases.length}/${count} ${row.path}`)
+        console.log(`[import] ${cases.length}/${count} (${Math.round(cases.length / count * 100)}%) ${row.path}`)
     }
 
     await writeFile("tests/enronqaCases.json", JSON.stringify(cases, null, 2) + "\n")
+    console.log(`[complete] Imported ${cases.length} emails and questions`)
 } finally {
     await prisma.$disconnect()
 }

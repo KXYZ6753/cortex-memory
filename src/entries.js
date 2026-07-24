@@ -1,16 +1,19 @@
-import { prisma } from './db/client.js'
-import { processText } from './process/ollama.js'
-import { embed } from './process/embed.js'
+import {prisma} from './db/client.js'
+import {processText} from './process/ollama.js'
+import {embed} from './process/embed.js'
 
 export function normalizeEvents(events) {
-    return events.flatMap(({ title, date }) => {
+    return events.flatMap(({title, date}) => {
         if (typeof date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return []
         const parsed = new Date(`${date}T00:00:00.000Z`)
-        return !Number.isNaN(parsed.valueOf()) && parsed.toISOString().slice(0, 10) === date ? [{ title, date: parsed }] : []
+        return !Number.isNaN(parsed.valueOf()) && parsed.toISOString().slice(0, 10) === date ? [{
+            title,
+            date: parsed
+        }] : []
     })
 }
 
-export function buildSearchText({ title, author, content }) {
+export function buildSearchText({title, author, content}) {
     // todo: add chunking only if it shows to be useful, nomic-embed-text has 4000 char context window
     return [title && `Subject: ${title}`, author && `From: ${author}`, content].filter(Boolean).join("\n").slice(0, 4000)
 }
@@ -34,25 +37,35 @@ export function buildSearchText({ title, author, content }) {
 //     metadata: { folder: "inbox" },
 //     additionalTags: ["gmail", "mail", "work", "etc..."],     // merged with the AI-generated tags, (AI tags + additionalTags)
 //   })
-export async function createEntry({ content, processingContent = content, source = 'unknown', externalId = null, occurredAt = null, title = null, metadata = null, author = null, additionalTags = [] }) {
+export async function createEntry({
+                                      content,
+                                      processingContent = content,
+                                      source = 'unknown',
+                                      externalId = null,
+                                      occurredAt = null,
+                                      title = null,
+                                      metadata = null,
+                                      author = null,
+                                      additionalTags = []
+                                  }) {
 
     if (externalId) { // skip processes if item already exist
         const existing = await prisma.entry.findUnique({
-            where: { source_externalId: { source, externalId } },
+            where: {source_externalId: {source, externalId}},
         })
         if (existing) return existing
     }
 
-    const { summary, importance, tags, events } = process.env.LLM_PROCESSING_ENABLED !== "false"
-        ? await processText(processingContent, { referenceDate: occurredAt ?? new Date() })
-        : { summary: null, importance: null, tags: [], events: [] }
+    const {summary, importance, tags, events} = process.env.LLM_PROCESSING_ENABLED !== "false"
+        ? await processText(processingContent, {referenceDate: occurredAt ?? new Date()})
+        : {summary: null, importance: null, tags: [], events: []}
 
     const summaryVector = (process.env.LLM_PROCESSING_ENABLED !== "false" && process.env.EMBEDDING_PROCESSING_ENABLED !== "false")
-        ? await embed(summary, { prefix: "search_document: " })
+        ? await embed(summary, {prefix: "search_document: "})
         : null
 
     const contentVector = process.env.EMBEDDING_PROCESSING_ENABLED !== "false"
-        ? await embed(buildSearchText({ title, author, content }), { prefix: "search_document: " })
+        ? await embed(buildSearchText({title, author, content}), {prefix: "search_document: "})
         : null
 
     return prisma.$transaction(async (tx) => {
@@ -72,16 +85,22 @@ export async function createEntry({ content, processingContent = content, source
                     create: normalizeEvents(events),
                 },
             },
-            include: { events: true },
+            include: {events: true},
         })
 
         // Prisma can't write the Unsupported vector type, so set it with a raw cast.
-        await tx.$executeRaw`
-            UPDATE "Entry"
-            SET "summaryEmbedding" = ${`[${summaryVector.join(",")}]`}::vector,
-                "contentEmbedding" = ${`[${contentVector.join(",")}]`}::vector
-            WHERE id = ${entry.id}
-        `
+        if (summaryVector || contentVector) {
+            await tx.$executeRaw`
+                UPDATE "Entry"
+                SET "summaryEmbedding" = ${
+                        summaryVector ? `[${summaryVector.join(",")}]` : null
+                }::vector,
+            "contentEmbedding" = ${
+                        contentVector ? `[${contentVector.join(",")}]` : null
+                }::vector
+                WHERE id = ${entry.id}
+            `
+        }
         return entry
     })
 }

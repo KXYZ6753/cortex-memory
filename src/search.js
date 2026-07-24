@@ -7,7 +7,7 @@ import { embed } from './process/embed.js'
 export async function search(query, k = 5) {
     const vector = `[${(await embed(query, { prefix: "search_query: " })).join(",")}]`
     return prisma.$queryRaw`
-        SELECT id, source, summary, importance, tags,
+        SELECT id, "externalId", source, summary, importance, tags,
                "summaryEmbedding" <=> ${vector}::vector AS distance
         FROM "Entry"
         WHERE "summaryEmbedding" IS NOT NULL

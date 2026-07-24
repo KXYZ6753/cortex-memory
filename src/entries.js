@@ -14,7 +14,7 @@ export function normalizeEvents(events) {
 }
 
 export function buildSearchText({title, author, content}) {
-    // todo: add chunking only if it shows to be useful, nomic-embed-text has 4000 char context window
+    // todo: add chunking only if it shows to be useful
     return [title && `Subject: ${title}`, author && `From: ${author}`, content].filter(Boolean).join("\n").slice(0, 4000)
 }
 
@@ -65,7 +65,7 @@ export async function createEntry({
         : null
 
     const contentVector = process.env.EMBEDDING_PROCESSING_ENABLED !== "false"
-        ? await embed(buildSearchText({title, author, content}), {prefix: "search_document: "})
+        ? await embed(buildSearchText({title, author, content: processingContent}), {prefix: "search_document: "})
         : null
 
     return prisma.$transaction(async (tx) => {

@@ -40,7 +40,10 @@ try {
     for (const { row } of rows) {
         const email = row?.email
         const question = row?.questions?.[0]
-        if (!email || !question || !row.path) throw new Error("EnronQA row is missing email, question, or path")
+        if (!email || !question || !row.path) {
+            console.warn(`[skip] malformed EnronQA row: ${row?.path ?? "unknown path"}`)
+            continue
+        }
 
         await createEntry({
             content: email,
@@ -54,7 +57,7 @@ try {
         console.log(`[import] ${cases.length}/${count} (${Math.round(cases.length / count * 100)}%) ${row.path}`)
     }
 
-    await writeFile("tests/enronqaCases.json", JSON.stringify(cases, null, 2) + "\n")
+    await writeFile("benchmarks/enronqaCases.json", JSON.stringify(cases, null, 2) + "\n")
     console.log(`[complete] Imported ${cases.length} emails and questions`)
 } finally {
     await prisma.$disconnect()

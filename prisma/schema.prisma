@@ -25,9 +25,10 @@ model Entry {
 
   // AI-generated fields
   summary     String?
-  importance  Int?                            // 1-5; 1 = spam/junk, 5 = critical
+  importance  Int?                            // 1-5; 1 = Lower Importance, 5 = Highest Importance
   tags        String[]                        // flat tags for agentic search
-  summaryEmbedding Unsupported("vector(768)")? // semantic embedding of `summary` for similarity search (nomic-embed-text)
+  summaryEmbedding Unsupported("vector(768)")? // semantic embedding of `summary` (nomic-embed-text)
+  contentEmbedding Unsupported("vector(768)")? // semantic embedding of the original content (nomic-embed-text)
 
   events      Event[]                         // upcoming events found in the content
 

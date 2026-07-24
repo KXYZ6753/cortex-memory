@@ -10,6 +10,11 @@ export function normalizeEvents(events) {
     })
 }
 
+export function buildSearchText({ title, author, content }) {
+    // todo: add chunking only if it shows to be useful, nomic-embed-text has 4000 char context window
+    return [title && `Subject: ${title}`, author && `From: ${author}`, content].filter(Boolean).join("\n").slice(0, 4000)
+}
+
 // Process text through ollama and persist it as an Entry (+ nested events).
 // Returns the created entry with events included. Caller owns prisma.$disconnect().
 //
@@ -40,8 +45,8 @@ export async function createEntry({ content, processingContent = content, source
 
     const { summary, importance, tags, events } = await processText(processingContent, { referenceDate: occurredAt ?? new Date() })
 
-    // Finish fallible AI work before opening an atomic database transaction.
-    const vector = await embed(summary, { prefix: "search_document: " })
+    const summaryVector = await embed(summary, { prefix: "search_document: " })
+    const contentVector = await embed(buildSearchText({ title, author, content }), { prefix: "search_document: " })
     return prisma.$transaction(async (tx) => {
         const entry = await tx.entry.create({
             data: {
@@ -63,7 +68,12 @@ export async function createEntry({ content, processingContent = content, source
         })
 
         // Prisma can't write the Unsupported vector type, so set it with a raw cast.
-        await tx.$executeRaw`UPDATE "Entry" SET "summaryEmbedding" = ${`[${vector.join(",")}]`}::vector WHERE id = ${entry.id}`
+        await tx.$executeRaw`
+            UPDATE "Entry"
+            SET "summaryEmbedding" = ${`[${summaryVector.join(",")}]`}::vector,
+                "contentEmbedding" = ${`[${contentVector.join(",")}]`}::vector
+            WHERE id = ${entry.id}
+        `
         return entry
     })
 }

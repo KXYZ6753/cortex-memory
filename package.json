@@ -8,8 +8,9 @@
     "test": "node tests/ollamaRetryTest.js",
     "test:imap": "node tests/imapTest.js",
     "test:model": "node tests/modelBenchmark.js",
-    "import:enronqa": "node tests/importEnronQA.js",
-    "benchmark:retrieval": "node tests/retrievalBenchmark.js"
+    "import:enronqa": "node benchmarks/imports/importEnronQA.js",
+    "backfill:content-embeddings": "node tests/backfillContentEmbeddings.js",
+    "benchmark:retrieval": "node benchmarks/retrievalBenchmark.js"
   },
   "repository": {
     "type": "git",

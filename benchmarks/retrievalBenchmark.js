@@ -5,6 +5,8 @@ import { search } from "../src/search.js"
 // JSON format: [{ "query": "...", "relevantIds": ["Entry.id or externalId"] }]
 const file = process.argv[2]
 if (!file) throw new Error("Usage: npm run benchmark:retrieval -- cases.json")
+const embedding = process.argv[3] ?? "summary"
+if (!["summary", "content"].includes(embedding)) throw new Error('Embedding must be "summary" or "content"')
 
 const cases = JSON.parse(await readFile(file, "utf8"))
 if (!Array.isArray(cases) || !cases.length) throw new Error("Benchmark file must contain a non-empty array")
@@ -20,7 +22,7 @@ try {
         }
 
         const started = performance.now()
-        const results = await search(testCase.query, 10)
+        const results = await search(testCase.query, 10, embedding)
         latencies.push(performance.now() - started)
 
         const relevant = new Set(testCase.relevantIds)
@@ -36,7 +38,7 @@ try {
     latencies.sort((a, b) => a - b)
     const percentile = (p) => Math.round(latencies[Math.ceil(latencies.length * p) - 1])
     console.log(JSON.stringify({
-        method: "summary-vector",
+        method: `${embedding}-vector`,
         queries: cases.length,
         recallAt1: Number((recall[1] / cases.length).toFixed(4)),
         recallAt5: Number((recall[5] / cases.length).toFixed(4)),

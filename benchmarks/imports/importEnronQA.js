@@ -1,7 +1,7 @@
 import { writeFile } from "node:fs/promises"
-import { prisma } from "../src/db/client.js"
-import { createEntry } from "../src/entries.js"
-import { cleanMailText } from "../src/connectors/connector-imap.js"
+import { prisma } from "../../src/db/client.js"
+import { createEntry } from "../../src/entries.js"
+import { cleanMailText } from "../../src/connectors/connector-imap.js"
 
 const count = Number(process.argv[2] ?? 100)
 if (!Number.isInteger(count) || count < 1) throw new Error("Count must be a positive integer")

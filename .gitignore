@@ -3,3 +3,5 @@ node_modules/
 \.claude
 .env
 .DS_Store
+.data/
+benchmarks/enronqaCases.json

@@ -1,46 +1,19 @@
 import {prisma} from './db/client.js'
 import {embed} from './process/embed.js'
+import {searchBm25} from './bm25.js'
 
 // summary: vector search over AI-generated summaries
-// embedding: vector search over original email content
-// word: PostgreSQL word search over email metadata and content
-// hybrid: content embedding with a small bonus for word-search matches
-export async function search(query, k = 5, method = "hybrid") {
+// embedding: fast vector search over original email content
+// word: BM25 search over email metadata and content
+// hybrid: BM25 plus content embeddings using reciprocal-rank fusion
+export async function search(query, k = 5, method = "embedding") {
     if (typeof query !== "string" || !query.trim()) throw new TypeError("Search query is required")
+    if (!Number.isInteger(k) || k < 1) throw new TypeError("Search result count must be a positive integer")
     if (!["summary", "embedding", "word", "hybrid"].includes(method)) {
         throw new Error('Method must be "summary", "embedding", "word", or "hybrid"')
     }
 
-    if (method === "word") {
-        const words = query.trim().split(/\s+/).join(" OR ")
-        return prisma.$queryRaw`
-            SELECT id,
-                   "externalId",
-                   source,
-                   summary,
-                   importance,
-                   tags,
-                   ts_rank_cd(
-                       to_tsvector('english',
-                           coalesce(author, '') || ' ' ||
-                           coalesce(metadata->>'to', '') || ' ' ||
-                           coalesce(title, '') || ' ' ||
-                           coalesce(content, '')
-                       ),
-                       websearch_to_tsquery('english', ${words})
-                   ) AS score
-            FROM "Entry"
-            WHERE to_tsvector('english',
-                      coalesce(author, '') || ' ' ||
-                      coalesce(metadata->>'to', '') || ' ' ||
-                      coalesce(title, '') || ' ' ||
-                      coalesce(content, '')
-                  )
-                  @@ websearch_to_tsquery('english', ${words})
-            ORDER BY score DESC
-            LIMIT ${k}
-        `
-    }
+    if (method === "word") return searchBm25(query, k)
 
     const vector = `[${(await embed(query, {prefix: "search_query: "})).join(",")}]`
     if (method === "summary") {
@@ -59,82 +32,52 @@ export async function search(query, k = 5, method = "hybrid") {
         `
     }
 
-    if (method === "embedding") {
-        return prisma.$queryRaw`
-            SELECT id,
-                   "externalId",
-                   source,
-                   summary,
-                   importance,
-                   tags,
-                   "contentEmbedding" <=> ${vector}::vector AS distance
-            FROM "Entry"
-            WHERE "contentEmbedding" IS NOT NULL
-            ORDER BY distance
-            LIMIT ${k}
-        `
-    }
+    if (method === "embedding") return contentEmbeddingSearch(vector, k)
 
-    const words = query.trim().split(/\s+/).join(" OR ")
-    const candidateCount = Math.max(k, 20)
+    const candidateCount = Math.max(k, 100)
     const [vectorResults, wordResults] = await Promise.all([
-        prisma.$queryRaw`
-            SELECT id,
-                   "externalId",
-                   source,
-                   summary,
-                   importance,
-                   tags,
-                   "contentEmbedding" <=> ${vector}::vector AS distance
-            FROM "Entry"
-            WHERE "contentEmbedding" IS NOT NULL
-            ORDER BY distance
-            LIMIT ${candidateCount}
-        `,
-        prisma.$queryRaw`
-            SELECT id,
-                   "externalId",
-                   source,
-                   summary,
-                   importance,
-                   tags,
-                   "contentEmbedding" <=> ${vector}::vector AS distance,
-                   ts_rank_cd(
-                       to_tsvector('english',
-                           coalesce(author, '') || ' ' ||
-                           coalesce(metadata->>'to', '') || ' ' ||
-                           coalesce(title, '') || ' ' ||
-                           coalesce(content, '')
-                       ),
-                       websearch_to_tsquery('english', ${words})
-                   ) AS "wordScore"
-            FROM "Entry"
-            WHERE "contentEmbedding" IS NOT NULL
-              AND to_tsvector('english',
-                      coalesce(author, '') || ' ' ||
-                      coalesce(metadata->>'to', '') || ' ' ||
-                      coalesce(title, '') || ' ' ||
-                      coalesce(content, '')
-                  )
-                  @@ websearch_to_tsquery('english', ${words})
-            ORDER BY "wordScore" DESC
-            LIMIT ${candidateCount}
-        `,
+        contentEmbeddingSearch(vector, candidateCount),
+        Promise.resolve(searchBm25(query, candidateCount)),
     ])
+    return fuseResults(wordResults, vectorResults).slice(0, k)
+}
 
+async function contentEmbeddingSearch(vector, k) {
+    const run = (client) => client.$queryRaw`
+        SELECT id,
+               "externalId",
+               source,
+               summary,
+               importance,
+               tags,
+               "contentEmbedding" <=> ${vector}::vector AS distance
+        FROM "Entry"
+        WHERE "contentEmbedding" IS NOT NULL
+        ORDER BY distance
+        LIMIT ${k}
+    `
+
+    return prisma.$transaction(async (tx) => {
+        // 400 kept vector Recall@10 within one point of exact search in the EnronQA test.
+        await tx.$queryRaw`SELECT set_config('hnsw.ef_search', ${String(Math.max(k, 400))}, true)`
+        return run(tx)
+    })
+}
+
+export function fuseResults(wordResults, vectorResults) {
     const results = new Map()
-    for (const result of vectorResults) {
-        const vectorScore = 1 - Number(result.distance)
-        results.set(result.id, {...result, vectorScore, lexicalBonus: 0, score: vectorScore})
-    }
-    for (const result of wordResults) {
-        const vectorScore = 1 - Number(result.distance)
-        const combined = results.get(result.id) ?? {...result, vectorScore}
-        combined.wordScore = Number(result.wordScore)
-        combined.lexicalBonus = 0.05
-        combined.score = vectorScore + combined.lexicalBonus
-        results.set(result.id, combined)
-    }
+    const add = (items, weight, rankName) => items.forEach((result, index) => {
+        const existing = results.get(result.id) ?? {}
+        results.set(result.id, {
+            ...existing,
+            ...result,
+            [rankName]: index + 1,
+            score: (existing.score ?? 0) + weight / (10 + index + 1),
+        })
+    })
 
-    return [...results.values()].sort((a, b) => b.score - a.score).slice(0, k)
+    // BM25 was much stronger on EnronQA. Dense retrieval stays as recovery evidence.
+    add(wordResults, 1, "wordRank")
+    add(vectorResults, 0.25, "vectorRank")
+    return [...results.values()].sort((a, b) => b.score - a.score || a.id.localeCompare(b.id))
 }

@@ -1,7 +1,8 @@
 import { setTimeout as delay } from "node:timers/promises"
 
 const OLLAMA_URL = "http://localhost:11434/api/embed"
-const MODEL = "nomic-embed-text" // 768-dim; must match Entry.summaryEmbedding vector(768)
+export const EMBEDDING_MODEL = process.env.OLLAMA_EMBED_MODEL;
+const EMBEDDING_DIMENSIONS = process.env.OLLAMA_EMBED_DIMENSIONS // must match Entry embedding columns
 const MAX_ATTEMPTS = Math.min(5, Math.max(1, Number(process.env.OLLAMA_MAX_ATTEMPTS) || 3))
 const TIMEOUT_MS = Math.max(1_000, Number(process.env.OLLAMA_EMBED_TIMEOUT_MS) || 30_000)
 
@@ -19,7 +20,7 @@ export async function embed(text, { signal, prefix = "", maxAttempts = MAX_ATTEM
             const res = await fetch(OLLAMA_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ model: MODEL, input: prefix + text, truncate: true, keep_alive: "30m" }),
+                body: JSON.stringify({ model: EMBEDDING_MODEL, input: prefix + text, truncate: true, keep_alive: "30m" }),
                 signal: requestSignal,
             })
             if (!res.ok) {
@@ -35,10 +36,13 @@ export async function embed(text, { signal, prefix = "", maxAttempts = MAX_ATTEM
                 throw error
             }
             const embedding = data.embeddings?.[0]
-            if (!Array.isArray(embedding) || embedding.length === 0 || !embedding.every(Number.isFinite)) {
+            if (!Array.isArray(embedding) || !embedding.every(Number.isFinite)) {
                 const error = new Error("Ollama returned no embedding array")
                 error.retryable = true
                 throw error
+            }
+            if (embedding.length !== EMBEDDING_DIMENSIONS) {
+                throw new Error(`${EMBEDDING_MODEL} returned ${embedding.length} dimensions; the database expects ${EMBEDDING_DIMENSIONS}`)
             }
             return embedding
         } catch (error) {

@@ -40,7 +40,7 @@ Cortex Memory aims to provide a universal connector foundation and all in one ec
 ### Prerequisites
 
 - [Docker](https://www.docker.com/) + Docker Compose
-- [Node.js](https://nodejs.org/) 22+
+- [Node.js](https://nodejs.org/) 22.5+
 - [Ollama](https://ollama.com)
 
 ### Setup // todo: change after moving production into docker env //
@@ -60,4 +60,27 @@ docker compose up -d
 
 # 5. Run
 node src/index.js
+```
+
+## Search
+
+The fast default is content-embedding search:
+
+```bash
+node tests/searchTest.js "When did Caroline send the original email?" 10 embedding
+```
+
+For lexical BM25 or the higher-accuracy BM25 + embedding search, build the
+local search index after importing entries:
+
+```bash
+npm run index:bm25
+node tests/searchTest.js "When did Caroline send the original email?" 10 word
+node tests/searchTest.js "When did Caroline send the original email?" 10 hybrid
+```
+
+Run a deterministic benchmark with:
+
+```bash
+npm run benchmark:retrieval -- benchmarks/enronqaCases.json hybrid 500 benchmarks/hybridResults.json 42 100
 ```

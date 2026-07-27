@@ -6,9 +6,11 @@
   "scripts": {
     "start": "node src/server.js",
     "test:search": "node tests/searchTest.js",
+    "test:retrieval": "node --test tests/retrievalLogic.test.js",
     "test:imap": "node tests/imapTest.js",
     "test:model": "node tests/modelBenchmark.js",
     "import:enronqa": "node benchmarks/imports/importEnronQA.js",
+    "index:bm25": "node benchmarks/buildBm25Index.js",
     "backfill:content-embeddings": "node tests/backfillContentEmbeddings.js",
     "benchmark:retrieval": "node benchmarks/retrievalBenchmark.js"
   },

@@ -1,6 +1,7 @@
 import {prisma} from './db/client.js'
 import {processText} from './process/ollama.js'
 import {embed} from './process/embed.js'
+import {indexBm25Entry} from './bm25.js'
 
 export function normalizeEvents(events) {
     return events.flatMap(({title, date}) => {
@@ -74,7 +75,7 @@ export async function createEntry({
         ? await embed(buildSearchText({title, author, occurredAt, metadata, content: processingContent}), {prefix: "search_document: "})
         : null
 
-    return prisma.$transaction(async (tx) => {
+    const entry = await prisma.$transaction(async (tx) => {
         const entry = await tx.entry.create({
             data: {
                 source,
@@ -109,4 +110,12 @@ export async function createEntry({
         }
         return entry
     })
+
+    // The PostgreSQL entry is authoritative; this local search index is rebuildable.
+    try {
+        indexBm25Entry(entry)
+    } catch (error) {
+        console.warn(`[bm25] Could not index ${entry.id}: ${error.message}`)
+    }
+    return entry
 }

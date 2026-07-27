@@ -45,13 +45,18 @@ try {
             continue
         }
 
+        const date = email.match(/^Date:\s*(.*)$/mi)?.[1]?.trim()
+        const occurredAt = date && !Number.isNaN(Date.parse(date)) ? new Date(date) : null
+        const recipient = email.match(/^To:\s*(.*)$/mi)?.[1]?.trim()
         await createEntry({
             content: email,
             processingContent: cleanMailText(email) || email,
             source: "enronqa",
             externalId: row.path,
             title: email.match(/^Subject:\s*(.*)$/m)?.[1]?.trim() || null,
-            author: email.match(/^Sender:\s*(.*)$/m)?.[1]?.trim() || null,
+            author: email.match(/^(?:Sender|From):\s*(.*)$/mi)?.[1]?.trim() || null,
+            occurredAt,
+            metadata: recipient ? {to: recipient} : null,
         })
         cases.push({ query: question, relevantIds: [row.path] })
         console.log(`[import] ${cases.length}/${count} (${Math.round(cases.length / count * 100)}%) ${row.path}`)

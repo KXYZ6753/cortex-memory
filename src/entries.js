@@ -13,9 +13,15 @@ export function normalizeEvents(events) {
     })
 }
 
-export function buildSearchText({title, author, content}) {
+export function buildSearchText({title, author, occurredAt, metadata, content}) {
     // todo: add chunking only if it shows to be useful
-    return [title && `Subject: ${title}`, author && `From: ${author}`, content].filter(Boolean).join("\n").slice(0, 4000)
+    return [
+        author && `From: ${author}`,
+        metadata?.to && `To: ${metadata.to}`,
+        occurredAt && `Date: ${occurredAt instanceof Date ? occurredAt.toISOString() : occurredAt}`,
+        title && `Subject: ${title}`,
+        content,
+    ].filter(Boolean).join("\n").slice(0, 4000)
 }
 
 // Process text through ollama and persist it as an Entry (+ nested events).
@@ -65,7 +71,7 @@ export async function createEntry({
         : null
 
     const contentVector = process.env.EMBEDDING_PROCESSING_ENABLED !== "false"
-        ? await embed(buildSearchText({title, author, content: processingContent}), {prefix: "search_document: "})
+        ? await embed(buildSearchText({title, author, occurredAt, metadata, content: processingContent}), {prefix: "search_document: "})
         : null
 
     return prisma.$transaction(async (tx) => {

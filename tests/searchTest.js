@@ -12,6 +12,6 @@ if (!query) {
 
 console.log(`query: "${query}"\n`)
 for (const h of await search(query, k, method)) {
-    console.log((h.distance ?? h.score).toFixed(3), '|', h.summary, '|', h, '\n\n\n')
+    console.log((h.score ?? h.distance).toFixed(3), '|', h.summary, '|', h, '\n\n\n')
 }
 await prisma.$disconnect()

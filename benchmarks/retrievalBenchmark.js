@@ -6,8 +6,8 @@ import { search } from "../src/search.js"
 const file = process.argv[2]
 if (!file) throw new Error("Usage: npm run benchmark:retrieval -- cases.json [method] [limit] [output.json]")
 const method = process.argv[3] ?? "summary"
-if (!["summary", "embedding", "word"].includes(method)) {
-    throw new Error('Method must be "summary", "embedding", or "word"')
+if (!["summary", "embedding", "word", "hybrid"].includes(method)) {
+    throw new Error('Method must be "summary", "embedding", "word", or "hybrid"')
 }
 const limit = Number(process.argv[4] ?? Infinity)
 if (limit !== Infinity && (!Number.isInteger(limit) || limit < 1)) throw new Error("Limit must be a positive integer")

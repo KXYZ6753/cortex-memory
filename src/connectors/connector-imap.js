@@ -78,6 +78,7 @@ export async function run({ recent } = {}) { //todo: !!! Optimize for larger mai
                     externalId: externalId ?? mail.messageId,
                     title: mail.subject,
                     author: mail.from?.text,
+                    metadata: mail.to?.text ? {to: mail.to.text} : null,
                     occurredAt: mail.date
                 })
                 processed++;

@@ -5,7 +5,7 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "test": "node tests/ollamaRetryTest.js",
+    "test:search": "node tests/searchTest.js",
     "test:imap": "node tests/imapTest.js",
     "test:model": "node tests/modelBenchmark.js",
     "import:enronqa": "node benchmarks/imports/importEnronQA.js",

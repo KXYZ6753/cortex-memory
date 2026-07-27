@@ -1,13 +1,17 @@
 import {prisma} from './db/client.js'
 import {embed} from './process/embed.js'
 
-// Semantic search: return the k entries whose summary or content is closest in meaning to 'query'.
-// todo: allow k number of entries and add an option to return all (and less than or equal to k number of entries) under a threshold
-// Ordered by cosine distance (0 = identical meaning, 2 = opposite). Skips un-embedded rows.
-export async function search(query, k = 5, embedding = "summary") {
-    const vector = `[${(await embed(query, {prefix: "search_query: "})).join(",")}]`
-    if (embedding === "content") {
+// summary: vector search over AI-generated summaries
+// embedding: vector search over original email content
+// word: PostgreSQL word search over email subjects and content
+export async function search(query, k = 5, method = "summary") {
+    if (typeof query !== "string" || !query.trim()) throw new TypeError("Search query is required")
+    if (!["summary", "embedding", "word"].includes(method)) {
+        throw new Error('Method must be "summary", "embedding", or "word"')
+    }
 
+    if (method === "word") {
+        const words = query.trim().split(/\s+/).join(" OR ")
         return prisma.$queryRaw`
             SELECT id,
                    "externalId",
@@ -15,14 +19,20 @@ export async function search(query, k = 5, embedding = "summary") {
                    summary,
                    importance,
                    tags,
-                   "contentEmbedding" <=> ${vector}::vector AS distance
+                   ts_rank_cd(
+                       to_tsvector('english', coalesce(title, '') || ' ' || coalesce(content, '')),
+                       websearch_to_tsquery('english', ${words})
+                   ) AS score
             FROM "Entry"
-            WHERE "contentEmbedding" IS NOT NULL
-            ORDER BY distance
-                LIMIT ${k}
+            WHERE to_tsvector('english', coalesce(title, '') || ' ' || coalesce(content, ''))
+                  @@ websearch_to_tsquery('english', ${words})
+            ORDER BY score DESC
+            LIMIT ${k}
         `
-    } else if (embedding === "summary") {
+    }
 
+    const vector = `[${(await embed(query, {prefix: "search_query: "})).join(",")}]`
+    if (method === "summary") {
         return prisma.$queryRaw`
             SELECT id,
                    "externalId",
@@ -34,9 +44,21 @@ export async function search(query, k = 5, embedding = "summary") {
             FROM "Entry"
             WHERE "summaryEmbedding" IS NOT NULL
             ORDER BY distance
-                LIMIT ${k}
+            LIMIT ${k}
         `
-    } else {
-        throw new Error('Embedding must be "summary" or "content"')
     }
+
+    return prisma.$queryRaw`
+        SELECT id,
+               "externalId",
+               source,
+               summary,
+               importance,
+               tags,
+               "contentEmbedding" <=> ${vector}::vector AS distance
+        FROM "Entry"
+        WHERE "contentEmbedding" IS NOT NULL
+        ORDER BY distance
+        LIMIT ${k}
+    `
 }

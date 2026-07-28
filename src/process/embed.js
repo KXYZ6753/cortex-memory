@@ -1,8 +1,8 @@
 import { setTimeout as delay } from "node:timers/promises"
 
 const OLLAMA_URL = "http://localhost:11434/api/embed"
-export const EMBEDDING_MODEL = process.env.OLLAMA_EMBED_MODEL;
-const EMBEDDING_DIMENSIONS = process.env.OLLAMA_EMBED_DIMENSIONS // must match Entry embedding columns
+export const EMBEDDING_MODEL = process.env.OLLAMA_EMBED_MODEL ?? "nomic-embed-text"
+const EMBEDDING_DIMENSIONS = Number(process.env.OLLAMA_EMBED_DIMENSIONS ?? 768)
 const MAX_ATTEMPTS = Math.min(5, Math.max(1, Number(process.env.OLLAMA_MAX_ATTEMPTS) || 3))
 const TIMEOUT_MS = Math.max(1_000, Number(process.env.OLLAMA_EMBED_TIMEOUT_MS) || 30_000)
 

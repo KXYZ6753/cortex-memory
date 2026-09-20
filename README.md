@@ -183,6 +183,7 @@ Key settings (all optional, all via `.env` or the environment):
 | `POC_ENERGY` | `auto` | GPU power via `nvidia-smi`; non-fatal when missing |
 | `POC_QUESTION_FIELD` | `questions` | `rephrased_questions` avoids gold-email name leakage into the query |
 | `POC_POOL_SIZE` | `2000` | emails fetched from HuggingFace; also bounds hard-negative difficulty |
+| `POC_MAX_NUM_CTX` | unset | ceiling on the per-arm `num_ctx`. A single very long email can force a 32k context on a whole arm, which is mostly wasted KV cache; capping it truncates those few cases instead, and every truncation is flagged as `truncationSuspected` |
 
 The judge is validated without any human labelling: the dataset ships
 `incorrect_answers` and `alternate_answers`, so known-right and known-wrong

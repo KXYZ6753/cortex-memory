@@ -727,9 +727,13 @@ function buildCellMatrix() {
     cells.push(
         { id: "oracle-large", alias: "large", arm: "oracle", n: limit, priority: 0 },
         { id: "floor-large", alias: "large", arm: "floor", n: limit, priority: 5 },
-        { id: `dist${lowDensity}hard-large`, alias: "large", arm: "dist", distractorType: "hard", distractorCount: lowDensity, n: Math.min(limit, 40), priority: 6 },
-        { id: `dist${highDensity}hard-large`, alias: "large", arm: "dist", distractorType: "hard", distractorCount: highDensity, n: Math.min(limit, 20), priority: 7 },
-        { id: `dist${lowDensity}rand-large`, alias: "large", arm: "dist", distractorType: "random", distractorCount: lowDensity, n: Math.min(limit, 20), priority: 8 },
+        // No arbitrary cap on the large distractor cells. They carry the small-vs-large
+        // noise-sensitivity interaction, so a fixed n=20 could only ever report
+        // UNDERPOWERED. trimToDeadline cuts them from measured rates if the night is
+        // genuinely too short, which is a decision based on data rather than a guess.
+        { id: `dist${lowDensity}hard-large`, alias: "large", arm: "dist", distractorType: "hard", distractorCount: lowDensity, n: limit, priority: 6 },
+        { id: `dist${highDensity}hard-large`, alias: "large", arm: "dist", distractorType: "hard", distractorCount: highDensity, n: limit, priority: 7 },
+        { id: `dist${lowDensity}rand-large`, alias: "large", arm: "dist", distractorType: "random", distractorCount: lowDensity, n: limit, priority: 8 },
     )
     for (const method of config.phase2Methods) {
         for (const k of config.phase2K) {

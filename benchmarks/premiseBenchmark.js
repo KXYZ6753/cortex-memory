@@ -1745,10 +1745,24 @@ async function runReport(world, extra = {}) {
     await mkdir(dirname(reportFile), { recursive: true })
     await writeFile(reportFile, JSON.stringify(report, null, 2) + "\n")
 
+    // Everything needed to read the run, small enough to paste. The full file adds
+    // per-case records and example prompts, which are for drilling in, not for triage.
     console.log(JSON.stringify({
+        provenance: {
+            models: report.summary.models,
+            judge: report.summary.judge,
+            questionsSampled: report.summary.questionsSampled,
+            poolSize: report.summary.poolSize,
+            questionField: report.summary.questionField,
+            seed: report.summary.seed,
+            cases: report.summary.cases,
+            verdicts: report.summary.verdicts,
+        },
         premiseVerdict: report.premiseVerdict,
         killTestA: report.killTestA,
         killTestB: report.killTestB,
+        killTestBLarge: report.killTestBLarge,
+        representationArm: report.representationArm,
         judgeValidation: report.judgeValidation,
     }, null, 2))
     console.log(`\n[table] cell                       n  judged  correct  ci95            abstain  wallMsP50  promptTokP50`)

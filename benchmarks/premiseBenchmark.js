@@ -1162,7 +1162,15 @@ async function runGenerate(world, cells, monitor, modelInfo, phase2) {
                 promptEvalCount: data.prompt_eval_count ?? null, promptEvalMs: ms(data.prompt_eval_duration),
                 evalCount: data.eval_count ?? null, evalMs: ms(data.eval_duration),
                 loadMs: ms(data.load_duration), totalMs: ms(data.total_duration), wallMs: Math.round(to - from),
-                truncationSuspected: data.prompt_eval_count ? data.prompt_eval_count < 0.9 * estimated : null,
+                // Real truncation means Ollama hit the num_ctx ceiling, not that my
+                // chars-per-token estimate was off. Comparing against the estimate flags
+                // every short prompt, because estimation error is proportionally largest
+                // there — floor prompts of ~100 tokens inside a 1024 context are not
+                // truncated by anything.
+                truncationSuspected: data.prompt_eval_count
+                    ? data.prompt_eval_count >= cell.numCtx - config.numPredict - 8
+                    : null,
+                promptTokensEstimateError: data.prompt_eval_count ? round(data.prompt_eval_count / estimated, 3) : null,
                 doneReason: data.done_reason ?? null,
                 gpuJoulesGross: power.gross, gpuJoulesNet: power.net,
                 gpuWattsMean: power.meanWatts, gpuWattsMax: power.maxWatts,
@@ -1506,6 +1514,66 @@ function pairedContrast(cellA, cellB, answers, verdictByKey) {
     }
 }
 
+// The claim "retrieval precision substitutes for parameters" is an interaction, not
+// two separate effects: the small model must lose more to distractors than the large
+// one does. Every cell shares the same questions, so this is fully paired per question
+// and a paired bootstrap gives an honest interval.
+function noiseInteraction(label, smallBase, smallDist, largeBase, largeDist, answers, verdictByKey) {
+    const correctness = (cellId) => {
+        const map = new Map()
+        for (const answer of answers.filter((row) => row.cellId === cellId)) {
+            const verdict = verdictByKey.get(answer.caseKey)?.verdict
+            if (verdict) map.set(answer.questionKey, verdict === "CORRECT" ? 1 : 0)
+        }
+        return map
+    }
+    const maps = [smallBase, smallDist, largeBase, largeDist].map(correctness)
+    if (maps.some((map) => map.size === 0)) return { available: false, reason: `missing one of ${[smallBase, smallDist, largeBase, largeDist].join(", ")}` }
+
+    const shared = [...maps[0].keys()].filter((key) => maps.every((map) => map.has(key)))
+    if (!shared.length) return { available: false, reason: "no shared questions across the four cells" }
+
+    const perQuestion = shared.map((key) => ({
+        small: maps[0].get(key) - maps[1].get(key),
+        large: maps[2].get(key) - maps[3].get(key),
+    }))
+    const degradationSmall = mean(perQuestion.map((row) => row.small))
+    const degradationLarge = mean(perQuestion.map((row) => row.large))
+
+    const random = makeRandom(seed ^ fnv1a32(label))
+    const draws = []
+    for (let iteration = 0; iteration < 2000; iteration++) {
+        let smallSum = 0
+        let largeSum = 0
+        for (let index = 0; index < perQuestion.length; index++) {
+            const pick = perQuestion[Math.floor(random() * perQuestion.length)]
+            smallSum += pick.small
+            largeSum += pick.large
+        }
+        draws.push((smallSum - largeSum) / perQuestion.length)
+    }
+    draws.sort((a, b) => a - b)
+
+    const interaction = degradationSmall - degradationLarge
+    const low = percentile(draws, 0.025)
+    const high = percentile(draws, 0.975)
+    return {
+        available: true,
+        contrast: `${label}: (${smallBase} - ${smallDist}) - (${largeBase} - ${largeDist})`,
+        nPaired: shared.length,
+        degradationSmallPoints: round(degradationSmall * 100, 1),
+        degradationLargePoints: round(degradationLarge * 100, 1),
+        interactionPoints: round(interaction * 100, 1),
+        ci95Points: [round(low * 100, 1), round(high * 100, 1)],
+        excludesZero: low > 0 || high < 0,
+        reading: low > 0
+            ? "the small model loses more to distractors than the large one: retrieval precision does substitute for parameters"
+            : high < 0
+                ? "the large model loses more, which contradicts the mechanism"
+                : "direction is suggestive but the interval spans zero; more questions are needed",
+    }
+}
+
 function summariseJudgeValidation(verdicts) {
     const items = verdicts.filter((record) => record.validationItem)
     const counts = { tp: 0, fn: 0, tn: 0, fp: 0 }
@@ -1647,6 +1715,31 @@ async function runReport(world, extra = {}) {
     const killTestB = killTestFor("small")
     const killTestBLarge = killTestFor("large")
 
+    const interactions = {
+        hardLow: noiseInteraction(`hard${lowDensity}`, "oracle-small", `dist${lowDensity}hard-small`, "oracle-large", `dist${lowDensity}hard-large`, answers, verdictByKey),
+        hardHigh: noiseInteraction(`hard${highDensity}`, "oracle-small", `dist${highDensity}hard-small`, "oracle-large", `dist${highDensity}hard-large`, answers, verdictByKey),
+        random: noiseInteraction(`rand${lowDensity}`, "oracle-small", `dist${lowDensity}rand-small`, "oracle-large", `dist${lowDensity}rand-large`, answers, verdictByKey),
+    }
+
+    // The oracle cells are the ceiling: with the gold email in hand, this is as well
+    // as each model can do. Everything below that ceiling in a deployed system is a
+    // retrieval failure, so this prices retrieval against model scale directly.
+    const headroom = oracleSmall?.correctness != null && floorSmall?.correctness != null
+        ? {
+            oracleCeilingSmall: oracleSmall.correctness,
+            oracleCeilingLarge: oracleLarge?.correctness ?? null,
+            floor: floorSmall.correctness,
+            scaleWorthPoints: oracleLarge?.correctness != null ? round((oracleLarge.correctness - oracleSmall.correctness) * 100, 1) : null,
+            note: "Expected end-to-end accuracy of a deployed system is approximately retrieval recall@k multiplied by the correctness of the matching distractor cell. Compare that shortfall against scaleWorthPoints to see which lever is larger.",
+            projection: [1, 5].map((k) => ({
+                k,
+                cell: k === 1 ? "oracle-small" : `dist${lowDensity}hard-small`,
+                correctnessWithGoldPresent: k === 1 ? oracleSmall.correctness : find(`dist${lowDensity}hard-small`)?.correctness ?? null,
+                note: "multiply by your measured recall@k to project end-to-end accuracy",
+            })),
+        }
+        : { available: false }
+
     const preCell = find("oraclepre-small")
     const representationArm = preCell && oracleSmall
         ? {
@@ -1711,6 +1804,8 @@ async function runReport(world, extra = {}) {
         killTestA,
         killTestB,
         killTestBLarge,
+        noiseSensitivityInteraction: interactions,
+        headroom,
         representationArm,
         judgeValidation,
         cells: cellSummaries,
@@ -1762,6 +1857,8 @@ async function runReport(world, extra = {}) {
         killTestA: report.killTestA,
         killTestB: report.killTestB,
         killTestBLarge: report.killTestBLarge,
+        noiseSensitivityInteraction: report.noiseSensitivityInteraction,
+        headroom: report.headroom,
         representationArm: report.representationArm,
         judgeValidation: report.judgeValidation,
     }, null, 2))

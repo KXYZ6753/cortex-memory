@@ -547,6 +547,9 @@ async function ollamaChat({ model, prompt, numCtx, numPredict, format, think, ti
                     error.retryable = false
                     error.message += `\nHint: lower num_ctx, or set POC_MODEL_LARGE to a smaller model (e.g. gemma4:12b-it-qat).`
                 }
+                if (response.status === 401 || response.status === 403) {
+                    error.message += `\nHint: a "-cloud" model needs an authenticated Ollama account. Run "ollama signin", or point POC_JUDGE_PROVIDER at openrouter with OPENROUTER_API_KEY, or set POC_JUDGE_MODEL to a local model.`
+                }
                 throw error
             }
             const data = await response.json()
@@ -1322,8 +1325,13 @@ async function runJudge(world) {
                 console.warn("[judge] model did not honour the JSON schema; using text mode for the whole stage")
             }
         } catch (error) {
+            // Only an actual format rejection justifies downgrading the whole stage to
+            // text grading. An auth, network or timeout failure is an infrastructure
+            // problem, and silently switching grading method because of one would change
+            // how every answer in the run is graded, for a reason unrelated to the model.
+            if (!/HTTP 400/.test(error.message)) throw error
             formatMode = "text"
-            console.warn(`[judge] schema canary failed (${error.message.split("\n")[0]}); using text mode`)
+            console.warn(`[judge] model rejected the JSON schema (${error.message.split("\n")[0]}); using text mode for the whole stage`)
         }
     } else {
         formatMode = "text"
@@ -1826,8 +1834,19 @@ if (isMain) try {
                 // judge run later, or against a different judge, without regenerating.
                 console.log(`[generate] complete; grade it with: npm run benchmark:premise -- judge ${limit} ${seed} ${stateDir} ${reportFile}`)
             } else {
-                await runJudge(world)
+                // Generation is the expensive half and is already durable on disk. A judge
+                // outage must never cost it, so report what exists and let the judge stage
+                // be rerun later.
+                let judgeError = null
+                try {
+                    await runJudge(world)
+                } catch (error) {
+                    judgeError = error.message
+                    console.warn(`\n[judge] FAILED: ${error.message}`)
+                    console.warn(`[judge] generation is safe. Fix the above, then: npm run benchmark:premise -- judge ${limit} ${seed} ${stateDir} ${reportFile}`)
+                }
                 await runReport(world, {
+                    judgeError,
                     trimmedCells: trimLog,
                     probeRates: probe.rates,
                     projectedHours: round(probe.totalHours, 2),

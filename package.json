@@ -13,7 +13,9 @@
     "index:bm25": "node benchmarks/buildBm25Index.js",
     "backfill:content-embeddings": "node tests/backfillContentEmbeddings.js",
     "benchmark:retrieval": "node benchmarks/retrievalBenchmark.js",
-    "benchmark:reranker": "node benchmarks/rerankerBenchmark.js"
+    "benchmark:reranker": "node benchmarks/rerankerBenchmark.js",
+    "benchmark:premise": "node benchmarks/premiseBenchmark.js",
+    "test:premise": "node tests/premiseUnits.js"
   },
   "repository": {
     "type": "git",

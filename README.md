@@ -92,3 +92,77 @@ accurate than hybrid retrieval on EnronQA:
 npm run benchmark:reranker -- minilm benchmarks/enronqaCases.json 50 42 20
 npm run benchmark:reranker -- qwen benchmarks/enronqaCases.json 30 42 5
 ```
+
+## Premise benchmark (research)
+
+Before the full 14-cell study, `benchmarks/premiseBenchmark.js` answers the two
+questions the paper's claim depends on:
+
+- **Kill test A** — hand both generators the gold email (oracle retrieval). Does the
+  large model actually beat the small one? No gap means retrieval engineering has
+  nothing to offset.
+- **Kill test B** — give the small model the gold email alone, then the gold email
+  plus hard negatives (lexically similar wrong emails) and plus random emails. If
+  correctness only drops on hard negatives, the mechanism is retrieval *precision*.
+  If it drops on both, the story is context dilution instead.
+
+Phase 1 (both kill tests, the no-retrieval floor, the representation arm) needs only
+Ollama and network access to HuggingFace — no Postgres, no pgvector, no BM25 index.
+Phase 2 adds a real retrieval arm through `src/search.js` and is skipped with a
+reason when that stack is unavailable.
+
+```bash
+# 1. Project the run before committing a night to it. Fits a cost model from 8 calls
+#    per model and prints a per-cell projection against POC_DEADLINE_HOURS.
+npm run benchmark:premise -- probe
+
+# 2. Smoke gate: full pipeline on 3 questions, should finish in minutes.
+POC_VALIDATION_N=4 npm run benchmark:premise -- all 3
+
+# 3. The real run. Resumable — rerun the identical command after any interruption.
+npm run benchmark:premise -- all 100
+
+# Generation and grading can be separated, so a judge outage never costs a night:
+npm run benchmark:premise -- generate 100
+npm run benchmark:premise -- judge 100
+
+# Offline checks for the statistics and text transforms (no models, no network):
+npm run test:premise
+```
+
+Read `premiseVerdict.decision` in `benchmarks/premiseResults.json` first: `GO`,
+`NO_GAP`, `GAP_BUT_NO_MECHANISM`, `UNDERPOWERED` or `INCONCLUSIVE`.
+
+On Windows, `VAR=value npm run ...` does not work in cmd or PowerShell. Put the
+settings in `.env` instead — the script loads it on start, so the same file works on
+every platform:
+
+```ini
+POC_MODEL_LARGE=gemma4:31b-it-qat
+POC_DEADLINE_HOURS=8
+POC_VALIDATION_N=60
+```
+
+Key settings (all optional, all via `.env` or the environment):
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `POC_MODEL_SMALL` / `POC_MODEL_LARGE` | `gemma4:e2b` / `gemma4:31b-it-qat` | the two generators under test |
+| `POC_MODEL_LARGE_ALT` + `POC_PROBE_ALT=true` | `gemma4:31b-nvfp4` | probe a second quantisation and print the speed-up |
+| `POC_JUDGE_MODEL` | `gpt-oss:20b-cloud` | grader; must not be a model under test |
+| `POC_JUDGE_PROVIDER` | `ollama` | or `openrouter`, with `OPENROUTER_API_KEY` |
+| `POC_DEADLINE_HOURS` | `8` | cells are trimmed in priority order to fit; `oracle-large` is never trimmed |
+| `POC_ENERGY` | `auto` | GPU power via `nvidia-smi`; non-fatal when missing |
+| `POC_QUESTION_FIELD` | `questions` | `rephrased_questions` avoids gold-email name leakage into the query |
+| `POC_POOL_SIZE` | `2000` | emails fetched from HuggingFace; also bounds hard-negative difficulty |
+
+The judge is validated without any human labelling: the dataset ships
+`incorrect_answers` and `alternate_answers`, so known-right and known-wrong
+candidates are mixed blind into the same shuffled grading stream and the report
+gives the judge's recall, specificity and false-correct rate. If recall drops below
+0.80 or the false-correct rate exceeds 0.15, the verdict becomes `INCONCLUSIVE`
+regardless of how large the measured gap looks.
+
+Energy caveat: on an 8 GB card a 31b model runs mostly on CPU, so GPU-only joules
+undercount it badly and the ratio can even invert. `wallSeconds` is the valid cost
+metric here; whole-system wall power is required before any energy claim.

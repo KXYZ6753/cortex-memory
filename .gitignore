@@ -5,3 +5,8 @@ node_modules/
 .DS_Store
 .data/
 benchmarks/enronqaCases.json
+# Benchmark artifacts: large, regenerable, and previously bloated git history
+# (embeddingResults.json was 292 MB). Keep only distilled summaries under
+# benchmarks/results/.
+benchmarks/*Results.json
+benchmarks/*.jsonl

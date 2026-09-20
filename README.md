@@ -84,3 +84,11 @@ Run a deterministic benchmark with:
 ```bash
 npm run benchmark:retrieval -- benchmarks/enronqaCases.json hybrid 500 benchmarks/hybridResults.json 42 100
 ```
+
+Rerankers are benchmark-only experiments because they were slower and less
+accurate than hybrid retrieval on EnronQA:
+
+```bash
+npm run benchmark:reranker -- minilm benchmarks/enronqaCases.json 50 42 20
+npm run benchmark:reranker -- qwen benchmarks/enronqaCases.json 30 42 5
+```

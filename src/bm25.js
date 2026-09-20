@@ -42,6 +42,11 @@ function openIndex() {
                summary,
                importance,
                tags,
+               author,
+               recipients,
+               date,
+               title,
+               snippet(entries, 10, '', '', ' … ', 64) AS snippet,
                -bm25(entries, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1) AS score
         FROM entries
         WHERE entries MATCH ?

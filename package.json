@@ -12,7 +12,8 @@
     "import:enronqa": "node benchmarks/imports/importEnronQA.js",
     "index:bm25": "node benchmarks/buildBm25Index.js",
     "backfill:content-embeddings": "node tests/backfillContentEmbeddings.js",
-    "benchmark:retrieval": "node benchmarks/retrievalBenchmark.js"
+    "benchmark:retrieval": "node benchmarks/retrievalBenchmark.js",
+    "benchmark:reranker": "node benchmarks/rerankerBenchmark.js"
   },
   "repository": {
     "type": "git",
@@ -35,6 +36,7 @@
     "pg": "^8.22.0"
   },
   "devDependencies": {
+    "@huggingface/transformers": "^4.2.0",
     "prisma": "^7.8.0"
   }
 }

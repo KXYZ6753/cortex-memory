@@ -15,7 +15,9 @@
     "benchmark:retrieval": "node benchmarks/retrievalBenchmark.js",
     "benchmark:reranker": "node benchmarks/rerankerBenchmark.js",
     "benchmark:premise": "node benchmarks/premiseBenchmark.js",
-    "test:premise": "node tests/premiseUnits.js"
+    "test:premise": "node tests/premiseUnits.js",
+    "premise2": "node benchmarks/premise2/cli.js",
+    "test:premise2": "node --test \"tests/premise2/*.test.js\""
   },
   "repository": {
     "type": "git",
@@ -39,6 +41,8 @@
   },
   "devDependencies": {
     "@huggingface/transformers": "^4.2.0",
+    "hyparquet": "^1.31.1",
+    "hyparquet-compressors": "^1.1.2",
     "prisma": "^7.8.0"
   }
 }

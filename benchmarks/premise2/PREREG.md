@@ -92,7 +92,7 @@ All contexts and prompts are built once, on the Mac, before any generation. Prom
 
 - **Stage 0**: probe.
 - **Stage 1**: DEV grid on e2b.
-- **Stage 2**: J1 grades DEV in parallel (cloud calls). Meanwhile, generation runs P-oracle, P-B, S-floor and S-dist4hard on tiny, small and mid; the bridge replay; the e2b secondaries (dist9 hard, dist4 random, T1 format, the two null-perturbation cells, oracle-R2); and S-R2-B on mid.
+- **Stage 2**: J1 grades DEV in parallel (cloud calls). Meanwhile, generation runs P-oracle, P-B, S-floor and S-dist4hard on tiny, small and mid; the bridge replay; the e2b secondaries (dist9 hard, dist4 random, T1 format, the two null-perturbation cells, oracle-R2, and G-R2-bm25, the e2b arm of secondary S2); and S-R2-B on mid.
 - **Stage 3**: select E\*, then P-E\* on tiny, small and mid, then gold-informed selection on e2b (first 300).
 - **Deferral rule** (only P-E\* depends on DEV grading, and the GPU never waits for it while E\*-independent work remains):
   - If E\* is not yet selected at stage 3, stage 6 runs first.

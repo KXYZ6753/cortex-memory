@@ -83,8 +83,10 @@ export function testCells() {
         { id: "S-oracle-R2", role: "diagnostic", stage: 2, arm: "oracle", representation: "R2", template: "T2", models: { small: 300, large: 300 }, largeRule: "time" },
         { id: "S-R2-B", role: "secondary", stage: 2, ...retr("bm25", 5, { representation: "R2" }), models: { mid: 600 } },
 
+        // G-R2-bm25 is the e2b arm of secondary S2 (R2 vs R0 at BM25 k5), so it runs in
+        // stage 2 rather than with the rest of the grid, which a stop time may cut.
         ...["R0", "R1", "R2"].flatMap((representation) => ["bm25", "dense", "rrf60"].map((method) => (
-            { id: `G-${representation}-${method}`, role: "grid", stage: 6, ...retr(method, 5, { representation }), models: { small: 600 } }
+            { id: `G-${representation}-${method}`, role: "grid", stage: representation === "R2" && method === "bm25" ? 2 : 6, ...retr(method, 5, { representation }), models: { small: 600 } }
         ))),
 
         { id: "X-bm25-k1", role: "exploratory", stage: 6, ...retr("bm25", 1), models: { small: 300 } },

@@ -85,11 +85,7 @@ Do these once, before the run. Type each command on its own line in PowerShell, 
 
    The run also holds a wake lock.
 
-7. **Data**: copy these two folders from the Mac into the same places in the Windows checkout:
-   - `.data/premise2/`
-   - `.data/models/` (the reranker, for the latency sample)
-
-   Then check the files:
+7. **Data**: copy `premise2-transfer.zip` (about 1.3 GB) from the Mac to the repo folder on Windows. On the Mac it is at `.data/premise2-transfer.zip`. Extract it there with "Extract All…", choosing the repo folder itself as the destination; it creates `.data\premise2\` and `.data\models\`. Then check the files:
 
    ```
    npm run premise2 -- verify-data
@@ -112,6 +108,8 @@ npm run premise2 -- run
 That is the only command. It:
 
 - runs the probe (about 45 min), then the whole queue;
+- needs about 16–17 h for everything except the optional 31b secondaries, by V1's measured speeds. Those secondaries (up to about 6 h more) are admitted only if they fit before the stop time;
+- if the stop time cuts it, the rest can be finished later with the same command. The confirmatory cells come first; the e2b grid and exploratory cells come last;
 - restarts itself after a crash, and resumes where it stopped;
 - stops cleanly at `POC2_STOP_AT`.
 

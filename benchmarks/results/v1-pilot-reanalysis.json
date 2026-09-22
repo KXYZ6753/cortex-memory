@@ -1,0 +1,491 @@
+{
+  "source": "/Users/kerem/Downloads/premise",
+  "cells": {
+    "dist4hard-large": {
+      "n": 100,
+      "accuracy": 0.92,
+      "ci": [
+        0.85,
+        0.9589
+      ]
+    },
+    "dist4hard-small": {
+      "n": 100,
+      "accuracy": 0.83,
+      "ci": [
+        0.7445,
+        0.8911
+      ]
+    },
+    "dist4rand-large": {
+      "n": 100,
+      "accuracy": 0.95,
+      "ci": [
+        0.8882,
+        0.9785
+      ]
+    },
+    "dist4rand-small": {
+      "n": 100,
+      "accuracy": 0.81,
+      "ci": [
+        0.7222,
+        0.8749
+      ]
+    },
+    "dist9hard-large": {
+      "n": 100,
+      "accuracy": 0.93,
+      "ci": [
+        0.8625,
+        0.9657
+      ]
+    },
+    "dist9hard-small": {
+      "n": 100,
+      "accuracy": 0.81,
+      "ci": [
+        0.7222,
+        0.8749
+      ]
+    },
+    "floor-large": {
+      "n": 100,
+      "accuracy": 0.01,
+      "ci": [
+        0.0018,
+        0.0545
+      ]
+    },
+    "floor-small": {
+      "n": 100,
+      "accuracy": 0.01,
+      "ci": [
+        0.0018,
+        0.0545
+      ]
+    },
+    "oracle-large": {
+      "n": 100,
+      "accuracy": 0.94,
+      "ci": [
+        0.8752,
+        0.9722
+      ]
+    },
+    "oracle-small": {
+      "n": 100,
+      "accuracy": 0.88,
+      "ci": [
+        0.8019,
+        0.93
+      ]
+    },
+    "oraclepre-small": {
+      "n": 100,
+      "accuracy": 0.84,
+      "ci": [
+        0.7558,
+        0.899
+      ]
+    }
+  },
+  "findings": {
+    "oracleGap": {
+      "n": 100,
+      "diff": 0.06,
+      "ci": [
+        -0.01,
+        0.136
+      ],
+      "onlyFirst": 10,
+      "onlySecond": 4,
+      "exactMcNemarP": 0.18
+    },
+    "contamination": {
+      "dist4hard": {
+        "contaminatedSets": 37,
+        "of": 100,
+        "distractorReasons": {
+          "answerBearing": 68,
+          "twin": 17,
+          "nearDup": 25
+        }
+      },
+      "dist9hard": {
+        "contaminatedSets": 40,
+        "of": 100,
+        "distractorReasons": {
+          "answerBearing": 130,
+          "twin": 17,
+          "nearDup": 32
+        }
+      },
+      "dist4rand": {
+        "contaminatedSets": 4,
+        "of": 100,
+        "distractorReasons": {
+          "answerBearing": 10,
+          "twin": 0,
+          "nearDup": 0
+        }
+      }
+    },
+    "distraction": {
+      "dist4hard": {
+        "small": {
+          "all": {
+            "n": 100,
+            "diff": 0.05,
+            "ci": [
+              -0.021,
+              0.112
+            ],
+            "onlyFirst": 8,
+            "onlySecond": 3,
+            "exactMcNemarP": 0.227
+          },
+          "cleanSetsOnly": {
+            "n": 63,
+            "diff": 0.079,
+            "ci": [
+              0,
+              0.161
+            ],
+            "onlyFirst": 7,
+            "onlySecond": 2,
+            "exactMcNemarP": 0.18
+          }
+        },
+        "large": {
+          "all": {
+            "n": 100,
+            "diff": 0.02,
+            "ci": [
+              -0.023,
+              0.069
+            ],
+            "onlyFirst": 3,
+            "onlySecond": 1,
+            "exactMcNemarP": 0.625
+          },
+          "cleanSetsOnly": {
+            "n": 63,
+            "diff": 0.016,
+            "ci": [
+              -0.038,
+              0.069
+            ],
+            "onlyFirst": 2,
+            "onlySecond": 1,
+            "exactMcNemarP": 1
+          }
+        }
+      },
+      "dist9hard": {
+        "small": {
+          "all": {
+            "n": 100,
+            "diff": 0.07,
+            "ci": [
+              0,
+              0.133
+            ],
+            "onlyFirst": 11,
+            "onlySecond": 4,
+            "exactMcNemarP": 0.118
+          },
+          "cleanSetsOnly": {
+            "n": 60,
+            "diff": 0.133,
+            "ci": [
+              0.037,
+              0.231
+            ],
+            "onlyFirst": 10,
+            "onlySecond": 2,
+            "exactMcNemarP": 0.039
+          }
+        },
+        "large": {
+          "all": {
+            "n": 100,
+            "diff": 0.01,
+            "ci": [
+              -0.029,
+              0.059
+            ],
+            "onlyFirst": 3,
+            "onlySecond": 2,
+            "exactMcNemarP": 1
+          },
+          "cleanSetsOnly": {
+            "n": 60,
+            "diff": 0.017,
+            "ci": [
+              -0.037,
+              0.073
+            ],
+            "onlyFirst": 2,
+            "onlySecond": 1,
+            "exactMcNemarP": 1
+          }
+        }
+      },
+      "dist4rand": {
+        "small": {
+          "all": {
+            "n": 100,
+            "diff": 0.07,
+            "ci": [
+              0.023,
+              0.118
+            ],
+            "onlyFirst": 8,
+            "onlySecond": 1,
+            "exactMcNemarP": 0.039
+          },
+          "cleanSetsOnly": {
+            "n": 96,
+            "diff": 0.073,
+            "ci": [
+              0.024,
+              0.121
+            ],
+            "onlyFirst": 8,
+            "onlySecond": 1,
+            "exactMcNemarP": 0.039
+          }
+        },
+        "large": {
+          "all": {
+            "n": 100,
+            "diff": -0.01,
+            "ci": [
+              -0.046,
+              0.022
+            ],
+            "onlyFirst": 1,
+            "onlySecond": 2,
+            "exactMcNemarP": 1
+          },
+          "cleanSetsOnly": {
+            "n": 96,
+            "diff": -0.021,
+            "ci": [
+              -0.052,
+              0
+            ],
+            "onlyFirst": 0,
+            "onlySecond": 2,
+            "exactMcNemarP": 0.5
+          }
+        }
+      }
+    },
+    "goldBm25Rank": {
+      "n": 100,
+      "rank1": 65,
+      "top5": 85,
+      "notInTop100": 4
+    },
+    "preprocessing": {
+      "all": {
+        "n": 100,
+        "diff": -0.04,
+        "ci": [
+          -0.106,
+          0.036
+        ],
+        "onlyFirst": 5,
+        "onlySecond": 9,
+        "exactMcNemarP": 0.424
+      },
+      "answerLost": {
+        "n": 7,
+        "diff": -0.714,
+        "ci": [
+          -1,
+          -0.556
+        ],
+        "onlyFirst": 0,
+        "onlySecond": 5,
+        "exactMcNemarP": 0.063
+      },
+      "answerKept": {
+        "n": 93,
+        "diff": 0.011,
+        "ci": [
+          -0.048,
+          0.078
+        ],
+        "onlyFirst": 5,
+        "onlySecond": 4,
+        "exactMcNemarP": 1
+      },
+      "questionsWithLoss": 7,
+      "lossExamples": [
+        {
+          "questionKey": "meyers-a/deleted_items/139.#0",
+          "lostSpans": [
+            "date:january 30, 2002",
+            "date:january 30, 2002"
+          ],
+          "lostWords": [
+            "january"
+          ]
+        },
+        {
+          "questionKey": "king-j/deleted_items/101.#0",
+          "lostSpans": [
+            "url:shopping.crosswalk.com/bye/devo_na"
+          ],
+          "lostWords": [
+            "http",
+            "shopping",
+            "bye",
+            "devo"
+          ]
+        },
+        {
+          "questionKey": "reitmeyer-j/inbox/125.#0",
+          "lostSpans": [
+            "date:september 27, 2001",
+            "number:2001",
+            "date:september 27, 2001",
+            "number:2001"
+          ],
+          "lostWords": [
+            "thursday",
+            "september",
+            "2001"
+          ]
+        },
+        {
+          "questionKey": "townsend-j/_sent_mail/1.#0",
+          "lostSpans": [
+            "url:ecardview.hallmark.com/hmk/website/greeting.jsp?id=eg3171-694996-0404035",
+            "number:694996",
+            "number:0404035",
+            "url:ecardview.hallmark.com/hmk/website/greeting.jsp?id=eg3171-694996-0404035",
+            "number:694996",
+            "number:0404035"
+          ],
+          "lostWords": [
+            "http",
+            "ecardview",
+            "hmk",
+            "website",
+            "jsp"
+          ]
+        },
+        {
+          "questionKey": "ermis-f/discussion_threads/323.#0",
+          "lostSpans": [
+            "url:www.oxfordprinceton.com/news/news0120.asp",
+            "url:www.oxfordprinceton.com/news/news0120.asp"
+          ],
+          "lostWords": [
+            "http",
+            "www",
+            "news",
+            "news0120",
+            "asp"
+          ]
+        },
+        {
+          "questionKey": "king-j/deleted_items/333.#1",
+          "lostSpans": [
+            "url:www.ficm.org",
+            "url:www.ficm.org"
+          ],
+          "lostWords": [
+            "http",
+            "www",
+            "ficm",
+            "org"
+          ]
+        },
+        {
+          "questionKey": "meyers-a/deleted_items/1093.#0",
+          "lostSpans": [
+            "url:sinclair.quarterman.org/sinclair/who/gordon.html",
+            "url:sinclair.quarterman.org/sinclair/who/gordon.html"
+          ],
+          "lostWords": [
+            "http",
+            "quarterman",
+            "org",
+            "html"
+          ]
+        }
+      ]
+    },
+    "floor": {
+      "floor-small": [
+        {
+          "questionKey": "donohoe-t/inbox/433.#1",
+          "gold": "The gas prices for the East and West are not available.",
+          "answer": "NOT IN EMAILS"
+        }
+      ],
+      "floor-large": [
+        {
+          "questionKey": "donohoe-t/inbox/433.#1",
+          "gold": "The gas prices for the East and West are not available.",
+          "answer": "NOT IN EMAILS"
+        }
+      ]
+    },
+    "mailboxes": {
+      "v1Mailboxes": 26,
+      "of": 150,
+      "sizeRankMax": 32,
+      "sizeRankMedian": 20
+    },
+    "timing": {
+      "small": {
+        "calls": 100,
+        "warm": 99,
+        "medianWallMs": 211,
+        "meanWallMs": 230.04,
+        "medianDecodeTokPerSec": 163.043,
+        "meanOutputTokens": 19.74
+      },
+      "large": {
+        "calls": 100,
+        "warm": 99,
+        "medianWallMs": 6378,
+        "meanWallMs": 7022,
+        "medianDecodeTokPerSec": 3.614,
+        "meanOutputTokens": 17.62
+      },
+      "warmRatioOfTotals": 30.525,
+      "warmPairs": 99
+    },
+    "oracleGapByStratum": {
+      "threaded": {
+        "n": 48,
+        "diff": 0.083,
+        "ci": [
+          0,
+          0.174
+        ],
+        "onlyFirst": 5,
+        "onlySecond": 1,
+        "exactMcNemarP": 0.219
+      },
+      "single": {
+        "n": 52,
+        "diff": 0.038,
+        "ci": [
+          -0.063,
+          0.159
+        ],
+        "onlyFirst": 5,
+        "onlySecond": 3,
+        "exactMcNemarP": 0.727
+      }
+    }
+  }
+}

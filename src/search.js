@@ -1,6 +1,9 @@
 import {prisma} from './db/client.js'
 import {embed} from './process/embed.js'
 import {searchBm25} from './bm25.js'
+import {fuseResults} from './fusion.js'
+
+export {fuseResults}
 
 // summary: vector search over AI-generated summaries
 // embedding: fast vector search over original email content
@@ -62,22 +65,4 @@ async function contentEmbeddingSearch(vector, k) {
         await tx.$queryRaw`SELECT set_config('hnsw.ef_search', ${String(Math.max(k, 400))}, true)`
         return run(tx)
     })
-}
-
-export function fuseResults(wordResults, vectorResults) {
-    const results = new Map()
-    const add = (items, weight, rankName) => items.forEach((result, index) => {
-        const existing = results.get(result.id) ?? {}
-        results.set(result.id, {
-            ...existing,
-            ...result,
-            [rankName]: index + 1,
-            score: (existing.score ?? 0) + weight / (10 + index + 1),
-        })
-    })
-
-    // BM25 was much stronger on EnronQA. Dense retrieval stays as recovery evidence.
-    add(wordResults, 1, "wordRank")
-    add(vectorResults, 0.25, "vectorRank")
-    return [...results.values()].sort((a, b) => b.score - a.score || a.id.localeCompare(b.id))
 }

@@ -7,7 +7,8 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs"
 import { join } from "node:path"
 import { AnswerStore, PERMANENT_FAILURES, generationKey, optionsHash, readJsonl } from "./store.js"
 import { judgeConfig, preGrade, spanScore } from "./judge.js"
-import { unitVerdictKey, verdictIndex, withEstarCell, TIER_A_ROLES, DEV_TIER_A_TOP } from "./grade.js"
+import { unitVerdictKey, verdictIndex, withEstarCell, agentUnits, TIER_A_ROLES, DEV_TIER_A_TOP } from "./grade.js"
+import { isAbstain } from "./prompts.js"
 import { MODELS, LARGE_TIME_RULE_ORDER } from "./cells.js"
 import { clusterBootstrap, bootstrapP, classify, clusterRobustZ, holm, wilson, geometricMeanRatio } from "./stats.js"
 import { integrateBlocks, summariseEnergy, readJsonl as readEnergyJsonl } from "./energy-integrate.js"
@@ -31,7 +32,12 @@ export async function report({ dataDir, log = console.log, outDir = "benchmarks/
     const pools = read("pools.json")
     const recordByKey = new Map([...pools.dev, ...pools.test, ...pools.bridge].map((record) => [record.questionKey, record]))
     const store = new AnswerStore(join(dataDir, "answers.jsonl"))
-    const verdicts = readJsonl(join(dataDir, "verdicts.jsonl")).records
+    // Agent-arm verdicts (PREREG-AGENT.md) are kept in their own file; including them
+    // here cannot change main scores (their keys are either new or identical copies).
+    const agentDir = (await import("./agent-run.js")).agentDirOf(dataDir)
+    const agentVerdictsPath = join(agentDir, "verdicts.jsonl")
+    const mainVerdicts = readJsonl(join(dataDir, "verdicts.jsonl")).records
+    const verdicts = [...mainVerdicts, ...(existsSync(agentVerdictsPath) ? readJsonl(agentVerdictsPath).records : [])]
     const digests = state.provenance.digests
     const optsHash = optionsHash(state.provenance.options)
     const smoke = Object.values(digests).some((digest) => String(digest).includes("#"))
@@ -147,15 +153,51 @@ export async function report({ dataDir, log = console.log, outDir = "benchmarks/
     const boot = (rows, statistic, B) => clusterBootstrap({ items: rows, clusterOf: (row) => row.user, statistic, B, seed: SEED })
 
     // Paired difference arms[0] - arms[1] (or a custom per-row combination).
-    function contrast(name, arms, { kind = "final", filter = null, type = "superiority", margin = 0, B = B_CONFIRM, combine = (v) => v[0] - v[1] } = {}) {
+    // strata: { of(record) -> stratum, population: [{ questionKey, user, stratum }] }
+    // gives the design-weighted estimate for an enriched sample (PREREG-AGENT.md):
+    // sum over strata of (N_s / N) x the stratum's mean over completed rows. Population
+    // items without a completed row ride along as "ghost" rows, so each bootstrap
+    // replicate recomputes N_s from the resampled mailboxes' full membership.
+    function contrast(name, arms, { kind = "final", filter = null, type = "superiority", margin = 0, B = B_CONFIRM, combine = (v) => v[0] - v[1], strata = null } = {}) {
         const { rows, pending, excluded, missingArm } = rowsFor(arms, { kind, filter })
-        const base = { name, arms: arms.map(([cellId, alias]) => `${alias}:${cellId}`), kind, type, margin, n: rows.length, pending, excludedOverflow: excluded }
+        const base = { name, arms: arms.map(([cellId, alias]) => `${alias}:${cellId}`), kind, type, margin, n: rows.length, pending, excludedOverflow: excluded, weighted: Boolean(strata) }
         if (missingArm || rows.length < 2) return { ...base, label: "NOT RUN", estimate: null }
         const diffs = rows.map((row) => combine(row.values))
-        const result = boot(rows, (sample) => mean(sample.map((row) => combine(row.values))), B)
+        let items = rows
+        let statistic = (sample) => mean(sample.map((row) => combine(row.values)))
+        let armStatistic = (index) => (sample) => mean(sample.map((row) => row.values[index]))
+        if (strata) {
+            const done = new Set(rows.map((row) => row.record.questionKey))
+            items = [
+                ...rows.map((row) => ({ ...row, stratum: strata.of(row.record), ghost: false })),
+                ...strata.population.filter((entry) => !done.has(entry.questionKey)).map((entry) => ({ user: entry.user, stratum: entry.stratum, ghost: true })),
+            ]
+            const weighted = (value) => (sample) => {
+                const count = new Map()
+                const sum = new Map()
+                const n = new Map()
+                for (const item of sample) {
+                    count.set(item.stratum, (count.get(item.stratum) ?? 0) + 1)
+                    if (item.ghost) continue
+                    sum.set(item.stratum, (sum.get(item.stratum) ?? 0) + value(item))
+                    n.set(item.stratum, (n.get(item.stratum) ?? 0) + 1)
+                }
+                let total = 0
+                let estimate = 0
+                for (const [stratum, size] of count) {
+                    if (!n.get(stratum)) return NaN
+                    total += size
+                    estimate += size * (sum.get(stratum) / n.get(stratum))
+                }
+                return estimate / total
+            }
+            statistic = weighted((item) => combine(item.values))
+            armStatistic = (index) => weighted((item) => item.values[index])
+        }
+        const result = boot(items, statistic, B)
         const p = bootstrapP(result, { kind: type === "noninferiority" ? "noninferiority" : "superiority", margin })
-        const z = clusterRobustZ(diffs, rows.map((row) => row.user))
-        const armMeans = arms.map((_, index) => round(mean(rows.map((row) => row.values[index]))))
+        const z = strata ? null : clusterRobustZ(diffs, rows.map((row) => row.user))
+        const armMeans = arms.map((_, index) => round(armStatistic(index)(items)))
         // Minimum detectable effect at 80% power, from the bootstrap CI width.
         const se = (result.high - result.low) / (2 * 1.959964)
         return {
@@ -373,7 +415,7 @@ export async function report({ dataDir, log = console.log, outDir = "benchmarks/
     const retrieval = retrievalMetrics(retrievalRows)
 
     // ---- judge agreement, adjudication, drift ----
-    const judging = judgeAgreement(allUnits, verdicts, { j1Index, j1 })
+    const judging = judgeAgreement(allUnits, mainVerdicts, { j1Index, j1 })
 
     // ---- timing and cost ----
     const latency = existsSync(join(dataDir, "latency.json")) ? read("latency.json") : null
@@ -406,6 +448,234 @@ export async function report({ dataDir, log = console.log, outDir = "benchmarks/
         warnings.push("no energy.jsonl: energy not reported")
     }
 
+    // ---- agent arm (PREREG-AGENT.md) ----
+    let agent = null
+    if (existsSync(join(agentDir, "answers.jsonl"))) {
+        if (!corpus && loadCorpus) {
+            try {
+                corpus = await loadCorpus()
+            } catch (error) {
+                warnings.push(`agent arm: corpus not loaded: ${error.message}`)
+            }
+        }
+        if (corpus) agent = await agentReport()
+        else warnings.push("agent arm not scored: its adjudication keys need the corpus (run report through the CLI)")
+    }
+
+    async function agentReport() {
+        const itemsFile = JSON.parse(readFileSync(new URL("./agent-items.json", import.meta.url), "utf8"))
+        const itemOf = new Map(itemsFile.items.map((item) => [item.questionKey, item]))
+        const stratumOf = (record) => itemOf.get(record.questionKey)?.stratum
+        const population = itemsFile.items.map((item) => ({ questionKey: item.questionKey, user: recordByKey.get(item.questionKey)?.user, stratum: item.stratum }))
+        const strata = { of: stratumOf, population }
+        const inPopulation = (record) => itemOf.has(record.questionKey)
+        const units = agentUnits({ agentDir, recordByKey, emailByPath: corpus.emailByPath, evidence: corpus.evidence })
+        const armKeys = []
+        for (const unit of units) {
+            unit.position = itemOf.get(unit.item.questionKey)?.order ?? null
+            unit.scores = scoreUnit(unit)
+            const key = `${unit.cellId}|${unit.alias}`
+            if (!unitsByArm.has(key)) {
+                unitsByArm.set(key, new Map())
+                armKeys.push(key)
+            }
+            unitsByArm.get(key).set(unit.item.questionKey, unit)
+        }
+        const pending = units.filter((unit) => unit.scores.final == null).length
+        if (pending) warnings.push(`agent arm: ${pending} episodes have no final verdict yet (run agent-grade)`)
+
+        // Confirmatory A1-A3, design-weighted, Holm over the three.
+        const hypotheses = {}
+        for (const kind of ["final", "strict", "span"]) {
+            const set = {
+                A1: contrast("A1 e2b(agent) - e2b(P-B)", [["A-agent", "small"], ["P-B", "small"]], { kind, strata }),
+                A2: contrast("A2 [31b(agent) - 31b(P-B)] - [e2b(agent) - e2b(P-B)]", [["A-agent", "large"], ["P-B", "large"], ["A-agent", "small"], ["P-B", "small"]], { kind, strata, combine: (v) => (v[0] - v[1]) - (v[2] - v[3]) }),
+                A3: contrast("A3 e2b(agent) - 31b(P-B), NI margin 5 pts", [["A-agent", "small"], ["P-B", "large"]], { kind, strata, type: "noninferiority", margin: MARGIN }),
+            }
+            const tested = Object.values(set).filter((test) => test.p != null)
+            const adjusted = holm(tested.map((test) => test.p))
+            tested.forEach((test, index) => {
+                test.holmP = round(adjusted[index], 5)
+                test.confirmed = adjusted[index] <= 0.05
+            })
+            hypotheses[kind] = set
+        }
+        for (const key of ["A1", "A2", "A3"]) {
+            const test = hypotheses.final[key]
+            test.robust = test.label !== "NOT RUN" && ["strict", "span"].every((kind) => hypotheses[kind][key].label === test.label)
+        }
+
+        // Exploratory contrasts, design-weighted.
+        const aliasesIn = (cellId) => ["tiny", "small", "mid", "large"].filter((alias) => arm(cellId, alias).size)
+        const exploratoryContrasts = [
+            ...aliasesIn("A-agent").map((alias) => contrast(`${alias}: agent - P-B`, [["A-agent", alias], ["P-B", alias]], { strata, B: B_DESCRIPTIVE })),
+            ...aliasesIn("A-agent").map((alias) => contrast(`${alias}: agent - oracle`, [["A-agent", alias], ["P-oracle", alias]], { strata, B: B_DESCRIPTIVE })),
+            ...aliasesIn("A-think").map((alias) => contrast(`${alias}: thinking agent - agent`, [["A-think", alias], ["A-agent", alias]], { strata, B: B_DESCRIPTIVE })),
+            ...aliasesIn("A-rawfirst").map((alias) => contrast(`${alias}: agent - raw-question-first agent (who writes the query)`, [["A-agent", alias], ["A-rawfirst", alias]], { strata, B: B_DESCRIPTIVE })),
+            ...aliasesIn("A-agent").filter((alias) => alias !== "large" && arm("A-agent", "large").size).map((alias) => contrast(`${alias}(agent) - 31b(agent)`, [["A-agent", alias], ["A-agent", "large"]], { strata, B: B_DESCRIPTIVE })),
+        ]
+        const nullFlip = flipRate(arm("A-null", "small"), arm("A-agent", "small"))
+
+        // Accuracy per arm on the agent questions, design-weighted, next to P-B and the oracle.
+        const weightedAccuracy = (cellId, alias) => {
+            const { rows } = rowsFor([[cellId, alias]], { filter: inPopulation })
+            if (!rows.length) return null
+            const byStratum = {}
+            for (const row of rows) {
+                const stratum = stratumOf(row.record)
+                byStratum[stratum] ??= []
+                byStratum[stratum].push(row.values[0])
+            }
+            let estimate = 0
+            for (const [stratum, share] of Object.entries(itemsFile.trueShares)) {
+                if (!byStratum[stratum]?.length) return { n: rows.length, accuracy: null }
+                estimate += share * mean(byStratum[stratum])
+            }
+            return { n: rows.length, accuracy: round(estimate) }
+        }
+        const ladder = {}
+        for (const alias of ["tiny", "small", "mid", "large"]) {
+            ladder[alias] = Object.fromEntries(["P-B", "A-agent", "A-rawfirst", "A-null", "A-think", "P-oracle"].map((cellId) => [cellId, arm(cellId, alias).size ? weightedAccuracy(cellId, alias) : null]))
+        }
+
+        // Three-way split: hits, misses whose answer is still in the P-B top 5 (a twin),
+        // and true misses. Unweighted means within each group.
+        const split = (record) => {
+            const item = itemOf.get(record.questionKey)
+            if (!item) return null
+            if (item.stratum === "hit") return "hit"
+            return item.bm25AnswerRank != null && item.bm25AnswerRank <= 5 ? "missAnswerInTop5" : "trueMiss"
+        }
+        const splits = {}
+        for (const key of armKeys) {
+            const [cellId, alias] = key.split("|")
+            splits[key] = {}
+            for (const group of ["hit", "missAnswerInTop5", "trueMiss"]) {
+                const { rows } = rowsFor([[cellId, alias], ["P-B", alias], ["P-oracle", alias]], { filter: (record) => split(record) === group })
+                splits[key][group] = rows.length ? { n: rows.length, agent: round(mean(rows.map((row) => row.values[0]))), pB: round(mean(rows.map((row) => row.values[1]))), oracle: round(mean(rows.map((row) => row.values[2]))) } : null
+            }
+        }
+
+        // Skill decomposition, from the episode records.
+        const normal = (text) => String(text ?? "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim()
+        const skills = {}
+        for (const key of armKeys) {
+            const list = [...unitsByArm.get(key).values()]
+            const n = list.length
+            const share = (predicate, among = list) => (among.length ? round(among.filter(predicate).length / among.length) : null)
+            const bearing = (unit) => new Set([unit.record.path, ...(unit.record.twins ?? [])])
+            const answerBearing = (unit, path) => bearing(unit).has(path) || corpus.evidence.answerBearing(path, unit.record) === true
+            const goldShown = (unit) => (unit.answer.shownPaths ?? []).includes(unit.record.path)
+            const answerShown = (unit) => (unit.answer.shownPaths ?? []).some((path) => answerBearing(unit, path))
+            const answerOpened = (unit) => (unit.answer.openedPaths ?? []).some((path) => answerBearing(unit, path))
+            const withGoldShown = list.filter(goldShown)
+            const withAnswerOpened = list.filter(answerOpened)
+            const wrong = list.filter((unit) => unit.scores.final === 0)
+            const cause = (unit) => {
+                if (unit.answer.outcome === "noAnswer" || unit.answer.outcome === "agentOverflow" || unit.answer.status === "empty") return "noAnswer"
+                if (isAbstain(unit.answer.answer)) return "abstained"
+                if (answerOpened(unit)) return "openedButWrong"
+                if (answerShown(unit)) return "shownNotOpened"
+                return "neverFound"
+            }
+            const causes = {}
+            for (const unit of wrong) causes[cause(unit)] = (causes[cause(unit)] ?? 0) + 1
+            const outcomes = {}
+            for (const unit of list) outcomes[unit.answer.outcome ?? unit.answer.status] = (outcomes[unit.answer.outcome ?? unit.answer.status] ?? 0) + 1
+            const avg = (field) => round(mean(list.map((unit) => (typeof field === "function" ? field(unit) : unit.answer[field] ?? 0))), 3)
+            const oracleOn = (among) => {
+                const values = among.map((unit) => arm("P-oracle", unit.alias).get(unit.item.questionKey)?.scores.final).filter((value) => value != null)
+                return values.length ? round(mean(values)) : null
+            }
+            skills[key] = {
+                episodes: n,
+                outcomes,
+                rounds: avg("rounds"),
+                searches: avg((unit) => (unit.answer.queries ?? []).length),
+                opened: avg((unit) => (unit.answer.openedPaths ?? []).length),
+                episodesWithProtocolError: share((unit) => (unit.answer.protocolErrors ?? 0) > 0),
+                episodesWithRefusal: share((unit) => (unit.answer.refusals ?? 0) > 0),
+                episodesWithProse: share((unit) => (unit.answer.proseTurns ?? 0) > 0),
+                forcedAnswer: share((unit) => ["forced", "forcedUnprefixed", "noAnswer"].includes(unit.answer.outcome)),
+                answeredWithoutOpening: share((unit) => unit.answer.outcome === "answered" && !(unit.answer.openedPaths ?? []).length),
+                firstQueryIsQuestion: key.startsWith("A-rawfirst") ? null : share((unit) => normal(unit.answer.queries?.[0]) === normal(unit.record.question)),
+                query: {
+                    goldShownByAgent: share(goldShown),
+                    goldInRawQuestionTop10: share((unit) => { const rank = itemOf.get(unit.item.questionKey)?.bm25GoldRank; return rank != null && rank <= 10 }),
+                    answerBearingShownByAgent: share(answerShown),
+                    goldShownOnMisses: share(goldShown, list.filter((unit) => stratumOf(unit.record) === "miss")),
+                },
+                selection: { goldOpenedWhenShown: share((unit) => (unit.answer.openedPaths ?? []).includes(unit.record.path), withGoldShown), n: withGoldShown.length },
+                reading: { correctWhenAnswerOpened: share((unit) => unit.scores.final === 1, withAnswerOpened), oracleOnSameQuestions: oracleOn(withAnswerOpened), n: withAnswerOpened.length },
+                errorCauses: causes,
+            }
+        }
+
+        // Cost per arm, next to P-B on the same questions.
+        const cost = {}
+        for (const key of armKeys) {
+            const [, alias] = key.split("|")
+            const list = [...unitsByArm.get(key).values()]
+            const scored = list.filter((unit) => unit.scores.final != null)
+            const correct = scored.filter((unit) => unit.scores.final === 1).length
+            const computed = (unit) => (unit.answer.promptTokens ?? 0) - (unit.answer.cachedPromptTokens ?? 0) + (unit.answer.outputTokens ?? 0)
+            const pb = list.map((unit) => arm("P-B", alias).get(unit.item.questionKey)?.answer).filter((answer) => answer?.wallMs)
+            const clean = list.filter((unit) => !unit.answer.reloaded && !unit.answer.timingSuspect)
+            cost[key] = {
+                n: scored.length,
+                accuracy: scored.length ? round(correct / scored.length) : null,
+                meanEpisodeMs: round(mean(clean.map((unit) => unit.answer.wallMs ?? 0)), 1),
+                meanModelMs: round(mean(clean.map((unit) => unit.answer.modelMs ?? 0)), 1),
+                pBMeanGenerationMs: pb.length ? round(mean(pb.map((answer) => answer.wallMs)), 1) : null,
+                computedTokens: round(mean(list.map(computed)), 1),
+                cachedShare: round(mean(list.map((unit) => ((unit.answer.cachedPromptTokens ?? 0) / Math.max(1, unit.answer.promptTokens ?? 0)))), 3),
+                thinkingChars: round(mean(list.map((unit) => unit.answer.thinkingChars ?? 0)), 0),
+                msPerCorrect: correct ? round(clean.reduce((sum, unit) => sum + (unit.answer.wallMs ?? 0), 0) / clean.length * scored.length / correct, 1) : null,
+                flopProxyPerCorrect: correct ? Number((2 * MODELS[alias].nonEmbeddingB * 1e9 * list.reduce((sum, unit) => sum + computed(unit), 0) / correct).toPrecision(4)) : null,
+            }
+        }
+
+        // Energy for the agent run (its own logger file and markers).
+        let energyByArm = null
+        const energyPath = join(agentDir, "energy.jsonl")
+        if (existsSync(energyPath)) {
+            try {
+                const samples = (await readEnergyJsonl(energyPath)).records
+                const markers = readJsonl(join(agentDir, "markers.jsonl")).records
+                const blocks = integrateBlocks({ samples, markers })
+                const perBlock = {}
+                for (const unit of units) if (unit.answer.blockId) perBlock[unit.answer.blockId] = (perBlock[unit.answer.blockId] ?? 0) + 1
+                const summary = summariseEnergy(blocks, perBlock)
+                energyByArm = {}
+                for (const [key, entry] of Object.entries(summary.byModelCell)) {
+                    const accuracy = cost[`${entry.cell}|${entry.model}`]?.accuracy
+                    energyByArm[`${entry.cell}|${entry.model}`] = {
+                        grossJPerEpisode: entry.grossJPerAnswer.mean, marginalJPerEpisode: entry.marginalJPerAnswer.mean,
+                        grossJPerCorrect: accuracy ? round(entry.grossJPerAnswer.mean / accuracy, 1) : null,
+                        marginalJPerCorrect: accuracy && entry.marginalJPerAnswer.mean != null ? round(entry.marginalJPerAnswer.mean / accuracy, 1) : null,
+                        key,
+                    }
+                }
+            } catch (error) {
+                warnings.push(`agent energy integration failed: ${error.message}`)
+            }
+        }
+        const state = existsSync(join(agentDir, "state.json")) ? JSON.parse(readFileSync(join(agentDir, "state.json"), "utf8")) : null
+        return {
+            prereg: { deviations: deviations("./PREREG-AGENT.md") },
+            run: state ? { lastStop: state.lastStop, pilot: state.pilot, provenance: state.provenance } : null,
+            population: { questions: itemsFile.items.length, counts: itemsFile.counts, trueShares: itemsFile.trueShares },
+            hypotheses: { primary: hypotheses.final, sensitivity: { strict: hypotheses.strict, span: hypotheses.span } },
+            exploratory: exploratoryContrasts,
+            nullFlip,
+            ladder,
+            splits,
+            skills,
+            cost,
+            energy: energyByArm,
+        }
+    }
+
     // ---- run health ----
     if (state.probe?.checks?.overflow && !state.probe.checks.overflow.pass) warnings.push(`probe: an oversize prompt returned ${state.probe.checks.overflow.status}, not context_overflow (truncate:false may be ignored)`)
     if (state.probe?.tinyDropped) warnings.push("probe: tiny model dropped (oracle accuracy < 0.5)")
@@ -425,6 +695,7 @@ export async function report({ dataDir, log = console.log, outDir = "benchmarks/
         judges: { j1: j1.model, j2: j2.model, adjudicator: adj.model },
         confirmatory: { primary, sensitivity: { strict: H.strict, span: H.span }, h2Extra, gapClosure, headroom, ladder },
         headline,
+        agent,
         secondaries,
         noise,
         exploratory,
@@ -710,9 +981,9 @@ function captureKind(unit, { emailByPath }) {
     return best >= 0.5 && best > gold ? "capture" : "dilution"
 }
 
-function deviations() {
+function deviations(file = "./PREREG.md") {
     try {
-        const text = readFileSync(new URL("./PREREG.md", import.meta.url), "utf8")
+        const text = readFileSync(new URL(file, import.meta.url), "utf8")
         const section = text.split("## Deviation log")[1] ?? ""
         return section.trim()
     } catch {
@@ -805,6 +1076,46 @@ function markdown(out) {
     if (out.energy) {
         lines.push("", `Energy: ${out.energy.label}.`, "")
         for (const [key, entry] of Object.entries(out.energy.perCorrect)) lines.push(`- ${key}: gross ${entry.grossJPerCorrect ?? "–"} J/correct, marginal ${entry.marginalJPerCorrect ?? "–"} J/correct`)
+    }
+    if (out.agent) {
+        const a = out.agent
+        lines.push("", "## Agent arm (PREREG-AGENT.md): model-driven search, up to 5 rounds", "")
+        lines.push(`Population: ${a.population.questions} questions (${a.population.counts.miss} BM25 top-5 misses, ${a.population.counts.hit} hits). Estimates are design-weighted to these shares. Last stop: ${JSON.stringify(a.run?.lastStop ?? null)}; determinism pilot: ${JSON.stringify(a.run?.pilot ?? null)}.`, "")
+        row(["hypothesis", "n", "arm means", "estimate", "95% CI", "p", "Holm p", "label", "robust"])
+        row(["---", "---", "---", "---", "---", "---", "---", "---", "---"])
+        for (const key of ["A1", "A2", "A3"]) {
+            const test = a.hypotheses.primary[key]
+            row([test.name, test.n, (test.armMeans ?? []).map((v) => pct(v)).join(" / "), pct(test.estimate), ci(test), test.p ?? "–", test.holmP ?? "–", test.label, test.robust ? "yes" : "no"])
+        }
+        lines.push("", "### Accuracy on the agent questions (design-weighted, %)", "")
+        const cols = ["P-B", "A-agent", "A-rawfirst", "A-null", "A-think", "P-oracle"]
+        row(["model", ...cols])
+        row(["---", ...cols.map(() => "---")])
+        for (const [alias, entry] of Object.entries(a.ladder)) row([alias, ...cols.map((cellId) => (entry[cellId]?.accuracy == null ? "–" : `${pct(entry[cellId].accuracy)} (n=${entry[cellId].n})`))])
+        lines.push("", "### Exploratory contrasts (design-weighted)", "")
+        row(["contrast", "n", "estimate", "95% CI", "p", "label"])
+        row(["---", "---", "---", "---", "---", "---"])
+        for (const test of a.exploratory) row([test.name, test.n, pct(test.estimate), ci(test), test.p ?? "–", test.label])
+        lines.push("", `Null-wording flip rate (the agent's noise floor, e2b): ${pct(a.nullFlip?.rate)}% (n=${a.nullFlip?.n ?? 0}).`, "")
+        lines.push("### Where the agent helps: hits, misses whose answer is still in the P-B top 5, true misses (unweighted, %)", "")
+        row(["arm", "hit: agent / P-B / oracle", "miss, answer in top 5", "true miss"])
+        row(["---", "---", "---", "---"])
+        const cell = (entry) => (entry ? `${pct(entry.agent)} / ${pct(entry.pB)} / ${pct(entry.oracle)} (n=${entry.n})` : "–")
+        for (const [key, entry] of Object.entries(a.splits)) row([key, cell(entry.hit), cell(entry.missAnswerInTop5), cell(entry.trueMiss)])
+        lines.push("", "### Skills", "")
+        row(["arm", "rounds", "searches", "opened", "gold shown (raw top-10)", "gold shown on misses", "opened gold when shown", "correct when answer opened (oracle)", "protocol-error episodes", "forced answer", "error causes"])
+        row(["---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---"])
+        for (const [key, k] of Object.entries(a.skills)) {
+            row([key, k.rounds, k.searches, k.opened, `${pct(k.query.goldShownByAgent)} (${pct(k.query.goldInRawQuestionTop10)})`, pct(k.query.goldShownOnMisses), `${pct(k.selection.goldOpenedWhenShown)} (n=${k.selection.n})`, `${pct(k.reading.correctWhenAnswerOpened)} (${pct(k.reading.oracleOnSameQuestions)})`, pct(k.episodesWithProtocolError), pct(k.forcedAnswer), JSON.stringify(k.errorCauses)])
+        }
+        lines.push("", "### Cost per arm (hardware-specific)", "")
+        row(["arm", "n", "acc", "ms/episode", "P-B ms", "computed tokens", "cached share", "ms/correct", "FLOP proxy/correct", "J/correct (gross / marginal)"])
+        row(["---", "---", "---", "---", "---", "---", "---", "---", "---", "---"])
+        for (const [key, c] of Object.entries(a.cost)) {
+            const energy = a.energy?.[key]
+            row([key, c.n, pct(c.accuracy), c.meanEpisodeMs ?? "–", c.pBMeanGenerationMs ?? "–", c.computedTokens, c.cachedShare, c.msPerCorrect ?? "–", c.flopProxyPerCorrect?.toExponential(2) ?? "–", energy ? `${energy.grossJPerCorrect ?? "–"} / ${energy.marginalJPerCorrect ?? "–"}` : "–"])
+        }
+        lines.push("", "### Deviations from PREREG-AGENT", "", a.prereg.deviations || "(none)")
     }
     lines.push("", "## Deviations from PREREG", "", out.prereg.deviations || "(none)", "")
     return lines.join("\n")

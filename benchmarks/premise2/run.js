@@ -393,7 +393,7 @@ export async function run({ dataDir, stopAt, ollamaUrl = "http://localhost:11434
 
 const mean = (values) => (values && values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : null)
 
-function gitCommit() {
+export function gitCommit() {
     try {
         const head = execSync("git rev-parse HEAD", { stdio: ["ignore", "pipe", "ignore"] }).toString().trim()
         const dirty = execSync("git status --porcelain", { stdio: ["ignore", "pipe", "ignore"] }).toString().trim() !== ""
@@ -403,7 +403,7 @@ function gitCommit() {
     }
 }
 
-function windowsBuild() {
+export function windowsBuild() {
     if (process.platform !== "win32") return null
     try {
         return execSync("cmd /c ver", { stdio: ["ignore", "pipe", "ignore"] }).toString().trim()
@@ -412,7 +412,7 @@ function windowsBuild() {
     }
 }
 
-function nvidiaSnapshot() {
+export function nvidiaSnapshot() {
     try {
         return execSync("nvidia-smi --query-gpu=name,driver_version,memory.total,power.limit --format=csv,noheader", { stdio: ["ignore", "pipe", "ignore"], timeout: 10_000 }).toString().trim()
     } catch {
@@ -422,7 +422,7 @@ function nvidiaSnapshot() {
 
 // Keeps Windows awake for the run (ES_CONTINUOUS | ES_SYSTEM_REQUIRED), refreshed
 // every 30 s by a child PowerShell. No-op elsewhere.
-function startWakeLock(log) {
+export function startWakeLock(log) {
     if (process.platform !== "win32") return null
     const script = `Add-Type -Namespace W -Name P -MemberDefinition '[DllImport("kernel32.dll")] public static extern uint SetThreadExecutionState(uint f);'; while ($true) { [W.P]::SetThreadExecutionState(0x80000001) | Out-Null; Start-Sleep -Seconds 30 }`
     try {

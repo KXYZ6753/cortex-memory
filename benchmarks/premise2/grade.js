@@ -20,6 +20,7 @@ import { referenceVerdict, adjudicate, preGrade, verdictKey, judgeConfig, callJu
 import { JUDGES, testCells } from "./cells.js"
 import { mapLimit } from "./bm25.js"
 import { keyedRandom, shuffleInPlace, splitmix32 } from "./text.js"
+import { adjudicationEvidence } from "./agent.js"
 
 export const TIER_A_ROLES = new Set(["primary", "secondary", "diagnostic", "bridge"])
 export const J2_SAMPLE_RATE = 0.2
@@ -74,6 +75,33 @@ export function gradingUnits({ cells: listed, state, store, recordByKey }) {
     return graded
 }
 
+// Agent-arm units (PREREG-AGENT.md), all tier A. The adjudicator's evidence is what
+// the agent actually saw (adjudicationEvidence), and its key is the evidence sha, so
+// two models with the same answer but different evidence are adjudicated separately.
+export function agentUnits({ agentDir, recordByKey, emailByPath, evidence }) {
+    const path = join(agentDir, "answers.jsonl")
+    if (!existsSync(path)) return []
+    const store = new AnswerStore(path)
+    const records = [...store.done.values()]
+    for (const [key] of store.failures) {
+        const failure = store.finalFailure(key)
+        if (failure) records.push({ ...failure, answer: "" })
+    }
+    const units = []
+    for (const answer of records) {
+        const record = recordByKey.get(answer.questionKey)
+        if (!record) continue
+        const twins = new Set(record.twins ?? [])
+        const isSupporting = (candidate) => candidate === record.path || twins.has(candidate) || evidence.answerBearing(candidate, record) === true
+        const ev = adjudicationEvidence(answer, { emailOf: (candidate) => emailByPath.get(candidate) ?? "", isSupporting })
+        units.push({
+            cellId: answer.cellId, role: "agent", tier: "A", alias: answer.model, record, answer, answerKey: answer.key,
+            item: { questionKey: answer.questionKey, promptSha: ev.sha, paths: answer.shownPaths ?? [] }, evidence: ev,
+        })
+    }
+    return units
+}
+
 export const j2Sampled = (unit) => unit.tier === "A" || keyedRandom(SEED, `j2:${unit.cellId}|${unit.alias}|${unit.item.questionKey}`)() < J2_SAMPLE_RATE
 
 export const unitVerdictKey = (unit, judge) => verdictKey({
@@ -95,21 +123,26 @@ export function verdictIndex(records, role, model) {
     return index
 }
 
-export async function grade({ dataDir, ollamaUrl = "http://localhost:11434", log = console.log, stopAt, loadCorpus }) {
+// agent: true grades the agent arm instead of the main run. It reads the main
+// verdicts (identical answers reuse their J1/J2 verdicts) but writes only to the
+// agent directory's verdicts file.
+export async function grade({ dataDir, ollamaUrl = "http://localhost:11434", log = console.log, stopAt, loadCorpus, agent = false }) {
     const statePath = join(dataDir, "run-state.json")
     if (!existsSync(statePath)) throw new Error("run-state.json missing: grade runs after the generation run")
     const state = JSON.parse(readFileSync(statePath, "utf8"))
     const { cells } = JSON.parse(readFileSync(join(dataDir, "cells.json"), "utf8"))
     const pools = JSON.parse(readFileSync(join(dataDir, "pools.json"), "utf8"))
     const recordByKey = new Map([...pools.dev, ...pools.test, ...pools.bridge].map((record) => [record.questionKey, record]))
-    const store = new AnswerStore(join(dataDir, "answers.jsonl"))
-    const verdictsPath = join(dataDir, "verdicts.jsonl")
+    const store = agent ? null : new AnswerStore(join(dataDir, "answers.jsonl"))
+    const agentDir = agent ? (await import("./agent-run.js")).agentDirOf(dataDir) : null
+    const verdictsPath = agent ? join(agentDir, "verdicts.jsonl") : join(dataDir, "verdicts.jsonl")
     const stopTime = stopAt ? new Date(stopAt).getTime() : Infinity
     if (Number.isNaN(stopTime)) throw new Error(`POC2_STOP_AT is not a valid time: ${stopAt}`)
     const width = Number(process.env.POC2_JUDGE_CONCURRENCY ?? state.probe?.judgeConcurrency ?? 1)
     const session = process.env.POC2_GRADE_SESSION ?? new Date().toISOString().slice(0, 10)
 
-    const units = gradingUnits({ cells, state, store, recordByKey })
+    const corpus = agent ? await loadCorpus() : null
+    const units = agent ? agentUnits({ agentDir, recordByKey, ...corpus }) : gradingUnits({ cells, state, store, recordByKey })
     // Seeded random order within priority groups (primaries, then the rest of tier
     // A, then tier B): every model of a cell sits in the same group, so judge drift is
     // balanced within each contrast, and a pass cut short by usage limits still
@@ -122,7 +155,7 @@ export async function grade({ dataDir, ollamaUrl = "http://localhost:11434", log
     const judgeable = units.filter((unit) => !pre.get(unit))
     log(`[grade] ${units.length} units (${units.filter((u) => u.tier === "A").length} tier A), ${units.length - judgeable.length} pre-graded (technical or abstain); concurrency ${width}; session ${session}`)
 
-    let records = readJsonl(verdictsPath, { repair: true }).records
+    let records = [...(agent ? readJsonl(join(dataDir, "verdicts.jsonl")).records : []), ...readJsonl(verdictsPath, { repair: true }).records]
     const paused = { value: null }
 
     // Runs one judge over units, skipping keys that already have a verdict.
@@ -236,14 +269,16 @@ export async function grade({ dataDir, ollamaUrl = "http://localhost:11434", log
     }
     if (!adj && toAdjudicate.length) log(`[grade] WARNING no adjudicator available; ${toAdjudicate.length} tier-A answers keep their J1/J2 consensus (disagreements stay unresolved)`)
     if (adj && toAdjudicate.length) {
-        const { emailByPath, evidence } = await loadCorpus()
+        const { emailByPath, evidence } = corpus ?? await loadCorpus()
         const supporting = (unit) => {
+            if (unit.evidence) return unit.evidence.supporting
             const record = unit.record
             const paths = new Set([record.path, ...(record.twins ?? [])])
             for (const path of unit.item.paths ?? []) if (!paths.has(path) && evidence.answerBearing(path, record) === true) paths.add(path)
             return [...paths].map((path) => emailByPath.get(path)).filter(Boolean)
         }
         const shown = (unit) => {
+            if (unit.evidence) return unit.evidence.emails
             const paths = unit.item.paths?.length ? unit.item.paths : [unit.record.path]
             return paths.map((path) => emailByPath.get(path) ?? "")
         }

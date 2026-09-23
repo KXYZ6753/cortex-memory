@@ -13,7 +13,7 @@
 //   POC2_ENERGY     "off" disables the energy logger
 //   POC2_LHM_URL    LibreHardwareMonitor data.json URL
 
-import { existsSync, readFileSync, createReadStream } from "node:fs"
+import { existsSync, mkdirSync, readFileSync, createReadStream } from "node:fs"
 import { createHash } from "node:crypto"
 import { join } from "node:path"
 import { spawn } from "node:child_process"
@@ -30,7 +30,7 @@ const stage = process.argv[2]
 const dataDir = process.env.POC2_DATA_DIR ?? ".data/premise2"
 const ollamaUrl = (process.env.OLLAMA_URL ?? "http://localhost:11434").replace(/\/+$/, "")
 const log = (message) => console.log(`${new Date().toISOString().slice(11, 19)} ${message}`)
-const USAGE = "Usage: npm run premise2 -- embed | prepare | run | run-once | latency | grade | report | status | verify-data"
+const USAGE = "Usage: npm run premise2 -- embed | prepare | run | run-once | latency | grade | report | status | verify-data | agent-prepare | agent | agent-once | agent-status | agent-grade"
 
 async function main() {
     if (stage === "embed") {
@@ -91,6 +91,29 @@ async function main() {
         await measureLatency({ dataDir, ollamaUrl, log, n: Number(process.env.POC2_LATENCY_N ?? (process.env.POC2_SMOKE_MODEL ? 10 : 100)) })
         return
     }
+    if (stage === "agent-prepare") {
+        const { agentPrepare } = await import("./agent-prepare.js")
+        agentPrepare({ dataDir, log })
+        return
+    }
+    if (stage === "agent-once") {
+        const { runAgent } = await import("./agent-run.js")
+        const result = await runAgent({ dataDir, stopAt: process.env.POC2_STOP_AT, ollamaUrl, log })
+        process.exit(result?.reason === "complete" || result?.reason === "time" ? 0 : 1)
+    }
+    if (stage === "agent") {
+        const { agentDirOf } = await import("./agent-run.js")
+        const agentDir = agentDirOf(dataDir)
+        mkdirSync(agentDir, { recursive: true })
+        return supervise("agent-once", join(agentDir, "energy.jsonl"))
+    }
+    if (stage === "agent-status") return agentStatus()
+    if (stage === "agent-grade") {
+        const { grade } = await import("./grade.js")
+        const summary = await grade({ dataDir, ollamaUrl, log, stopAt: process.env.POC2_STOP_AT, loadCorpus, agent: true })
+        log(`[agent-grade] ${JSON.stringify(summary)}`)
+        return
+    }
     if (stage === "run") return supervise()
     if (stage === "status") return status()
     if (stage === "verify-data") return verifyData()
@@ -100,11 +123,11 @@ async function main() {
 // Watchdog: the energy logger runs as its own process for the whole session; the
 // generation process is restarted after a crash (non-zero exit) up to 10 times.
 // Everything is resumable, so a restart continues where the crash left off.
-async function supervise() {
+async function supervise(childStage = "run-once", energyOut = join(dataDir, "energy.jsonl")) {
     const here = fileURLToPath(new URL(".", import.meta.url))
     let logger = null
     if (process.env.POC2_ENERGY !== "off") {
-        const args = [join(here, "energy-logger.js"), "--out", join(dataDir, "energy.jsonl")]
+        const args = [join(here, "energy-logger.js"), "--out", energyOut]
         if (process.env.POC2_LHM_URL) args.push("--lhm-url", process.env.POC2_LHM_URL)
         logger = spawn(process.execPath, args, { stdio: "ignore", windowsHide: true })
         logger.on("error", (error) => log(`[run] energy logger failed to start: ${error.message}`))
@@ -130,7 +153,7 @@ async function supervise() {
         for (;;) {
             const started = Date.now()
             const code = await new Promise((resolve) => {
-                const child = spawn(process.execPath, [fileURLToPath(import.meta.url), "run-once"], { stdio: "inherit", env: process.env })
+                const child = spawn(process.execPath, [fileURLToPath(import.meta.url), childStage], { stdio: "inherit", env: process.env })
                 child.on("exit", (exitCode) => resolve(exitCode))
                 child.on("error", () => resolve(1))
             })
@@ -227,3 +250,36 @@ main().catch((error) => {
     console.error(error)
     process.exitCode = 1
 })
+
+async function agentStatus() {
+    const { agentDirOf, armOptions } = await import("./agent-run.js")
+    const { readJsonl, generationKey } = await import("./store.js")
+    const { AGENT_ARMS, MODELS } = await import("./cells.js")
+    const { episodeSha } = await import("./agent.js")
+    const agentDir = agentDirOf(dataDir)
+    const statePath = join(agentDir, "state.json")
+    if (!existsSync(statePath)) return console.log("No agent run yet.")
+    const state = JSON.parse(readFileSync(statePath, "utf8"))
+    const items = JSON.parse(readFileSync(new URL("./agent-items.json", import.meta.url), "utf8")).items
+    const pools = JSON.parse(readFileSync(join(dataDir, "pools.json"), "utf8"))
+    const questionOf = new Map(pools.test.map((record) => [record.questionKey, record.question]))
+    const records = readJsonl(join(agentDir, "answers.jsonl")).records.filter((record) => record.type === "answer")
+    const byKey = new Map()
+    for (const record of records) if (record.status === "ok" || record.status === "output_limit" || record.status === "empty") byKey.set(record.key, record)
+    const numPredict = state.provenance?.numPredict ?? 160
+    console.log(`last stop: ${JSON.stringify(state.lastStop ?? null)} | pilot: ${JSON.stringify(state.pilot ?? null)}`)
+    for (const arm of AGENT_ARMS) {
+        const digest = state.provenance?.digests?.[arm.alias]
+        if (!digest || !MODELS[arm.alias]) continue
+        const { optsHash } = armOptions(arm, numPredict)
+        const done = items.map((item) => byKey.get(generationKey(digest, optsHash, episodeSha(questionOf.get(item.questionKey), arm.variant, arm.rawFirst)))).filter(Boolean)
+        if (!done.length) {
+            console.log(`${`${arm.cell}|${arm.alias}`.padEnd(20)} 0/${items.length}`)
+            continue
+        }
+        const avg = (field) => done.reduce((sum, record) => sum + (record[field] ?? 0), 0) / done.length
+        const outcomes = {}
+        for (const record of done) outcomes[record.outcome] = (outcomes[record.outcome] ?? 0) + 1
+        console.log(`${`${arm.cell}|${arm.alias}`.padEnd(20)} ${done.length}/${items.length} | ${(avg("wallMs") / 1000).toFixed(1)} s/episode | rounds ${avg("rounds").toFixed(2)} | protocol errors/episode ${avg("protocolErrors").toFixed(2)} | ${JSON.stringify(outcomes)}`)
+    }
+}

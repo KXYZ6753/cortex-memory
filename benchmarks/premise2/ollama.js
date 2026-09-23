@@ -35,7 +35,8 @@ const ms = (nanoseconds) => (nanoseconds == null ? null : Math.round(nanoseconds
 
 // One chat request. Retries transient failures (network, 5xx other than overflow or
 // OOM, 429) up to `attempts` times; returns a record, never throws.
-export async function chat({ url, model, prompt, options, think = false, format, keepAlive = "60m", timeoutMs = 900_000, attempts = 3 }) {
+// `messages` (a full multi-turn history) takes precedence over `prompt` (one user turn).
+export async function chat({ url, model, prompt, messages, options, think = false, format, keepAlive = "60m", timeoutMs = 900_000, attempts = 3 }) {
     let last = null
     for (let attempt = 1; attempt <= attempts; attempt++) {
         const started = performance.now()
@@ -45,7 +46,7 @@ export async function chat({ url, model, prompt, options, think = false, format,
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     model,
-                    messages: [{ role: "user", content: prompt }],
+                    messages: messages ?? [{ role: "user", content: prompt }],
                     stream: false,
                     think,
                     truncate: false,

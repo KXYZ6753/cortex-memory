@@ -1,6 +1,6 @@
 # premise2 results
 
-Generated 2026-09-23T04:20:20.289Z. Judges: J1 openai/gpt-oss-20b, J2 nvidia/nemotron-3-nano-30b-a3b, adjudicator deepseek/deepseek-v4.1-flash. E* = k5-bestlast-R0; R* = bm25.
+Generated 2026-09-23T04:37:30.911Z. Judges: J1 openai/gpt-oss-20b, J2 nvidia/nemotron-3-nano-30b-a3b, adjudicator deepseek/deepseek-v4.1-flash. E* = k5-bestlast-R0; R* = bm25.
 
 ## Confirmatory (adjudicated score; points = percentage points)
 

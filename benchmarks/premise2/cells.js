@@ -121,3 +121,20 @@ export const LARGE_TIME_RULE_ORDER = [
 ]
 
 export const LARGE_INTERLEAVE = { block: 50, targets: { "P-oracle": 400, "P-B": 600, "P-Estar": 600 } }
+
+// Agent arm (PREREG-AGENT.md): run order, the confirmatory arms (e2b, 31b) first.
+// A-rawfirst: the harness runs round 1 as SEARCH on the raw question (isolates who
+// writes the query). A-null: answer-neutral rewording (the agent's flip floor). The
+// thinking arms need a larger per-turn output limit: thinking tokens count toward it.
+export const AGENT_ARMS = [
+    { cell: "A-agent", alias: "small" },
+    { cell: "A-agent", alias: "large" },
+    { cell: "A-agent", alias: "mid" },
+    { cell: "A-agent", alias: "tiny" },
+    { cell: "A-rawfirst", alias: "small", rawFirst: true },
+    { cell: "A-null", alias: "small", variant: "null" },
+    { cell: "A-think", alias: "small", think: true },
+    { cell: "A-think", alias: "mid", think: true },
+]
+export const AGENT_THINK_NUM_PREDICT = 4096
+export const AGENT_BLOCK = 50

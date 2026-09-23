@@ -17,6 +17,9 @@ npm run premise2 -- run           the supervised generation run (Windows)
 npm run premise2 -- status        progress per cell and model
 npm run premise2 -- grade         TEST grading after the run (J1, J2, adjudication)
 npm run premise2 -- report        writes benchmarks/results/premise2/
+npm run premise2 -- agent         the agent-arm run (Windows; see below)
+npm run premise2 -- agent-status  agent-arm progress per arm
+npm run premise2 -- agent-grade   agent-arm grading after that run (Mac)
 npm run test:premise2             unit tests
 ```
 
@@ -146,3 +149,64 @@ Paste the last lines of the terminal output, including the `[run] stopped:` line
 - **Adjudicator.** The chain is in PREREG §6. On the free tier it falls back to `nemotron-3-super:cloud`, and the report flags that.
 - **Usage limits.** When a limit is hit, grading pauses and retries every 10 minutes. Nothing is lost; rerun `grade` to continue.
 - **OpenRouter.** It can replace any judge: set `POC2_J2_PROVIDER=openrouter`, `POC2_J2_MODEL=<model id>` and `OPENROUTER_API_KEY` (the same pattern works for `POC2_ADJ_*`). A switch creates new verdict keys, so the affected contrast is re-judged in full rather than mixed.
+
+## Agent arm (PREREG-AGENT.md)
+
+A second, separate Windows run. Each model drives retrieval itself in a loop of up to 5 SEARCH/OPEN rounds over the same BM25 index, on the 600 questions the 31b answered in the main run. It never touches the main run's files; everything it writes goes to `.data\premise2\agent\`.
+
+**Before starting.** Nothing new needs copying from the Mac. The corpus, BM25 index, pools and run state are already in `.data\premise2\`, and the question order (`agent-items.json`) is committed.
+
+1. Update the code:
+
+   ```
+   git pull
+   npm install
+   ```
+
+2. Keep **the same Ollama version (0.34.2)** and the same models as the main run. The run checks both and refuses to start if either changed. If Ollama auto-updated, reinstall 0.34.2.
+3. Start LibreHardwareMonitor again (as administrator, web server on) and keep sleep and Windows Update paused, as for the main run.
+4. In `.env`, set the stop time to about 18 hours from the start, for example:
+
+   ```
+   POC2_STOP_AT=2026-09-24T18:00
+   ```
+
+**Start.**
+
+```
+npm run premise2 -- agent
+```
+
+The first start builds `.data\premise2\agent\emails.sqlite` from the parquet (about a minute) and runs a short determinism pilot. Then it works through the queue, confirmatory arms first:
+
+| order | arm | estimated time |
+|---|---|---|
+| 1 | e2b agent | 10–25 min |
+| 2 | 31b agent | 5–9 h |
+| 3 | e4b agent | 15–35 min |
+| 4 | 1b agent | 10–40 min |
+| 5 | e2b raw-question control | ~15 min |
+| 6 | e2b rewording control | ~15 min |
+| 7 | e2b thinking | 1.5–6 h |
+| 8 | e4b thinking | 2.5–10 h |
+
+The thinking arms are last and exploratory, so if the stop time cuts them, that is fine. It restarts itself after a crash, and rerunning the same command resumes without redoing anything.
+
+**Checking progress.** In a second window:
+
+```
+npm run premise2 -- agent-status
+```
+
+After about 20 minutes the e2b line should show a few hundred episodes, 1–4 rounds on average, and protocol errors well under 1 per episode. Protocol errors near 1 per episode would mean the model is not following the SEARCH/OPEN/ANSWER format; paste the status output into the chat if that happens.
+
+**When it stops.** Copy the folder `.data\premise2\agent\` back to the Mac, into `.data/premise2/agent/`. You can skip `emails.sqlite` (250 MB); the Mac can rebuild it. Then paste the last terminal lines into the chat.
+
+**On the Mac afterwards:**
+
+```
+npm run premise2 -- agent-grade
+npm run premise2 -- report
+```
+
+`agent-grade` costs well under $1 of OpenRouter credit. The report adds an "Agent arm" section to `benchmarks/results/premise2/report.md`.

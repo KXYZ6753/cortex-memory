@@ -238,12 +238,21 @@ export async function report({ dataDir, log = console.log, outDir = "benchmarks/
     const rStar = manifest.retrieval.rStar
     for (const alias of ["tiny", "small", "mid", "large"]) {
         headroom[alias] = ratio(`${alias} own headroom (E* - B)/(oracle - B)`, [["P-Estar", alias], ["P-B", alias], ["P-oracle", alias]], ([e, b, o]) => (o - b > 0 ? (e - b) / (o - b) : NaN))
-        const steps = [["B", "P-B"], [`R* (${rStar} k5)`, ["bm25", "dense", "rrf60"].includes(rStar) ? `G-R0-${rStar}` : null], ["E*", "P-Estar"], ["gold-informed selection", "X-goldsel-B"], ["oracle", "P-oracle"]]
+        // R* at k5 is the baseline itself when R* is bm25 (byte-identical prompts), so it
+        // reuses P-B rather than the tier-B grid cell. Tier-B steps are J1-only; every
+        // step also carries its J1 accuracy so they can be compared on one basis.
+        const rStarCell = rStar === "bm25" ? "P-B" : ["dense", "rrf60"].includes(rStar) ? `G-R0-${rStar}` : null
+        const steps = [["B", "P-B"], [`R* (${rStar} k5)${rStar === "bm25" ? " = B" : ""}`, rStarCell], ["E*", "P-Estar"], ["gold-informed selection", "X-goldsel-B"], ["oracle", "P-oracle"]]
         ladder[alias] = steps.map(([label, cellId]) => {
             const units = cellId ? [...arm(cellId, alias).values()] : []
             const values = units.map((unit) => unit.scores.final).filter((value) => value != null)
+            const j1Values = units.map((unit) => unit.scores.j1).filter((value) => value != null)
             const correct = values.filter((value) => value === 1).length
-            return { step: label, cell: cellId, n: values.length, accuracy: values.length ? round(correct / values.length) : null, ci: wilson(correct, values.length) }
+            return {
+                step: label, cell: cellId, tier: units[0]?.tier ?? null, n: values.length,
+                accuracy: values.length ? round(correct / values.length) : null, ci: wilson(correct, values.length),
+                j1Accuracy: j1Values.length ? round(mean(j1Values)) : null,
+            }
         })
     }
 
@@ -292,7 +301,12 @@ export async function report({ dataDir, log = console.log, outDir = "benchmarks/
             const reference = referenceOf(cell, alias)
             let versus = null
             if (reference && arm(...reference).size) {
-                versus = contrast(`${alias}:${cell.id} vs ${reference[1]}:${reference[0]}`, [[cell.id, alias], reference], { B: B_DESCRIPTIVE })
+                // Tier-B cells are scored by J1 alone, so they are compared with their
+                // reference on the J1 basis; comparing J1-only with an adjudicated
+                // reference would mix two scoring rules.
+                const referenceTier = arm(...reference).values().next().value?.tier
+                const basis = units[0].tier === "B" || referenceTier === "B" ? "j1" : "final"
+                versus = { ...contrast(`${alias}:${cell.id} vs ${reference[1]}:${reference[0]}`, [[cell.id, alias], reference], { B: B_DESCRIPTIVE, kind: basis }), basis }
                 const noiseRate = cell.arm === "retr" ? noise.retrieval?.rate : noise.oracle?.rate
                 if (noiseRate != null && versus.discordant) {
                     const expected = (noiseRate * versus.n) / 2
@@ -748,7 +762,8 @@ function markdown(out) {
     lines.push("", "### Engineering ladder (accuracy, %)", "")
     row(["model", ...out.confirmatory.ladder.small.map((step) => step.step)])
     row(["---", ...out.confirmatory.ladder.small.map(() => "---")])
-    for (const [alias, steps] of Object.entries(out.confirmatory.ladder)) row([alias, ...steps.map((step) => (step.accuracy == null ? "–" : `${pct(step.accuracy)} (n=${step.n})`))])
+    for (const [alias, steps] of Object.entries(out.confirmatory.ladder)) row([alias, ...steps.map((step) => (step.accuracy == null ? "–" : `${pct(step.accuracy)}${step.tier === "B" ? "†" : ""} (J1 ${pct(step.j1Accuracy)}, n=${step.n})`))])
+    lines.push("", "† tier-B cell, scored by J1 alone: compare it with the J1 values of the other steps.")
     lines.push("", "Own-headroom closure (E* − B)/(oracle − B):", "")
     for (const [alias, entry] of Object.entries(out.confirmatory.headroom)) lines.push(`- ${alias}: ${entry.estimate == null ? "–" : entry.estimate.toFixed(3)} [${entry.low?.toFixed(3) ?? "–"}, ${entry.high?.toFixed(3) ?? "–"}] (n=${entry.n ?? 0})`)
     lines.push("", "### Scale vs retrieval (exploratory, no Holm adjustment)", "")
@@ -760,9 +775,10 @@ function markdown(out) {
     row(["---", "---", "---", "---", "---", "---", "---"])
     for (const test of out.secondaries) row([test.name, test.n, pct(test.estimate), ci(test), test.p ?? "–", test.holmP ?? "–", test.label])
     lines.push("", "## Accuracy by cell (final score, %; Δ vs natural reference with cluster CI)", "")
-    row(["cell", "model", "n", "acc", "J1", "strict", "span", "abstain", "Δ vs ref", "Δ CI"])
-    row(["---", "---", "---", "---", "---", "---", "---", "---", "---", "---"])
-    for (const entry of out.exploratory) row([entry.cell, entry.alias, entry.final.n, pct(entry.final.accuracy), pct(entry.j1.accuracy), pct(entry.strict.accuracy), pct(entry.span.accuracy), entry.abstain, entry.versus ? pct(entry.versus.estimate) : "–", entry.versus ? ci(entry.versus) : "–"])
+    row(["cell", "model", "n", "acc", "J1", "strict", "span", "abstain", "Δ vs ref", "Δ CI", "Δ basis"])
+    row(["---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---"])
+    for (const entry of out.exploratory) row([entry.cell, entry.alias, entry.final.n, pct(entry.final.accuracy), pct(entry.j1.accuracy), pct(entry.strict.accuracy), pct(entry.span.accuracy), entry.abstain, entry.versus ? pct(entry.versus.estimate) : "–", entry.versus ? ci(entry.versus) : "–", entry.versus?.basis ?? "–"])
+    lines.push("", "\"acc\" is the final score: adjudicated for tier-A cells, J1 alone for tier-B cells (grid, exploratory, most DEV configs). Deltas involving a tier-B cell are computed on the J1 basis.")
     lines.push("", `Null-perturbation flip rate (noise floor): oracle ${pct(out.noise.oracle?.rate)}% (n=${out.noise.oracle?.n ?? 0}), retrieval ${pct(out.noise.retrieval?.rate)}% (n=${out.noise.retrieval?.n ?? 0}).`, "")
     if (out.distraction.length) {
         lines.push("## Distraction (induced errors = wrong with distractors | right on oracle)", "")

@@ -30,7 +30,7 @@ const stage = process.argv[2]
 const dataDir = process.env.POC2_DATA_DIR ?? ".data/premise2"
 const ollamaUrl = (process.env.OLLAMA_URL ?? "http://localhost:11434").replace(/\/+$/, "")
 const log = (message) => console.log(`${new Date().toISOString().slice(11, 19)} ${message}`)
-const USAGE = "Usage: npm run premise2 -- embed | prepare | run | run-once | latency | grade | report | status | verify-data | agent-prepare | agent | agent-once | agent-status | agent-grade"
+const USAGE = "Usage: npm run premise2 -- embed | prepare | run | run-once | latency | grade | report | status | verify-data | agent-prepare | agent | agent-once | agent-status | agent-grade | index-build | index-eval"
 
 async function main() {
     if (stage === "embed") {
@@ -89,6 +89,23 @@ async function main() {
     if (stage === "latency") {
         const { measureLatency } = await import("./latency.js")
         await measureLatency({ dataDir, ollamaUrl, log, n: Number(process.env.POC2_LATENCY_N ?? (process.env.POC2_SMOKE_MODEL ? 10 : 100)) })
+        return
+    }
+    if (stage === "index-build") {
+        const { loadRaw, buildCorpus } = await import("./dataset.js")
+        const { buildAllVariants } = await import("./indexes.js")
+        const raw = await loadRaw(join(dataDir, "hf"))
+        const { docs } = buildCorpus(raw.corpus)
+        buildAllVariants(docs, dataDir, log)
+        log("[index] all variant indexes present")
+        return
+    }
+    if (stage === "index-eval") {
+        const { evaluateIndexes, writeIndexEval } = await import("./indexes.js")
+        const { evidence } = await loadCorpus()
+        const out = await evaluateIndexes({ dataDir, evidence, log })
+        writeIndexEval(out, process.env.POC2_REPORT_DIR ?? "benchmarks/results/premise2")
+        log(`[index-eval] DEV choice: ${out.choice}; wrote index-eval.md and index-eval.json`)
         return
     }
     if (stage === "agent-prepare") {

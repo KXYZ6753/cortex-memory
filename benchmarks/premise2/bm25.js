@@ -41,28 +41,43 @@ export function buildBm25Index(docs, dbPath) {
     renameSync(temporary, dbPath)
 }
 
-export function openBm25(dbPath) {
+// Options (indexes.js variants; the defaults are the main study's index):
+//   weights   per-column bm25() weights overriding the stored rank function
+//   collapse  rows are messages, several per email: over-fetch, keep each email's
+//             best-ranked row, return emails
+export const COLLAPSE_OVERFETCH = 8
+
+export function openBm25(dbPath, { weights = null, collapse = false } = {}) {
     const db = new DatabaseSync(dbPath, { readOnly: true })
     // Memory-mapped reads share the OS page cache across worker connections instead
     // of each connection re-reading pages into its own small cache.
     db.exec("PRAGMA mmap_size = 1073741824; PRAGMA cache_size = -65536")
-    const global = db.prepare("SELECT path, -rank AS score FROM docs WHERE docs MATCH ? ORDER BY rank LIMIT ?")
-    const perUser = db.prepare("SELECT path, -rank AS score FROM docs WHERE docs MATCH ? AND user = ? ORDER BY rank LIMIT ?")
+    const rank = weights ? `bm25(docs, ${weights.join(", ")})` : "rank"
+    const global = db.prepare(`SELECT path, -${rank} AS score FROM docs WHERE docs MATCH ? ORDER BY ${rank} LIMIT ?`)
+    const perUser = db.prepare(`SELECT path, -${rank} AS score FROM docs WHERE docs MATCH ? AND user = ? ORDER BY ${rank} LIMIT ?`)
     return {
         search(query, k, user = null) {
             const match = toBm25Query(query)
             if (!match) return []
-            return (user ? perUser.all(match, user, k) : global.all(match, k)).map((row) => ({ path: row.path, score: Number(row.score) }))
+            const limit = collapse ? k * COLLAPSE_OVERFETCH : k
+            const rows = (user ? perUser.all(match, user, limit) : global.all(match, limit)).map((row) => ({ path: row.path, score: Number(row.score) }))
+            return collapse ? collapseByPath(rows).slice(0, k) : rows
         },
         close: () => db.close(),
     }
+}
+
+// Rows arrive best first; keep each path's first (best) row.
+export function collapseByPath(rows) {
+    const seen = new Set()
+    return rows.filter((row) => !seen.has(row.path) && seen.add(row.path))
 }
 
 // Worker-thread pool over the read-only index. search() resolves in call order is
 // not guaranteed; results are matched back by request id.
 export class Bm25Pool {
     // 4 workers measured fastest on an M4 (4 performance cores); more contend.
-    constructor(dbPath, size = Math.max(1, Math.min(4, cpus().length - 1))) {
+    constructor(dbPath, size = Math.max(1, Math.min(4, cpus().length - 1)), options = {}) {
         this.workers = []
         this.pending = new Map()
         this.next = 0
@@ -70,7 +85,7 @@ export class Bm25Pool {
         for (let index = 0; index < size; index++) {
             // --input-type is only valid for stdin/eval entry points; workers must not inherit it.
             const execArgv = process.execArgv.filter((arg) => !arg.startsWith("--input-type"))
-            const worker = new Worker(new URL("./bm25-worker.js", import.meta.url), { workerData: { dbPath }, execArgv })
+            const worker = new Worker(new URL("./bm25-worker.js", import.meta.url), { workerData: { dbPath, options }, execArgv })
             worker.on("message", ({ id, results, error }) => {
                 const entry = this.pending.get(id)
                 if (!entry) return

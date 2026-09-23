@@ -3,7 +3,7 @@
 import { parentPort, workerData } from "node:worker_threads"
 import { openBm25 } from "./bm25.js"
 
-const index = openBm25(workerData.dbPath)
+const index = openBm25(workerData.dbPath, workerData.options)
 
 parentPort.on("message", ({ id, query, k, user }) => {
     try {

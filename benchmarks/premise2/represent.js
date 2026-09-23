@@ -23,16 +23,20 @@ export function renderR0(email) {
     return email.trim()
 }
 
-export function renderR1(email) {
-    const { header, body } = splitFile(email)
-    const head = header.split("\n").filter((line) => !/^File:/i.test(line)).join("\n")
-    const cleaned = decodeQuotedPrintable(body)
+// R1's body cleanup, shared with the R1-clean search index (indexes.js).
+export function cleanBodyR1(body) {
+    return decodeQuotedPrintable(body)
         .split("\n")
         .map((line) => line.replace(/^(?:\s*>)+ ?/, "").replace(/[ \t]+/g, " ").replace(/\s+$/, ""))
         .join("\n")
         .replace(/\n{3,}/g, "\n\n")
         .trim()
-    return `${head}\n---\n${cleaned}`.trim()
+}
+
+export function renderR1(email) {
+    const { header, body } = splitFile(email)
+    const head = header.split("\n").filter((line) => !/^File:/i.test(line)).join("\n")
+    return `${head}\n---\n${cleanBodyR1(body)}`.trim()
 }
 
 // One bracketed line per message. Field values are copied verbatim; readable

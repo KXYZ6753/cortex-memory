@@ -112,6 +112,7 @@ export async function runAgent({ dataDir, stopAt, ollamaUrl = "http://localhost:
     const indexPreregUrl = new URL("./PREREG-AGENT-INDEX.md", import.meta.url)
     const indexPreregText = existsSync(indexPreregUrl) ? readFileSync(indexPreregUrl, "utf8") : null
     if (!indexPreregText && !SMOKE) throw new Error("PREREG-AGENT-INDEX.md is missing: the index-factor addendum must be committed before the run")
+    if (!SMOKE && /TO BE FILLED/.test(indexPreregText)) throw new Error("PREREG-AGENT-INDEX.md still has the DEV index choice unfilled")
     const newIndex = newIndexOf()
     if (!newIndex) throw new Error("AGENT_NEW_INDEX in cells.js is not set: run index-eval, pre-register the DEV choice, then set it")
     const queue = agentQueue(newIndex)

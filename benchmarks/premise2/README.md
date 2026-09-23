@@ -210,3 +210,33 @@ npm run premise2 -- report
 ```
 
 `agent-grade` costs well under $1 of OpenRouter credit. The report adds an "Agent arm" section to `benchmarks/results/premise2/report.md`.
+
+## Index factor in the agent arm (PREREG-AGENT-INDEX.md)
+
+The extension adds index-side preprocessing variants (`indexes.js`) and runs the agent on BM25, the DEV-chosen new index, dense and RRF-60, plus rephrased-question and 2-round arms. Episodes the original agent queue already ran (for example Stage A below) keep their keys and are not rerun.
+
+**1. Mac: build the variant indexes and choose the new index on DEV.**
+
+```
+npm run premise2 -- index-build
+npm run premise2 -- index-eval
+```
+
+`index-build` takes a few minutes and writes `corpus-r1.sqlite`, `corpus-msg.sqlite` and `corpus-latest.sqlite` next to `corpus.sqlite`. `index-eval` (about 10–15 minutes) writes `benchmarks/results/premise2/index-eval.md` and `.json` and prints the DEV choice. The choice is then written into `PREREG-AGENT-INDEX.md` and `AGENT_NEW_INDEX` in `cells.js`, and committed, before any extension episode runs; the run refuses otherwise.
+
+**2. Mac: smoke the whole queue with the 1b model**, in a separate agent directory so nothing mixes with real episodes:
+
+```
+POC2_SMOKE_MODEL=gemma3:1b-it-qat POC2_MAX_ITEMS=2 POC2_AGENT_DIR=.data/premise2/agent-smoke POC2_STOP_AT=2026-12-31T00:00 npm run premise2 -- agent-once
+```
+
+**3. Windows: Stage B.** When the Stage A run has stopped at its stop time:
+
+1. `git fetch`, then `git checkout claude/project-context-research-1xf86y`, then `git pull` and `npm install`.
+2. `ollama pull nomic-embed-text`. Its digest in `ollama list` should equal the Mac's.
+3. Check that `.data\premise2\` holds `dense.f32`, `dense-docs.json` and `retrieval.jsonl`. If any is missing, copy it from the Mac's `.data/premise2/`.
+4. `npm run premise2 -- index-build` (a few minutes).
+5. Set the night's stop time in `.env`, for example `POC2_STOP_AT=2026-09-24T07:00`.
+6. `npm run premise2 -- agent`
+
+The start prints a dense preflight line (top-10 overlap with the main study's dense lists; it must be at least 90%). After about 20 minutes, `npm run premise2 -- agent-status` should show the Stage A arms complete and the new e2b arms filling.

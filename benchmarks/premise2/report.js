@@ -223,6 +223,15 @@ export async function report({ dataDir, log = console.log, outDir = "benchmarks/
         const best = Number.isFinite(largeE) && largeE > largeB ? "P-Estar" : "P-B"
         h2Extra.conservative = { ...contrast(`H2 vs 31b at max(B, E*) = ${best}`, [["P-Estar", "small"], [best, "large"]], { type: "noninferiority", margin: MARGIN }), comparator: best }
     }
+    // Post-hoc scale-vs-retrieval contrasts. Exploratory: they are not in PREREG's
+    // confirmatory or secondary families, and carry no Holm adjustment.
+    const headline = [
+        contrast("e2b(oracle) - 31b(B): perfect retrieval on the small model vs real retrieval on the large one", [["P-oracle", "small"], ["P-B", "large"]]),
+        contrast("e2b(B) - 31b(B): the deployed gap", [["P-B", "small"], ["P-B", "large"]]),
+        contrast("e4b(B) - 31b(B): the deployed gap at the midpoint", [["P-B", "mid"], ["P-B", "large"]]),
+        contrast("e2b(oracle) - e2b(B): what retrieval costs the small model", [["P-oracle", "small"], ["P-B", "small"]]),
+        contrast("31b(oracle) - 31b(B): what retrieval costs the large model", [["P-oracle", "large"], ["P-B", "large"]]),
+    ]
     const gapClosure = ratio("gap closure [e2b(E*) - e2b(B)] / [31b(B) - e2b(B)]", [["P-Estar", "small"], ["P-B", "small"], ["P-B", "large"]], ([e, b, l]) => (l - b > 0 ? (e - b) / (l - b) : NaN))
     const headroom = {}
     const ladder = {}
@@ -401,6 +410,7 @@ export async function report({ dataDir, log = console.log, outDir = "benchmarks/
         data: { pools: manifest.pools, exclusions: manifest.exclusions, corpus: manifest.corpus },
         judges: { j1: j1.model, j2: j2.model, adjudicator: adj.model },
         confirmatory: { primary, sensitivity: { strict: H.strict, span: H.span }, h2Extra, gapClosure, headroom, ladder },
+        headline,
         secondaries,
         noise,
         exploratory,
@@ -741,6 +751,10 @@ function markdown(out) {
     for (const [alias, steps] of Object.entries(out.confirmatory.ladder)) row([alias, ...steps.map((step) => (step.accuracy == null ? "–" : `${pct(step.accuracy)} (n=${step.n})`))])
     lines.push("", "Own-headroom closure (E* − B)/(oracle − B):", "")
     for (const [alias, entry] of Object.entries(out.confirmatory.headroom)) lines.push(`- ${alias}: ${entry.estimate == null ? "–" : entry.estimate.toFixed(3)} [${entry.low?.toFixed(3) ?? "–"}, ${entry.high?.toFixed(3) ?? "–"}] (n=${entry.n ?? 0})`)
+    lines.push("", "### Scale vs retrieval (exploratory, no Holm adjustment)", "")
+    row(["contrast", "n", "arm means", "estimate", "95% CI", "p", "label"])
+    row(["---", "---", "---", "---", "---", "---", "---"])
+    for (const test of out.headline) row([test.name, test.n, (test.armMeans ?? []).map((v) => pct(v)).join(" / "), pct(test.estimate), ci(test), test.p ?? "–", test.label])
     lines.push("", "## Secondary family (Holm)", "")
     row(["test", "n", "estimate", "95% CI", "p", "Holm p", "label"])
     row(["---", "---", "---", "---", "---", "---", "---"])

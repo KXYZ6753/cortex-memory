@@ -1,0 +1,4217 @@
+{
+ "version": "premise2-agent-items-v1",
+ "seed": 20260922,
+ "source": "P-B items 0..599",
+ "core": 200,
+ "counts": {
+  "miss": 51,
+  "hit": 549
+ },
+ "trueShares": {
+  "miss": 0.085,
+  "hit": 0.915
+ },
+ "hash": "16aea664356e87f23a45e24d25aa214f70ac6beb329e53f7aad4304c6a5b2249",
+ "items": [
+  {
+   "questionKey": "test:williams-j/deleted_items/255.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 0
+  },
+  {
+   "questionKey": "test:gang-l/inbox/13.#0",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": null,
+   "order": 1
+  },
+  {
+   "questionKey": "test:cuilla-m/deleted_items/424.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 2
+  },
+  {
+   "questionKey": "test:harris-s/inbox/1.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 3
+  },
+  {
+   "questionKey": "test:crandell-s/deleted_items/68.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 4
+  },
+  {
+   "questionKey": "test:merriss-s/notes_inbox/496.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 18,
+   "bm25AnswerRank": 18,
+   "order": 5
+  },
+  {
+   "questionKey": "test:farmer-d/waha/2.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 6
+  },
+  {
+   "questionKey": "test:quigley-d/sent_items/257.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 7
+  },
+  {
+   "questionKey": "test:whalley-l/all_documents/1051.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 8
+  },
+  {
+   "questionKey": "test:mckay-b/deleted_items/291.#1",
+   "stratum": "miss",
+   "bm25GoldRank": 8,
+   "bm25AnswerRank": 1,
+   "order": 9
+  },
+  {
+   "questionKey": "test:causholli-m/deleted_items/379.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 10
+  },
+  {
+   "questionKey": "test:ermis-f/notes_inbox/218.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 5,
+   "bm25AnswerRank": 1,
+   "order": 11
+  },
+  {
+   "questionKey": "test:smith-m/_sent_mail/67.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 12
+  },
+  {
+   "questionKey": "test:donohoe-t/inbox/299.#1",
+   "stratum": "miss",
+   "bm25GoldRank": 20,
+   "bm25AnswerRank": 1,
+   "order": 13
+  },
+  {
+   "questionKey": "test:richey-c/sent_items/140.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 14
+  },
+  {
+   "questionKey": "test:whalley-l/discussion_threads/537.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 15
+  },
+  {
+   "questionKey": "test:skilling-j/all_documents/1276.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 16
+  },
+  {
+   "questionKey": "test:pimenov-v/deleted_items/111.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 9,
+   "bm25AnswerRank": 1,
+   "order": 17
+  },
+  {
+   "questionKey": "test:derrick-j/sent_items/164.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 18
+  },
+  {
+   "questionKey": "test:motley-m/deleted_items/13.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 19
+  },
+  {
+   "questionKey": "test:saibi-e/saved/19.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 2,
+   "order": 20
+  },
+  {
+   "questionKey": "test:semperger-c/renewable_power/1.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 6,
+   "bm25AnswerRank": 6,
+   "order": 21
+  },
+  {
+   "questionKey": "test:cuilla-m/deleted_items/104.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 22
+  },
+  {
+   "questionKey": "test:mccarty-d/deleted_items/282.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 23
+  },
+  {
+   "questionKey": "test:stclair-c/all_documents/841.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 24
+  },
+  {
+   "questionKey": "test:mccarty-d/deleted_items/111.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 10,
+   "bm25AnswerRank": 2,
+   "order": 25
+  },
+  {
+   "questionKey": "test:sanchez-m/sent_items/30.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 26
+  },
+  {
+   "questionKey": "test:sanders-r/sent/415.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 27
+  },
+  {
+   "questionKey": "test:ring-r/deleted_items/248.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 28
+  },
+  {
+   "questionKey": "test:whitt-m/sent_items/56.#0",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": null,
+   "order": 29
+  },
+  {
+   "questionKey": "test:campbell-l/sent/121.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 30
+  },
+  {
+   "questionKey": "test:brawner-s/sent_items/56.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 31
+  },
+  {
+   "questionKey": "test:heard-m/inbox/master_netting/3.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 32
+  },
+  {
+   "questionKey": "test:guzman-m/notes_inbox/1643.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 9,
+   "bm25AnswerRank": 1,
+   "order": 33
+  },
+  {
+   "questionKey": "test:fischer-m/notes_inbox/345.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 34
+  },
+  {
+   "questionKey": "test:cash-m/all_documents/424.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 35
+  },
+  {
+   "questionKey": "test:parks-j/inbox/263.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 36
+  },
+  {
+   "questionKey": "test:keavey-p/deleted_items/36.#0",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": 1,
+   "order": 37
+  },
+  {
+   "questionKey": "test:schwieger-j/bammel_stg/12.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 38
+  },
+  {
+   "questionKey": "test:haedicke-m/sent/657.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 39
+  },
+  {
+   "questionKey": "test:saibi-e/inbox/99.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 40
+  },
+  {
+   "questionKey": "test:baughman-d/inbox/236.#0",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": 1,
+   "order": 41
+  },
+  {
+   "questionKey": "test:harris-s/deleted_items/107.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 42
+  },
+  {
+   "questionKey": "test:bailey-s/deleted_items/9.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 43
+  },
+  {
+   "questionKey": "test:arora-h/discussion_threads/45.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 44
+  },
+  {
+   "questionKey": "test:watson-k/e_mail_bin/573.#0",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": null,
+   "order": 45
+  },
+  {
+   "questionKey": "test:harris-s/deleted_items/339.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 46
+  },
+  {
+   "questionKey": "test:mann-k/notes_inbox/619.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 47
+  },
+  {
+   "questionKey": "test:wolfe-j/08_saved/26.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 48
+  },
+  {
+   "questionKey": "test:blair-l/deleted_items/254.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 19,
+   "bm25AnswerRank": 1,
+   "order": 49
+  },
+  {
+   "questionKey": "test:baughman-d/power/24_hour/43.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 50
+  },
+  {
+   "questionKey": "test:rodrique-r/discussion_threads/210.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 51
+  },
+  {
+   "questionKey": "test:slinger-r/inbox/12.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 9,
+   "bm25AnswerRank": 9,
+   "order": 52
+  },
+  {
+   "questionKey": "test:arora-h/inbox/saved_mail/5.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 53
+  },
+  {
+   "questionKey": "test:guzman-m/notes_inbox/1545.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 54
+  },
+  {
+   "questionKey": "test:holst-k/deleted_items/205.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 55
+  },
+  {
+   "questionKey": "test:quenet-j/inbox/5.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 14,
+   "bm25AnswerRank": 14,
+   "order": 56
+  },
+  {
+   "questionKey": "test:schwieger-j/sent_items/35.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 57
+  },
+  {
+   "questionKey": "test:heard-m/deleted_items/44.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 58
+  },
+  {
+   "questionKey": "test:whitt-m/sent_items/10.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 59
+  },
+  {
+   "questionKey": "test:keavey-p/deleted_items/295.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 9,
+   "bm25AnswerRank": 1,
+   "order": 60
+  },
+  {
+   "questionKey": "test:swerzbin-m/inbox/175.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 61
+  },
+  {
+   "questionKey": "test:forney-j/sent_items/190.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 62
+  },
+  {
+   "questionKey": "test:watson-k/deleted_items/433.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 63
+  },
+  {
+   "questionKey": "test:stclair-c/sent/1057.#0",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": 1,
+   "order": 64
+  },
+  {
+   "questionKey": "test:griffith-j/private_folders/personal/24.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 65
+  },
+  {
+   "questionKey": "test:pimenov-v/inbox/28.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 66
+  },
+  {
+   "questionKey": "test:taylor-m/notes_inbox/6.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 67
+  },
+  {
+   "questionKey": "test:kaminski-v/_sent_mail/172.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 7,
+   "bm25AnswerRank": 6,
+   "order": 68
+  },
+  {
+   "questionKey": "test:lucci-p/inbox/18.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 69
+  },
+  {
+   "questionKey": "test:zipper-a/sent_items/217.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 70
+  },
+  {
+   "questionKey": "test:ybarbo-p/sent_items/113.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 71
+  },
+  {
+   "questionKey": "test:shackleton-s/inbox/569.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 7,
+   "bm25AnswerRank": 7,
+   "order": 72
+  },
+  {
+   "questionKey": "test:ring-r/eesi_deleted_documents/14.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 73
+  },
+  {
+   "questionKey": "test:crandell-s/inbox/116.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 74
+  },
+  {
+   "questionKey": "test:hain-m/notes_inbox/358.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 75
+  },
+  {
+   "questionKey": "test:mckay-b/deleted_items/11.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 11,
+   "bm25AnswerRank": 3,
+   "order": 76
+  },
+  {
+   "questionKey": "test:saibi-e/inbox/552.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 77
+  },
+  {
+   "questionKey": "test:hodge-j/inbox/184.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 78
+  },
+  {
+   "questionKey": "test:donoho-l/sent_items/90.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 79
+  },
+  {
+   "questionKey": "test:saibi-e/inbox/228.#0",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": 1,
+   "order": 80
+  },
+  {
+   "questionKey": "test:solberg-g/inbox/154.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 81
+  },
+  {
+   "questionKey": "test:martin-t/deleted_items/102.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 82
+  },
+  {
+   "questionKey": "test:harris-s/deleted_items/324.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 83
+  },
+  {
+   "questionKey": "test:whitt-m/inbox/248.#0",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": 1,
+   "order": 84
+  },
+  {
+   "questionKey": "test:ward-k/sent_items/55.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 85
+  },
+  {
+   "questionKey": "test:buy-r/inbox/712.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 86
+  },
+  {
+   "questionKey": "test:forney-j/sent_items/82.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 87
+  },
+  {
+   "questionKey": "test:arnold-j/sent/571.#0",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": null,
+   "order": 88
+  },
+  {
+   "questionKey": "test:townsend-j/inbox/188.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 89
+  },
+  {
+   "questionKey": "test:guzman-m/notes_inbox/742.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 90
+  },
+  {
+   "questionKey": "test:sturm-f/deleted_items/157.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 91
+  },
+  {
+   "questionKey": "test:sanders-r/iso__pricecaps/19.#1",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": null,
+   "order": 92
+  },
+  {
+   "questionKey": "test:salisbury-h/inbox/858.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 93
+  },
+  {
+   "questionKey": "test:jones-t/all_documents/10007.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 94
+  },
+  {
+   "questionKey": "test:phanis-s/deleted_items/6.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 1,
+   "order": 95
+  },
+  {
+   "questionKey": "test:shankman-j/all_documents/562.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 8,
+   "bm25AnswerRank": 2,
+   "order": 96
+  },
+  {
+   "questionKey": "test:causholli-m/sent_items/273.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 97
+  },
+  {
+   "questionKey": "test:merriss-s/discussion_threads/33.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 98
+  },
+  {
+   "questionKey": "test:harris-s/deleted_items/413.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 99
+  },
+  {
+   "questionKey": "test:semperger-c/deleted_items/220.#0",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": null,
+   "order": 100
+  },
+  {
+   "questionKey": "test:hayslett-r/all_documents/300.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 101
+  },
+  {
+   "questionKey": "test:allen-p/sent_items/206.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 102
+  },
+  {
+   "questionKey": "test:keavey-p/inbox/519.#0",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": null,
+   "order": 103
+  },
+  {
+   "questionKey": "test:jones-t/all_documents/9634.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 104
+  },
+  {
+   "questionKey": "test:haedicke-m/notes_inbox/822.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 105
+  },
+  {
+   "questionKey": "test:pimenov-v/deleted_items/110.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 106
+  },
+  {
+   "questionKey": "test:whalley-g/inbox/14.#0",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": null,
+   "order": 107
+  },
+  {
+   "questionKey": "test:zipper-a/tq/3.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 108
+  },
+  {
+   "questionKey": "test:smith-m/discussion_threads/47.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 109
+  },
+  {
+   "questionKey": "test:arora-h/inbox/saved_mail/26.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 110
+  },
+  {
+   "questionKey": "test:salisbury-h/read/21.#0",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": null,
+   "order": 111
+  },
+  {
+   "questionKey": "test:semperger-c/sent_items/169.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 112
+  },
+  {
+   "questionKey": "test:stokley-c/chris_stokley/sent/467.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 113
+  },
+  {
+   "questionKey": "test:fossum-d/sent/499.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 114
+  },
+  {
+   "questionKey": "test:arnold-j/sent_items/169.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 17,
+   "bm25AnswerRank": 17,
+   "order": 115
+  },
+  {
+   "questionKey": "test:mckay-b/deleted_items/190.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 116
+  },
+  {
+   "questionKey": "test:pimenov-v/deleted_items/279.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 5,
+   "bm25AnswerRank": 1,
+   "order": 117
+  },
+  {
+   "questionKey": "test:stokley-c/chris_stokley/sent/515.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 5,
+   "bm25AnswerRank": 4,
+   "order": 118
+  },
+  {
+   "questionKey": "test:slinger-r/inbox/49.#1",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": null,
+   "order": 119
+  },
+  {
+   "questionKey": "test:derrick-j/sent_items/47.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 120
+  },
+  {
+   "questionKey": "test:giron-d/deleted_items/308.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 2,
+   "order": 121
+  },
+  {
+   "questionKey": "test:merriss-s/discussion_threads/81.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 122
+  },
+  {
+   "questionKey": "test:dorland-c/inbox/26.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 6,
+   "bm25AnswerRank": 1,
+   "order": 123
+  },
+  {
+   "questionKey": "test:mims-thurston-p/inbox/180.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 124
+  },
+  {
+   "questionKey": "test:townsend-j/deleted_items/66.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 125
+  },
+  {
+   "questionKey": "test:donohoe-t/inbox/150.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 126
+  },
+  {
+   "questionKey": "test:semperger-c/deleted_items/263.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 6,
+   "bm25AnswerRank": 2,
+   "order": 127
+  },
+  {
+   "questionKey": "test:fossum-d/sent/352.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 128
+  },
+  {
+   "questionKey": "test:allen-p/inbox/15.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 129
+  },
+  {
+   "questionKey": "test:stepenovitch-j/deleted_items/168.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 130
+  },
+  {
+   "questionKey": "test:weldon-c/all_documents/67.#0",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": null,
+   "order": 131
+  },
+  {
+   "questionKey": "test:parks-j/deleted_items/406.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 132
+  },
+  {
+   "questionKey": "test:ward-k/all_documents/96.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 133
+  },
+  {
+   "questionKey": "test:south-s/notes_inbox/6.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 134
+  },
+  {
+   "questionKey": "test:lucci-p/internet/42.#0",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": 1,
+   "order": 135
+  },
+  {
+   "questionKey": "test:lay-k/discussion_threads/93.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 136
+  },
+  {
+   "questionKey": "test:quigley-d/bmr/3.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 4,
+   "bm25AnswerRank": 4,
+   "order": 137
+  },
+  {
+   "questionKey": "test:presto-k/deleted_items/1443.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 5,
+   "bm25AnswerRank": 3,
+   "order": 138
+  },
+  {
+   "questionKey": "test:keavey-p/all_documents/368.#0",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": 1,
+   "order": 139
+  },
+  {
+   "questionKey": "test:townsend-j/inbox/152.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 140
+  },
+  {
+   "questionKey": "test:whalley-l/all_documents/905.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 141
+  },
+  {
+   "questionKey": "test:griffith-j/deleted_items/340.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 142
+  },
+  {
+   "questionKey": "test:zipper-a/deleted_items/9.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 8,
+   "bm25AnswerRank": 8,
+   "order": 143
+  },
+  {
+   "questionKey": "test:stclair-c/all_documents/2418.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 144
+  },
+  {
+   "questionKey": "test:geaccone-t/sent_items/301.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 145
+  },
+  {
+   "questionKey": "test:parks-j/inbox/283.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 146
+  },
+  {
+   "questionKey": "test:thomas-p/deleted_items/33.#0",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": 1,
+   "order": 147
+  },
+  {
+   "questionKey": "test:lokay-m/discussion_threads/483.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 148
+  },
+  {
+   "questionKey": "test:reitmeyer-j/deleted_items/65.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 1,
+   "order": 149
+  },
+  {
+   "questionKey": "test:davis-d/deleted_items/199.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 18,
+   "bm25AnswerRank": 9,
+   "order": 150
+  },
+  {
+   "questionKey": "test:baughman-d/ect_admin/37.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 151
+  },
+  {
+   "questionKey": "test:taylor-m/inbox/94.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 152
+  },
+  {
+   "questionKey": "test:derrick-j/sent_items/82.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 153
+  },
+  {
+   "questionKey": "test:hain-m/discussion_threads/977.#1",
+   "stratum": "miss",
+   "bm25GoldRank": 17,
+   "bm25AnswerRank": 4,
+   "order": 154
+  },
+  {
+   "questionKey": "test:fischer-m/notes_inbox/135.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 155
+  },
+  {
+   "questionKey": "test:beck-s/discussion_threads/1656.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 156
+  },
+  {
+   "questionKey": "test:richey-c/r/5.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 157
+  },
+  {
+   "questionKey": "test:hayslett-r/inbox/113.#1",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": null,
+   "order": 158
+  },
+  {
+   "questionKey": "test:salisbury-h/inbox/403.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 159
+  },
+  {
+   "questionKey": "test:dorland-c/sent_items/339.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 160
+  },
+  {
+   "questionKey": "test:sager-e/sent/40.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 161
+  },
+  {
+   "questionKey": "test:campbell-l/inbox/1114.#0",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": null,
+   "order": 162
+  },
+  {
+   "questionKey": "test:fossum-d/all_documents/318.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 163
+  },
+  {
+   "questionKey": "test:platter-p/sent_items/88.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 164
+  },
+  {
+   "questionKey": "test:scholtes-d/sent_items/122.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 165
+  },
+  {
+   "questionKey": "test:shankman-j/old_email/61.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 11,
+   "bm25AnswerRank": 7,
+   "order": 166
+  },
+  {
+   "questionKey": "test:sturm-f/sent_items/116.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 167
+  },
+  {
+   "questionKey": "test:smith-m/inbox/171.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 168
+  },
+  {
+   "questionKey": "test:fossum-d/discussion_threads/290.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 169
+  },
+  {
+   "questionKey": "test:shackleton-s/all_documents/560.#0",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": null,
+   "order": 170
+  },
+  {
+   "questionKey": "test:meyers-a/deleted_items/1079.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 171
+  },
+  {
+   "questionKey": "test:thomas-p/deleted_items/186.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 172
+  },
+  {
+   "questionKey": "test:meyers-a/deleted_items/1009.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 173
+  },
+  {
+   "questionKey": "test:merriss-s/discussion_threads/197.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 7,
+   "bm25AnswerRank": 2,
+   "order": 174
+  },
+  {
+   "questionKey": "test:quenet-j/all_documents/43.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 175
+  },
+  {
+   "questionKey": "test:thomas-p/deleted_items/500.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 176
+  },
+  {
+   "questionKey": "test:farmer-d/sent_items/118.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 177
+  },
+  {
+   "questionKey": "test:donohoe-t/inbox/366.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 9,
+   "bm25AnswerRank": 1,
+   "order": 178
+  },
+  {
+   "questionKey": "test:storey-g/inbox/132.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 179
+  },
+  {
+   "questionKey": "test:whalley-g/inbox/112.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 180
+  },
+  {
+   "questionKey": "test:mclaughlin-e/deleted_items/329.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 3,
+   "order": 181
+  },
+  {
+   "questionKey": "test:gilbertsmith-d/inbox/98.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 13,
+   "bm25AnswerRank": 1,
+   "order": 182
+  },
+  {
+   "questionKey": "test:stclair-c/sent/281.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 183
+  },
+  {
+   "questionKey": "test:hyatt-k/projects/22.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 184
+  },
+  {
+   "questionKey": "test:corman-s/inbox/archives/260.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 185
+  },
+  {
+   "questionKey": "test:mckay-j/sent_items/262.#1",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": null,
+   "order": 186
+  },
+  {
+   "questionKey": "test:griffith-j/enron_updates/15.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 187
+  },
+  {
+   "questionKey": "test:schwieger-j/sent_items/1.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 188
+  },
+  {
+   "questionKey": "test:martin-t/sent_items/90.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 3,
+   "order": 189
+  },
+  {
+   "questionKey": "test:weldon-c/deleted_items/7.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 7,
+   "bm25AnswerRank": 7,
+   "order": 190
+  },
+  {
+   "questionKey": "test:pereira-s/deleted_items/141.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 191
+  },
+  {
+   "questionKey": "test:wolfe-j/inbox/143.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 192
+  },
+  {
+   "questionKey": "test:scott-s/sent_items/476.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 193
+  },
+  {
+   "questionKey": "test:hernandez-j/discussion_threads/16.#0",
+   "stratum": "miss",
+   "bm25GoldRank": null,
+   "bm25AnswerRank": 2,
+   "order": 194
+  },
+  {
+   "questionKey": "test:hernandez-j/discussion_threads/276.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 195
+  },
+  {
+   "questionKey": "test:wolfe-j/saved_04/19.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 196
+  },
+  {
+   "questionKey": "test:swerzbin-m/inbox/136.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 197
+  },
+  {
+   "questionKey": "test:stepenovitch-j/inbox/148.#0",
+   "stratum": "miss",
+   "bm25GoldRank": 8,
+   "bm25AnswerRank": 1,
+   "order": 198
+  },
+  {
+   "questionKey": "test:kaminski-v/resumes/457.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 199
+  },
+  {
+   "questionKey": "test:causholli-m/deleted_items/374.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 1,
+   "order": 200
+  },
+  {
+   "questionKey": "test:phanis-s/deleted_items/1.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 201
+  },
+  {
+   "questionKey": "test:ring-r/eesi_deleted_documents/11.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 202
+  },
+  {
+   "questionKey": "test:martin-t/inbox/144.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 203
+  },
+  {
+   "questionKey": "test:schoolcraft-d/deleted_items/176.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 204
+  },
+  {
+   "questionKey": "test:mckay-b/deleted_items/306.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 205
+  },
+  {
+   "questionKey": "test:williams-j/deleted_items/347.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 206
+  },
+  {
+   "questionKey": "test:arora-h/inbox/saved_mail/27.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 207
+  },
+  {
+   "questionKey": "test:cuilla-m/deleted_items/100.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 208
+  },
+  {
+   "questionKey": "test:phanis-s/sent_items/2.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 209
+  },
+  {
+   "questionKey": "test:sanchez-m/sent_items/97.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 210
+  },
+  {
+   "questionKey": "test:rodrique-r/sent/725.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 211
+  },
+  {
+   "questionKey": "test:blair-l/sent_items/892.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 212
+  },
+  {
+   "questionKey": "test:donohoe-t/inbox/280.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 213
+  },
+  {
+   "questionKey": "test:schwieger-j/personal/28.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 1,
+   "order": 214
+  },
+  {
+   "questionKey": "test:lenhart-m/sent/1891.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 3,
+   "order": 215
+  },
+  {
+   "questionKey": "test:guzman-m/notes_inbox/650.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 216
+  },
+  {
+   "questionKey": "test:schwieger-j/sent_items/2.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 217
+  },
+  {
+   "questionKey": "test:ybarbo-p/ecoelectrica/47.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 218
+  },
+  {
+   "questionKey": "test:campbell-l/inbox/344.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 1,
+   "order": 219
+  },
+  {
+   "questionKey": "test:brawner-s/sent_items/75.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 220
+  },
+  {
+   "questionKey": "test:mccarty-d/deleted_items/48.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 221
+  },
+  {
+   "questionKey": "test:rapp-b/inbox/32.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 222
+  },
+  {
+   "questionKey": "test:scott-s/all_documents/1110.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 223
+  },
+  {
+   "questionKey": "test:blair-l/deleted_items/380.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 224
+  },
+  {
+   "questionKey": "test:allen-p/sent_items/97.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 225
+  },
+  {
+   "questionKey": "test:bass-e/_sent_mail/1226.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 226
+  },
+  {
+   "questionKey": "test:davis-d/deleted_items/175.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 227
+  },
+  {
+   "questionKey": "test:haedicke-m/notes_inbox/282.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 228
+  },
+  {
+   "questionKey": "test:weldon-c/sent_items/154.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 5,
+   "bm25AnswerRank": 4,
+   "order": 229
+  },
+  {
+   "questionKey": "test:gilbertsmith-d/deleted_items/137.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 230
+  },
+  {
+   "questionKey": "test:blair-l/sent_items/625.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 231
+  },
+  {
+   "questionKey": "test:hernandez-j/all_documents/722.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 1,
+   "order": 232
+  },
+  {
+   "questionKey": "test:beck-s/discussion_threads/2031.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 233
+  },
+  {
+   "questionKey": "test:hodge-j/inbox/193.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 234
+  },
+  {
+   "questionKey": "test:davis-d/sent/4.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 235
+  },
+  {
+   "questionKey": "test:mann-k/sent/234.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 3,
+   "order": 236
+  },
+  {
+   "questionKey": "test:brawner-s/deleted_items/132.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 237
+  },
+  {
+   "questionKey": "test:lucci-p/inbox/59.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 238
+  },
+  {
+   "questionKey": "test:lavorato-j/all_documents/7.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 239
+  },
+  {
+   "questionKey": "test:lay-k/deleted_items/888.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 240
+  },
+  {
+   "questionKey": "test:weldon-c/training/1.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 4,
+   "bm25AnswerRank": 1,
+   "order": 241
+  },
+  {
+   "questionKey": "test:mims-thurston-p/deleted_items/456.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 242
+  },
+  {
+   "questionKey": "test:schoolcraft-d/sent_items/177.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 243
+  },
+  {
+   "questionKey": "test:delainey-d/deleted_items/2.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 244
+  },
+  {
+   "questionKey": "test:sturm-f/sent_items/132.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 245
+  },
+  {
+   "questionKey": "test:stokley-c/chris_stokley/projects/ees_/banding/kpmg/8.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 246
+  },
+  {
+   "questionKey": "test:meyers-a/deleted_items/1123.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 247
+  },
+  {
+   "questionKey": "test:scott-s/sent_items/371.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 248
+  },
+  {
+   "questionKey": "test:donoho-l/inbox/junk_file/73.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 249
+  },
+  {
+   "questionKey": "test:hain-m/notes_inbox/695.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 250
+  },
+  {
+   "questionKey": "test:farmer-d/wellhead/257.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 251
+  },
+  {
+   "questionKey": "test:arora-h/sent_items/45.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 252
+  },
+  {
+   "questionKey": "test:harris-s/deleted_items/217.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 253
+  },
+  {
+   "questionKey": "test:kean-s/archiving/untitled/6373.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 254
+  },
+  {
+   "questionKey": "test:scholtes-d/ferc/54.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 255
+  },
+  {
+   "questionKey": "test:forney-j/sent_items/255.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 256
+  },
+  {
+   "questionKey": "test:williams-w3/sent_items/214.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 257
+  },
+  {
+   "questionKey": "test:arora-h/deleted_items/121.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 258
+  },
+  {
+   "questionKey": "test:motley-m/deleted_items/122.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 259
+  },
+  {
+   "questionKey": "test:allen-p/deleted_items/354.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 260
+  },
+  {
+   "questionKey": "test:quenet-j/discussion_threads/21.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 261
+  },
+  {
+   "questionKey": "test:buy-r/inbox/112.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 262
+  },
+  {
+   "questionKey": "test:sager-e/all_documents/1870.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 263
+  },
+  {
+   "questionKey": "test:zipper-a/tss/7.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 264
+  },
+  {
+   "questionKey": "test:lucci-p/sent_items/229.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 265
+  },
+  {
+   "questionKey": "test:south-s/discussion_threads/57.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 266
+  },
+  {
+   "questionKey": "test:taylor-m/all_documents/8358.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 267
+  },
+  {
+   "questionKey": "test:ybarbo-p/hoegh_galleon/5.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 268
+  },
+  {
+   "questionKey": "test:martin-t/sent_items/56.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 269
+  },
+  {
+   "questionKey": "test:gang-l/deleted_items/259.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 270
+  },
+  {
+   "questionKey": "test:panus-s/deleted_items/343.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 4,
+   "bm25AnswerRank": 1,
+   "order": 271
+  },
+  {
+   "questionKey": "test:stepenovitch-j/deleted_items/215.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 272
+  },
+  {
+   "questionKey": "test:schoolcraft-d/deleted_items/263.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 273
+  },
+  {
+   "questionKey": "test:solberg-g/inbox/120.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 274
+  },
+  {
+   "questionKey": "test:donoho-l/sent_items/89.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 275
+  },
+  {
+   "questionKey": "test:white-s/sent_items/125.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 276
+  },
+  {
+   "questionKey": "test:whalley-g/inbox/363.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 277
+  },
+  {
+   "questionKey": "test:semperger-c/deleted_items/284.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 278
+  },
+  {
+   "questionKey": "test:richey-c/sent_items/132.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 279
+  },
+  {
+   "questionKey": "test:motley-m/inbox/ene_portland/administrative/26.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 280
+  },
+  {
+   "questionKey": "test:shankman-j/deleted_items/489.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 281
+  },
+  {
+   "questionKey": "test:storey-g/_sent_mail/38.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 282
+  },
+  {
+   "questionKey": "test:buy-r/sent_items/153.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 283
+  },
+  {
+   "questionKey": "test:sturm-f/sent_items/144.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 284
+  },
+  {
+   "questionKey": "test:ring-r/inbox/4.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 285
+  },
+  {
+   "questionKey": "test:platter-p/inbox/71.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 286
+  },
+  {
+   "questionKey": "test:quenet-j/deleted_items/143.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 287
+  },
+  {
+   "questionKey": "test:steffes-j/sent_items/1332.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 288
+  },
+  {
+   "questionKey": "test:cuilla-m/inbox/5.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 289
+  },
+  {
+   "questionKey": "test:giron-d/discussion_threads/68.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 290
+  },
+  {
+   "questionKey": "test:pereira-s/inbox/52.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 291
+  },
+  {
+   "questionKey": "test:skilling-j/inbox/2496.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 292
+  },
+  {
+   "questionKey": "test:pimenov-v/inbox/52.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 293
+  },
+  {
+   "questionKey": "test:forney-j/deleted_items/114.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 294
+  },
+  {
+   "questionKey": "test:lenhart-m/sent_items/314.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 295
+  },
+  {
+   "questionKey": "test:townsend-j/sent/10.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 296
+  },
+  {
+   "questionKey": "test:ward-k/sent_items/341.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 297
+  },
+  {
+   "questionKey": "test:whitt-m/inbox/795.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 298
+  },
+  {
+   "questionKey": "test:farmer-d/discussion_threads/1478.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 299
+  },
+  {
+   "questionKey": "test:sager-e/sent/67.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 300
+  },
+  {
+   "questionKey": "test:lokay-m/all_documents/181.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 301
+  },
+  {
+   "questionKey": "test:rogers-b/all_documents/1448.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 302
+  },
+  {
+   "questionKey": "test:presto-k/sent_items/904.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 3,
+   "order": 303
+  },
+  {
+   "questionKey": "test:south-s/southern_cone/27.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 304
+  },
+  {
+   "questionKey": "test:haedicke-m/inbox/600.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 305
+  },
+  {
+   "questionKey": "test:sanchez-m/inbox/67.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 306
+  },
+  {
+   "questionKey": "test:maggi-m/deleted_items/83.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 307
+  },
+  {
+   "questionKey": "test:williams-w3/sent_items/145.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 308
+  },
+  {
+   "questionKey": "test:meyers-a/inbox/21.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 309
+  },
+  {
+   "questionKey": "test:zipper-a/tq/64.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 310
+  },
+  {
+   "questionKey": "test:allen-p/_sent_mail/417.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 311
+  },
+  {
+   "questionKey": "test:neal-s/sent_items/120.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 312
+  },
+  {
+   "questionKey": "test:parks-j/deleted_items/236.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 313
+  },
+  {
+   "questionKey": "test:scholtes-d/west_bank/42.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 314
+  },
+  {
+   "questionKey": "test:rapp-b/deleted_items/110.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 315
+  },
+  {
+   "questionKey": "test:hyatt-k/deleted_items/67.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 316
+  },
+  {
+   "questionKey": "test:shackleton-s/sent/2181.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 317
+  },
+  {
+   "questionKey": "test:giron-d/deleted_items/62.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 318
+  },
+  {
+   "questionKey": "test:campbell-l/discussion_threads/1659.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 319
+  },
+  {
+   "questionKey": "test:smith-m/inbox/293.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 320
+  },
+  {
+   "questionKey": "test:quigley-d/deleted_items/252.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 321
+  },
+  {
+   "questionKey": "test:steffes-j/sent_items/154.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 322
+  },
+  {
+   "questionKey": "test:holst-k/inbox/46.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 323
+  },
+  {
+   "questionKey": "test:sanders-r/all_documents/3509.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 5,
+   "bm25AnswerRank": 5,
+   "order": 324
+  },
+  {
+   "questionKey": "test:watson-k/sent_items/846.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 2,
+   "order": 325
+  },
+  {
+   "questionKey": "test:campbell-l/inbox/959.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 326
+  },
+  {
+   "questionKey": "test:keiser-k/deleted_items/276.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 327
+  },
+  {
+   "questionKey": "test:ring-a/discussion_threads/53.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 328
+  },
+  {
+   "questionKey": "test:rogers-b/inbox/41.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 329
+  },
+  {
+   "questionKey": "test:cuilla-m/deleted_items/375.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 330
+  },
+  {
+   "questionKey": "test:lenhart-m/inbox/2.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 331
+  },
+  {
+   "questionKey": "test:derrick-j/sent_items/33.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 332
+  },
+  {
+   "questionKey": "test:bass-e/inbox/229.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 333
+  },
+  {
+   "questionKey": "test:solberg-g/sent_items/51.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 334
+  },
+  {
+   "questionKey": "test:south-s/all_documents/75.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 335
+  },
+  {
+   "questionKey": "test:sager-e/inbox/496.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 336
+  },
+  {
+   "questionKey": "test:wolfe-j/06_saved/100.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 337
+  },
+  {
+   "questionKey": "test:steffes-j/sent_items/466.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 338
+  },
+  {
+   "questionKey": "test:fischer-m/sent_items/43.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 339
+  },
+  {
+   "questionKey": "test:townsend-j/sent_items/5.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 340
+  },
+  {
+   "questionKey": "test:neal-s/discussion_threads/154.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 1,
+   "order": 341
+  },
+  {
+   "questionKey": "test:sanders-r/all_documents/156.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 342
+  },
+  {
+   "questionKey": "test:lenhart-m/notes_inbox/4.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 343
+  },
+  {
+   "questionKey": "test:lavorato-j/deleted_items/307.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 344
+  },
+  {
+   "questionKey": "test:gang-l/deleted_items/490.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 345
+  },
+  {
+   "questionKey": "test:martin-t/inbox/296.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 346
+  },
+  {
+   "questionKey": "test:platter-p/inbox/216.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 347
+  },
+  {
+   "questionKey": "test:blair-l/deleted_items/338.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 348
+  },
+  {
+   "questionKey": "test:scott-s/personal/26.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 349
+  },
+  {
+   "questionKey": "test:kaminski-v/all_documents/9516.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 350
+  },
+  {
+   "questionKey": "test:sanchez-m/inbox/32.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 351
+  },
+  {
+   "questionKey": "test:kean-s/calendar/untitled/1801.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 352
+  },
+  {
+   "questionKey": "test:geaccone-t/inbox/36.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 353
+  },
+  {
+   "questionKey": "test:phanis-s/sent_items/4.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 354
+  },
+  {
+   "questionKey": "test:mckay-j/ubswenergy_com/20.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 355
+  },
+  {
+   "questionKey": "test:bailey-s/deleted_items/21.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 356
+  },
+  {
+   "questionKey": "test:bass-e/sent/1236.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 357
+  },
+  {
+   "questionKey": "test:delainey-d/discussion_threads/498.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 358
+  },
+  {
+   "questionKey": "test:corman-s/sent_items/501.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 359
+  },
+  {
+   "questionKey": "test:ybarbo-p/inbox/328.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 360
+  },
+  {
+   "questionKey": "test:wolfe-j/inbox/46.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 361
+  },
+  {
+   "questionKey": "test:hyatt-k/tw/market_team/8.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 362
+  },
+  {
+   "questionKey": "test:schoolcraft-d/deleted_items/388.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 363
+  },
+  {
+   "questionKey": "test:bailey-s/deleted_items/286.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 364
+  },
+  {
+   "questionKey": "test:geaccone-t/cfp/4.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 365
+  },
+  {
+   "questionKey": "test:salisbury-h/holden_s/9.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 366
+  },
+  {
+   "questionKey": "test:brawner-s/sent_items/85.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 367
+  },
+  {
+   "questionKey": "test:rapp-b/inbox/12.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 368
+  },
+  {
+   "questionKey": "test:panus-s/deleted_items/315.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 369
+  },
+  {
+   "questionKey": "test:mckay-j/pipeline_info/34.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 370
+  },
+  {
+   "questionKey": "test:baughman-d/enron_power/miso/20.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 371
+  },
+  {
+   "questionKey": "test:shankman-j/deleted_items/563.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 372
+  },
+  {
+   "questionKey": "test:kean-s/caliornia___investigations/2.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 373
+  },
+  {
+   "questionKey": "test:reitmeyer-j/deleted_items/112.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 374
+  },
+  {
+   "questionKey": "test:giron-d/sent/755.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 375
+  },
+  {
+   "questionKey": "test:storey-g/sent_items/15.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 376
+  },
+  {
+   "questionKey": "test:shackleton-s/sent/5915.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 377
+  },
+  {
+   "questionKey": "test:davis-d/deleted_items/84.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 378
+  },
+  {
+   "questionKey": "test:crandell-s/sent_items/11.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 379
+  },
+  {
+   "questionKey": "test:presto-k/sent_items/1049.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 380
+  },
+  {
+   "questionKey": "test:lavorato-j/sent_items/358.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 381
+  },
+  {
+   "questionKey": "test:stepenovitch-j/deleted_items/308.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 382
+  },
+  {
+   "questionKey": "test:jones-t/sent/5548.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 383
+  },
+  {
+   "questionKey": "test:phanis-s/deleted_items/13.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 384
+  },
+  {
+   "questionKey": "test:ring-a/deleted_items/94.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 385
+  },
+  {
+   "questionKey": "test:kean-s/vision_and_values/1.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 3,
+   "order": 386
+  },
+  {
+   "questionKey": "test:ring-a/inbox/30.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 4,
+   "bm25AnswerRank": 4,
+   "order": 387
+  },
+  {
+   "questionKey": "test:pereira-s/sent_items/96.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 388
+  },
+  {
+   "questionKey": "test:solberg-g/inbox/142.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 389
+  },
+  {
+   "questionKey": "test:heard-m/inbox/174.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 390
+  },
+  {
+   "questionKey": "test:scholtes-d/ferc/23.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 391
+  },
+  {
+   "questionKey": "test:shankman-j/deleted_items/827.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 392
+  },
+  {
+   "questionKey": "test:donoho-l/sent_items/111.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 393
+  },
+  {
+   "questionKey": "test:lenhart-m/deleted_items/61.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 394
+  },
+  {
+   "questionKey": "test:platter-p/sent_items/10.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 395
+  },
+  {
+   "questionKey": "test:lay-k/inbox/19.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 396
+  },
+  {
+   "questionKey": "test:haedicke-m/deleted_items/14.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 397
+  },
+  {
+   "questionKey": "test:cash-m/deleted_items/392.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 398
+  },
+  {
+   "questionKey": "test:baughman-d/power/24_hour/186.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 399
+  },
+  {
+   "questionKey": "test:causholli-m/deleted_items/291.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 400
+  },
+  {
+   "questionKey": "test:hyatt-k/market_intel/9.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 401
+  },
+  {
+   "questionKey": "test:weldon-c/inbox/22.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 402
+  },
+  {
+   "questionKey": "test:mims-thurston-p/inbox/187.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 403
+  },
+  {
+   "questionKey": "test:gilbertsmith-d/all_documents/1.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 4,
+   "bm25AnswerRank": 1,
+   "order": 404
+  },
+  {
+   "questionKey": "test:rodrique-r/sent/574.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 405
+  },
+  {
+   "questionKey": "test:sager-e/all_documents/567.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 406
+  },
+  {
+   "questionKey": "test:gang-l/deleted_items/137.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 407
+  },
+  {
+   "questionKey": "test:storey-g/deleted_items/208.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 408
+  },
+  {
+   "questionKey": "test:lay-k/all_documents/242.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 409
+  },
+  {
+   "questionKey": "test:sanchez-m/sent_items/51.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 410
+  },
+  {
+   "questionKey": "test:arnold-j/notes_inbox/20.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 411
+  },
+  {
+   "questionKey": "test:quenet-j/deleted_items/26.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 412
+  },
+  {
+   "questionKey": "test:donohoe-t/sent_items/9.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 413
+  },
+  {
+   "questionKey": "test:martin-t/sent_items/124.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 414
+  },
+  {
+   "questionKey": "test:south-s/all_documents/35.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 415
+  },
+  {
+   "questionKey": "test:scott-s/sent_items/8.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 416
+  },
+  {
+   "questionKey": "test:corman-s/inbox/archives/old_messages/140.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 417
+  },
+  {
+   "questionKey": "test:watson-k/inbox/26.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 418
+  },
+  {
+   "questionKey": "test:presto-k/deleted_items/1311.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 419
+  },
+  {
+   "questionKey": "test:mann-k/sent/381.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 420
+  },
+  {
+   "questionKey": "test:reitmeyer-j/inbox/228.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 421
+  },
+  {
+   "questionKey": "test:smith-m/inbox/336.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 422
+  },
+  {
+   "questionKey": "test:keiser-k/sent_items/53.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 423
+  },
+  {
+   "questionKey": "test:kaminski-v/discussion_threads/388.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 424
+  },
+  {
+   "questionKey": "test:holst-k/deleted_items/110.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 425
+  },
+  {
+   "questionKey": "test:whalley-g/inbox/129.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 426
+  },
+  {
+   "questionKey": "test:weldon-c/deleted_items/102.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 427
+  },
+  {
+   "questionKey": "test:swerzbin-m/sent_items/62.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 428
+  },
+  {
+   "questionKey": "test:swerzbin-m/inbox/269.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 429
+  },
+  {
+   "questionKey": "test:mccarty-d/inbox/85.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 430
+  },
+  {
+   "questionKey": "test:beck-s/var/3.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 431
+  },
+  {
+   "questionKey": "test:williams-j/inbox/82.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 432
+  },
+  {
+   "questionKey": "test:crandell-s/deleted_items/81.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 433
+  },
+  {
+   "questionKey": "test:tholt-j/sent_items/222.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 434
+  },
+  {
+   "questionKey": "test:jones-t/notes_inbox/3040.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 435
+  },
+  {
+   "questionKey": "test:taylor-m/all_documents/7672.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 436
+  },
+  {
+   "questionKey": "test:griffith-j/market/309.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 437
+  },
+  {
+   "questionKey": "test:cash-m/sent/318.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 438
+  },
+  {
+   "questionKey": "test:taylor-m/online_trading/116.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 439
+  },
+  {
+   "questionKey": "test:quigley-d/deleted_items/87.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 440
+  },
+  {
+   "questionKey": "test:quenet-j/inbox/15.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 441
+  },
+  {
+   "questionKey": "test:zipper-a/all_documents/58.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 442
+  },
+  {
+   "questionKey": "test:buy-r/sent_items/349.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 443
+  },
+  {
+   "questionKey": "test:ward-k/sent_items/429.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 444
+  },
+  {
+   "questionKey": "test:gang-l/inbox/18.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 445
+  },
+  {
+   "questionKey": "test:watson-k/deleted_items/386.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 446
+  },
+  {
+   "questionKey": "test:rodrique-r/all_documents/802.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 447
+  },
+  {
+   "questionKey": "test:hodge-j/deleted_items/509.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 448
+  },
+  {
+   "questionKey": "test:rogers-b/deleted_items/187.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 4,
+   "bm25AnswerRank": 1,
+   "order": 449
+  },
+  {
+   "questionKey": "test:corman-s/sent_items/62.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 450
+  },
+  {
+   "questionKey": "test:motley-m/deleted_items/93.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 4,
+   "bm25AnswerRank": 4,
+   "order": 451
+  },
+  {
+   "questionKey": "test:tholt-j/sent_items/261.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 452
+  },
+  {
+   "questionKey": "test:delainey-d/all_documents/378.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 453
+  },
+  {
+   "questionKey": "test:mims-thurston-p/deleted_items/472.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 454
+  },
+  {
+   "questionKey": "test:mann-k/sent/1324.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 5,
+   "bm25AnswerRank": 4,
+   "order": 455
+  },
+  {
+   "questionKey": "test:crandell-s/inbox/199.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 456
+  },
+  {
+   "questionKey": "test:buy-r/inbox/19.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 457
+  },
+  {
+   "questionKey": "test:smith-m/inbox/132.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 458
+  },
+  {
+   "questionKey": "test:geaccone-t/_sent_mail/135.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 459
+  },
+  {
+   "questionKey": "test:davis-d/discussion_threads/51.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 3,
+   "order": 460
+  },
+  {
+   "questionKey": "test:skilling-j/inbox/2497.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 461
+  },
+  {
+   "questionKey": "test:platter-p/sent_items/90.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 462
+  },
+  {
+   "questionKey": "test:scholtes-d/ferc/19.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 463
+  },
+  {
+   "questionKey": "test:merriss-s/discussion_threads/76.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 464
+  },
+  {
+   "questionKey": "test:mann-k/_sent_mail/957.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 465
+  },
+  {
+   "questionKey": "test:white-s/sent_items/422.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 466
+  },
+  {
+   "questionKey": "test:heard-m/inbox/master_netting/101.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 467
+  },
+  {
+   "questionKey": "test:pereira-s/deleted_items/52.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 468
+  },
+  {
+   "questionKey": "test:gilbertsmith-d/deleted_items/69.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 5,
+   "bm25AnswerRank": 1,
+   "order": 469
+  },
+  {
+   "questionKey": "test:quigley-d/private_folders/kq___dq/30.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 470
+  },
+  {
+   "questionKey": "test:gilbertsmith-d/all_documents/98.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 471
+  },
+  {
+   "questionKey": "test:delainey-d/discussion_threads/171.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 472
+  },
+  {
+   "questionKey": "test:fischer-m/discussion_threads/323.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 473
+  },
+  {
+   "questionKey": "test:ring-r/deleted_items/201.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 474
+  },
+  {
+   "questionKey": "test:semperger-c/sent_items/26.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 475
+  },
+  {
+   "questionKey": "test:stepenovitch-j/inbox/work_mail/48.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 476
+  },
+  {
+   "questionKey": "test:solberg-g/deleted_items/617.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 477
+  },
+  {
+   "questionKey": "test:farmer-d/sent/558.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 478
+  },
+  {
+   "questionKey": "test:slinger-r/sent_items/28.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 479
+  },
+  {
+   "questionKey": "test:panus-s/deleted_items/224.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 480
+  },
+  {
+   "questionKey": "test:hyatt-k/tw/capacity_marketing/7.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 481
+  },
+  {
+   "questionKey": "test:hodge-j/inbox/623.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 482
+  },
+  {
+   "questionKey": "test:ring-r/eesirenewableenergy/86.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 483
+  },
+  {
+   "questionKey": "test:williams-j/sent_items/9.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 484
+  },
+  {
+   "questionKey": "test:south-s/all_documents/65.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 485
+  },
+  {
+   "questionKey": "test:panus-s/deleted_items/190.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 486
+  },
+  {
+   "questionKey": "test:ward-k/glendale/3.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 487
+  },
+  {
+   "questionKey": "test:williams-w3/bill_williams_iii/173.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 488
+  },
+  {
+   "questionKey": "test:griffith-j/continental/13.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 489
+  },
+  {
+   "questionKey": "test:bailey-s/deleted_items/147.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 490
+  },
+  {
+   "questionKey": "test:schwieger-j/sent_items/116.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 491
+  },
+  {
+   "questionKey": "test:gilbertsmith-d/all_documents/36.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 492
+  },
+  {
+   "questionKey": "test:pereira-s/_sent_mail/124.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 493
+  },
+  {
+   "questionKey": "test:whitt-m/sent_items/175.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 494
+  },
+  {
+   "questionKey": "test:allen-p/discussion_threads/57.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 495
+  },
+  {
+   "questionKey": "test:crandell-s/inbox/209.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 496
+  },
+  {
+   "questionKey": "test:mckay-b/deleted_items/92.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 497
+  },
+  {
+   "questionKey": "test:saibi-e/inbox/231.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 4,
+   "bm25AnswerRank": 1,
+   "order": 498
+  },
+  {
+   "questionKey": "test:saibi-e/inbox/304.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 3,
+   "order": 499
+  },
+  {
+   "questionKey": "test:skilling-j/inbox/341.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 500
+  },
+  {
+   "questionKey": "test:griffith-j/deleted_items/617.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 501
+  },
+  {
+   "questionKey": "test:geaccone-t/sent_items/63.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 502
+  },
+  {
+   "questionKey": "test:stepenovitch-j/inbox/work_mail/8.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 503
+  },
+  {
+   "questionKey": "test:donoho-l/inbox/junk_file/542.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 504
+  },
+  {
+   "questionKey": "test:hernandez-j/discussion_threads/626.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 505
+  },
+  {
+   "questionKey": "test:hayslett-r/projects/finance/8.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 506
+  },
+  {
+   "questionKey": "test:tholt-j/deleted_items/74.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 507
+  },
+  {
+   "questionKey": "test:mccarty-d/deleted_items/68.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 508
+  },
+  {
+   "questionKey": "test:slinger-r/inbox/39.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 3,
+   "order": 509
+  },
+  {
+   "questionKey": "test:richey-c/sent_items/117.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 510
+  },
+  {
+   "questionKey": "test:beck-s/sent_items/60.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 511
+  },
+  {
+   "questionKey": "test:gang-l/sent_items/21.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 512
+  },
+  {
+   "questionKey": "test:hyatt-k/deleted_items/214.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 513
+  },
+  {
+   "questionKey": "test:hain-m/discussion_threads/1141.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 514
+  },
+  {
+   "questionKey": "test:hernandez-j/inbox/152.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 4,
+   "bm25AnswerRank": 1,
+   "order": 515
+  },
+  {
+   "questionKey": "test:williams-w3/sent_items/210.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 516
+  },
+  {
+   "questionKey": "test:bass-e/inbox/35.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 517
+  },
+  {
+   "questionKey": "test:hayslett-r/sent_items/329.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 518
+  },
+  {
+   "questionKey": "test:fischer-m/discussion_threads/167.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 519
+  },
+  {
+   "questionKey": "test:thomas-p/inbox/225.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 520
+  },
+  {
+   "questionKey": "test:giron-d/discussion_threads/581.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 521
+  },
+  {
+   "questionKey": "test:reitmeyer-j/sent_items/65.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 2,
+   "order": 522
+  },
+  {
+   "questionKey": "test:salisbury-h/read/90.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 523
+  },
+  {
+   "questionKey": "test:solberg-g/sent_items/41.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 524
+  },
+  {
+   "questionKey": "test:fischer-m/notes_inbox/362.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 525
+  },
+  {
+   "questionKey": "test:ybarbo-p/inbox/5.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 526
+  },
+  {
+   "questionKey": "test:pereira-s/sent_items/38.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 527
+  },
+  {
+   "questionKey": "test:cuilla-m/deleted_items/432.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 528
+  },
+  {
+   "questionKey": "test:rapp-b/inbox/1.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 529
+  },
+  {
+   "questionKey": "test:keiser-k/inbox/362.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 530
+  },
+  {
+   "questionKey": "test:lokay-m/publications/13.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 4,
+   "bm25AnswerRank": 1,
+   "order": 531
+  },
+  {
+   "questionKey": "test:keiser-k/to_do/16.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 532
+  },
+  {
+   "questionKey": "test:lokay-m/discussion_threads/164.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 533
+  },
+  {
+   "questionKey": "test:ermis-f/discussion_threads/124.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 534
+  },
+  {
+   "questionKey": "test:mims-thurston-p/deleted_items/609.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 535
+  },
+  {
+   "questionKey": "test:dorland-c/deleted_items/76.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 536
+  },
+  {
+   "questionKey": "test:donoho-l/sent_items/215.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 537
+  },
+  {
+   "questionKey": "test:arnold-j/sent_items/53.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 538
+  },
+  {
+   "questionKey": "test:forney-j/sent_items/7.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 539
+  },
+  {
+   "questionKey": "test:richey-c/inbox/65.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 540
+  },
+  {
+   "questionKey": "test:hodge-j/sent_items/7.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 541
+  },
+  {
+   "questionKey": "test:white-s/deleted_items/656.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 542
+  },
+  {
+   "questionKey": "test:rogers-b/genco_jv_ipo/356.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 543
+  },
+  {
+   "questionKey": "test:guzman-m/discussion_threads/543.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 3,
+   "order": 544
+  },
+  {
+   "questionKey": "test:hain-m/discussion_threads/393.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 545
+  },
+  {
+   "questionKey": "test:thomas-p/inbox/335.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 546
+  },
+  {
+   "questionKey": "test:tholt-j/all_documents/391.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 3,
+   "order": 547
+  },
+  {
+   "questionKey": "test:slinger-r/inbox/16.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 548
+  },
+  {
+   "questionKey": "test:steffes-j/alliance_rto/2.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 549
+  },
+  {
+   "questionKey": "test:lucci-p/deleted_items/239.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 550
+  },
+  {
+   "questionKey": "test:jones-t/sent/2274.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 551
+  },
+  {
+   "questionKey": "test:bailey-s/deleted_items/329.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 552
+  },
+  {
+   "questionKey": "test:dorland-c/sent_items/273.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 553
+  },
+  {
+   "questionKey": "test:lokay-m/enron_t_s/209.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 554
+  },
+  {
+   "questionKey": "test:meyers-a/deleted_items/1098.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 555
+  },
+  {
+   "questionKey": "test:williams-w3/preschedule/5.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 556
+  },
+  {
+   "questionKey": "test:ward-k/personal/35.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 557
+  },
+  {
+   "questionKey": "test:ermis-f/all_documents/186.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 558
+  },
+  {
+   "questionKey": "test:whalley-l/_sent_mail/114.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 559
+  },
+  {
+   "questionKey": "test:richey-c/sent_items/92.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 560
+  },
+  {
+   "questionKey": "test:delainey-d/all_documents/180.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 561
+  },
+  {
+   "questionKey": "test:rodrique-r/all_documents/229.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 562
+  },
+  {
+   "questionKey": "test:rodrique-r/sent/9.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 563
+  },
+  {
+   "questionKey": "test:mclaughlin-e/deleted_items/372.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 564
+  },
+  {
+   "questionKey": "test:mckay-j/sent_items/57.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 565
+  },
+  {
+   "questionKey": "test:ring-a/sent_items/6.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 566
+  },
+  {
+   "questionKey": "test:presto-k/deleted_items/1385.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 567
+  },
+  {
+   "questionKey": "test:bass-e/sent/322.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 4,
+   "bm25AnswerRank": 4,
+   "order": 568
+  },
+  {
+   "questionKey": "test:forney-j/sent_items/325.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 569
+  },
+  {
+   "questionKey": "test:lavorato-j/old_inbox/14.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 570
+  },
+  {
+   "questionKey": "test:storey-g/personal/46.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 571
+  },
+  {
+   "questionKey": "test:beck-s/inbox/651.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 572
+  },
+  {
+   "questionKey": "test:keiser-k/sent_items/186.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 573
+  },
+  {
+   "questionKey": "test:dorland-c/sent_items/419.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 574
+  },
+  {
+   "questionKey": "test:hayslett-r/projects/portland_general/5.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 575
+  },
+  {
+   "questionKey": "test:whalley-g/inbox/163.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 576
+  },
+  {
+   "questionKey": "test:kaminski-v/deleted_items/506.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 577
+  },
+  {
+   "questionKey": "test:hernandez-j/discussion_threads/490.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 578
+  },
+  {
+   "questionKey": "test:mckay-j/retail/48.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 579
+  },
+  {
+   "questionKey": "test:schoolcraft-d/inbox/junk/268.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 580
+  },
+  {
+   "questionKey": "test:davis-d/deleted_items/273.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 581
+  },
+  {
+   "questionKey": "test:kean-s/archiving/untitled/6248.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 582
+  },
+  {
+   "questionKey": "test:mclaughlin-e/deleted_items/314.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 583
+  },
+  {
+   "questionKey": "test:heard-m/sent_items/328.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 4,
+   "bm25AnswerRank": 4,
+   "order": 584
+  },
+  {
+   "questionKey": "test:reitmeyer-j/deleted_items/45.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 585
+  },
+  {
+   "questionKey": "test:stokley-c/chris_stokley/sent/405.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 586
+  },
+  {
+   "questionKey": "test:ring-a/discussion_threads/80.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 587
+  },
+  {
+   "questionKey": "test:dorland-c/all_documents/422.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 588
+  },
+  {
+   "questionKey": "test:neal-s/inbox/117.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 589
+  },
+  {
+   "questionKey": "test:ybarbo-p/oman_lng/2.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 590
+  },
+  {
+   "questionKey": "test:guzman-m/notes_inbox/1590.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 591
+  },
+  {
+   "questionKey": "test:sanders-r/sent/887.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 2,
+   "order": 592
+  },
+  {
+   "questionKey": "test:motley-m/deleted_items/20.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 593
+  },
+  {
+   "questionKey": "test:stclair-c/all_documents/2319.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 594
+  },
+  {
+   "questionKey": "test:geaccone-t/_sent_mail/46.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 3,
+   "bm25AnswerRank": 2,
+   "order": 595
+  },
+  {
+   "questionKey": "test:derrick-j/sent_items/64.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 596
+  },
+  {
+   "questionKey": "test:brawner-s/all_documents/124.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 597
+  },
+  {
+   "questionKey": "test:corman-s/inbox/archives/old_messages/40.#1",
+   "stratum": "hit",
+   "bm25GoldRank": 1,
+   "bm25AnswerRank": 1,
+   "order": 598
+  },
+  {
+   "questionKey": "test:cash-m/sent/117.#0",
+   "stratum": "hit",
+   "bm25GoldRank": 2,
+   "bm25AnswerRank": 1,
+   "order": 599
+  }
+ ]
+}

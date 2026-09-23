@@ -16,7 +16,7 @@ import { join } from "node:path"
 import { existsSync, readFileSync } from "node:fs"
 import { setTimeout as delay } from "node:timers/promises"
 import { AnswerStore, appendJsonl, generationKey, optionsHash, readJsonl } from "./store.js"
-import { referenceVerdict, adjudicate, preGrade, verdictKey, judgeConfig, callJudge, inCorrectAudit, JudgePaused, JudgeAuthError } from "./judge.js"
+import { referenceVerdict, adjudicate, preGrade, verdictKey, judgeConfig, callJudge, inCorrectAudit, JudgePaused, JudgeAuthError, USAGE } from "./judge.js"
 import { JUDGES, testCells } from "./cells.js"
 import { mapLimit } from "./bm25.js"
 import { keyedRandom, shuffleInPlace, splitmix32 } from "./text.js"
@@ -201,7 +201,8 @@ export async function grade({ dataDir, ollamaUrl = "http://localhost:11434", log
 
     // ---- J1 on everything, J2 on tier A + sample ----
     summary.j1 = await pass("J1", j1, judgeable, (unit) => referenceVerdict(j1, item(unit), { ollamaUrl }))
-    if (Date.now() > stopTime) return { ...summary, stopped: "time", paused: paused.value }
+    log(`[grade] usage so far: ${JSON.stringify(Object.fromEntries(USAGE))}`)
+    if (Date.now() > stopTime) return { ...summary, stopped: "time", paused: paused.value, usage: Object.fromEntries(USAGE) }
     const j2 = judgeConfig("j2")
     summary.j2 = await pass("J2", j2, judgeable.filter(j2Sampled), (unit) => referenceVerdict(j2, item(unit), { ollamaUrl }))
     if (Date.now() > stopTime) return { ...summary, stopped: "time", paused: paused.value }
@@ -249,5 +250,6 @@ export async function grade({ dataDir, ollamaUrl = "http://localhost:11434", log
         summary.adjudicator = adj.model
         summary.adjudication = await pass("adjudication", adj, toAdjudicate, (unit) => adjudicate(adj, { ...item(unit), emails: shown(unit) }, supporting(unit), { ollamaUrl }))
     }
+    summary.usage = Object.fromEntries(USAGE)
     return { ...summary, paused: paused.value, stopped: null }
 }

@@ -173,4 +173,9 @@ The run stops at `POC2_STOP_AT`. Items are never started if their projected dura
 
 ## Deviation log
 
-(none)
+**2026-09-23 — TEST grading runs on OpenRouter instead of Ollama Cloud.** The account's Ollama tier serialises cloud calls (J1 alone would take about 26 h for 15,463 calls) and returns HTTP 402 for every third-family adjudicator. TEST grading therefore runs through OpenRouter:
+
+- J1 `openai/gpt-oss-20b` and J2 `nvidia/nemotron-3-nano-30b-a3b`: the same models as pre-registered, a different host. OpenRouter routes a model across providers, so the serving stack is not fixed; this is disclosed rather than controlled.
+- Adjudicator `deepseek/deepseek-v4.1-flash`: the newer revision of the chain's first entry (`deepseek-v4-flash`), still a third family relative to J1 and J2, and about 5x faster here than the older revision.
+- DEV answers are re-judged on the same OpenRouter J1 so DEV and TEST are comparable. **E\* is not re-selected**: it was chosen during the run from the Ollama-hosted J1 verdicts, as pre-registered, and that selection stands.
+- Judge calls send `reasoning.exclude`, so a model's reasoning is not returned as content. A verdict that still fails to parse is retried once without the JSON-format and reasoning options.

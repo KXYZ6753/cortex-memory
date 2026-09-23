@@ -27,7 +27,7 @@ export class JudgeAuthError extends JudgePaused {}
 // switching any of them (e.g. J2 to OpenRouter after running out of cloud credits)
 // re-judges instead of silently mixing verdicts.
 export function judgeConfig(role) {
-    if (role === "j1") return { role, provider: "ollama", model: process.env.POC2_J1_MODEL ?? JUDGES.j1.model, think: process.env.POC2_J1_THINK ?? "low" }
+    if (role === "j1") return { role, provider: process.env.POC2_J1_PROVIDER ?? "ollama", model: process.env.POC2_J1_MODEL ?? JUDGES.j1.model, think: process.env.POC2_J1_THINK ?? "low" }
     if (role === "j2") return { role, provider: process.env.POC2_J2_PROVIDER ?? "ollama", model: process.env.POC2_J2_MODEL ?? JUDGES.j2.model, think: false }
     if (role === "adj") return { role, provider: process.env.POC2_ADJ_PROVIDER ?? "ollama", model: process.env.POC2_ADJ_MODEL ?? JUDGES.adjudicator.model, think: false }
     throw new Error(`unknown judge role ${role}`)
@@ -100,6 +100,17 @@ Reply with JSON only: {"verdict": "CORRECT" or "INCORRECT", "quotes": [{"text": 
 
 export const RUBRIC_HASH = sha256([RUBRIC_VERSION, referencePrompt({ question: "Q", references: ["R"], candidate: "C" }), adjudicationPrompt({ question: "Q", references: ["R"], candidate: "C", emails: ["E"] })].join("\n--8<--\n"))
 
+// Token usage per judge model, for the cost line in the grading summary.
+export const USAGE = new Map()
+const addUsage = (judge, usage) => {
+    const key = `${judge.provider}:${judge.model}`
+    const entry = USAGE.get(key) ?? { calls: 0, promptTokens: 0, completionTokens: 0 }
+    entry.calls++
+    entry.promptTokens += usage?.prompt_tokens ?? usage?.prompt ?? 0
+    entry.completionTokens += usage?.completion_tokens ?? usage?.completion ?? 0
+    USAGE.set(key, entry)
+}
+
 export const normaliseAnswer = (answer) => String(answer ?? "").trim().replace(/\s+/g, " ")
 const referencesHash = (references) => sha256(references.join("\n"))
 
@@ -130,18 +141,40 @@ export async function callJudge(judge, prompt, schema, { ollamaUrl = "http://loc
     if (judge.provider === "openrouter") {
         const key = process.env.OPENROUTER_API_KEY
         if (!key) throw new JudgePaused("OPENROUTER_API_KEY is not set")
-        for (let attempt = 1; attempt <= 4; attempt++) {
+        let plain = judge.plain === true
+        for (let attempt = 1; attempt <= 5; attempt++) {
             const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
                 method: "POST",
                 headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
-                body: JSON.stringify({ model: judge.model, messages: [{ role: "user", content: prompt }], temperature: 0, max_tokens: 1024, response_format: { type: "json_object" } }),
+                body: JSON.stringify({
+                    model: judge.model,
+                    messages: [{ role: "user", content: prompt }],
+                    temperature: 0,
+                    max_tokens: judge.numPredict ?? 1536,
+                    ...(plain ? {} : { response_format: { type: "json_object" } }),
+                    // Reasoning models take the same setting here that Ollama's think
+                    // parameter sets, so a host switch keeps it. exclude keeps the
+                    // reasoning out of the content, which otherwise breaks JSON parsing
+                    // and is charged as output tokens.
+                    ...(plain ? {} : { reasoning: typeof judge.think === "string" ? { effort: judge.think, exclude: true } : { enabled: false, exclude: true } }),
+                    // OpenRouter routes a model across hosts; the slowest are 40x the
+                    // fastest here, and judging is throughput-bound.
+                    provider: { sort: "throughput" },
+                }),
                 signal: AbortSignal.timeout(timeoutMs),
             }).catch((error) => ({ ok: false, status: 0, text: async () => error.message }))
             if (response.ok) {
                 const data = await response.json()
+                addUsage(judge, data.usage)
                 return { text: data.choices?.[0]?.message?.content ?? "", usage: data.usage ?? null }
             }
             const body = await response.text()
+            // Some hosts reject response_format or reasoning; the prompts already ask
+            // for JSON only, so retry once without them rather than failing the call.
+            if (response.status === 400 && !plain && /response_format|reasoning|json|structured/i.test(body)) {
+                plain = true
+                continue
+            }
             if (response.status === 401 || response.status === 403) throw new JudgeAuthError(`OpenRouter ${response.status}: ${body.slice(0, 200)}. Check OPENROUTER_API_KEY.`)
             if (response.status === 402 || response.status === 429 || LIMIT.test(body)) throw new JudgePaused(`OpenRouter ${response.status}: ${body.slice(0, 200)}`)
             await delay(3000 * attempt)
@@ -159,7 +192,10 @@ export async function callJudge(judge, prompt, schema, { ollamaUrl = "http://loc
         timeoutMs,
         attempts: 4,
     })
-    if (result.status === "ok" || result.status === "output_limit") return { text: result.answer, usage: { prompt: result.promptEvalCount, completion: result.evalCount }, thinkingChars: result.thinkingChars }
+    if (result.status === "ok" || result.status === "output_limit") {
+        addUsage(judge, { prompt: result.promptEvalCount, completion: result.evalCount })
+        return { text: result.answer, usage: { prompt: result.promptEvalCount, completion: result.evalCount }, thinkingChars: result.thinkingChars }
+    }
     const text = String(result.error ?? "")
     if (result.httpStatus === 401 || result.httpStatus === 403) throw new JudgeAuthError(`${judge.model}: HTTP ${result.httpStatus} ${text.slice(0, 200)}. Run "ollama signin", then rerun.`)
     if (result.httpStatus === 402 || result.httpStatus === 429 || LIMIT.test(text)) {
@@ -169,8 +205,15 @@ export async function callJudge(judge, prompt, schema, { ollamaUrl = "http://loc
 }
 
 export async function referenceVerdict(judge, item, options) {
-    const { text } = await callJudge(judge, referencePrompt(item), VERDICT_SCHEMA, options)
-    const parsed = parseJson(text)
+    const prompt = referencePrompt(item)
+    let { text } = await callJudge(judge, prompt, VERDICT_SCHEMA, options)
+    let parsed = parseJson(text)
+    // A reasoning model sometimes answers with its analysis instead of the verdict.
+    // One retry without the JSON format and reasoning options fixes nearly all of it.
+    if (parsed?.verdict !== "CORRECT" && parsed?.verdict !== "INCORRECT" && !judge.plain) {
+        ({ text } = await callJudge({ ...judge, plain: true }, prompt, VERDICT_SCHEMA, options))
+        parsed = parseJson(text)
+    }
     const verdict = parsed?.verdict === "CORRECT" || parsed?.verdict === "INCORRECT" ? parsed.verdict : null
     return {
         verdict,
@@ -201,8 +244,13 @@ export function verifyQuotes(quotes, supportingEmails) {
 }
 
 export async function adjudicate(judge, item, supportingEmails, options) {
-    const { text } = await callJudge(judge, adjudicationPrompt(item), ADJUDICATION_SCHEMA, options)
-    const parsed = parseJson(text)
+    const prompt = adjudicationPrompt(item)
+    let { text } = await callJudge(judge, prompt, ADJUDICATION_SCHEMA, options)
+    let parsed = parseJson(text)
+    if (parsed?.verdict !== "CORRECT" && parsed?.verdict !== "INCORRECT" && !judge.plain) {
+        ({ text } = await callJudge({ ...judge, plain: true }, prompt, ADJUDICATION_SCHEMA, options))
+        parsed = parseJson(text)
+    }
     const raw = parsed?.verdict === "CORRECT" || parsed?.verdict === "INCORRECT" ? parsed.verdict : null
     const { quotes, verifiedCount } = verifyQuotes(parsed?.quotes, supportingEmails)
     // An unverified CORRECT is downgraded: the adjudicator must show its evidence.

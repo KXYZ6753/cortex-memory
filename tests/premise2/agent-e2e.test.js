@@ -14,7 +14,7 @@ import { DatabaseSync } from "node:sqlite"
 process.env.POC2_SMOKE_MODEL = "mock:1b"
 process.env.POC2_MAX_ITEMS = "3"
 
-const { runAgent, agentDirOf, armKey, armOptions } = await import("../../benchmarks/premise2/agent-run.js")
+const { runAgent, agentDirOf, armKey, armOptions, newIndexOf } = await import("../../benchmarks/premise2/agent-run.js")
 const { agentQueue } = await import("../../benchmarks/premise2/cells.js")
 const { buildBm25Index } = await import("../../benchmarks/premise2/bm25.js")
 const { buildAllVariants } = await import("../../benchmarks/premise2/indexes.js")
@@ -122,10 +122,10 @@ test("agent run: the whole extension queue completes on every index, resumes wit
         assert.equal(first.reason, "complete")
 
         const answers = readJsonl(join(agentDirOf(dir), "answers.jsonl")).records.filter((record) => record.type === "answer")
-        const queue = agentQueue("bm25-msg")
+        const queue = agentQueue(newIndexOf())
         const state = JSON.parse(readFileSync(join(agentDirOf(dir), "state.json"), "utf8"))
         assert.ok(state.extFingerprint)
-        assert.equal(state.provenance.newIndex, "bm25-msg")
+        assert.equal(state.provenance.newIndex, newIndexOf())
         assert.equal(state.denseCheck.meanTop10Overlap, 1)
 
         // Every arm has its episodes under the expected key; the rephrased arms skip the

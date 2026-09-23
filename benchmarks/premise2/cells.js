@@ -148,7 +148,7 @@ export const AGENT_BLOCK = 50
 //
 // AGENT_NEW_INDEX is the index chosen on DEV by `index-eval` and pre-registered in
 // PREREG-AGENT-INDEX.md; the run refuses to start while it is null.
-export const AGENT_NEW_INDEX = null
+export const AGENT_NEW_INDEX = "bm25-fields"
 export const AGENT_DENSE_INDEXES = new Set(["dense", "rrf60"])
 export const AGENT_LARGE_CORE = 200
 

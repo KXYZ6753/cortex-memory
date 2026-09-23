@@ -23,9 +23,19 @@ Every variant uses the main index's FTS5 schema, `porter unicode61` tokenizer an
 | `bm25-msg` | one row per message of the R2 segmentation, each message's own header lines kept; an email ranks by its best message |
 | `bm25-latest` | the newest message only (RL; lossy by design) |
 
-**Selection rule.** `npm run premise2 -- index-eval` computes answer-bearing recall@5 of each variant on the DEV pool (397 questions from the 30 tuning mailboxes, questions field). The new index is the candidate among `bm25-fields`, `bm25-r1`, `bm25-msg`, `bm25-latest` with the highest DEV recall@5; a tie keeps the earlier candidate in that order. It is chosen whether or not it beats `bm25`. TEST and retrieval-only recall are reported for every variant, but never used for the choice. `index-eval.md` and `index-eval.json` are committed with this file.
+**Selection rule.** `npm run premise2 -- index-eval` computes answer-bearing recall@5 of each variant on the DEV pool (397 questions from the 30 tuning mailboxes, questions field). The new index is the candidate among `bm25-fields`, `bm25-r1`, `bm25-msg`, `bm25-latest` with the highest DEV recall@5; a tie keeps the earlier candidate in that order. It is chosen whether or not it beats `bm25`. TEST and retrieval-only recall are reported for every variant, but never used for the choice.
 
-**DEV choice: TO BE FILLED FROM index-eval BEFORE THE EXTENSION RUNS.**
+**DEV choice: `bm25-fields`.** `index-eval` on the eval machine, 2026-09-23, before any extension episode (answer-bearing recall@5, questions field):
+
+| variant | DEV (n = 397) | TEST (n = 955) |
+|---|---|---|
+| `bm25` | 93.7 | 95.9 |
+| `bm25-fields` | **94.5** | 96.2 |
+| `bm25-r1` | 93.2 | 95.8 |
+| `bm25-msg` | 94.0 | 94.9 |
+| `bm25-latest` | 80.6 | 80.2 |
+
+The DEV margin of `bm25-fields` over `bm25` is 0.8 points (about 3 questions), so B1 is expected to be small; it is tested as registered.
 
 ## 3. Arms and queue
 

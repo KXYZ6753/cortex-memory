@@ -21,7 +21,9 @@ function normalise(vector) {
     return out
 }
 
-export async function embedBatch(texts, { ollamaUrl = "http://localhost:11434", model = EMBED_MODEL, timeoutMs = 300_000, attempts = 4 } = {}) {
+// `options` passes Ollama runtime options (the agent arm embeds queries on the CPU
+// with { num_gpu: 0 } so the generator keeps the whole GPU).
+export async function embedBatch(texts, { ollamaUrl = "http://localhost:11434", model = EMBED_MODEL, timeoutMs = 300_000, attempts = 4, options = null } = {}) {
     for (let attempt = 1; attempt <= attempts; attempt++) {
         try {
             const response = await fetch(`${ollamaUrl}/api/embed`, {
@@ -29,7 +31,7 @@ export async function embedBatch(texts, { ollamaUrl = "http://localhost:11434", 
                 headers: { "Content-Type": "application/json" },
                 // Embeddings keep truncate:true (nomic's 2048-token window); chat calls
                 // use truncate:false so oversize prompts fail loudly instead.
-                body: JSON.stringify({ model, input: texts, truncate: true, keep_alive: "30m" }),
+                body: JSON.stringify({ model, input: texts, truncate: true, keep_alive: "30m", ...(options ? { options } : {}) }),
                 signal: AbortSignal.timeout(timeoutMs),
             })
             if (!response.ok) throw Object.assign(new Error(`embed HTTP ${response.status}: ${(await response.text()).slice(0, 300)}`), { retryable: response.status >= 500 || response.status === 429 })

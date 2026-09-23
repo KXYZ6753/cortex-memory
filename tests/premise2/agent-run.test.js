@@ -60,3 +60,53 @@ test("armOptions: optsHash is stable across calls with the same arm and numPredi
     const b = armOptions({ think: false }, 160)
     assert.equal(a.optsHash, b.optsHash)
 })
+
+// ---------------------------------------------------------------------------
+// Index-factor extension: keys and queue
+// ---------------------------------------------------------------------------
+
+import { armKey, armQuestion } from "../../benchmarks/premise2/agent-run.js"
+import { episodeSha, MAX_ROUNDS, firstMessage } from "../../benchmarks/premise2/agent.js"
+import { AGENT_ARMS, agentQueue, agentArmId } from "../../benchmarks/premise2/cells.js"
+import { generationKey } from "../../benchmarks/premise2/store.js"
+
+const RECORD = { question: "When did Caroline send the original email?", rephrased: "At what time was the first email from Caroline sent?" }
+
+test("armKey: the original BM25 arms keep the original addendum's keys (episodes carry over)", () => {
+    for (const legacy of AGENT_ARMS.filter((arm) => !arm.think)) {
+        const { optsHash } = armOptions(legacy, 160)
+        const original = generationKey("digest", optsHash, episodeSha(RECORD.question, legacy.variant, legacy.rawFirst))
+        const queued = agentQueue("bm25-msg").find((arm) => arm.cell === legacy.cell && arm.alias === legacy.alias && arm.index === "bm25" && arm.field === "questions" && !arm.maxRounds)
+        if (!queued) continue
+        assert.equal(armKey(queued, RECORD, "digest", armOptions(queued, 160).optsHash), original, `${legacy.cell}|${legacy.alias}`)
+    }
+})
+
+test("armKey: index, round budget and question field each change the key", () => {
+    const base = { cell: "A-agent", alias: "small", index: "bm25", field: "questions" }
+    const key = (arm) => armKey(arm, RECORD, "d", armOptions(arm, 160).optsHash)
+    const keys = [key(base), key({ ...base, index: "dense" }), key({ ...base, index: "bm25-msg" }), key({ ...base, maxRounds: 2 }), key({ ...base, field: "rephrased" })]
+    assert.equal(new Set(keys).size, keys.length)
+    assert.equal(key({ ...base, maxRounds: MAX_ROUNDS }), key(base))
+})
+
+test("armQuestion / armKey: a rephrased arm skips a question without a rephrasing", () => {
+    const arm = { cell: "A-agent", alias: "small", field: "rephrased" }
+    assert.equal(armQuestion(arm, RECORD), RECORD.rephrased)
+    assert.equal(armKey(arm, { question: "q", rephrased: null }, "d", "o"), null)
+})
+
+test("agentQueue: ids are unique per model except the 31b core/extension pair, and must arms come first", () => {
+    const queue = agentQueue("bm25-r1")
+    const labels = queue.map((arm) => `${arm.id}|${arm.alias}|${arm.maxItems ?? "all"}`)
+    assert.equal(new Set(labels).size, labels.length)
+    assert.deepEqual(queue.slice(0, 5).map((arm) => `${arm.id}|${arm.alias}`), ["A-agent|small", "A-agent@bm25-r1|small", "A-agent@dense|small", "A-agent@rrf60|small", "A-agent|large"])
+    assert.ok(!queue.some((arm) => arm.alias === "large" && (arm.index === "dense" || arm.index === "rrf60")))
+    assert.equal(agentArmId({ cell: "A-agent", field: "rephrased", index: "dense" }), "A-agent-reph@dense")
+    assert.equal(agentArmId({ cell: "A-agent", maxRounds: 2 }), "A-agent-r2")
+})
+
+test("firstMessage: the round budget is stated; the default text is unchanged", () => {
+    assert.match(firstMessage("Q", "standard", 2), /You have 2 rounds/)
+    assert.equal(firstMessage("Q"), firstMessage("Q", "standard", MAX_ROUNDS))
+})

@@ -138,3 +138,46 @@ export const AGENT_ARMS = [
 ]
 export const AGENT_THINK_NUM_PREDICT = 4096
 export const AGENT_BLOCK = 50
+
+// ---- Index-factor extension (PREREG-AGENT-INDEX.md) ----
+// AGENT_ARMS above is frozen: it defines the original addendum's fingerprint, so
+// episodes run under it keep their keys. AGENT_QUEUE is the run order from the
+// extension on. Arm fields: index (INDEX_VARIANTS name, "dense" or "rrf60"; default
+// bm25), field ("rephrased" asks the EnronQA rephrased question), maxRounds,
+// maxItems (a prefix of agent-items.json). The thinking arms are dropped.
+//
+// AGENT_NEW_INDEX is the index chosen on DEV by `index-eval` and pre-registered in
+// PREREG-AGENT-INDEX.md; the run refuses to start while it is null.
+export const AGENT_NEW_INDEX = null
+export const AGENT_DENSE_INDEXES = new Set(["dense", "rrf60"])
+export const AGENT_LARGE_CORE = 200
+
+export function agentArmId({ cell, index = "bm25", field = "questions", maxRounds = null }) {
+    const base = field === "rephrased" ? `${cell}-reph` : maxRounds ? `${cell}-r${maxRounds}` : cell
+    return index === "bm25" ? base : `${base}@${index}`
+}
+
+export function agentQueue(newIndex = AGENT_NEW_INDEX) {
+    const arm = (cell, alias, extra = {}) => {
+        const out = { cell, alias, index: "bm25", field: "questions", ...extra }
+        return { ...out, id: agentArmId(out) }
+    }
+    const fresh = newIndex ?? "bm25-msg"
+    const indexes = ["bm25", fresh, "dense", "rrf60"]
+    return [
+        // must: e2b on every index; the 31b base point; who writes the query per index
+        ...indexes.map((index) => arm("A-agent", "small", { index })),
+        arm("A-agent", "large", { maxItems: AGENT_LARGE_CORE }),
+        ...indexes.map((index) => arm("A-rawfirst", "small", { index, rawFirst: true })),
+        // should: rephrased questions; e4b on every index; the 31b on the new index
+        arm("A-agent", "small", { field: "rephrased" }),
+        arm("A-agent", "small", { field: "rephrased", index: "dense" }),
+        ...indexes.map((index) => arm("A-agent", "mid", { index })),
+        arm("A-agent", "large", { index: fresh, maxItems: AGENT_LARGE_CORE }),
+        // nice: the 1b, the round budget, the flip floor, then the 31b's extension
+        arm("A-agent", "tiny"),
+        arm("A-agent", "small", { maxRounds: 2 }),
+        arm("A-null", "small", { variant: "null" }),
+        arm("A-agent", "large"),
+    ]
+}

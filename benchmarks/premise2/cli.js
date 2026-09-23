@@ -269,34 +269,35 @@ main().catch((error) => {
 })
 
 async function agentStatus() {
-    const { agentDirOf, armOptions } = await import("./agent-run.js")
-    const { readJsonl, generationKey } = await import("./store.js")
-    const { AGENT_ARMS, MODELS } = await import("./cells.js")
-    const { episodeSha } = await import("./agent.js")
+    const { agentDirOf, armOptions, armKey, newIndexOf } = await import("./agent-run.js")
+    const { readJsonl } = await import("./store.js")
+    const { agentQueue, MODELS } = await import("./cells.js")
     const agentDir = agentDirOf(dataDir)
     const statePath = join(agentDir, "state.json")
     if (!existsSync(statePath)) return console.log("No agent run yet.")
     const state = JSON.parse(readFileSync(statePath, "utf8"))
     const items = JSON.parse(readFileSync(new URL("./agent-items.json", import.meta.url), "utf8")).items
     const pools = JSON.parse(readFileSync(join(dataDir, "pools.json"), "utf8"))
-    const questionOf = new Map(pools.test.map((record) => [record.questionKey, record.question]))
+    const recordOf = new Map(pools.test.map((record) => [record.questionKey, record]))
     const records = readJsonl(join(agentDir, "answers.jsonl")).records.filter((record) => record.type === "answer")
     const byKey = new Map()
     for (const record of records) if (record.status === "ok" || record.status === "output_limit" || record.status === "empty") byKey.set(record.key, record)
     const numPredict = state.provenance?.numPredict ?? 160
-    console.log(`last stop: ${JSON.stringify(state.lastStop ?? null)} | pilot: ${JSON.stringify(state.pilot ?? null)}`)
-    for (const arm of AGENT_ARMS) {
+    console.log(`last stop: ${JSON.stringify(state.lastStop ?? null)} | pilot: ${JSON.stringify(state.pilot ?? null)} | dense check: ${JSON.stringify(state.denseCheck ?? null)}`)
+    for (const arm of agentQueue(state.provenance?.newIndex ?? newIndexOf() ?? undefined)) {
         const digest = state.provenance?.digests?.[arm.alias]
         if (!digest || !MODELS[arm.alias]) continue
         const { optsHash } = armOptions(arm, numPredict)
-        const done = items.map((item) => byKey.get(generationKey(digest, optsHash, episodeSha(questionOf.get(item.questionKey), arm.variant, arm.rawFirst)))).filter(Boolean)
+        const keys = (arm.maxItems ? items.slice(0, arm.maxItems) : items).map((item) => armKey(arm, recordOf.get(item.questionKey), digest, optsHash)).filter(Boolean)
+        const done = keys.map((key) => byKey.get(key)).filter(Boolean)
+        const label = `${arm.id}|${arm.alias}`.padEnd(30)
         if (!done.length) {
-            console.log(`${`${arm.cell}|${arm.alias}`.padEnd(20)} 0/${items.length}`)
+            console.log(`${label} 0/${keys.length}`)
             continue
         }
         const avg = (field) => done.reduce((sum, record) => sum + (record[field] ?? 0), 0) / done.length
         const outcomes = {}
         for (const record of done) outcomes[record.outcome] = (outcomes[record.outcome] ?? 0) + 1
-        console.log(`${`${arm.cell}|${arm.alias}`.padEnd(20)} ${done.length}/${items.length} | ${(avg("wallMs") / 1000).toFixed(1)} s/episode | rounds ${avg("rounds").toFixed(2)} | protocol errors/episode ${avg("protocolErrors").toFixed(2)} | ${JSON.stringify(outcomes)}`)
+        console.log(`${label} ${done.length}/${keys.length} | ${(avg("wallMs") / 1000).toFixed(1)} s/episode | rounds ${avg("rounds").toFixed(2)} | protocol errors/episode ${avg("protocolErrors").toFixed(2)} | ${JSON.stringify(outcomes)}`)
     }
 }

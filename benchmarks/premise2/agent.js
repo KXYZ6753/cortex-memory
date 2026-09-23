@@ -40,7 +40,7 @@ export const TRANSIENT_STATUSES = new Set(["http_error", "timeout", "oom", "malf
 
 // variant "null": an answer-neutral rewording of the instructions (the agent's own
 // flip floor). Action names, ids and tool output are unchanged, so parsing is too.
-export function firstMessage(question, variant = "standard") {
+export function firstMessage(question, variant = "standard", maxRounds = MAX_ROUNDS) {
     if (variant === "null") {
         return `Your task is to answer a question about someone's email archive. The archive is not shown to you, but you are able to search it.
 
@@ -49,7 +49,7 @@ SEARCH: <keywords>  runs a search over all emails and returns the ${SEARCH_K} to
 OPEN: <id>, <id>, <id>  displays up to ${MAX_OPEN} complete emails from the search results
 ANSWER: <your answer>  submits your final answer and finishes the task
 
-You get ${MAX_ROUNDS} rounds of SEARCH or OPEN, and then you have to answer.
+You get ${maxRounds} rounds of SEARCH or OPEN, and then you have to answer.
 
 Answer rules:
 - Answer every part of the question in one or two sentences. No preamble.
@@ -65,7 +65,7 @@ SEARCH: <keywords>  searches all emails and lists the ${SEARCH_K} best matches, 
 OPEN: <id>, <id>, <id>  shows up to ${MAX_OPEN} full emails from the search results
 ANSWER: <your answer>  gives your final answer and ends the task
 
-You have ${MAX_ROUNDS} rounds of SEARCH or OPEN before you must answer.
+You have ${maxRounds} rounds of SEARCH or OPEN before you must answer.
 
 Answer rules:
 - Answer every part of the question in one or two sentences. No preamble.
@@ -89,7 +89,12 @@ export const PROTOCOL_HASH = sha256([
 
 // Store key component: the protocol, the variant and the question. The arm's model
 // options (think, num_predict, stop) enter through the options hash.
-export const episodeSha = (question, variant = "standard", rawFirst = false) => sha256(`${PROTOCOL_HASH}|${variant}|${rawFirst ? "rawfirst" : "model"}|${question}`)
+// The index-factor arms (PREREG-AGENT-INDEX.md) add the search index and the round
+// budget; the defaults (BM25, MAX_ROUNDS) keep the original arms' keys unchanged.
+export const episodeSha = (question, variant = "standard", rawFirst = false, { index = "bm25", maxRounds = MAX_ROUNDS } = {}) => {
+    const extra = index === "bm25" && maxRounds === MAX_ROUNDS ? "" : `|index:${index}|rounds:${maxRounds}`
+    return sha256(`${PROTOCOL_HASH}|${variant}|${rawFirst ? "rawfirst" : "model"}${extra}|${question}`)
+}
 
 const ACTION = /^[\s>*_`#"'-]*(?:action\s*[:：]\s*)?[*_`"']*(SEARCH|OPEN|ANSWER)[\s*_`"']*[:：]\s*(.*)$/i
 const stripMarkup = (text) => text.replace(/[*`]+/g, "").replace(/^["']+|["']+$/g, "").trim()
@@ -225,7 +230,7 @@ export function renderOpened(ids, state, emailOf, room) {
 // isolates who writes the query). Returns the episode record: status ok /
 // output_limit / empty (final), or a transient technical status (rerun).
 export async function runEpisode({ question, chatTurn, search, emailOf, variant = "standard", rawFirst = false, maxRounds = MAX_ROUNDS }) {
-    const messages = [{ role: "user", content: firstMessage(question, variant) }]
+    const messages = [{ role: "user", content: firstMessage(question, variant, maxRounds) }]
     const state = newEpisodeState()
     const turns = []
     const shown = []

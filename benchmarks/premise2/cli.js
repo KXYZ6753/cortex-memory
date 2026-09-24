@@ -30,7 +30,7 @@ const stage = process.argv[2]
 const dataDir = process.env.POC2_DATA_DIR ?? ".data/premise2"
 const ollamaUrl = (process.env.OLLAMA_URL ?? "http://localhost:11434").replace(/\/+$/, "")
 const log = (message) => console.log(`${new Date().toISOString().slice(11, 19)} ${message}`)
-const USAGE = "Usage: npm run premise2 -- embed | prepare | run | run-once | latency | grade | report | status | verify-data | agent-prepare | agent | agent-once | agent-status | agent-grade | index-build | index-eval"
+const USAGE = "Usage: npm run premise2 -- embed | prepare | run | run-once | latency | grade | report | status | verify-data | agent-prepare | agent | agent-once | agent-status | agent-grade | index-build | index-eval | simple-prepare | simple-once <phase> | simple-status | simple-grade | simple-report | overnight | overnight-status"
 
 async function main() {
     if (stage === "embed") {
@@ -129,6 +129,43 @@ async function main() {
         const { grade } = await import("./grade.js")
         const summary = await grade({ dataDir, ollamaUrl, log, stopAt: process.env.POC2_STOP_AT, loadCorpus, agent: true })
         log(`[agent-grade] ${JSON.stringify(summary)}`)
+        return
+    }
+    if (stage === "simple-prepare") {
+        const { prepareSimple } = await import("./simple.js")
+        await prepareSimple({ dataDir, log })
+        return
+    }
+    if (stage === "simple-once") {
+        const { runSimple } = await import("./simple.js")
+        const result = await runSimple({ dataDir, phase: process.argv[3], stopAt: process.env.POC2_STOP_AT, ollamaUrl, log })
+        if (result.reason === "incomplete") process.exitCode = 1
+        return
+    }
+    if (stage === "simple-status") {
+        const { simpleStatus } = await import("./simple.js")
+        simpleStatus({ dataDir, log })
+        return
+    }
+    if (stage === "simple-grade") {
+        const { grade } = await import("./grade.js")
+        const summary = await grade({ dataDir, ollamaUrl, log, stopAt: process.env.POC2_SIMPLE_GRADE_STOP_AT, loadCorpus, simple: true })
+        log(`[simple-grade] ${JSON.stringify(summary)}`)
+        return
+    }
+    if (stage === "simple-report") {
+        const { simpleReport } = await import("./simple-report.js")
+        await simpleReport({ dataDir, outDir: process.env.POC2_REPORT_DIR ?? "benchmarks/results/premise2", loadCorpus, log })
+        return
+    }
+    if (stage === "overnight") {
+        const { overnight } = await import("./overnight.js")
+        await overnight({ dataDir, ollamaUrl, log })
+        return
+    }
+    if (stage === "overnight-status") {
+        const { overnightStatus } = await import("./overnight.js")
+        overnightStatus({ dataDir, log })
         return
     }
     if (stage === "run") return supervise()

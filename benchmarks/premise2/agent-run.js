@@ -19,6 +19,7 @@ import { loadDense, embedBatch, denseSearch, readJson, EMBED_MODEL, QUERY_PREFIX
 import { rrf, FUSION_DEPTH } from "./retrieve.js"
 import { gitCommit, windowsBuild, nvidiaSnapshot, startWakeLock } from "./run.js"
 import { sha256 } from "./text.js"
+import { setTimeout as delay } from "node:timers/promises"
 
 const now = () => performance.timeOrigin + performance.now()
 const iso = () => new Date().toISOString()
@@ -122,8 +123,19 @@ export async function runAgent({ dataDir, stopAt, ollamaUrl = "http://localhost:
     }
 
     // ---- preflight: the same models and software as the main run ----
-    const ollamaVersion = await version(ollamaUrl)
-    const installed = new Map((await tags(ollamaUrl)).map((model) => [model.name, model]))
+    let ollamaVersion, availableModels
+    while (now() < stopTime) {
+        try {
+            ollamaVersion = await version(ollamaUrl)
+            availableModels = await tags(ollamaUrl)
+            break
+        } catch (error) {
+            log(`[agent] Ollama preflight unavailable: ${error.message}; retrying in 30 s`)
+            await delay(Math.min(30_000, Math.max(1, stopTime - now())))
+        }
+    }
+    if (!availableModels) throw new Error("agent deadline reached before Ollama preflight completed")
+    const installed = new Map(availableModels.map((model) => [model.name, model]))
     const aliases = [...new Set(AGENT_ARMS.map((arm) => arm.alias))]
     const missing = aliases.map((alias) => MODELS[alias].tag).filter((tag) => !installed.has(tag))
     if (needsDense && ![...installed.keys()].some((name) => name === EMBED_MODEL || name === `${EMBED_MODEL}:latest`)) missing.push(EMBED_MODEL)
@@ -223,13 +235,20 @@ export async function runAgent({ dataDir, stopAt, ollamaUrl = "http://localhost:
     const recent = new Map()
     let heartbeatAt = 0
     const ensureModel = async (alias) => {
-        if (resident === alias) return
+        if (resident === alias) return true
+        while (now() < stopTime) {
+        try {
+        await version(ollamaUrl)
         for (const model of await ps(ollamaUrl)) await unload(ollamaUrl, model.name)
         marker("load-start", { model: alias })
         const loaded = await load(ollamaUrl, MODELS[alias].tag)
         marker("load-end", { model: alias, ...loaded })
+        if (loaded.status !== "ok") throw new Error(`load returned ${loaded.status}: ${loaded.error ?? ""}`)
         const warmup = firstMessage(recordByKey.get(items[0].questionKey)?.question ?? "What is this about?")
-        for (let index = 0; index < 2; index++) await chat({ url: ollamaUrl, model: MODELS[alias].tag, prompt: warmup, options: generationOptions({ num_predict: 32 }), attempts: 2 })
+        for (let index = 0; index < 2; index++) {
+            const result = await chat({ url: ollamaUrl, model: MODELS[alias].tag, prompt: warmup, options: generationOptions({ num_predict: 32 }), attempts: 2 })
+            if (result.status !== "ok") throw new Error(`warmup returned ${result.status}: ${result.error ?? ""}`)
+        }
         const snapshot = (await ps(ollamaUrl)).map((model) => ({ name: model.name, size: model.size, sizeVram: model.size_vram, contextLength: model.context_length, digest: model.digest }))
         if (snapshot.length !== 1) log(`[agent] WARNING ${snapshot.length} models resident: ${snapshot.map((model) => model.name).join(", ")}`)
         marker("ps", { model: alias, snapshot })
@@ -239,6 +258,14 @@ export async function runAgent({ dataDir, stopAt, ollamaUrl = "http://localhost:
         marker("idle-end", { blockId, model: alias })
         resident = alias
         log(`[agent] ${alias} (${MODELS[alias].tag}) resident; GPU share ${snapshot[0]?.size ? (snapshot[0].sizeVram / snapshot[0].size * 100).toFixed(0) : "?"}%`)
+        return true
+        } catch (error) {
+            resident = null
+            log(`[agent] ${alias} load unavailable: ${error.message}; retrying in 30 s without recording an episode failure`)
+            await delay(Math.min(30_000, Math.max(1, stopTime - now())))
+        }
+        }
+        return false
     }
 
     const episodeFor = async (arm, question) => {
@@ -254,7 +281,7 @@ export async function runAgent({ dataDir, stopAt, ollamaUrl = "http://localhost:
         // ---- determinism pilot: 10 DEV questions twice on e2b, once per agent state ----
         if (!state.pilot) {
             const pilotArm = AGENT_ARMS[0]
-            await ensureModel(pilotArm.alias)
+            if (!(await ensureModel(pilotArm.alias))) return finish("time", "pilot")
             const pilot = pools.dev.slice(0, SMOKE ? 2 : 10)
             let matches = 0
             let compared = 0
@@ -282,7 +309,7 @@ export async function runAgent({ dataDir, stopAt, ollamaUrl = "http://localhost:
             const label = `${arm.id}|${arm.alias}`
             if (!pending.length) continue
             pendingAny = true
-            await ensureModel(arm.alias)
+            if (!(await ensureModel(arm.alias))) return finish("time", label)
             log(`[agent] ${label}: ${pending.length} episodes pending`)
             const bucket = recent.get(label) ?? []
             recent.set(label, bucket)
@@ -300,7 +327,21 @@ export async function runAgent({ dataDir, stopAt, ollamaUrl = "http://localhost:
                     const record = recordByKey.get(item.questionKey)
                     const gapMs = now() - lastAt
                     const startedAt = iso()
-                    const episode = await episodeFor(arm, armQuestion(arm, record))
+                    let episode = await episodeFor(arm, armQuestion(arm, record))
+                    // A server outage must not consume the three saved technical
+                    // attempts for this question. Retry this exact item on recovery.
+                    while (TRANSIENT_STATUSES.has(episode.status)) {
+                        let healthy = false
+                        try { await version(ollamaUrl); healthy = true } catch { /* outage */ }
+                        if (healthy) break
+                        resident = null
+                        marker("ollama-outage", { model: arm.alias, cell: arm.id })
+                        if (!(await ensureModel(arm.alias))) {
+                            marker("block-end", { blockId, model: arm.alias, cell: arm.id, stopped: "time" })
+                            return finish("time", label)
+                        }
+                        episode = await episodeFor(arm, armQuestion(arm, record))
+                    }
                     lastAt = now()
                     if (episode.wallMs && !TRANSIENT_STATUSES.has(episode.status)) bucket.push(episode.wallMs)
                     store.add({

@@ -2,6 +2,42 @@
 
 V2 of the premise benchmark. The design and every decision rule are in [PREREG.md](PREREG.md).
 
+## Exploratory overnight word-overlap extension (September 24)
+
+This extension is separate from the frozen V2 and agent manifests. It adds only
+`X-overlap-k5`; it does not rerun BM25, dense, hybrid, or completed agent answers.
+It ranks the same 103,368-email corpus as BM25 by distinct question-word overlap
+in subject, sender, recipients, and body. It then chooses five emails in score/path
+order under the shared prompt cap, reserving room for five; remaining zero-score
+emails follow path order. The report labels the comparison exploratory.
+
+1. On the Mac checkout of this branch, run `npm run premise2 -- simple-prepare`.
+   This verifies the pinned corpus and freezes 955 prompts. Copy **only**
+   `.data/premise2/simple-run/manifest.json` and `items.jsonl` to the same relative
+   folder on Windows. Do not copy earlier `simple-preflight-*` folders.
+2. On Windows, stop the currently running agent process before switching to this
+   branch. Leave `.data/premise2/agent` and the completed V2 data in place. Run
+   `npm run premise2 -- overnight`. The controller refuses another detected
+   generator, keeps Windows awake, and runs small 600, mid 600, large core 200,
+   unfinished agent episodes until noon, large 600, then small/mid 955. It stops
+   generation at **6 PM Eastern daylight time, September 24**. The same command
+   resumes after an interruption; after a reboot, start it again manually.
+3. Check Windows progress with `npm run premise2 -- overnight-status`. The copied
+   Windows snapshot can be graded on the Mac while generation continues. Copy the
+   Windows `simple-run` directory over the Mac snapshot, then run
+   `npm run premise2 -- simple-grade` and `npm run premise2 -- simple-report`.
+   Repeat after later snapshots. Saved Mac verdicts are in
+   `.data/premise2/simple-grading`, outside the copied folder, so completed judge
+   calls are reused. Grading requires the study's explicit OpenRouter judge models
+   and key; missing settings fail before any verdict is written.
+
+`simple-report.md` and `simple-report.json` appear in
+`benchmarks/results/premise2`. Partial rows show generated and graded counts;
+intervals appear only for fully graded checkpoints. The selected 200-question
+core is enriched for BM25 misses and is weighted to the selected 600-question
+population when complete. Finish grading and paper updates by **7 PM Eastern
+daylight time, September 24**.
+
 The work is split across two machines:
 
 - **Mac** (no generation): data, retrieval, prompts, and afterwards grading and the report.

@@ -48,6 +48,11 @@ Reuse J1/J2 verdicts only for identical answer/reference keys and adjudication
 only when the shown-evidence key also matches. This is a total agent-plus-index
 effect, not an isolated ranking effect.
 
+As a secondary exploratory analysis, pair the overlap agent with the completed
+one-shot word-overlap answers on identical questions. This compares whole
+policies with different prompts and search budgets; it cannot isolate the
+causal effect of repeated SEARCH actions.
+
 ## Operational gates
 
 Mac and Windows preflight compare indexed rankings with a direct scan on saved
@@ -58,4 +63,8 @@ reviewers inspect code and checks before the Windows run.
 
 ## Deviation log
 
-None before generation.
+Before generation, the independent review identified two clarifications: the
+secondary one-shot comparison above was added to address the opening research
+question, and preflight now requires the Mac-frozen BM25 corpus content hash
+`62f735923a0b55dacc05212ff8eec2c590c45d1176efb71548af13ebba3fc3f3`.
+Neither changes generated episodes or the primary BM25-agent comparator.

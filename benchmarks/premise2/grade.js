@@ -126,34 +126,34 @@ export function verdictIndex(records, role, model) {
 // agent: true grades the agent arm instead of the main run. It reads the main
 // verdicts (identical answers reuse their J1/J2 verdicts) but writes only to the
 // agent directory's verdicts file.
-export async function grade({ dataDir, ollamaUrl = "http://localhost:11434", log = console.log, stopAt, loadCorpus, agent = false, simple = false }) {
-    if (agent && simple) throw new Error("choose agent or simple grading")
+export async function grade({ dataDir, ollamaUrl = "http://localhost:11434", log = console.log, stopAt, loadCorpus, agent = false, simple = false, agentOverlap = false }) {
+    if (Number(agent) + Number(simple) + Number(agentOverlap) > 1) throw new Error("choose one grading arm")
     const statePath = join(dataDir, "run-state.json")
     if (!existsSync(statePath)) throw new Error("run-state.json missing: grade runs after the generation run")
     const state = JSON.parse(readFileSync(statePath, "utf8"))
     const { cells } = JSON.parse(readFileSync(join(dataDir, "cells.json"), "utf8"))
     const pools = JSON.parse(readFileSync(join(dataDir, "pools.json"), "utf8"))
     const recordByKey = new Map([...pools.dev, ...pools.test, ...pools.bridge].map((record) => [record.questionKey, record]))
-    const store = agent || simple ? null : new AnswerStore(join(dataDir, "answers.jsonl"))
-    const agentDir = agent ? (await import("./agent-run.js")).agentDirOf(dataDir) : null
+    const store = agent || simple || agentOverlap ? null : new AnswerStore(join(dataDir, "answers.jsonl"))
+    const agentDir = agentOverlap ? (await import("./agent-overlap.js")).agentOverlapDir(dataDir) : agent ? (await import("./agent-run.js")).agentDirOf(dataDir) : null
     // Grading output lives OUTSIDE simple-run: the user can replace a copied
     // Windows snapshot without losing accumulated Mac verdicts.
-    const simpleGradingDir = simple ? join(dataDir, "simple-grading") : null
+    const simpleGradingDir = simple ? join(dataDir, "simple-grading") : agentOverlap ? join(dataDir, "agent-overlap-grading") : null
     if (simpleGradingDir) mkdirSync(simpleGradingDir, { recursive: true })
-    const verdictsPath = simple ? join(simpleGradingDir, "verdicts.jsonl") : agent ? join(agentDir, "verdicts.jsonl") : join(dataDir, "verdicts.jsonl")
+    const verdictsPath = simpleGradingDir ? join(simpleGradingDir, "verdicts.jsonl") : agent ? join(agentDir, "verdicts.jsonl") : join(dataDir, "verdicts.jsonl")
     const stopTime = stopAt ? new Date(stopAt).getTime() : Infinity
     if (Number.isNaN(stopTime)) throw new Error(`POC2_STOP_AT is not a valid time: ${stopAt}`)
     const width = Number(process.env.POC2_JUDGE_CONCURRENCY ?? state.probe?.judgeConcurrency ?? 1)
     const session = process.env.POC2_GRADE_SESSION ?? new Date().toISOString().slice(0, 10)
 
-    const corpus = agent ? await loadCorpus() : null
-    const units = simple ? (await import("./simple.js")).simpleUnits({ dataDir, recordByKey }) : agent ? agentUnits({ agentDir, recordByKey, ...corpus }) : gradingUnits({ cells, state, store, recordByKey })
-    if (simple) {
+    const corpus = agent || agentOverlap ? await loadCorpus() : null
+    const units = simple ? (await import("./simple.js")).simpleUnits({ dataDir, recordByKey }) : agent || agentOverlap ? agentUnits({ agentDir, recordByKey, ...corpus }) : gradingUnits({ cells, state, store, recordByKey })
+    if (simple || agentOverlap) {
         const expected = { j1: "openai/gpt-oss-20b", j2: "nvidia/nemotron-3-nano-30b-a3b", adj: "deepseek/deepseek-v4.1-flash" }
-        if (!process.env.OPENROUTER_API_KEY) throw new Error("OpenRouter key missing; simple grading has not started")
+        if (!process.env.OPENROUTER_API_KEY) throw new Error("OpenRouter key missing; exploratory grading has not started")
         for (const [role, model] of Object.entries(expected)) {
             const judge = judgeConfig(role)
-            if (judge.provider !== "openrouter" || judge.model !== model || !process.env[`POC2_${role.toUpperCase()}_PROVIDER`] || !process.env[`POC2_${role.toUpperCase()}_MODEL`]) throw new Error(`simple grading requires the study's explicit OpenRouter ${role} model ${model}; no verdicts were written`)
+            if (judge.provider !== "openrouter" || judge.model !== model || !process.env[`POC2_${role.toUpperCase()}_PROVIDER`] || !process.env[`POC2_${role.toUpperCase()}_MODEL`]) throw new Error(`exploratory grading requires the study's explicit OpenRouter ${role} model ${model}; no verdicts were written`)
         }
     }
     // Seeded random order within priority groups (primaries, then the rest of tier
@@ -168,7 +168,7 @@ export async function grade({ dataDir, ollamaUrl = "http://localhost:11434", log
     const judgeable = units.filter((unit) => !pre.get(unit))
     log(`[grade] ${units.length} units (${units.filter((u) => u.tier === "A").length} tier A), ${units.length - judgeable.length} pre-graded (technical or abstain); concurrency ${width}; session ${session}`)
 
-    let records = [...(agent || simple ? readJsonl(join(dataDir, "verdicts.jsonl")).records : []), ...readJsonl(verdictsPath, { repair: true }).records]
+    let records = [...(agent || simple || agentOverlap ? readJsonl(join(dataDir, "verdicts.jsonl")).records : []), ...(agentOverlap ? readJsonl(join(dataDir, "agent", "verdicts.jsonl")).records : []), ...readJsonl(verdictsPath, { repair: true }).records]
     const paused = { value: null }
 
     // Runs one judge over units, skipping keys that already have a verdict.
@@ -228,7 +228,7 @@ export async function grade({ dataDir, ollamaUrl = "http://localhost:11434", log
 
     // ---- anchor set: J1 test-retest across sessions ----
     const j1 = judgeConfig("j1")
-    const anchors = simple ? [] : units.filter((unit) => unit.tier === "A" && !pre.get(unit)).slice(0, ANCHOR_SIZE)
+    const anchors = simple || agentOverlap ? [] : units.filter((unit) => unit.tier === "A" && !pre.get(unit)).slice(0, ANCHOR_SIZE)
     const anchorDone = new Set(records.filter((record) => record.type === "anchor" && record.session === session && record.verdict).map((record) => record.verdictKey))
     const anchorTasks = anchors.filter((unit) => !anchorDone.has(unitVerdictKey(unit, j1)))
     if (anchorTasks.length) {

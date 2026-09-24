@@ -44,7 +44,7 @@ export function coreWeightedMean(rows, field, shares) {
     return sum / weightSum
 }
 
-function score(unit, indexes, judges) {
+export function score(unit, indexes, judges) {
     if (!unit) return null
     if (unit.answer.status === "context_overflow") return { final: null, strict: null, span: null, excluded: true }
     const pre = preGrade(unit.answer)

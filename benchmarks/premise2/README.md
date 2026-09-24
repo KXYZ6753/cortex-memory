@@ -2,6 +2,54 @@
 
 V2 of the premise benchmark. The design and every decision rule are in [PREREG.md](PREREG.md).
 
+## Exploratory agent word-overlap arm (September 24)
+
+This separate arm is frozen in [PREREG-AGENT-OVERLAP.md](PREREG-AGENT-OVERLAP.md).
+It changes only agent SEARCH ranking; existing BM25 agent and one-shot answers
+are reused. Windows needs the completed `.data/premise2/` including
+`agent/emails.sqlite` and the exact frozen BM25 `corpus.sqlite`. Keep the GPU
+idle before launching. The preflight rejects a changed corpus, mismatched
+ranking, over 1.5 GB RSS, or search p95 over 500 ms.
+
+```powershell
+git fetch origin
+git switch codex/overnight-word-overlap
+git pull --ff-only origin codex/overnight-word-overlap
+npm install
+npm run premise2 -- agent-overlap-index-check
+npm run premise2 -- agent-overlap
+```
+
+The controller runs small 600, mid 600, large core 200, large 600, then tiny
+600. It saves each episode and stops generation by 6 PM Eastern daylight time
+on September 24. Restart the same `agent-overlap` command after interruption;
+completed episodes are skipped. In a second PowerShell window:
+
+```powershell
+npm run premise2 -- agent-overlap-status
+```
+
+For incremental Mac grading, copy the Windows
+`.data/premise2/agent-overlap-run/` snapshot to the same relative Mac folder.
+Copy the **latest** Windows `agent/answers.jsonl`, `agent/verdicts.jsonl`, and
+`agent/state.json` as well, since the earlier Mac snapshot may be stale. Keep
+Mac `.data/premise2/agent-overlap-grading/` outside the replaced snapshot.
+To finish the already completed one-shot comparison, also copy Windows
+`.data/premise2/simple-run/` to the Mac. Then run:
+
+```sh
+npm run premise2 -- simple-grade
+npm run premise2 -- simple-report
+npm run premise2 -- agent-overlap-grade
+npm run premise2 -- agent-overlap-report
+```
+
+The two reports appear in `benchmarks/results/premise2/`. OpenRouter grading
+requires the explicit J1, J2, and adjudicator settings in `.env`. Saved verdicts
+reuse identical answer/reference keys; adjudication also binds shown evidence.
+Grade copied snapshots, not files being written on Windows. Partial rows are
+descriptive until fully generated and graded.
+
 ## Exploratory overnight word-overlap extension (September 24)
 
 This extension is separate from the frozen V2 and agent manifests. It adds only

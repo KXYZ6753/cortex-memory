@@ -30,7 +30,7 @@ const stage = process.argv[2]
 const dataDir = process.env.POC2_DATA_DIR ?? ".data/premise2"
 const ollamaUrl = (process.env.OLLAMA_URL ?? "http://localhost:11434").replace(/\/+$/, "")
 const log = (message) => console.log(`${new Date().toISOString().slice(11, 19)} ${message}`)
-const USAGE = "Usage: npm run premise2 -- embed | prepare | run | run-once | latency | grade | report | status | verify-data | agent-prepare | agent | agent-once | agent-status | agent-grade | index-build | index-eval | simple-prepare | simple-once <phase> | simple-status | simple-grade | simple-report | overnight | overnight-status"
+const USAGE = "Usage: npm run premise2 -- embed | prepare | run | run-once | latency | grade | report | status | verify-data | agent-prepare | agent | agent-once | agent-status | agent-grade | index-build | index-eval | simple-prepare | simple-once <phase> | simple-status | simple-grade | simple-report | overnight | overnight-status | agent-overlap-index-check | agent-overlap | agent-overlap-once | agent-overlap-status | agent-overlap-grade | agent-overlap-report"
 
 async function main() {
     if (stage === "embed") {
@@ -166,6 +166,43 @@ async function main() {
     if (stage === "overnight-status") {
         const { overnightStatus } = await import("./overnight.js")
         overnightStatus({ dataDir, log })
+        return
+    }
+    if (stage === "agent-overlap-index-check") {
+        const { openAgentOverlap } = await import("./agent-overlap-index.js")
+        const { checkOverlapIndex } = await import("./agent-overlap.js")
+        const index = openAgentOverlap(join(dataDir, "corpus.sqlite"))
+        try {
+            const pools = JSON.parse(readFileSync(join(dataDir, "pools.json"), "utf8"))
+            checkOverlapIndex({ dataDir, index, records: pools.test.slice(0, 100), log })
+        } finally { index.close() }
+        return
+    }
+    if (stage === "agent-overlap-once") {
+        const { runAgentOverlap } = await import("./agent-overlap.js")
+        const result = await runAgentOverlap({ dataDir, ollamaUrl, log })
+        if (result.reason === "incomplete") process.exitCode = 1
+        return
+    }
+    if (stage === "agent-overlap") {
+        const { agentOverlapController } = await import("./agent-overlap-controller.js")
+        await agentOverlapController({ dataDir, log })
+        return
+    }
+    if (stage === "agent-overlap-status") {
+        const { overlapStatus } = await import("./agent-overlap.js")
+        overlapStatus({ dataDir, log })
+        return
+    }
+    if (stage === "agent-overlap-grade") {
+        const { grade } = await import("./grade.js")
+        const summary = await grade({ dataDir, ollamaUrl, log, stopAt: process.env.POC2_AGENT_OVERLAP_GRADE_STOP_AT, loadCorpus, agentOverlap: true })
+        log(`[agent-overlap-grade] ${JSON.stringify(summary)}`)
+        return
+    }
+    if (stage === "agent-overlap-report") {
+        const { agentOverlapReport } = await import("./agent-overlap-report.js")
+        await agentOverlapReport({ dataDir, outDir: process.env.POC2_REPORT_DIR ?? "benchmarks/results/premise2", loadCorpus, log })
         return
     }
     if (stage === "run") return supervise()

@@ -166,10 +166,12 @@ export async function runAgentOverlap({ dataDir, ollamaUrl = "http://localhost:1
                     marker("load-start", { model: alias })
                     const result = await load(ollamaUrl, MODELS[alias].tag)
                     marker("load-end", { model: alias, ...result })
-                    if (result.status !== "ok") throw new Error(`load ${result.status}`)
+                    if (result.status !== "ok" && result.status !== "output_limit") throw new Error(`load ${result.status}`)
                     for (let repeat = 0; repeat < 2; repeat++) {
                         const warmup = await chat({ url: ollamaUrl, model: MODELS[alias].tag, prompt: firstMessage(byKey.get(items[0].questionKey).question), options: generationOptions({ num_predict: 32 }), attempts: 1, timeoutMs: Math.min(120_000, Math.max(1000, stopTime - Date.now())) })
-                        if (warmup.status !== "ok") throw new Error(`warmup ${warmup.status}`)
+                        // The warmup is unscored: a valid response that hits its
+                        // deliberately small token cap has still loaded the model.
+                        if (warmup.status !== "ok" && warmup.status !== "output_limit") throw new Error(`warmup ${warmup.status}`)
                     }
                     resident = alias
                     marker("model-ready", { model: alias })

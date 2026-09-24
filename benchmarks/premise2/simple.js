@@ -17,6 +17,7 @@ export const PHASES = { small600: ["small", 600], mid600: ["mid", 600], large200
 const read = (path) => JSON.parse(readFileSync(path, "utf8"))
 const cmp = (a, b) => a < b ? -1 : a > b ? 1 : 0
 const iso = () => new Date().toISOString()
+const portableText = (value) => String(value).replace(/\r\n/g, "\n")
 export const simpleDirOf = (dataDir) => process.env.POC2_SIMPLE_DIR ?? join(dataDir, SMOKE ? "simple-smoke" : "simple-run")
 const fileSha = (path) => new Promise((resolve, reject) => {
     const hash = createHash("sha256")
@@ -144,10 +145,10 @@ function sourceHashes(dataDir) {
     return {
         mainFingerprint: mainState.fingerprint,
         pools: sha256(readFileSync(join(dataDir, "pools.json"))),
-        agentItems: sha256(readFileSync(new URL("./agent-items.json", import.meta.url))),
+        agentItems: sha256(portableText(readFileSync(new URL("./agent-items.json", import.meta.url), "utf8"))),
         corpusPinned: HF_FILES.corpus.sha256,
         ranker: RANKER_VERSION,
-        rankerCode: sha256(rankBudgetedCorpus.toString() + searchableText.toString()),
+        rankerCode: sha256(portableText(rankBudgetedCorpus.toString() + searchableText.toString())),
         template: TEMPLATE_HASH,
     }
 }
@@ -191,7 +192,9 @@ export function loadSimple({ dataDir }) {
     const manifest = read(join(dir, "manifest.json"))
     const items = readJsonl(join(dir, "items.jsonl")).records
     if (items.length !== manifest.count || sha256(JSON.stringify(items)) !== manifest.itemsHash) throw new Error("simple items do not match frozen manifest")
-    if (JSON.stringify(sourceHashes(dataDir)) !== JSON.stringify(manifest.sources)) throw new Error("simple source fingerprint changed")
+    const liveSources = sourceHashes(dataDir)
+    const changed = Object.keys(manifest.sources).filter((key) => liveSources[key] !== manifest.sources[key])
+    if (changed.length) throw new Error(`simple source fingerprint changed: ${changed.join(", ")}`)
     return { dir, manifest, items }
 }
 

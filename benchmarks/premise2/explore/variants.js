@@ -242,6 +242,25 @@ async function mailboxFill(ctx, record, { header = false } = {}) {
     return { status: result.status, answer: result.answer ?? "", contextPaths: paths, replaced: paths.filter((path, index) => path !== global[index]).length }
 }
 
+// ---- round 5: gated mailbox switch ----
+
+// P-B unless the global top 1 is from another mailbox (a cheap sign that global
+// retrieval missed), in which case hdru's context. With `onAbstain`, an abstention
+// is retried once on the context not yet tried.
+async function gatedMailbox(ctx, record, { onAbstain = false } = {}) {
+    const global = (await ctx.search(record.question, 20)).slice(0, 5)
+    const mailbox = byHeaderRank(record.question, await ctx.search(record.question, 20, record.user), ctx.emailOf, { k: 5 })
+    const switched = !global[0]?.startsWith(`${record.user}/`)
+    const contexts = switched ? [mailbox, global] : [global, mailbox]
+    let result = await ctx.generate({ prompt: answerPrompt(ctx, record, contexts[0]) })
+    let used = 1
+    if (onAbstain && result.status === "ok" && isAbstain(result.answer)) {
+        result = await ctx.generate({ prompt: answerPrompt(ctx, record, contexts[1]) })
+        used = 2
+    }
+    return { status: result.status, answer: result.answer ?? "", contextPaths: contexts[0], readPaths: contexts.slice(0, used).flat(), switched, used }
+}
+
 export const VARIANTS = {
     pb: { version: 1, describe: "P-B: BM25 global top 5, R0, T2, rank order", run: (ctx, record) => fixedContext(ctx, record, {}) },
     estar: { version: 1, describe: "E*: BM25 global top 5, best-ranked last", run: (ctx, record) => fixedContext(ctx, record, { order: "bestlast" }) },
@@ -278,5 +297,7 @@ export const VARIANTS = {
     pbfill: { version: 1, describe: "P-B top 5 with other mailboxes' emails replaced by the asker's best unseen emails", run: mailboxFill },
     hdrud10: { version: 1, describe: "Per-mailbox BM25 top 10 reranked by header match (RRF), top 5", run: (ctx, record) => headerRerank(ctx, record, { scope: "user", depth: 10 }) },
     hdru6: { version: 1, describe: "Per-mailbox BM25 top 20 reranked by header match (RRF), top 6", run: (ctx, record) => headerRerank(ctx, record, { scope: "user", k: 6 }) },
+    gate: { version: 1, describe: "P-B, or hdru's context when the global top 1 is from another mailbox", run: (ctx, record) => gatedMailbox(ctx, record) },
+    gatea: { version: 1, describe: "gate, retrying an abstention once on the other context", run: (ctx, record) => gatedMailbox(ctx, record, { onAbstain: true }) },
     hfill: { version: 1, describe: "pbfill with the mailbox spares in header-reranked order", run: (ctx, record) => mailboxFill(ctx, record, { header: true }) },
 }

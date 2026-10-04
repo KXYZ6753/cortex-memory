@@ -164,3 +164,45 @@ S100-4:
 S300-1 cascg: 78.6, **+1.0 [0.5, 1.4]** (misses 18 vs 4, hits equal). A real but small gain, below the +1.5 FULL bar; it changes only questions P-B abstains on.
 
 Decisions: promote hdru (Δ ≥ +2, hit +2, miss +38) and pbfill (miss component, +24) to S300-1. Drop pb3. Round 4 (S100-5) adds hdrud10 (header rerank of the mailbox top 10 only: offline hit recall 97.6 vs hdru's 96.6, miss 37.7), hdru6 (6 emails: 97.6 / 42.7) and hfill (pbfill with header-ranked spares).
+
+## Round 4 results (J1)
+
+S100-5:
+
+| variant | weighted | Δ vs pb [95% CI] | miss | hit | wall ms | × pb |
+|---|---|---|---|---|---|---|
+| hdrud10 | 86.3 | +6.0 [−1.9, 16.1] | 36 | 90 | 472 | 0.75 |
+| hdru | 84.7 | +4.4 [−3.0, 14.2] | 40 | 88 | 616 | 0.98 |
+| hdru6 | 83.3 | +3.0 [−6.8, 14.2] | 46 | 86 | 529 | 0.84 |
+| hfill | 82.6 | +2.3 [−3.1, 7.9] | 36 | 86 | 565 | 0.90 |
+| pbfill | 80.9 | +0.6 [−3.7, 3.4] | 38 | 84 | 572 | 0.91 |
+| pb | 80.3 | – | 2 | 86 | 628 | 1.00 |
+
+S300-1 promotions:
+
+| variant | weighted | Δ vs pb [95% CI] | miss | hit | wall ms |
+|---|---|---|---|---|---|
+| **hdru** | **82.7** | **+5.0 [1.1, 9.2]** | 37 | 86.0 | 629 |
+| pbfill | 80.0 | +2.4 [−1.0, 5.8] | 32 | 83.5 | 701 |
+
+hdru is the first variant to meet the FULL rule clearly; pbfill meets it too (lower bound −1.0 > −1.5). hdru replicates across three sets (S100-4 +4.4, S100-5 +4.4, S300-1 +5.0), with hits never below pb's. Decisions: hdru and pbfill to FULL-0; hdrud10, hdru6, hfill to S300-1.
+
+## FULL-0: hdru and pbfill (J1)
+
+| variant | weighted | Δ vs pb [95% CI] | miss | hit | wall ms |
+|---|---|---|---|---|---|
+| hdru | 80.9 | +0.6 [−1.9, 3.1] | 42.0 | 83.8 | 648 |
+| pbfill | 80.7 | +0.4 [−2.5, 2.8] | 35.3 | 84.0 | 716 |
+| pb | 80.3 | – | 2.7 | 86.0 | 649 |
+
+On 600 questions the mailbox variants keep their miss gain (+33 to +39 points) but lose about 2 points on hits, netting about +0.5. Their S300-1 hit gains were luck: pb's S300-1 hits (83%) are low, and S300-1 has now been reused for many comparisons. Conclusion: switching every question to the mailbox context trades a reliable miss gain for a small hit loss.
+
+## Round 5: gating the switch (S100-6)
+
+Offline screen for a no-model miss signal: "the global top 1 is from another mailbox" flags 51.6% of misses and 5.2% of hits (estimated +1.3 weighted vs +0.6 for always switching). `gate` uses hdru's context when that holds, else P-B's; `gatea` also retries an abstention once on the other context.
+
+**Run-to-run nondeterminism.** Re-running identical prompts changes about 30% of e2b's answer texts (S100-6 pb: 32 of 100; hdru 34; gate 33; S100-4 pbrep 27), with or without a model reload, and flips about 2–6 verdicts per 100. (S100-3's pbrep matched pb on all 100; there pb ran with a reload before every call.) The paired bootstrap resamples questions, so this per-question noise is inside the CIs, but it makes S100 hit-side differences of ±2–4 points meaningless. The runner now reloads the model before each variant and stores those answers as version `<v>+cold`. This rules out cross-variant prompt-cache reuse; it does not remove the nondeterminism.
+
+S100-6 (cold reruns): hdru +3.9 [1.1, 8.0], gatea +2.0 [1.0, 3.1], gate +1.6 [0.7, 2.5], cascg +1.4 [0.5, 2.2]. Promote gatea (Δ ≥ 2) and gate (miss component).
+
+S300-1: **gatea +1.8 [0.2, 3.5]** (miss 31, hit 83.0 = pb), gate +1.3 [−0.1, 2.4]. gatea meets the FULL rule. hdru6 (+4.5 [0.6, 8.3]), hdrud10 (+4.2 [0.4, 7.9]) and hfill (+4.4 [0.3, 8.9]) also met it in round 4 and go to FULL-0 with gatea.

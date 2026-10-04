@@ -21,6 +21,11 @@ import { VARIANTS, NUM_PREDICT } from "./variants.js"
 export const FINAL_STATUSES = new Set(["ok", "output_limit", "empty", "context_overflow"])
 const MAX_ATTEMPTS = 3
 
+// Ollama reuses cached prompt prefixes across requests, and a cached evaluation can
+// change a temperature-0 answer (about 1-4 in 100 here). Since answer-store version
+// "+cold", the model is reloaded before every variant so no variant sees another's
+// cached prompts; the suffix keeps those answers apart from earlier ones.
+export const COLD = "+cold"
 export const answerKey = ({ digest, variant, version: v, questionKey }) => sha256(`${digest}|${variant}@${v}|${questionKey}`)
 
 export function readJsonl(path) {
@@ -60,9 +65,9 @@ export async function preflight({ dataDir, alias, ollamaUrl }) {
     return { tag, digest, ollamaVersion: v }
 }
 
-async function ensureResident({ ollamaUrl, tag, log }) {
+async function ensureResident({ ollamaUrl, tag, log, fresh = false }) {
     const resident = await ps(ollamaUrl)
-    if (resident.length === 1 && resident[0].name === tag && resident[0].context_length === generationOptions().num_ctx) return
+    if (!fresh && resident.length === 1 && resident[0].name === tag && resident[0].context_length === generationOptions().num_ctx) return
     for (const model of resident) await unload(ollamaUrl, model.name)
     const loaded = await load(ollamaUrl, tag)
     if (loaded.status !== "ok") throw new Error(`load ${tag}: ${loaded.status} ${loaded.error ?? ""}`)
@@ -83,11 +88,11 @@ export async function runExplore({ dataDir, setName, variants, alias = "small", 
     const bm25 = openBm25(join(dataDir, "corpus.sqlite"))
     const wakeLock = startWakeLock(log)
     try {
-        await ensureResident({ ollamaUrl, tag, log })
         for (const id of variants) {
-            const variant = VARIANTS[id]
+            const variant = { ...VARIANTS[id], version: `${VARIANTS[id].version}${COLD}` }
             const pending = records.filter((record) => !store.done(answerKey({ digest, variant: id, version: variant.version, questionKey: record.questionKey }))).slice(0, limit)
             log(`[explore] ${setName} ${id}@${variant.version} ${alias}: ${pending.length} pending of ${records.length}`)
+            if (pending.length) await ensureResident({ ollamaUrl, tag, log, fresh: true })
             let count = 0
             let wallSum = 0
             for (const record of pending) {

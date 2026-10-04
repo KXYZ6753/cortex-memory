@@ -4,7 +4,7 @@
   "missShare": 0.06800407113777587,
   "baseline": "pb@1",
   "champion": null,
-  "at": "2026-10-04T15:26:21.354Z",
+  "at": "2026-10-04T16:05:03.168Z",
   "summaries": [
     {
       "variant": "oracle@1",
@@ -80,6 +80,88 @@
       },
       "wallMs": 645.2233333333334,
       "wallX": 0.9948220347476159,
+      "calls": 1,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "hdru@1",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8093671880579959,
+      "miss": 0.42,
+      "hit": 0.8377777777777777,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": {
+        "weighted": 0.006037247339475749,
+        "miss": 0.3933333333333333,
+        "hit": -0.022222222222222254,
+        "low": -0.0188920889087566,
+        "high": 0.03090637006462227
+      },
+      "vsChampion": null,
+      "buckets": {
+        "never found": {
+          "miss": 41,
+          "hit": 2
+        },
+        "correct": {
+          "miss": 63,
+          "hit": 377
+        },
+        "abstained": {
+          "miss": 18,
+          "hit": 2
+        },
+        "read but wrong": {
+          "miss": 28,
+          "hit": 69
+        }
+      },
+      "wallMs": 648.0633333333334,
+      "wallX": 0.999200820251369,
+      "calls": 1,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "pbfill@1",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8069046853796157,
+      "miss": 0.35333333333333333,
+      "hit": 0.84,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": {
+        "weighted": 0.0035747446610955302,
+        "miss": 0.32666666666666666,
+        "hit": -0.020000000000000018,
+        "low": -0.02453106068051869,
+        "high": 0.027940620987633946
+      },
+      "vsChampion": null,
+      "buckets": {
+        "never found": {
+          "miss": 53,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 53,
+          "hit": 378
+        },
+        "abstained": {
+          "miss": 16,
+          "hit": 1
+        },
+        "read but wrong": {
+          "miss": 28,
+          "hit": 71
+        }
+      },
+      "wallMs": 716.425,
+      "wallX": 1.1046026072275656,
       "calls": 1,
       "reloads": 0,
       "outputLimit": 0

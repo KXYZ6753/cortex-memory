@@ -188,6 +188,52 @@ async function wideSelect(ctx, record, { clipChars = 1500, maxKeep = 2 } = {}) {
     return { status: result.status, answer: result.answer ?? "", contextPaths: candidates, readPaths, selection: selection.answer, picked }
 }
 
+// ---- round 3: header-aware rerank (no model call) and mailbox fill ----
+
+const HEADER_STOP = new Set("the and for with from what who whom which when where why how does did was were are has had have that this about according email emails mail sent send message enron com net org subject regarding into their there they his her him she its your you not any all can will would could should been being also than then them".split(" "))
+const words = (text) => (String(text).toLowerCase().match(/[a-z0-9]+/g) ?? []).filter((word) => word.length >= 3 && !HEADER_STOP.has(word))
+
+// Header lines of an email as word sets; addresses are split into name parts.
+export function headerFields(email) {
+    const head = String(email).split("\n=====")[0]
+    const field = (name) => new Set(words((head.match(new RegExp(`^${name}:(.*)$`, "m"))?.[1] ?? "").replace(/[._@'\[\],]/g, " ")))
+    return { subject: field("Subject"), sender: field("Sender"), recipients: field("Recipients") }
+}
+
+// Question words found in the subject or sender count 1 each; recipient matches
+// count 0.5 each, at most 2 (mass mailings list hundreds of names).
+export function headerScore(question, email) {
+    const fields = headerFields(email)
+    let score = 0
+    let recipients = 0
+    for (const word of new Set(words(question))) {
+        if (fields.subject.has(word) || fields.sender.has(word)) score++
+        else if (fields.recipients.has(word)) recipients++
+    }
+    return score + 0.5 * Math.min(recipients, 2)
+}
+
+// BM25 top `depth`, re-ordered by RRF of BM25 rank and header-match rank; top k.
+async function headerRerank(ctx, record, { scope = "global", k = 5, depth = 20, rrfK = 10 } = {}) {
+    const ranked = await ctx.search(record.question, depth, scope === "user" ? record.user : null)
+    const byHeader = ranked.map((path, index) => ({ path, index, score: headerScore(record.question, ctx.emailOf(path)) }))
+        .sort((a, b) => b.score - a.score || a.index - b.index)
+    const paths = rrf([ranked.map((path) => ({ path })), byHeader.map(({ path }) => ({ path }))], rrfK, k).map((hit) => hit.path)
+    const result = await ctx.generate({ prompt: answerPrompt(ctx, record, paths) })
+    return { status: result.status, answer: result.answer ?? "", contextPaths: paths }
+}
+
+// P-B's global top 5, with emails from other mailboxes replaced (in place) by the
+// best unseen emails of the asker's mailbox. Identical to P-B when all five are the asker's.
+async function mailboxFill(ctx, record) {
+    const global = (await ctx.search(record.question, 20)).slice(0, 5)
+    const own = (path) => path.startsWith(`${record.user}/`)
+    const spare = (await ctx.search(record.question, 20, record.user)).filter((path) => !global.includes(path))
+    const paths = global.map((path) => (own(path) ? path : spare.shift() ?? path))
+    const result = await ctx.generate({ prompt: answerPrompt(ctx, record, paths) })
+    return { status: result.status, answer: result.answer ?? "", contextPaths: paths, replaced: paths.filter((path, index) => path !== global[index]).length }
+}
+
 export const VARIANTS = {
     pb: { version: 1, describe: "P-B: BM25 global top 5, R0, T2, rank order", run: (ctx, record) => fixedContext(ctx, record, {}) },
     estar: { version: 1, describe: "E*: BM25 global top 5, best-ranked last", run: (ctx, record) => fixedContext(ctx, record, { order: "bestlast" }) },
@@ -215,4 +261,11 @@ export const VARIANTS = {
     } },
     pbuthink: { version: 1, describe: "P-B on per-mailbox top 5 with thinking on", run: (ctx, record) => fixedContext(ctx, record, { scope: "user", think: true }) },
     selx: { version: 1, describe: "Select <=2 of up to 15 clipped candidates (mailbox top 10 + global top 5), answer from them", run: (ctx, record) => wideSelect(ctx, record) },
+
+    pbrep: { version: 1, describe: "DIAGNOSTIC (not selectable): exact replicate of pb, to check run-to-run determinism", diagnostic: true, run: (ctx, record) => fixedContext(ctx, record, {}) },
+    pb3: { version: 1, describe: "BM25 global top 3, rank order", run: (ctx, record) => fixedContext(ctx, record, { k: 3 }) },
+    hdr: { version: 1, describe: "Global BM25 top 20 reranked by header match (RRF), top 5", run: (ctx, record) => headerRerank(ctx, record) },
+    hdr3: { version: 1, describe: "Global BM25 top 20 reranked by header match (RRF), top 3", run: (ctx, record) => headerRerank(ctx, record, { k: 3 }) },
+    hdru: { version: 1, describe: "Per-mailbox BM25 top 20 reranked by header match (RRF), top 5", run: (ctx, record) => headerRerank(ctx, record, { scope: "user" }) },
+    pbfill: { version: 1, describe: "P-B top 5 with other mailboxes' emails replaced by the asker's best unseen emails", run: mailboxFill },
 }

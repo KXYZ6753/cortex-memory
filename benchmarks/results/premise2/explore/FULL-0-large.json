@@ -1,0 +1,45 @@
+{
+  "set": "FULL-0",
+  "alias": "large",
+  "missShare": 0.06800407113777587,
+  "baseline": "pb@1",
+  "champion": null,
+  "at": "2026-10-04T15:10:45.984Z",
+  "summaries": [
+    {
+      "variant": "pb@1",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8742007713734734,
+      "miss": 0.03333333333333333,
+      "hit": 0.9355555555555556,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "never found": {
+          "miss": 51,
+          "hit": 0
+        },
+        "abstained": {
+          "miss": 94,
+          "hit": 1
+        },
+        "correct": {
+          "miss": 5,
+          "hit": 421
+        },
+        "read but wrong": {
+          "miss": 0,
+          "hit": 28
+        }
+      },
+      "wallMs": 36250.08833333333,
+      "wallX": 1,
+      "calls": 1,
+      "reloads": 600,
+      "outputLimit": 0
+    }
+  ]
+}

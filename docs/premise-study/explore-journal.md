@@ -101,3 +101,47 @@ Decisions: promote sel10u, pbu, rrfu, sel5, quote to S300-1 (all meet Δ ≥ +2 
 ## Interruption (Sun 4 Oct ~00:05 ET)
 
 Claude Code stopped the background queue (and its watcher) because the machine was critically low on RAM (6.3 GB free of 31 GB afterwards). The stop came after FULL-0 was graded and before round 2 (S100-3) generated anything; no partial answers. Per the harness rule the queue is not restarted without Kerem's go-ahead. Pending, in order: round 2 on S100-3 (pb, pbu, sel10u, sel10u3, selu5, quoteu, casc, cascg, selx), the S300-1 promotions (pb, pbu, sel10u, rrfu, sel5, quote), then 31b P-B on FULL-0. Script: `.data/premise2/explore/queue-2.sh` (drop its first wait loop).
+
+## Correction to the interruption, and an overlap incident (found Sun 4 Oct ~10:45 ET)
+
+- The harness stop killed the queue's shell but not its `node` children, so generation continued. Worse, two queues overlapped from 04:11 to 10:13 UTC: e2b round 2 (S100-3 pb, pbu, sel10u, sel10u3) and 31b P-B on FULL-0 ran at the same time, so Ollama swapped models on every call (`reloaded` is true on all 1,000 of those answers). Their wall times (31–74 s/question) are meaningless; their accuracy should be unaffected (temperature 0, fixed seed), which a replicate run (`pbrep`, identical to pb) on S100-3 checks. The 31b weights held mostly in system RAM (4.8 of 20.5 GB in VRAM) are the likely cause of the low-memory stop.
+- The restart queue (`queue-3.sh`) found these runs finished, ran the oracle diagnostic and pbuthink, and graded. Node heap is now capped at 8 GB.
+
+## Round 2 results (S100-3, J1)
+
+| variant | weighted | Δ vs pb [95% CI] | miss | hit | wall ms |
+|---|---|---|---|---|---|
+| oracle (diagnostic: gold email only) | 93.3 | +5.6 [0.6, 11.4] | 84 | 94 | 310 |
+| cascg | 90.3 | +2.5 [0.3, 6.7] | 12 | 96 | 665 |
+| sel10u | 89.1 | +1.4 [−5.5, 8.2] | 50 | 92 | (overlap) |
+| sel10u3 | 89.0 | +1.3 [−5.4, 7.8] | 48 | 92 | (overlap) |
+| pb | 87.7 | – | 2 | 94 | (overlap) |
+| selu5 | 86.5 | −1.3 | 38 | 90 | 740 |
+| quoteu | 82.7 | −5.0 | 38 | 86 | 929 |
+| casc | 81.0 | −6.7 | 40 | 84 | 741 |
+| pbu | 79.1 | −8.6 [−16.7, −0.8] | 40 | 82 | (overlap) |
+| selx | 78.9 | −8.9 | 36 | 82 | 1,038 |
+| pbuthink | 78.9 | −8.9 | 36 | 82 | 3,694 (over the cap) |
+
+Reading: on this draw pb's hits are 94%, equal to the oracle's, so the hit side has no headroom here and every variant that changes the hit context loses some. pbu, +9.8 on S100-1, is −8.6 here: hit-side swings of ±10 points on 50 hits are mostly noise from changing which five emails are shown. The oracle bounds what retrieval alone can buy on this set: +5.6, almost all from misses. Decisions: promote cascg to S300-1 (Δ ≥ +2, hit +2). Kill pbuthink (over the cost cap and no gain), casc, selx, quoteu. sel10u3 is no better than sel10u.
+
+## S300-1 results (J1)
+
+| variant | weighted | Δ vs pb [95% CI] | miss | hit | wall ms | × pb |
+|---|---|---|---|---|---|---|
+| pbu | 79.8 | +2.2 [−1.7, 5.6] | 36 | 83.0 | 638 | 1.01 |
+| quote | 79.6 | +1.9 [−4.3, 8.9] | 5 | 85.0 | 923 | 1.46 |
+| sel10u | 79.4 | +1.8 [−3.2, 6.8] | 44 | 82.0 | 1,093 | 1.72 |
+| rrfu | 79.1 | +1.4 [−1.3, 4.2] | 32 | 82.5 | 695 | 1.10 |
+| sel5 | 78.1 | +0.5 [−4.6, 5.6] | 4 | 83.5 | 745 | 1.18 |
+| pb | 77.6 | – | 4 | 83.0 | 634 | 1.00 |
+
+No variant meets the FULL rule (Δ ≥ +1.5 and lower bound > −1.5); pbu is closest (lower bound −1.7). The consistent part of every mailbox variant is the miss gain (+28 to +40 points on misses, worth about +2 to +2.7 weighted at the 6.8% miss share); the hit effect averages about zero but adds noise.
+
+## 31b P-B on FULL-0 (in-pool target, J1)
+
+31b P-B: **87.4** (hits 93.6, misses 3.3) vs e2b P-B 80.3: a 7.1-point gap, almost all on hits. On the 450 FULL-0 hits, 31b is right where e2b is wrong 48 times and the reverse 14 times. Reading those 48: mostly e2b answering from the wrong one of the five emails (the wrong governor, phone number, date or person) or giving a partial list. 31b also abstains on 94 of 150 misses, where e2b mostly answers wrong.
+
+## Round 3 plan (S100-4 and diagnostics)
+
+Offline screen (gold or twin in context, frozen BM25 lists, every 4th pool question): pb hit 97.3 / miss 0; pbu 97.9 / 32.6; header-match rerank (no model call) global top 5 95.6 / 12.1, mailbox top 5 96.6 / 38.5; pbfill 97.9 / 32.6; pb3 94.3 / 0. Header reranking pushes the gold down on hits, so the global header variants are dropped. Runs: S100-4 pb, pbrep, pbfill (P-B's context, with other mailboxes' emails swapped for the asker's best unseen ones: same as P-B when all five are the asker's, so less hit noise), hdru, pb3 (fewer emails against distraction); S300-1 cascg; FULL-0 oracle (distraction ceiling on 450 hits); S100-3 pbrep (determinism check for the overlap runs).

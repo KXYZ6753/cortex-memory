@@ -20,15 +20,18 @@ import { generationOptions } from "../ollama.js"
 import { fallbackA, fallbackB, autoOpenAgent, AGENTX_VERSION } from "./agentx.js"
 
 export const NUM_PREDICT = 160
+// Thinking tokens count toward num_predict (the agent arm's thinking limit).
+export const THINK_NUM_PREDICT = 4096
 
 const answerPrompt = (ctx, record, paths) => buildPrompt({ question: record.question, paths, representation: "R0", template: "T2", emailByPath: ctx.emailMap, record })
 
-async function fixedContext(ctx, record, { k = 5, order = "rank", scope = "global" }) {
+async function fixedContext(ctx, record, { k = 5, order = "rank", scope = "global", think = false }) {
     const ranked = await ctx.search(record.question, 20, scope === "user" ? record.user : null)
     const top = ranked.slice(0, k)
     const paths = order === "bestlast" ? [...top].reverse() : top
-    const result = await ctx.generate({ prompt: answerPrompt(ctx, record, paths) })
-    return { status: result.status, answer: result.answer ?? "", contextPaths: paths }
+    const options = think ? generationOptions({ num_predict: THINK_NUM_PREDICT }) : undefined
+    const result = await ctx.generate({ prompt: answerPrompt(ctx, record, paths), options, think })
+    return { status: result.status, answer: result.answer ?? "", contextPaths: paths, thinkingChars: result.thinkingChars ?? 0 }
 }
 
 async function frozenAgent(ctx, record) {
@@ -206,5 +209,10 @@ export const VARIANTS = {
     selu5: { version: 1, describe: "Select up to 2 of per-mailbox BM25 top 5, then answer", run: (ctx, record) => selectThenRead(ctx, record, { k: 5, scope: "user" }) },
     quoteu: { version: 1, describe: "Quote-then-answer on per-mailbox top 5", run: (ctx, record) => quoteThenAnswer(ctx, record, { scope: "user" }) },
     sel10u3: { version: 1, describe: "Select up to 3 of per-mailbox BM25 top 10, then answer", run: (ctx, record) => selectThenRead(ctx, record, { k: 10, scope: "user", maxKeep: 3 }) },
+    oracle: { version: 1, describe: "DIAGNOSTIC (not selectable): the gold email only", diagnostic: true, run: async (ctx, record) => {
+        const result = await ctx.generate({ prompt: answerPrompt(ctx, record, [record.path]) })
+        return { status: result.status, answer: result.answer ?? "", contextPaths: [record.path] }
+    } },
+    pbuthink: { version: 1, describe: "P-B on per-mailbox top 5 with thinking on", run: (ctx, record) => fixedContext(ctx, record, { scope: "user", think: true }) },
     selx: { version: 1, describe: "Select <=2 of up to 15 clipped candidates (mailbox top 10 + global top 5), answer from them", run: (ctx, record) => wideSelect(ctx, record) },
 }

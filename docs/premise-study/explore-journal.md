@@ -85,3 +85,19 @@ Reading: P-B's hit accuracy on this draw (82%) is 8 points below S100-0's 90%, s
 Transcript observations (sel10u failures): (1) the selector often lists 3+ emails ("1, 2, 3", once seven); keeping only the first 2 sometimes discards the answer email at rank 3–5 → test keeping 3; (2) several J1 INCORRECT answers look right to a human reader ("Steve Couch Memorial Golf Tournament", "Candle Corporation", the Haas email address) — J1 strictness, common to all arms; (3) remaining miss failures are mostly true misses (answer email not in mailbox top 10).
 
 Decisions: promote sel10u, pbu, rrfu, sel5, quote to S300-1 (all meet Δ ≥ +2 and hit ≥ −3; sel10u, pbu, rrfu also qualify as miss components). Kill qx, fba, fbb, auto2. Round 2 (S100-3; S100-2 skipped and kept spare) combines the winners: mailbox selection with 3 kept (sel10u3), mailbox top-5 selection (selu5), mailbox quote (quoteu), abstain cascades (casc: mailbox first; cascg: P-B first), and wide selection over 15 clipped candidates (selx).
+
+## Round 0: FULL-0 complete (Sun 4 Oct 00:05 ET, J1)
+
+| variant | weighted | Δ vs pb [95% CI] | miss | hit | wall ms |
+|---|---|---|---|---|---|
+| estar | 82.3 | +2.0 [−1.2, 5.3] | 4.0 | 88.0 | 645 |
+| pb | 80.3 | – | 2.7 | 86.0 | 649 |
+| agent (frozen) | 36.9 | −43.5 [−47.9, −38.2] | 12.0 | 38.7 | 906 |
+
+- **Cost cap fixed: P-B mean wall 649 ms/question on FULL-0 → cap 3.25 s/question** (`benchmarks/results/premise2/explore/cost-cap.json`).
+- E* is +2.0 here, −7.6 on S100-0 and −1.1 on TEST: its sign flips from set to set, consistent with no real effect.
+- J1 spend so far: $0.143 (FULL-0 grading 1,325 calls, $0.12).
+
+## Interruption (Sun 4 Oct ~00:05 ET)
+
+Claude Code stopped the background queue (and its watcher) because the machine was critically low on RAM (6.3 GB free of 31 GB afterwards). The stop came after FULL-0 was graded and before round 2 (S100-3) generated anything; no partial answers. Per the harness rule the queue is not restarted without Kerem's go-ahead. Pending, in order: round 2 on S100-3 (pb, pbu, sel10u, sel10u3, selu5, quoteu, casc, cascg, selx), the S300-1 promotions (pb, pbu, sel10u, rrfu, sel5, quote), then 31b P-B on FULL-0. Script: `.data/premise2/explore/queue-2.sh` (drop its first wait loop).

@@ -208,3 +208,44 @@ test("parseQuoted: text after the last ANSWER label, else reply minus QUOTE", ()
     assert.equal(parseQuoted("QUOTE: x\nIt was Bob."), "It was Bob.")
     assert.equal(parseQuoted("Bob"), "Bob")
 })
+
+import { headerScore, sandwichPrompt } from "../../benchmarks/premise2/explore/variants.js"
+import { buildT2 } from "../../benchmarks/premise2/prompts.js"
+import { scoreWith, codeHash } from "../../benchmarks/premise2/explore/confirm.js"
+import { unitVerdictKey } from "../../benchmarks/premise2/grade.js"
+
+test("headerScore: subject and sender words count 1, recipients 0.5 up to 2", () => {
+    const email = "Subject: Frogz show at the auditorium\nSender: kate.symes@enron.com\nRecipients: ['a.b@enron.com', 'mike.grigsby@enron.com', 'tori.k@enron.com']\n=====\nbody"
+    assert.equal(headerScore("What did Kate say about the Frogz show?", email), 3)
+    assert.equal(headerScore("Did Mike Grigsby or Tori reply?", email), 1)
+    assert.equal(headerScore("What did the email say?", email), 0)
+})
+
+test("sandwichPrompt: T2 plus the question before the emails, nothing else", () => {
+    const prompt = sandwichPrompt("Q?", ["e1", "e2"])
+    assert.ok(prompt.startsWith("You answer questions about a person's email archive using only the emails below.\n\nQuestion: Q?\n\nRules:"))
+    assert.ok(buildT2("Q?", ["e1", "e2"]).endsWith(prompt.slice(prompt.indexOf("Rules:"))))
+})
+
+test("scoreWith: adjudication wins, else J1/J2 consensus; overflow wrong only for the winner", () => {
+    const j1 = { role: "j1", model: "m1", provider: "p", think: "low" }
+    const j2 = { role: "j2", model: "m2", provider: "p", think: "low" }
+    const adj = { role: "adj", model: "m3", provider: "p", think: "low" }
+    const unit = (answer, extra = {}) => ({ item: { questionKey: "q", promptSha: "s" }, record: { gold: "g", alternates: [] }, answer: { status: "ok", answer, ...extra } })
+    const index = (judge, entries) => new Map(entries.map(([u, verdict]) => [unitVerdictKey(u, judge), { verdict }]))
+    const agree = unit("a1"), split = unit("a2"), adjudicated = unit("a3")
+    const score = scoreWith({
+        j1, j2, adj,
+        j1Index: index(j1, [[agree, "CORRECT"], [split, "CORRECT"], [adjudicated, "INCORRECT"]]),
+        j2Index: index(j2, [[agree, "CORRECT"], [split, "INCORRECT"], [adjudicated, "INCORRECT"]]),
+        adjIndex: index(adj, [[adjudicated, "CORRECT"]]),
+    })
+    assert.equal(score(agree).final, 1)
+    assert.equal(score(split).final, null)
+    assert.equal(score(adjudicated).final, 1)
+    assert.equal(score(unit("NOT IN EMAILS")).final, 0)
+    const overflow = unit("", { status: "context_overflow" })
+    assert.equal(score(overflow).final, null)
+    assert.equal(score(overflow, { overflowIsWrong: true }).final, 0)
+    assert.match(codeHash(), /^[0-9a-f]{64}$/)
+})

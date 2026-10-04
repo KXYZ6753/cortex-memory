@@ -242,21 +242,56 @@ async function mailboxFill(ctx, record, { header = false } = {}) {
     return { status: result.status, answer: result.answer ?? "", contextPaths: paths, replaced: paths.filter((path, index) => path !== global[index]).length }
 }
 
+export const RULE_MATCH = "Several emails may look relevant; answer from the one whose people, subject and date match the question."
+export const RULE_FIND = "First find the email that answers the question, then answer from that email only."
+
+// One line per email: its subject and sender, for an index before the full emails.
+export const indexLine = (email, index) => {
+    const head = String(email).split("\n=====")[0]
+    const field = (name) => (head.match(new RegExp(`^${name}:(.*)$`, "m"))?.[1] ?? "").trim()
+    return `[${index + 1}] Subject: ${field("Subject")} | Sender: ${field("Sender")}`
+}
+
+// T2 with the question stated before the emails as well as after them. Options: one
+// extra rule; an index of subjects and senders before the emails.
+export function sandwichPrompt(question, emails, extraRule = "", { index = false } = {}) {
+    return `You answer questions about a person's email archive using only the emails below.
+
+Question: ${question}
+
+Rules:
+- Answer every part of the question in one or two sentences. No preamble.
+- Copy names, dates, numbers, amounts and URLs exactly as they appear in the emails.
+- If the emails do not contain the answer, reply with exactly: ${ABSTAIN}
+${extraRule ? `- ${extraRule}\n` : ""}
+${index ? `Email list:\n${emails.map(indexLine).join("\n")}\n\n` : ""}Emails:
+<<<EMAILS
+${emails.map((email, index) => `[${index + 1}]\n${email}`).join("\n\n")}
+EMAILS>>>
+
+Question: ${question}
+Answer:`
+}
+
 // ---- round 5: gated mailbox switch ----
 
 // P-B unless the global top 1 is from another mailbox (a cheap sign that global
 // retrieval missed), in which case hdru's context. With `onAbstain`, an abstention
 // is retried once on the context not yet tried.
-async function gatedMailbox(ctx, record, { onAbstain = false } = {}) {
+async function gatedMailbox(ctx, record, { onAbstain = false, depth = 20, third = false, sandwich = false, extraRule = "", index = false, k = 5 } = {}) {
+    const prompt = (paths) => (sandwich ? sandwichPrompt(record.question, paths.map((path) => ctx.emailOf(path)), extraRule, { index }) : answerPrompt(ctx, record, paths))
     const global = (await ctx.search(record.question, 20)).slice(0, 5)
-    const mailbox = byHeaderRank(record.question, await ctx.search(record.question, 20, record.user), ctx.emailOf, { k: 5 })
+    const mailboxRanked = await ctx.search(record.question, 20, record.user)
+    const mailbox = byHeaderRank(record.question, mailboxRanked.slice(0, depth), ctx.emailOf, { k })
     const switched = !global[0]?.startsWith(`${record.user}/`)
     const contexts = switched ? [mailbox, global] : [global, mailbox]
-    let result = await ctx.generate({ prompt: answerPrompt(ctx, record, contexts[0]) })
+    // Third context (gatec): the best mailbox emails not yet shown.
+    if (third) contexts.push(mailboxRanked.filter((path) => !contexts.flat().includes(path)).slice(0, 5))
+    let result = await ctx.generate({ prompt: prompt(contexts[0]) })
     let used = 1
-    if (onAbstain && result.status === "ok" && isAbstain(result.answer)) {
-        result = await ctx.generate({ prompt: answerPrompt(ctx, record, contexts[1]) })
-        used = 2
+    while (onAbstain && used < contexts.length && contexts[used].length && result.status === "ok" && isAbstain(result.answer)) {
+        result = await ctx.generate({ prompt: prompt(contexts[used]) })
+        used++
     }
     return { status: result.status, answer: result.answer ?? "", contextPaths: contexts[0], readPaths: contexts.slice(0, used).flat(), switched, used }
 }
@@ -299,5 +334,21 @@ export const VARIANTS = {
     hdru6: { version: 1, describe: "Per-mailbox BM25 top 20 reranked by header match (RRF), top 6", run: (ctx, record) => headerRerank(ctx, record, { scope: "user", k: 6 }) },
     gate: { version: 1, describe: "P-B, or hdru's context when the global top 1 is from another mailbox", run: (ctx, record) => gatedMailbox(ctx, record) },
     gatea: { version: 1, describe: "gate, retrying an abstention once on the other context", run: (ctx, record) => gatedMailbox(ctx, record, { onAbstain: true }) },
+    gateb: { version: 1, describe: "gatea with the mailbox context from the header-reranked mailbox top 10", run: (ctx, record) => gatedMailbox(ctx, record, { onAbstain: true, depth: 10 }) },
+    gatec: { version: 1, describe: "gatea, then a third try on the best unseen mailbox emails", run: (ctx, record) => gatedMailbox(ctx, record, { onAbstain: true, third: true }) },
+    gates: { version: 1, describe: "gatea with the question also stated before the emails", run: (ctx, record) => gatedMailbox(ctx, record, { onAbstain: true, sandwich: true }) },
+    gatesi: { version: 1, describe: "gates with a subject/sender index before the emails", run: (ctx, record) => gatedMailbox(ctx, record, { onAbstain: true, sandwich: true, index: true }) },
+    gates6: { version: 1, describe: "gates with 6 mailbox emails when switched", run: (ctx, record) => gatedMailbox(ctx, record, { onAbstain: true, sandwich: true, k: 6 }) },
+    gatesm: { version: 1, describe: "gates with a rule to use the email matching the question's people, subject and date", run: (ctx, record) => gatedMailbox(ctx, record, { onAbstain: true, sandwich: true, extraRule: RULE_MATCH }) },
+    gatesf: { version: 1, describe: "gates with a rule to find the answering email first", run: (ctx, record) => gatedMailbox(ctx, record, { onAbstain: true, sandwich: true, extraRule: RULE_FIND }) },
+    oracles: { version: 1, describe: "DIAGNOSTIC (not selectable): the gold email only, sandwich prompt", diagnostic: true, run: async (ctx, record) => {
+        const result = await ctx.generate({ prompt: sandwichPrompt(record.question, [ctx.emailOf(record.path)]) })
+        return { status: result.status, answer: result.answer ?? "", contextPaths: [record.path] }
+    } },
+    pbs: { version: 1, describe: "P-B context with the question also stated before the emails", run: async (ctx, record) => {
+        const paths = (await ctx.search(record.question, 20)).slice(0, 5)
+        const result = await ctx.generate({ prompt: sandwichPrompt(record.question, paths.map((path) => ctx.emailOf(path))) })
+        return { status: result.status, answer: result.answer ?? "", contextPaths: paths }
+    } },
     hfill: { version: 1, describe: "pbfill with the mailbox spares in header-reranked order", run: (ctx, record) => mailboxFill(ctx, record, { header: true }) },
 }

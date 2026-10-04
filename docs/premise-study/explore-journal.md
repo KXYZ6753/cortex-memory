@@ -206,3 +206,76 @@ Offline screen for a no-model miss signal: "the global top 1 is from another mai
 S100-6 (cold reruns): hdru +3.9 [1.1, 8.0], gatea +2.0 [1.0, 3.1], gate +1.6 [0.7, 2.5], cascg +1.4 [0.5, 2.2]. Promote gatea (Δ ≥ 2) and gate (miss component).
 
 S300-1: **gatea +1.8 [0.2, 3.5]** (miss 31, hit 83.0 = pb), gate +1.3 [−0.1, 2.4]. gatea meets the FULL rule. hdru6 (+4.5 [0.6, 8.3]), hdrud10 (+4.2 [0.4, 7.9]) and hfill (+4.4 [0.3, 8.9]) also met it in round 4 and go to FULL-0 with gatea.
+
+## FULL-0: gatea and the round-4 qualifiers (J1)
+
+| variant | weighted | Δ vs pb [95% CI] | miss | hit | wall ms | × pb |
+|---|---|---|---|---|---|---|
+| **gatea** | **83.4** | **+3.1 [2.2, 4.0]** | 36.0 | 86.9 | 738 | 1.14 |
+| hdrud10 | 82.5 | +2.2 [−0.4, 4.8] | 41.3 | 85.6 | 655 | 1.01 |
+| hfill | 81.9 | +1.6 [−1.2, 4.0] | 38.0 | 85.1 | 723 | 1.11 |
+| hdru6 | 80.3 | −0.0 [−2.6, 2.8] | 42.0 | 83.1 | 711 | 1.10 |
+| pb | 80.3 | – | 2.7 | 86.0 | 649 | 1.00 |
+
+**New champion: gatea**, +3.1 points with a tight interval: it leaves about 95% of hit contexts as P-B's and takes the mailbox gain on half the misses.
+
+Offline, more retrieval-structure gate signals (mailbox #1 not in global top 5 or top 10, own-mailbox count, distinct mailboxes) add no misses beyond "global top 1 from another mailbox" without pulling in many hits; the gate signal is saturated.
+
+## Round 6 (S100-7, Sun 4 Oct ~13:00 ET)
+
+| variant | weighted | Δ vs pb [95% CI] | miss | hit | wall ms |
+|---|---|---|---|---|---|
+| gates (gatea + question also before the emails) | 89.5 | +11.0 [−0.2, 25.0] | 28 | 94 | 753 |
+| gatec (gatea + third try on unseen mailbox emails) | 83.8 | +5.2 | 26 | 88 | 777 |
+| gatea | 83.5 | +5.0 [0.7, 13.5] | 22 | 88 | 750 |
+| gateb (gatea, mailbox context from top 10) | 83.4 | +4.8 | 20 | 88 | 749 |
+| pb | 78.6 | – | 4 | 84 | 663 |
+
+gatec and gateb add nothing over gatea and are dropped. gates changes only the prompt: T2 with the question also stated before the emails (otherwise byte-identical to T2). On the same contexts it gains 6 hit points over gatea here.
+
+S300-1: **gates +6.2 [0.4, 12.6] vs pb** (+4.4 [−1.2, 10.8] vs gatea; hits 87.5 vs 83.0). pbs (P-B with the same prompt, no gate) +3.8 [−2.0, 10.3]: below the FULL rule (lower bound −2.0), run on FULL-0 only as a diagnostic to separate the prompt effect from the gate effect; it is not eligible to win.
+
+## FULL-0: gates (J1)
+
+| variant | weighted | Δ vs pb [95% CI] | Δ vs gatea | miss | hit | wall ms | × pb |
+|---|---|---|---|---|---|---|---|
+| oracle (diagnostic) | 88.6 | +8.3 [5.3, 11.2] | | 85.3 | 88.9 | 308 | |
+| **gates** | **86.8** | **+6.5 [4.2, 8.9]** | +3.4 [1.2, 5.5] | 37.3 | 90.4 | 752 | 1.16 |
+| pbs (diagnostic) | 83.5 | +3.2 [0.9, 5.4] | +0.1 | 3.3 | 89.3 | 667 | 1.03 |
+| gatea | 83.4 | +3.1 [2.2, 4.0] | – | 36.0 | 86.9 | 738 | 1.14 |
+| pb | 80.3 | – | | 2.7 | 86.0 | 649 | 1.00 |
+
+**New champion: gates**, 86.8, within 0.6 of 31b P-B's in-pool 87.4. The two effects add almost exactly: the prompt alone (pbs) +3.2, almost all on hits; the gated mailbox switch alone (gatea) +3.1, almost all on misses; both together +6.5.
+
+## Round 7 (S100-8; FULL-0 diagnostic)
+
+Oracle with the sandwich prompt (gold email only) on FULL-0: **91.5** (hits 92.2) vs 88.6 with T2. The prompt lifts reading itself, not only distraction, and the ceiling under perfect retrieval rises with it.
+
+S100-8: gatesf (gates + "First find the email that answers the question, then answer from that email only.") +5.5 vs pb, +1.9 [0.0, 6.2] vs gates; gatesm (gates + a rule to use the email matching the question's people, subject and date) +3.8, +0.1 vs gates; gates +3.6. S300-1: gatesf +6.0 [0.6, 12.1] (−0.2 vs gates), gatesm +5.2 [0.1, 10.9] (−1.0 vs gates). Both meet the FULL rule against pb; FULL-0 decides, with the within-1-point rule favouring the simpler gates.
+
+## Rounds 7–8 and the stop (Sun 4 Oct, afternoon ET)
+
+FULL-0, against gates (86.8):
+
+| variant | weighted | Δ vs pb [95% CI] | Δ vs gates [95% CI] | miss | hit | wall ms |
+|---|---|---|---|---|---|---|
+| oracles (diagnostic: gold only, sandwich prompt) | 91.5 | +11.2 [8.0, 14.6] | +4.7 | 82.0 | 92.2 | 334 |
+| gates | 86.8 | +6.5 [4.2, 8.9] | – | 37.3 | 90.4 | 752 |
+| gates6 (6 mailbox emails when switched) | 86.7 | +6.4 [4.1, 8.8] | −0.1 [−0.3, 0.1] | 36.0 | 90.4 | 767 |
+| gatesi (subject/sender index before the emails) | 85.6 | +5.3 [2.6, 8.2] | −1.2 [−2.9, 0.7] | 34.7 | 89.3 | 777 |
+| gatesm (rule: use the email matching people, subject, date) | 85.5 | +5.1 [2.1, 8.2] | −1.4 [−3.5, 0.6] | 35.3 | 89.1 | 764 |
+| gatesf (rule: find the answering email first) | 84.7 | +4.3 [1.6, 7.5] | −2.2 [−4.0, −0.2] | 36.0 | 88.2 | 762 |
+
+Screening history: S100-8 gatesf +1.9 vs gates, gatesm +0.1; S100-9 gatesi +3.7 [0.0, 9.6] vs gates (hits 96 vs 92), gates6 +0.3; S300-1 gatesi +1.2 [−0.8, 3.4] vs gates. All four regressed to at or below gates on FULL-0: extra instructions and the index cost e2b a little reading accuracy. **Two rounds without a new champion: exploration stops** (Sun 4 Oct ~16:00 ET; spend $0.43 of $3.50).
+
+## Freeze
+
+- **Winner: gates** (gatea's gated mailbox switch with abstention retry, plus the sandwich prompt). FULL-0 86.8, +6.5 [4.2, 8.9] vs P-B; in-pool 31b P-B 87.4. Runner-up: gates6.
+- Re-timed cold on the unused S100-2 (100 fresh questions, model reloaded): mean 759 ms (1.17× P-B; cap 3,243), p50 732, p95 1,200, max 1,523; 1.04 calls per question; one context overflow.
+- No gates answer hit the 160-token output cap on FULL-0, so the TEST run uses the main study's num_predict 320.
+- `benchmarks/premise2/PREREG-EXPLORE.md` written; `confirm.js` (TEST runner, tier-A grader, X1/X2 analysis) added. The runner refuses TEST unless the pre-registration is committed, clean, and names the current code hash of `explore/`, which was checked by running it before the file existed.
+
+## Before the TEST run (blocked on the machine)
+
+- **LibreHardwareMonitor is not running** (installed at `C:\Users\Kerem\hwMonitor\LibreHardwareMonitor.exe`; nothing on port 8085). It needs administrator rights and its remote web server on port 8085 for CPU package power. nvidia-smi works.
+- **The main study's tier-A TEST verdicts are not on this box.** `.data/premise2/verdicts.jsonl` holds only 2,475 old J1 verdicts from `gpt-oss:20b-cloud`; the OpenRouter tier-A grading ran on the Mac. X1/X2 pair against those verdicts. The fallback (pre-registered, logged as a deviation): re-grade the unchanged comparator answers with the same tier-A procedure.

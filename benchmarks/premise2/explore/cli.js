@@ -13,6 +13,7 @@ import { drawSet } from "./sets.js"
 import { runExplore } from "./run.js"
 import { gradeExplore, spendSoFar, openRouterUsage } from "./grade.js"
 import { analyzeSet } from "./analyze.js"
+import { codeHash, runConfirm, gradeConfirm, analyzeConfirm } from "./confirm.js"
 import { ensureEmailStore } from "../agent-run.js"
 
 if (existsSync(".env")) process.loadEnvFile(".env")
@@ -31,7 +32,17 @@ try {
         const emails = await ensureEmailStore(dataDir, join(dataDir, "agent"), console.log)
         analyzeSet({ dataDir, setName: args[0], baseline: args[1] ?? "pb", champion: args[2] ?? null, alias: args[3] ?? "small", emailOf: emails.emailOf })
         emails.close()
-    } else if (command === "spend") console.log(`exploration $${spendSoFar(dataDir, "explore").toFixed(4)}, all $${spendSoFar(dataDir).toFixed(4)}; OpenRouter key usage now ${await openRouterUsage()}`)
+    } else if (command === "confirm-hash") console.log(codeHash())
+    else if (command === "confirm-run") await runConfirm({ dataDir, n: args[0] ? Number(args[0]) : 600 })
+    else if (command === "confirm-grade") await gradeConfirm({ dataDir, loadCorpus: async () => {
+        const { loadRaw } = await import("../dataset.js")
+        const { EvidenceCache } = await import("../evidence.js")
+        const raw = await loadRaw(join(dataDir, "hf"))
+        const emailByPath = new Map(raw.corpus.map((row) => [row.path, row.email]))
+        return { emailByPath, evidence: new EvidenceCache(emailByPath) }
+    } })
+    else if (command === "confirm-analyze") await analyzeConfirm({ dataDir })
+    else if (command === "spend") console.log(`exploration $${spendSoFar(dataDir, "explore").toFixed(4)}, all $${spendSoFar(dataDir).toFixed(4)}; OpenRouter key usage now ${await openRouterUsage()}`)
     else throw new Error(`unknown command ${command}`)
 } catch (error) {
     console.error(error)

@@ -1,0 +1,198 @@
+{
+  "set": "S100-9",
+  "alias": "small",
+  "missShare": 0.06800407113777587,
+  "baseline": "pb@1+cold",
+  "champion": "gates@1+cold",
+  "at": "2026-10-04T18:05:12.212Z",
+  "summaries": [
+    {
+      "variant": "gatesi@1+cold",
+      "n": 100,
+      "graded": 100,
+      "weighted": 0.9123971502035568,
+      "miss": 0.26,
+      "hit": 0.96,
+      "nMiss": 50,
+      "nHit": 50,
+      "vsBaseline": {
+        "weighted": 0.05360081422755503,
+        "miss": 0.24000000000000002,
+        "hit": 0.039999999999999925,
+        "low": -0.0161651399900008,
+        "high": 0.13426672254502836
+      },
+      "vsChampion": {
+        "weighted": 0.037279837154488904,
+        "miss": 0,
+        "hit": 0.039999999999999925,
+        "low": 0,
+        "high": 0.0955893260371512
+      },
+      "buckets": {
+        "correct": {
+          "miss": 13,
+          "hit": 48
+        },
+        "never found": {
+          "miss": 31,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 4,
+          "hit": 2
+        },
+        "technical": {
+          "miss": 1,
+          "hit": 0
+        },
+        "abstained": {
+          "miss": 1,
+          "hit": 0
+        }
+      },
+      "wallMs": 768.58,
+      "wallX": 1.2388658746917263,
+      "calls": 1.04,
+      "reloads": 0,
+      "outputLimit": 1
+    },
+    {
+      "variant": "gates6@1+cold",
+      "n": 100,
+      "graded": 100,
+      "weighted": 0.877837475894579,
+      "miss": 0.3,
+      "hit": 0.92,
+      "nMiss": 50,
+      "nHit": 50,
+      "vsBaseline": {
+        "weighted": 0.019041139918577143,
+        "miss": 0.27999999999999997,
+        "hit": 0,
+        "low": -0.05288029335628874,
+        "high": 0.09804414203333311
+      },
+      "vsChampion": {
+        "weighted": 0.0027201628455110205,
+        "miss": 0.03999999999999998,
+        "hit": 0,
+        "low": 0,
+        "high": 0.006375381669166513
+      },
+      "buckets": {
+        "correct": {
+          "miss": 15,
+          "hit": 46
+        },
+        "never found": {
+          "miss": 30,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 3,
+          "hit": 4
+        },
+        "technical": {
+          "miss": 1,
+          "hit": 0
+        },
+        "abstained": {
+          "miss": 1,
+          "hit": 0
+        }
+      },
+      "wallMs": 766.06,
+      "wallX": 1.2348039136672093,
+      "calls": 1.04,
+      "reloads": 0,
+      "outputLimit": 1
+    },
+    {
+      "variant": "gates@1+cold",
+      "n": 100,
+      "graded": 100,
+      "weighted": 0.8751173130490679,
+      "miss": 0.26,
+      "hit": 0.92,
+      "nMiss": 50,
+      "nHit": 50,
+      "vsBaseline": {
+        "weighted": 0.016320977073066123,
+        "miss": 0.24000000000000002,
+        "hit": 0,
+        "low": -0.05726510606385249,
+        "high": 0.09766492592721787
+      },
+      "vsChampion": null,
+      "buckets": {
+        "correct": {
+          "miss": 13,
+          "hit": 46
+        },
+        "never found": {
+          "miss": 31,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 4,
+          "hit": 4
+        },
+        "technical": {
+          "miss": 1,
+          "hit": 0
+        },
+        "abstained": {
+          "miss": 1,
+          "hit": 0
+        }
+      },
+      "wallMs": 764.09,
+      "wallX": 1.2316284917551863,
+      "calls": 1.04,
+      "reloads": 0,
+      "outputLimit": 2
+    },
+    {
+      "variant": "pb@1+cold",
+      "n": 100,
+      "graded": 100,
+      "weighted": 0.8587963359760018,
+      "miss": 0.02,
+      "hit": 0.92,
+      "nMiss": 50,
+      "nHit": 50,
+      "vsBaseline": null,
+      "vsChampion": {
+        "weighted": -0.016320977073066123,
+        "miss": -0.24000000000000002,
+        "hit": 0,
+        "low": -0.09690765409903945,
+        "high": 0.057419535153268475
+      },
+      "buckets": {
+        "abstained": {
+          "miss": 16,
+          "hit": 0
+        },
+        "never found": {
+          "miss": 33,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 1,
+          "hit": 46
+        },
+        "read but wrong": {
+          "miss": 0,
+          "hit": 4
+        }
+      },
+      "wallMs": 620.39,
+      "wallX": 1,
+      "calls": 1,
+      "reloads": 0,
+      "outputLimit": 0
+    }
+  ]
+}

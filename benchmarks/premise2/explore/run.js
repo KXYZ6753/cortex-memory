@@ -77,7 +77,7 @@ export async function runExplore({ dataDir, setName, variants, alias = "small", 
     const guard = loadGuard(dataDir)
     const records = set.questionKeys.map((key) => pool.byKey.get(key))
     for (const record of records) assertExplorable(record, guard)
-    const { tag, digest } = await preflight({ dataDir, alias, ollamaUrl })
+    const { tag, digest, ollamaVersion } = await preflight({ dataDir, alias, ollamaUrl })
     const store = new ExploreStore(join(exploreDirOf(dataDir), "answers.jsonl"))
     const emails = await ensureEmailStore(dataDir, join(dataDir, "agent"), log)
     const bm25 = openBm25(join(dataDir, "corpus.sqlite"))
@@ -91,6 +91,8 @@ export async function runExplore({ dataDir, setName, variants, alias = "small", 
             let count = 0
             let wallSum = 0
             for (const record of pending) {
+                // An Ollama update restarts the server mid-run; never generate on another build.
+                if (count % 25 === 0 && (await version(ollamaUrl)) !== ollamaVersion) throw new Error(`Ollama version changed from ${ollamaVersion} during the run`)
                 const tally = { calls: 0, genMs: 0, promptTokens: 0, outputTokens: 0, maxLoadMs: 0, searchMs: 0, searches: 0, statuses: [] }
                 const ctx = {
                     alias, tag,
@@ -126,7 +128,7 @@ export async function runExplore({ dataDir, setName, variants, alias = "small", 
                     key: answerKey({ digest, variant: id, version: variant.version, questionKey: record.questionKey }),
                     variant: id, version: variant.version, alias, digest, set: setName, questionKey: record.questionKey,
                     stratum: record.stratum, user: record.user, wallMs, ...tally, searchMs: Math.round(tally.searchMs),
-                    reloaded: tally.maxLoadMs > 1_000, at: new Date().toISOString(), ...result,
+                    reloaded: tally.maxLoadMs > 1_000, ollamaVersion, at: new Date().toISOString(), ...result,
                 })
                 count++
                 wallSum += wallMs

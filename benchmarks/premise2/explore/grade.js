@@ -17,6 +17,20 @@ import { readJsonl, FINAL_STATUSES } from "./run.js"
 export const EXPLORATION_CAP_USD = 3.5
 export const TOTAL_CAP_USD = 5.0
 
+// USD per token (OpenRouter list prices, 2026-10-03), for when the key's usage
+// counter lags behind a batch.
+export const PRICES = {
+    "openai/gpt-oss-20b": [0.000000018, 0.00000009],
+    "nvidia/nemotron-3-nano-30b-a3b": [0.00000005, 0.0000002],
+    "deepseek/deepseek-v4.1-flash": [0.000000003, 0.0000024],
+}
+export const estimateUsd = (tokens) => Object.entries(tokens ?? {}).reduce((sum, [key, t]) => {
+    const price = PRICES[key.replace(/^openrouter:/, "")]
+    return sum + (price ? t.promptTokens * price[0] + t.completionTokens * price[1] : 0)
+}, 0)
+// A batch's cost: the key's usage delta, or the token estimate when that is larger.
+export const entryUsd = (entry) => Math.max(entry.usd ?? 0, entry.estUsd ?? estimateUsd(entry.tokens))
+
 export const referencesOf = (record) => [record.gold, ...(record.alternates ?? [])]
 
 export async function openRouterUsage() {
@@ -35,7 +49,7 @@ export async function openRouterUsage() {
 export function spendSoFar(dataDir, phase = null) {
     return readJsonl(join(exploreDirOf(dataDir), "spend.jsonl"))
         .filter((entry) => !phase || entry.phase === phase)
-        .reduce((sum, entry) => sum + (entry.usd ?? 0), 0)
+        .reduce((sum, entry) => sum + entryUsd(entry), 0)
 }
 
 // Latest answer per (variant@version, alias, questionKey) among final records.
@@ -99,8 +113,8 @@ export async function gradeExplore({ dataDir, sets = null, variants = null, phas
     const usageAfter = await openRouterUsage()
     const usage = Object.fromEntries(USAGE)
     const usd = usageBefore !== null && usageAfter !== null ? usageAfter - usageBefore : null
-    const entry = { at: new Date().toISOString(), phase, calls: done, failed, usd, usageBefore, usageAfter, tokens: usage, sets, variants }
+    const entry = { at: new Date().toISOString(), phase, calls: done, failed, usd, estUsd: estimateUsd(usage), usageBefore, usageAfter, tokens: usage, sets, variants }
     appendFileSync(join(exploreDirOf(dataDir), "spend.jsonl"), JSON.stringify(entry) + "\n")
-    log(`[grade] ${done} calls, ${failed} failed, $${usd?.toFixed(4) ?? "?"}; ${phase} total now $${(before + (usd ?? 0)).toFixed(3)}${paused ? `; PAUSED: ${paused}` : ""}`)
+    log(`[grade] ${done} calls, ${failed} failed, $${entryUsd(entry).toFixed(4)} (key delta ${usd?.toFixed(4) ?? "?"}); ${phase} total now $${(before + entryUsd(entry)).toFixed(3)}${paused ? `; PAUSED: ${paused}` : ""}`)
     return entry
 }

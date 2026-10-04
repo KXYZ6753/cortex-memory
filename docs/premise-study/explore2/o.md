@@ -47,6 +47,21 @@ Offline checks that killed ideas before a run:
 
 *wall times of o-runs are inflated vs gates' (shorter answers in o1 still took longer): other workers' CPU jobs share the machine.
 
+Replication on S300-1 (allowed screening set; gates@1+cold 83.9 there):
+
+| id | weighted | Δ vs gates [95% CI] | miss | hit | wall ms |
+|---|---|---|---|---|---|
+| o4 | 85.1 | +1.3 [−2.1, 4.6] | 32 | 89.0 | 717 |
+| o12 | 84.7 | +0.8 [−2.7, 4.3] | 32 | 88.5 | 715 |
+
+(For calibration: gatesi was +1.2 on S300-1 and −1.2 on FULL-0.)
+
+## Conclusion
+
+No presentation change reaches the promotion bar (Δ ≥ +1.5 vs gates). Best: **o4** (rules moved after the emails: question, emails, rules, question): +0.7 on S300-2, +1.3 on S300-1, ≈ +1.0 pooled, no extra cost (≈ 720 ms, 1.07 calls); **o12** (o4 + near-duplicate removal in the mailbox context) +0.9 / +0.8. Both are within noise; if the lead wants a cheap add-on to test on FULL-0, o4 is the cleanest candidate, but it is not a promotion candidate.
+
+What the evidence says about reading: the gold-alone ceiling (oracles, 92.2 on FULL-0 hits) is only ~8 questions in 450 above gates, and that gap is about the size of run-to-run swaps; gold-alone does not beat five emails even where top-1 is clearly right. The remaining hit errors are mostly e2b's own reading (wrong fact, missing part, wrong person) plus J1 strictness, not distraction or presentation. Making answers shorter backfires (o1, −4.7), formats and hints (chat, worked example, relevance hint, question after each email) are flat or slightly negative. e2b is deterministic between cold runs here (o6 and o12 reproduced gates' / o4's texts byte for byte), so per-set differences are real prompt effects, but they do not generalise reliably across sets at this size.
+
 Paired flips vs gates (questions right only in variant / only in gates), hit | miss: o1 +4/−14 | +3/−3; o2 +3/−7 | +3/−1; o3 +0/−2 | **+6/−0**; o4 +7/−6 | +4/−1; o5 +8/−9 | +3/−2; o6 0/0 | 0/0.
 
 **Determinism note:** o6's raw generations (same prompt as gates) are byte-identical to gates' S300-2 answers on all 300 questions, so e2b was deterministic between these two cold runs. The cut changed 15 answers (11 hits) and flipped no verdict: J1 tolerates source sentences unless they are wrong. o6 is dead.
@@ -56,3 +71,5 @@ o12 vs o4 (same prompt, dedup only on the mailbox context): identical text on 19
 o3: dedup in the mailbox context frees slots for new mailbox emails and helps misses (+6/−0); on hits it only costs (−2). → o11/o12 apply it to the mailbox context only.
 
 o1: answers got much shorter (p50 102 vs 176 chars) and lost: of 14 questions o1 got wrong and gates right, most are an omitted part / reason / recipient ("lacks time detail", "Recipient omitted", "concern omitted") or a wrong entity. The second sentence carries needed content more often than it pads; padding is a symptom, not a cause. Killed. o2: no gain, killed.
+
+Defined in `o-reading.js` but not run (dropped once their components showed nothing): o8 (o4 + source cut; the cut is inert, o6), o10 and o13 (o4 / o12 + the relevance sentence; o9 was −0.4). `oref` is a diagnostic that reproduces gates' contexts exactly (checked offline on all 300 S300-2 questions). Tools: `tools/o-failures.js` (answers × J1 verdicts dump), `o-features.js` (per-question context features), `o-reasons.js` (J1 reasons for wrong answers), `o-check.js` (stub-generator context/prompt check, no GPU). J1 spend for o-runs ≈ $0.02.

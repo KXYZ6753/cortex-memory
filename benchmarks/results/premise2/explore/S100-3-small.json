@@ -4,7 +4,7 @@
   "missShare": 0.06800407113777587,
   "baseline": "pb@1",
   "champion": null,
-  "at": "2026-10-04T14:41:43.479Z",
+  "at": "2026-10-04T15:26:19.171Z",
   "summaries": [
     {
       "variant": "oracle@1",
@@ -195,6 +195,47 @@
       "wallX": 1,
       "calls": 1,
       "reloads": 100,
+      "outputLimit": 1
+    },
+    {
+      "variant": "pbrep@1",
+      "n": 100,
+      "graded": 100,
+      "weighted": 0.8774362545532463,
+      "miss": 0.02,
+      "hit": 0.94,
+      "nMiss": 50,
+      "nHit": 50,
+      "vsBaseline": {
+        "weighted": 0,
+        "miss": 0,
+        "hit": 0,
+        "low": 0,
+        "high": 0
+      },
+      "vsChampion": null,
+      "buckets": {
+        "never found": {
+          "miss": 39,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 1,
+          "hit": 47
+        },
+        "abstained": {
+          "miss": 10,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 0,
+          "hit": 3
+        }
+      },
+      "wallMs": 641.45,
+      "wallX": 0.018634002282734277,
+      "calls": 1,
+      "reloads": 0,
       "outputLimit": 1
     },
     {

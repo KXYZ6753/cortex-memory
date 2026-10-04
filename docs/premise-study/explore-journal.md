@@ -145,3 +145,22 @@ No variant meets the FULL rule (Δ ≥ +1.5 and lower bound > −1.5); pbu is cl
 ## Round 3 plan (S100-4 and diagnostics)
 
 Offline screen (gold or twin in context, frozen BM25 lists, every 4th pool question): pb hit 97.3 / miss 0; pbu 97.9 / 32.6; header-match rerank (no model call) global top 5 95.6 / 12.1, mailbox top 5 96.6 / 38.5; pbfill 97.9 / 32.6; pb3 94.3 / 0. Header reranking pushes the gold down on hits, so the global header variants are dropped. Runs: S100-4 pb, pbrep, pbfill (P-B's context, with other mailboxes' emails swapped for the asker's best unseen ones: same as P-B when all five are the asker's, so less hit noise), hdru, pb3 (fewer emails against distraction); S300-1 cascg; FULL-0 oracle (distraction ceiling on 450 hits); S100-3 pbrep (determinism check for the overlap runs).
+
+## Round 3 results (J1)
+
+**Determinism.** `pbrep` (an exact copy of pb) on S100-3, run hours after pb, matches pb on all 100 answers: the overlap runs' accuracy stands. On S100-4, run straight after pb (Ollama prompt cache warm, 305 ms vs 587 ms), it differs on one hit (−1.9 weighted). So cached-prefix evaluation changes about 1 answer in 100: a noise floor for every comparison, and another reason timing and close calls need fresh questions.
+
+**Retrieval ceiling.** Oracle (gold email only) on FULL-0: **88.6** (hits 88.9, misses 85.3) vs pb 80.3. Even with perfect retrieval e2b reaches only about 31b P-B's 87.4; distraction costs at most about 3 points on hits (88.9 vs 86.0). The rest of the hit gap to 31b is e2b's reading.
+
+S100-4:
+
+| variant | weighted | Δ vs pb [95% CI] | miss | hit | wall ms |
+|---|---|---|---|---|---|
+| hdru | 83.1 | +4.4 [−3.7, 12.9] | 44 | 86 | 581 |
+| pb3 | 80.6 | +1.9 [−3.9, 8.6] | 6 | 86 | 461 |
+| pbfill | 80.3 | +1.6 [−7.4, 10.5] | 30 | 84 | 623 |
+| pb | 78.7 | – | 6 | 84 | 587 |
+
+S300-1 cascg: 78.6, **+1.0 [0.5, 1.4]** (misses 18 vs 4, hits equal). A real but small gain, below the +1.5 FULL bar; it changes only questions P-B abstains on.
+
+Decisions: promote hdru (Δ ≥ +2, hit +2, miss +38) and pbfill (miss component, +24) to S300-1. Drop pb3. Round 4 (S100-5) adds hdrud10 (header rerank of the mailbox top 10 only: offline hit recall 97.6 vs hdru's 96.6, miss 37.7), hdru6 (6 emails: 97.6 / 42.7) and hfill (pbfill with header-ranked spares).

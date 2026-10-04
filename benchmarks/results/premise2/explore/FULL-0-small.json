@@ -4,8 +4,45 @@
   "missShare": 0.06800407113777587,
   "baseline": "pb@1",
   "champion": null,
-  "at": "2026-10-04T04:09:55.659Z",
+  "at": "2026-10-04T15:26:21.354Z",
   "summaries": [
+    {
+      "variant": "oracle@1",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8864709663595457,
+      "miss": 0.8533333333333334,
+      "hit": 0.8888888888888888,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": {
+        "weighted": 0.08314102564102555,
+        "miss": 0.8266666666666668,
+        "hit": 0.028888888888888853,
+        "low": 0.05347053071908492,
+        "high": 0.11244182469342956
+      },
+      "vsChampion": null,
+      "buckets": {
+        "correct": {
+          "miss": 128,
+          "hit": 400
+        },
+        "read but wrong": {
+          "miss": 20,
+          "hit": 49
+        },
+        "abstained": {
+          "miss": 2,
+          "hit": 1
+        }
+      },
+      "wallMs": 307.9116666666667,
+      "wallX": 0.4747461769142411,
+      "calls": 1,
+      "reloads": 0,
+      "outputLimit": 1
+    },
     {
       "variant": "estar@1",
       "n": 600,

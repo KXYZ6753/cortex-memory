@@ -213,6 +213,13 @@ export function headerScore(question, email) {
     return score + 0.5 * Math.min(recipients, 2)
 }
 
+// Paths fused by RRF of their BM25 rank and their header-match rank.
+export function byHeaderRank(question, ranked, emailOf, { rrfK = 10, k = ranked.length } = {}) {
+    const byHeader = ranked.map((path, index) => ({ path, index, score: headerScore(question, emailOf(path)) }))
+        .sort((a, b) => b.score - a.score || a.index - b.index)
+    return rrf([ranked.map((path) => ({ path })), byHeader.map(({ path }) => ({ path }))], rrfK, k).map((hit) => hit.path)
+}
+
 // BM25 top `depth`, re-ordered by RRF of BM25 rank and header-match rank; top k.
 async function headerRerank(ctx, record, { scope = "global", k = 5, depth = 20, rrfK = 10 } = {}) {
     const ranked = await ctx.search(record.question, depth, scope === "user" ? record.user : null)
@@ -225,10 +232,11 @@ async function headerRerank(ctx, record, { scope = "global", k = 5, depth = 20, 
 
 // P-B's global top 5, with emails from other mailboxes replaced (in place) by the
 // best unseen emails of the asker's mailbox. Identical to P-B when all five are the asker's.
-async function mailboxFill(ctx, record) {
+async function mailboxFill(ctx, record, { header = false } = {}) {
     const global = (await ctx.search(record.question, 20)).slice(0, 5)
     const own = (path) => path.startsWith(`${record.user}/`)
-    const spare = (await ctx.search(record.question, 20, record.user)).filter((path) => !global.includes(path))
+    const mailbox = await ctx.search(record.question, 20, record.user)
+    const spare = (header ? byHeaderRank(record.question, mailbox, ctx.emailOf) : mailbox).filter((path) => !global.includes(path))
     const paths = global.map((path) => (own(path) ? path : spare.shift() ?? path))
     const result = await ctx.generate({ prompt: answerPrompt(ctx, record, paths) })
     return { status: result.status, answer: result.answer ?? "", contextPaths: paths, replaced: paths.filter((path, index) => path !== global[index]).length }
@@ -268,4 +276,7 @@ export const VARIANTS = {
     hdr3: { version: 1, describe: "Global BM25 top 20 reranked by header match (RRF), top 3", run: (ctx, record) => headerRerank(ctx, record, { k: 3 }) },
     hdru: { version: 1, describe: "Per-mailbox BM25 top 20 reranked by header match (RRF), top 5", run: (ctx, record) => headerRerank(ctx, record, { scope: "user" }) },
     pbfill: { version: 1, describe: "P-B top 5 with other mailboxes' emails replaced by the asker's best unseen emails", run: mailboxFill },
+    hdrud10: { version: 1, describe: "Per-mailbox BM25 top 10 reranked by header match (RRF), top 5", run: (ctx, record) => headerRerank(ctx, record, { scope: "user", depth: 10 }) },
+    hdru6: { version: 1, describe: "Per-mailbox BM25 top 20 reranked by header match (RRF), top 6", run: (ctx, record) => headerRerank(ctx, record, { scope: "user", k: 6 }) },
+    hfill: { version: 1, describe: "pbfill with the mailbox spares in header-reranked order", run: (ctx, record) => mailboxFill(ctx, record, { header: true }) },
 }

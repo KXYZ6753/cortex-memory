@@ -7,6 +7,8 @@ import { latestAnswers, verdictIndex, answerVerdictKey } from "../../explore/gra
 import { judgeConfig, preGrade } from "../../judge.js"
 import { isAbstain } from "../../prompts.js"
 
+import { existsSync } from "node:fs"
+if (existsSync(".env")) process.loadEnvFile(".env")
 const dataDir = ".data/premise2"
 const [setName = "FULL-0", list = "gates,oracles,pbs"] = process.argv.slice(2)
 const wanted = list.split(",")

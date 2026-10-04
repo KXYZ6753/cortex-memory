@@ -37,6 +37,7 @@ Answer-bearing email present: gates' first context miss 48.7 / hit 99.8; both co
 | variant | weighted | Δ vs gates [95% CI] | miss | hit | wall ms | calls |
 |---|---|---|---|---|---|---|
 | gates (ref) | 85.1 | – | 31.0 | 89.0 | 763 | 1.0 |
+| **a5 hybrid** | **85.5** | **+0.4 [0.2, 0.6]** | 37.0 | 89.0 | 987 | 2.1 |
 | a4 hybrid | 85.1 | +0.0 [0.0, 0.0] | 31.0 | 89.0 | 792 | 1.1 |
 | a1 hybrid | 84.1 | −0.9 [−5.5, 3.3] | 31.0 | 88.0 | 1,128 | 2.0 |
 | a3 agent | 82.7 | −2.3 [−6.6, 1.7] | 31.0 | 86.5 | 918 | 2.1 |
@@ -45,4 +46,12 @@ Answer-bearing email present: gates' first context miss 48.7 / hit 99.8; both co
 
 - The agents: far above the frozen agent (≈37) and level with P-B, but below gates. a2 (list picker) reads an answer-bearing email for 41/100 misses (gates' final context has one for about 31) and has the best miss accuracy (34.0), but it points to the wrong email on 11/200 hits. a3 (read-and-point) mis-points on 9/200 hits. Every wrong point on a hit costs about 0.47 weighted pts here, which cancels the miss gains.
 - a1: the reread changes hit answers both ways (9 lost, 7 gained vs gates); reading the attributed email alone is 174/193 = 90.2% on hits, about gates' rate. The oracle's hit advantage (FULL-0) does not appear when the model's own answer picks the email: the ~2-point oracle gap is mostly reading noise, not removable distraction. 5 hit losses come from attribution to a non-bearing email.
+- a5: escalates on 12/300 (all misses, 0 hits); 9 of the 12 escalated reads carry the answer; +6 misses, 0 losses, no hit answer changes. Hit answers are byte-identical to gates (the "agree"/"outside-weak" paths keep gates' answer). The threshold was chosen on S300-2, so this result is in-sample. **Out of sample** (S100-2, S100-8, 50 miss / 50 hit each, vs stored gates): S100-2 escalates on 6 (all misses; miss +1, 0 losses, hit flips 0); S100-8 escalates on 6 (all misses; miss +4, 0 losses, hit flips 0). Mean wall ≈ 985 ms. Safe and positive, but the ceiling is small (misses carry 6.8% of the weight): about +0.3 to +0.4 weighted.
 - a4: e2b was deterministic against the stored gates run here (0 flips on the 285 unchanged answers); its 15 blend rereads on hits were all already correct in gates, and 12/13 blend misses had no evidence to reread. On S300-2 the blend signal marks misses, not fixable hits.
+
+## 4. Conclusions
+
+- Best agent: **a3** (read-and-point; −2.3 [−6.6, 1.7] vs gates, 918 ms, 2.1 calls). a2 is close behind (−3.5) and has the best miss accuracy. Both fix the frozen agent's failure modes (≈37 → 82–83) because the model only points and the harness opens. They still lose to gates because every wrong point on a hit costs more than a miss gained.
+- Best hybrid: **a5** (+0.4 [0.2, 0.6], 987 ms; in-sample threshold, confirmed directionally on S100-2/S100-8 with zero hit changes). Not a promotion candidate (needs +1.5). It is a safe add-on to whatever wins the one-shot track: it never touched a hit answer in 500 questions.
+- Negative results: abstention triggers (5/600 FULL-0 answers abstain), answer-support checks (wrong answers are copied faithfully from the wrong email), single-email rereads (a1: hit reading noise both ways), and blend-triggered rereads (a4: 0 change).
+- Ceiling argument: on S300-2 weights, all miss-side agent/hybrid gains together are worth at most ≈2 weighted points, and the hit-side "oracle gap" did not prove recoverable by any email-selection step. A +1.5 promotion through agent/hybrid machinery would need hit-side reading gains, which none of these designs found.

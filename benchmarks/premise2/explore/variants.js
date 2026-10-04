@@ -143,6 +143,14 @@ async function queryExpansion(ctx, record, { scope = "global" } = {}) {
     return { status: result.status, answer: result.answer ?? "", contextPaths: paths, query }
 }
 
+async function rrfUserGlobal(ctx, record) {
+    const user = await ctx.search(record.question, 20, record.user)
+    const global = await ctx.search(record.question, 20)
+    const paths = rrf([user.map((path) => ({ path })), global.map((path) => ({ path }))], 60, 5).map((hit) => hit.path)
+    const result = await ctx.generate({ prompt: answerPrompt(ctx, record, paths) })
+    return { status: result.status, answer: result.answer ?? "", contextPaths: paths }
+}
+
 export const VARIANTS = {
     pb: { version: 1, describe: "P-B: BM25 global top 5, R0, T2, rank order", run: (ctx, record) => fixedContext(ctx, record, {}) },
     estar: { version: 1, describe: "E*: BM25 global top 5, best-ranked last", run: (ctx, record) => fixedContext(ctx, record, { order: "bestlast" }) },
@@ -150,6 +158,8 @@ export const VARIANTS = {
 
     pbu: { version: 1, describe: "P-B with per-mailbox BM25 (asker's mailbox)", run: (ctx, record) => fixedContext(ctx, record, { scope: "user" }) },
     sel5: { version: 1, describe: "Select up to 2 of BM25 top 5, then answer from them", run: (ctx, record) => selectThenRead(ctx, record, { k: 5 }) },
+    rrfu: { version: 1, describe: "RRF of per-mailbox and global BM25, top 5", run: rrfUserGlobal },
+    sel10u: { version: 1, describe: "Select up to 2 of per-mailbox BM25 top 10, then answer", run: (ctx, record) => selectThenRead(ctx, record, { k: 10, scope: "user" }) },
     sel10: { version: 1, describe: "Select up to 2 of BM25 top 10, then answer from them", run: (ctx, record) => selectThenRead(ctx, record, { k: 10 }) },
     quote: { version: 1, describe: "Quote-then-answer on P-B context", run: (ctx, record) => quoteThenAnswer(ctx, record) },
     qx: { version: 1, describe: "e2b keywords + raw question, RRF-fused BM25 top 5", run: (ctx, record) => queryExpansion(ctx, record) },

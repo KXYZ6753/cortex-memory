@@ -40,3 +40,15 @@ Variants (all e2b, num_predict 160 unless stated), hypothesis → failure bucket
 | fba | P-B; tools (4 rounds) only after it abstains | misses where it abstains | misses +, hits = pb |
 | fbb | P-B emails pre-opened, tools from turn 1 | misses | misses +, hits risk |
 | auto2 | agent; each search auto-opens its 2 best new results | shown not opened | far above the frozen agent; below pb |
+
+## Incident: Ollama auto-update (Sat 3 Oct 23:07 ET)
+
+- The Ollama app updated itself to 0.35.1 and restarted the server during the S100-0 E* run. 8 E* calls failed during the restart (http_error, retried later); 6 E* answers were generated on 0.35.1 before the queue was stopped. Those 6 were moved to `answers-quarantine-ollama0351.jsonl` and are never used. The remaining queue steps refused to start (preflight version check).
+- Reinstalled the official 0.34.2 installer (SHA-256 8c9eb7ba…a8b, matching GitHub's published digest) silently over 0.35.1; set `auto_update_enabled=0` in the app's settings database. Version 0.34.2 confirmed; the runner re-checks model digests against the main run on every start.
+- The runner now also re-checks the Ollama version every 25 questions and aborts on a change, and stores the version on every answer.
+
+## Round 0 partial: S100-0 e2b P-B (J1)
+
+- e2b P-B: **84.4% weighted** (hits 90.0%, misses 8.0%), matching the expected ~84% J1. Wall 645 ms/question → cost cap 5× ≈ 3.2 s/question (to be fixed on FULL-0).
+- On the 50 misses: 31 wrong answers with no answer-bearing email in context, 15 abstentions ("NOT IN EMAILS"), 4 correct. On hits: 5 wrong with the evidence in context.
+- J1 cost: 153 calls for $0.0028 (≈$0.02 per 1,000 calls; gpt-oss-20b at $0.018/M in, $0.09/M out). Grading cost is not a binding constraint for J1 screening.

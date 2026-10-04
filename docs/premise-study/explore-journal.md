@@ -52,3 +52,36 @@ Variants (all e2b, num_predict 160 unless stated), hypothesis → failure bucket
 - e2b P-B: **84.4% weighted** (hits 90.0%, misses 8.0%), matching the expected ~84% J1. Wall 645 ms/question → cost cap 5× ≈ 3.2 s/question (to be fixed on FULL-0).
 - On the 50 misses: 31 wrong answers with no answer-bearing email in context, 15 abstentions ("NOT IN EMAILS"), 4 correct. On hits: 5 wrong with the evidence in context.
 - J1 cost: 153 calls for $0.0028 (≈$0.02 per 1,000 calls; gpt-oss-20b at $0.018/M in, $0.09/M out). Grading cost is not a binding constraint for J1 screening.
+
+## Round 0: S100-0 complete (J1)
+
+| variant | weighted | Δ vs pb [95% CI] | miss | hit | wall ms |
+|---|---|---|---|---|---|
+| pb | 84.4 | – | 8.0 | 90.0 | 645 |
+| estar | 76.8 | −7.6 [−17.2, 1.9] | 6.0 | 82.0 | 645 |
+| agent (frozen) | 36.5 | −47.9 [−61.5, −33.1] | 16.0 | 38.0 | 924 |
+
+The main study's pattern reproduces inside the pool: E* below P-B, and the frozen agent about 48 points below, failing mostly by not opening the answer email (agent buckets: shown-not-opened 6 miss / 21 hit).
+
+## Round 1 results (S100-1, Sun 4 Oct ~00:00 ET, J1)
+
+| variant | weighted | Δ vs pb [95% CI] | miss | hit | Δmiss | Δhit | × pb wall |
+|---|---|---|---|---|---|---|---|
+| sel10u | 87.1 | +10.2 [2.4, 18.3] | 48 | 90 | +40 | +8 | 1.65 |
+| pbu | 86.7 | +9.8 [1.7, 18.3] | 42 | 90 | +34 | +8 | 0.91 |
+| rrfu | 84.5 | +7.5 [−1.8, 16.5] | 36 | 88 | +28 | +6 | 0.81 |
+| sel5 | 84.4 | +7.5 [−1.8, 16.2] | 8 | 90 | 0 | +8 | 1.17 |
+| quote | 84.3 | +7.3 [−0.1, 15.8] | 6 | 90 | −2 | +8 | 1.46 |
+| qx | 77.1 | +0.1 | 10 | 82 | +2 | 0 | 1.16 |
+| pb | 77.0 | – | 8 | 82 | – | – | 1.00 |
+| fba | 75.1 | −1.9 | 8 | 80 | 0 | −2 | 1.08 |
+| auto2 | 73.4 | −3.6 | 10 | 78 | +2 | −4 | 1.42 |
+| fbb | 68.1 | −8.9 [−17.0, −1.7] | 14 | 72 | +6 | −10 | 1.93 |
+
+J1 spend for round 0 + 1: $0.021 cumulative.
+
+Reading: P-B's hit accuracy on this draw (82%) is 8 points below S100-0's 90%, so a good part of every variant's +8 on hits is likely the baseline's bad luck; the hit gains need fresh questions. The miss gains are large and specific: mailbox scope takes misses from 8% to 36–48% correct. The model-in-the-loop designs did not help: the fallback agent (a) fell back on only 7 of 50 misses' abstentions and never recovered one (its never-found bucket grew); fbb lost 10 points on hits (opened emails it did not need); auto2 still showed-but-did-not-open on 15 questions.
+
+Transcript observations (sel10u failures): (1) the selector often lists 3+ emails ("1, 2, 3", once seven); keeping only the first 2 sometimes discards the answer email at rank 3–5 → test keeping 3; (2) several J1 INCORRECT answers look right to a human reader ("Steve Couch Memorial Golf Tournament", "Candle Corporation", the Haas email address) — J1 strictness, common to all arms; (3) remaining miss failures are mostly true misses (answer email not in mailbox top 10).
+
+Decisions: promote sel10u, pbu, rrfu, sel5, quote to S300-1 (all meet Δ ≥ +2 and hit ≥ −3; sel10u, pbu, rrfu also qualify as miss components). Kill qx, fba, fbb, auto2. Round 2 (S100-3; S100-2 skipped and kept spare) combines the winners: mailbox selection with 3 kept (sel10u3), mailbox top-5 selection (selu5), mailbox quote (quoteu), abstain cascades (casc: mailbox first; cascg: P-B first), and wide selection over 15 clipped candidates (selx).

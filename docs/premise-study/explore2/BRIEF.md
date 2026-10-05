@@ -47,3 +47,28 @@ Sets: **S300-2** is the shared screening set (pb and gates are run there). FULL-
 e2b at temperature 0 is not deterministic here: re-running identical prompts changes ~30% of answer texts and 2–6 verdicts per 100. Differences under ~2 points on 300 questions are noise. Report Δ vs gates on S300-2 with the CI the report prints. **Candidate for promotion:** Δ vs gates ≥ +1.5 on S300-2 within the cost cap. Tell the lead (in your final report) the id; the lead confirms on S300-3, FULL-0 and FULL-1.
 
 Think like a scientist: form a hypothesis from the failure data, test cheaply offline when you can (e.g. retrieval recall needs no GPU), then run. Prefer few strong ideas over many weak ones. Write what you tried, numbers and conclusions to your notes file as you go.
+
+---
+
+# Round 2 (from Sun 4 Oct ~21:30 ET to Mon 5 Oct ~16:00 ET)
+
+## What round 1 established (read the notes: f.md, r.md, o.md, a.md, w.md)
+
+- **Hits are at e2b's reading ceiling** (gates reads gold-first in ~89% of hits; gold-only `oracles` fixes 13 and breaks 11 of gates' hit answers). Prompt-shape changes move hits ±1–2 at random per set. Gains so far come from **misses**.
+- **e2b is deterministic** in these runs (identical prompt → byte-identical answer; reload per variant). Differences between variants on one set are real prompt effects but do not replicate across sets unless they are systematic.
+- Best one-shot lead: **r5** = gates + when not switched, the best cross-encoder (MiniLM, CPU) email from the asker's mailbox BM25 top 30 replaces global #5. vs gates: S300-2 +1.9, S300-1 +0.4, S300-3 +2.3 (≈ +1.5 pooled), 1,240 ms. r4 (conditional swap) ≈ +1.0.
+- Best hybrid lead: **a5** = gates + one model list-pick over 15 candidate lines; escalates (reads the pick alone) only when the pick is outside gates' context and covers the question's words ≥ 0.15 better. +0.4 [0.2, 0.6], never changed a hit answer in 500 questions.
+- Lead stacks in `variants/s-stack.js`: s1 = r5 + mailbox dedup, s2 = s1 + rules-last prompt, s3 = s1 + a5 escalation (results pending).
+- Useful primitives: e2b YES/NO relevance probe per email (w6/w7; ~95 ms/email; YES on 70% of answer-bearing, 6.7% of others); the cross-encoder (good for "best unseen email", bad for reordering a context); abstention is useless as a trigger (e2b almost never abstains when the answer is missing).
+- Agents: harness-driven pick agents a2/a3 reach ~82–83 (P-B level) but lose to gates through wrong picks on hits (each lost hit ≈ 0.47 weighted points on S300 sets).
+
+## The agentic gap (Kerem's main question for round 2)
+
+Main study (TEST, frozen plain-text SEARCH/OPEN/ANSWER agent): e2b agent **40.0** vs its own P-B 88.0; e4b 69.2; **31b agent 75.8** (31b P-B 91.8). Diagnosis: e2b's failure is **selection and commitment, not reading or query writing** — its searches show the gold in snippets 91% of the time but it opens it only 41% of the time; reading the opened gold is 86.5% correct. The in-pool frozen e2b agent scores ≈37 on FULL-0. The question: **can scaffolding/harness design close the gap so an e2b agent matches the 31b agent (75.8) or even the one-shot pipelines (gates 86.8 in pool, 31b P-B 87.4 in pool)?** An agent here = the model chooses actions (what to search, what to open, when to stop/answer). It may be heavily scaffolded. Report agent results against: frozen e2b agent (≈37 in pool), gates, and the 31b reference.
+
+## New tools
+
+- `ctx.chatRaw(body)` posts any `/api/chat` body (`tools` for native function calling, `format` for JSON-schema constrained decoding, `messages`, `logprobs`/`top_logprobs` if this Ollama build supports them) with the main run's options by default (do NOT change num_ctx/num_batch — that reloads the model); counted as a model call. Test support with a 5-question smoke run before building on it.
+- GPU queue is now FIFO with lead priority; grading has its own lock (no longer blocks the GPU). `cli2.js queue` shows the queue.
+- Smoke tests: prefer `run S100-x myvar` (any S100 set) or `run S300-2 myvar 30`. Full screening on S300-2; second screening set for promising variants: **S300-1** (gates is there; phase-1 answers too). Don't use S300-3, FULL-0, FULL-1 (lead's confirmation sets).
+- Be GPU-frugal: simulate offline from stored answers whenever possible; each GPU run ≤ 2 variants × 300 questions.

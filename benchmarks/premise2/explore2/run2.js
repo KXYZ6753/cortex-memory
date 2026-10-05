@@ -7,6 +7,9 @@
 //   bm25        the raw FTS5 handle (bm25.search(query, k, user) -> [{ path, ... }])
 //   resource    resource(name, loader) loads something once per run (a reranker, dense index)
 //   embedQuery  nomic-embed-text query vector on the CPU (num_gpu 0), time counted in auxMs
+//   chatRaw     chatRaw(body) POSTs { model, stream: false, options, ...body } to /api/chat
+//               (for tools, format, logprobs, raw messages) and returns Ollama's JSON;
+//               counted as a model call. Default options are the main run's.
 //   dataDir, ollamaUrl, tag
 
 import { join } from "node:path"
@@ -77,6 +80,17 @@ export async function runExplore2({ dataDir, setName, variants, alias = "small",
                             const [vector] = await embedBatch([`${QUERY_PREFIX}${text}`], { ollamaUrl, options: { num_gpu: 0 } })
                             tally.auxMs += performance.now() - started
                             return vector
+                        },
+                        chatRaw: async (body) => {
+                            const started = performance.now()
+                            const response = await fetch(`${ollamaUrl}/api/chat`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ model: tag, stream: false, think: false, keep_alive: "60m", options: generationOptions({ num_predict: NUM_PREDICT }), ...body }) })
+                            const data = await response.json().catch(() => ({ error: `HTTP ${response.status}` }))
+                            tally.calls++
+                            tally.genMs += Math.round(performance.now() - started)
+                            tally.promptTokens += data.prompt_eval_count ?? 0
+                            tally.outputTokens += data.eval_count ?? 0
+                            tally.statuses.push(data.error ? "http_error" : "ok")
+                            return data
                         },
                         generate: async ({ prompt, messages, options, think = false }) => {
                             const result = await chat({ url: ollamaUrl, model: tag, prompt, messages, options: options ?? generationOptions({ num_predict: NUM_PREDICT }), think })

@@ -184,5 +184,6 @@ export const VARIANTS = {
     k3: { version: 1, describe: "k1 with the explore list ordered by the cross-encoder (unopened gates ctx2 + mailbox top 30)", run: (ctx, record) => expandAgent(ctx, record, { ceList: true }) },
     k4: { version: 1, describe: "k1 + weak commit (a YES only below the top result explores; W0 kept unless a new YES email is found) + strict plan parsing", run: (ctx, record) => expandAgent(ctx, record, { weak: true, strictPlan: true }) },
     k5: { version: 1, describe: "k4 + k3: weak commit, strict plan parsing, cross-encoder-ordered explore list", run: (ctx, record) => expandAgent(ctx, record, { weak: true, strictPlan: true, ceList: true }) },
+    k6: { version: 1, describe: "k3 (CE-ordered explore list) + strict plan parsing + up to 4 opens", run: (ctx, record) => expandAgent(ctx, record, { ceList: true, strictPlan: true, maxOpens: 4 }) },
     k1: { version: 1, describe: "Agent: commit check (YES/NO) on open top results; else model picks/searches (FROM/TO/ABOUT), opens+checks up to 3; answer over working set (YES email first)", run: (ctx, record) => expandAgent(ctx, record) },
 }

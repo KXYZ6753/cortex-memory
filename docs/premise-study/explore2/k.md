@@ -66,3 +66,92 @@ k2 scored **83.2** (miss 45.0, hit 86.0; Δ vs gates −1.9), at 999 ms and 2.9 
 - **Weaker stop signal.** The single YES/NO over all 5 open emails stops on 192/200 hits, but the 8 hits it sends exploring lose 3, because its NO is less sharp than the per-email probe's.
 - **Hit answers flip on identical prompts.** On the 192 committed hits the prompt is byte-identical to gates', yet the answers went 170 correct vs 173 for gates (−3). The check call shares the answer prompt's prefix, so Ollama answers from a reused KV cache. That reuse plausibly shifts the numerics of the answer pass; in round 1, e2b was byte-deterministic only on cold, identical prompts.
 - **Lesson:** never let a decision call share the answer prompt's prefix. The per-email probe (k1) doesn't, and its committed hits matched gates (+2/−1).
+
+### k3 on S300-2 (cross-encoder-ordered explore list)
+
+k3 scored **86.1** (miss 47.0, hit 89.0; Δ vs gates **+1.1 [−0.8, 2.8]**), at 1,288 ms and 4.3 calls.
+- **Better picking.** The model picks the AB email when listed 30/38 times, and a found email is AB 19/24 times (k1: 16/23).
+- **Net:** misses gain +1 over k1, hits are the same. The CE ordering helps the pick a little; it is not a second lever.
+
+### k1 replication on S300-1 (second screening set)
+
+| S300-1 | weighted | Δ vs gates [CI] | miss | hit | wall ms | calls |
+|---|---|---|---|---|---|---|
+| **k1** | **85.3** | **+1.4 [−1.1, 4.1]** | 48.0 | 88.0 | 1,150 | 4.2 |
+| r4 | 85.6 | +1.7 | 46.0 | 88.5 | 1,232 | 1.0 |
+| r5 | 84.3 | +0.4 | 47.0 | 87.0 | 1,233 | 1.0 |
+| gates | 83.9 | – | 34.0 | 87.5 | 756 | 1.0 |
+
+The mechanism replicates:
+- **Found misses:** 20, of which 15 are correct (gates 3); +12/0.
+- **Committed hits:** 177 (+3/−2 vs gates, prompt-level noise).
+- **Explored hits:** 22 (+1/−1).
+- **Selection:** the model picked a listed AB email 21/31 times.
+
+Pooled over S300-2 and S300-1 (600 q), k1 is **+1.2 weighted** vs gates. All of that comes from misses (+14.5 points), with hits unchanged.
+
+### k4 on S300-2: weak commit (rejected)
+
+k4 scored **85.2** (miss 47.0, hit 88.0; Δ vs gates +0.1), at 1,268 ms and 4.9 calls. A YES below the top result now triggers exploration (34 questions).
+- **Misses:** weak-found 13 gained only +1 (4 correct vs gates 3).
+- **Hits:** the 2 hits where exploration found a new YES email lost both, because that email was put first.
+
+A YES anywhere in the top 5 is the right stop signal; second-guessing it costs hits. k5 (k4 + k3) was cancelled before running and replaced by k6 (k3 + strict plan parsing + 4 opens).
+
+### Is the selection really the model's? (first pick in the explore step)
+
+| run | lists containing an AB email | model's first pick is AB | harness's #1 is AB | AB listed at position 6+ |
+|---|---|---|---|---|
+| k1 S300-2 (BM25 + header list) | 34 | **20** | 4 | 16 |
+| k3 S300-2 (cross-encoder list) | 35 | **23** | 12 (CE top 1) | 10 |
+| k1 S300-1 | 31 | **17** | 7 | 13 |
+
+- **The model's pick beats the harness's top-1 by 2–5×.** It picks the AB email from deep in the list, and its picks spread across all 15 positions.
+- **Where the gain comes from:** the model's selection skill, applied only after its own commit check says the open evidence is not enough.
+
+### k3 replication on S300-1
+
+k3 scored **86.6** (miss 47.0, hit 89.5; Δ vs gates **+2.7 [−0.2, 5.8]**), at 1,259 ms and 4.2 calls.
+- **Found misses:** +11/0.
+- **Explored hits:** +3/0. These are context changes; treat them as noise.
+
+**k3 pooled over S300-2 and S300-1 (600 q): +1.9 weighted vs gates** (S300-2 +1.1, S300-1 +2.7). On S300-2 alone it is below the +1.5 promotion bar; pooled it is above it.
+
+### Confidence-gated agent (n's logprob gate), offline (`tools/k-gated.js`)
+
+The rule: keep gates' answer when n-g5 judged it confident (mean token logprob ≥ −0.1, no hedge, no abstention; 153/300); otherwise use the stored k answer.
+
+| | S300-2 | S300-1 |
+|---|---|---|
+| gates | 85.1 | 83.9 |
+| n-g5 (gate + r5 fallback) | 86.5 | 85.5 |
+| k1 | 86.1 | 85.3 |
+| gated k1 | 86.3 | 85.4 |
+| k3 | 86.1 | 86.6 |
+| gated k3 | 86.3 | 86.8 |
+
+- **The gate adds only +0.1–0.3 to k.** The agent's own commit check already protects the confident hits; gating lowers miss accuracy (47 → 43) because confident-but-wrong misses never get to explore.
+- **Decision:** no GPU run. The model's YES/NO commit check does the gate's job inside the agent, with no logprob access needed.
+
+## 4. Conclusions
+
+- **Best agent: k3**, a commit-gated "expand, don't replace" agent with a cross-encoder-ordered pick list.
+  - S300-2: 86.1 (+1.1 [−0.8, 2.8] vs gates). S300-1: 86.6 (+2.7 [−0.2, 5.8]). Pooled: **+1.9**.
+  - 1.26–1.29 s mean wall, 4.2 calls.
+  - k1 (BM25 + header list, no cross-encoder) is close: +1.0 / +1.4, pooled +1.2.
+- **The agentic gap is closed.** The frozen e2b agent scores ≈37 in pool; round-1 pick agents scored 82–83. k1/k3 score 85–87, above gates on both screening sets and about 10 points above the 31b frozen-protocol agent (75.8 on TEST; a different set, so the comparison is indicative). The model makes every decision: it checks the open evidence (YES/NO), picks what to open, writes the search, and decides when to stop.
+- **Why it works:**
+  1. **Commitment is moved to a sharp, per-email decision** (YES/NO, about 95 ms). With one, e2b stops on about 90% of hits, and every committed hit is read with gates' exact prompt. That is why hit accuracy matches gates.
+  2. **Selection happens only where it is needed.** In the explore step the model picks an AB email from the list 60–65% of the time, against 12–35% for the harness's own top 1.
+  3. **A wrong pick is cheap:** the working set keeps W0's top 4, and only a YES-checked email goes first.
+- **What failed:**
+  - k2, a context-level check (−1.9): it is less sharp, and its prefix sharing with the answer prompt flipped committed hit answers.
+  - k4, the weak commit (+0.1): second-guessing a YES below rank 1 cost 2 hits for 1 miss.
+  - The logprob gate on top (offline +0.1–0.3): redundant with the commit check.
+- **What remains:**
+  - Misses are still 46–48 vs the oracle's 82.
+    - **False stops** (about 25 misses per 100): e2b says YES to a wrong email in W0, mostly at rank 1, so it can't be told apart from hits.
+    - **Never found** (about 11 per 100): the AB email is not in mailbox top 30 + global, and e2b's FROM/TO/ABOUT search rarely surfaces it.
+  - Hits stay at e2b's reading ceiling (89), as in round 1.
+
+k6 (k3 + strict plan parsing + 4 opens) was queued but did not start before the time box ended, because lead-priority FULL-0 jobs went first. I cancelled it to keep the GPU free. The code is in `k-agent.js` if wanted; I expect a small effect (≤ +1 miss).

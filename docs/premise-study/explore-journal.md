@@ -312,7 +312,7 @@ Workers: g (native function-calling agents), k (commit-check agents), p (one-sho
 |---|---|---|---|---|---|---|---|---|
 | **k3** (commit-check agent) | agent | +1.1 | +2.7 | **+3.2 [1.4, 5.2]** | +0.5 [−0.8, 1.9] | −0.1 [−1.6, 1.4] | ~1,200 | ~4 |
 | **g5** (native-tools agent) | agent | −0.2 | +2.1 | +3.4 [−0.2, 7.1] | −2.2 [−4.6, 0.2] | +0.6 [−2.0, 2.7] | ~1,490 | ~3.9 |
-| **p3** (triggered 2-email swap) | one-shot | +0.7 [0.4, 1.0] | +1.0 [0.3, 1.7]* | pending | (trigger fitted on it) | **+1.0 [0.3, 1.7]** | ~1,320 | 1.0 |
+| **p3** (triggered 2-email swap) | one-shot | +0.7 [0.4, 1.0] | +1.0 [0.3, 1.7]* | +0.4 [−1.0, 1.3] | (trigger fitted on it) | **+1.0 [0.3, 1.7]** | ~1,320 | 1.0 |
 | g10 (logprob gate → g5) | hybrid | +1.6† | +1.8† | +1.3 [−0.3, 2.9] | −1.0 [−2.7, 0.8] | – | ~1,400 | 2.6 |
 | n-g5 (logprob gate → r5) | hybrid | +1.4 | +1.6 | +0.6 [−0.8, 2.1] | −0.3 [−2.0, 1.3] | – | ~1,200 | 1.4 |
 | h4 (r4 + YES/NO probe escalation) | hybrid | +0.5 | +1.6 | – | – | – | ~2,000 | ~6 |

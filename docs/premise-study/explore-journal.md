@@ -312,7 +312,7 @@ Workers: g (native function-calling agents), k (commit-check agents), p (one-sho
 |---|---|---|---|---|---|---|---|---|
 | **k3** (commit-check agent) | agent | +1.1 | +2.7 | **+3.2 [1.4, 5.2]** | +0.5 [−0.8, 1.9] | −0.1 [−1.6, 1.4] | ~1,200 | ~4 |
 | **g5** (native-tools agent) | agent | −0.2 | +2.1 | +3.4 [−0.2, 7.1] | −2.2 [−4.6, 0.2] | +0.6 [−2.0, 2.7] | ~1,490 | ~3.9 |
-| **x1** (k3 commit check → g5 native-tools search) | agent | +1.1 | **+3.8 [0.9, 6.9]** | **+2.3 [0.2, 4.3]** | pending | **+1.3 [−0.4, 2.9]** | ~1,770 | ~5.4 |
+| **x1** (k3 commit check; unsure answers → g5 agent) | agent | +1.1 | **+3.8 [0.9, 6.9]** | **+2.3 [0.2, 4.3]** | pending | **+1.3 [−0.4, 2.9]** | ~1,770 | ~5.4 |
 | **p3** (triggered 2-email swap) | one-shot | +0.7 [0.4, 1.0] | +1.0 [0.3, 1.7]* | +0.4 [−1.0, 1.3] | (trigger fitted on it) | **+1.0 [0.3, 1.7]** | ~1,320 | 1.0 |
 | g10 (logprob gate → g5) | hybrid | +1.6† | +1.8† | +1.3 [−0.3, 2.9] | −1.0 [−2.7, 0.8] | – | ~1,400 | 2.6 |
 | n-g5 (logprob gate → r5) | hybrid | +1.4 | +1.6 | +0.6 [−0.8, 2.1] | −0.3 [−2.0, 1.3] | – | ~1,200 | 1.4 |
@@ -333,7 +333,9 @@ Absolute weighted scores on FULL-1: x1 86.0, p3 85.7, g5 85.3, gates 84.6, k3 84
 
 
 **x1 (fusion worker, Mon 5 Oct morning)** is the best method found in phase 2 and the only one ahead of `gates` on all four sets where the comparison is fair. Pooled over the 1,500 questions in S300-1/2/3 and FULL-1 it is about +2.0 against `gates`. How it works:
-1. It runs k3's per-email YES/NO commit check on `gates`' contexts and stops at the first YES (answer prompt as in `gates`).
-2. If no email passes, the g5 native function-calling loop takes over: e2b writes its own mailbox query, sees the top 3 results in full plus previews, and opens or answers.
+1. The harness makes the first search (`gates`' contexts). e2b checks each email with a YES/NO prompt and stops at the first YES (78–80% of questions).
+2. On a YES, it answers with `gates`' prompt. If that answer is confident (mean token logprob ≥ −0.1, worker n's gate), it stands. If not, the question goes to the g5 native function-calling agent (33–35% of questions).
+3. With no YES, it runs k3's explore step: a cross-encoder-ordered list pick, its own search, up to 3 opens.
 
+Pooled vs k3 it is +0.5 (the g5 handover's flips nearly cancel). What it reliably does is keep `gates`' confident hit answers. When the gold email is shown, it ends up in the final reading context 93–94% of the time; the frozen agent opened it 41%. x2 (k3 starting from p3's swap context) and x3 (doubted YES keeps exploring) did not beat it. False-YES stops are detectable from the YES logprob (AUC 0.73), but a better email is rarely found afterwards.
 So it is an agent in which the model makes every stop/search/read decision. Its gain comes mainly from misses (FULL-1 miss 42.7 against 29.3; hits 89.1 against 88.7). Cost is about 1.8 s and 5.4 calls per question (cap 3,243 ms). FULL-0 run queued for completeness. Code: `explore2/variants/x-*.js`, notes `docs/premise-study/explore2/x.md`.

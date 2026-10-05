@@ -301,3 +301,32 @@ Workers' notes: `docs/premise-study/explore2/{f,r,o,a,w}.md`. Findings: hits are
 | a3 / a2 (harness-driven pick agents) | −2.3 / −3.5 | – | – | wrong picks on hits |
 
 Design principle adopted: lasting gains are miss-side changes that leave hit prompts unchanged. Next: s4/s5 (r4 + a5 [+ dedup]) on FULL-0; round-2 workers g, k (agent gap), h (hybrid), p (one-shot), n (new methods).
+
+### Phase 2, round 2 results (Mon 5 Oct, to ~05:30 ET)
+
+Workers: g (native function-calling agents), k (commit-check agents), p (one-shot swap trigger), n (logprobs and new methods), h (probe hybrids); notes in `docs/premise-study/explore2/{g,k,p,n,h}.md`. Confirmation by the lead at queue priority 0. FULL-1 (600 questions) is the cleanest test: no variant, `gates` included, had been run on it. FULL-0 favours `gates`, which was chosen partly on FULL-0 in phase 1 (its hit score there is 90.4 against 87.5–89 on every other set).
+
+Δ vs `gates` (weighted J1; 95% paired cluster bootstrap CI where shown):
+
+| variant | kind | S300-2 | S300-1 | S300-3 | FULL-0 | **FULL-1** | wall ms | calls |
+|---|---|---|---|---|---|---|---|---|
+| **k3** (commit-check agent) | agent | +1.1 | +2.7 | **+3.2 [1.4, 5.2]** | +0.5 [−0.8, 1.9] | −0.1 [−1.6, 1.4] | ~1,200 | ~4 |
+| **g5** (native-tools agent) | agent | −0.2 | +2.1 | +3.4 [−0.2, 7.1] | −2.2 [−4.6, 0.2] | +0.6 [−2.0, 2.7] | ~1,490 | ~3.9 |
+| **p3** (triggered 2-email swap) | one-shot | +0.7 [0.4, 1.0] | +1.0 [0.3, 1.7]* | pending | (trigger fitted on it) | **+1.0 [0.3, 1.7]** | ~1,320 | 1.0 |
+| g10 (logprob gate → g5) | hybrid | +1.6† | +1.8† | +1.3 [−0.3, 2.9] | −1.0 [−2.7, 0.8] | – | ~1,400 | 2.6 |
+| n-g5 (logprob gate → r5) | hybrid | +1.4 | +1.6 | +0.6 [−0.8, 2.1] | −0.3 [−2.0, 1.3] | – | ~1,200 | 1.4 |
+| h4 (r4 + YES/NO probe escalation) | hybrid | +0.5 | +1.6 | – | – | – | ~2,000 | ~6 |
+
+\* S300-1 was in p3's trigger training data. † simulated from stored answers.
+
+Absolute weighted scores on FULL-1: p3 85.7, g5 85.3, gates 84.6, k3 84.6.
+
+**Agentic gap.** The frozen plain-text e2b agent scores 36.9 on FULL-0 (main study TEST: 40.0; 31b agent 75.8). The two new e2b agents, where the model writes its own queries and decides what to read and when to answer, score at `gates` level on every set (FULL-0: k3 87.4, g5 84.7; FULL-1: g5 85.3, k3 84.6). In both, the gain over `gates` comes from misses (+9 to +12 points). Their hits stay at e2b's reading ceiling, so the gap was the interface, not the model:
+- **g5:** native function calling, with the top 3 search results shown in full. The gold email reaches full text in 91% of episodes, against 41% opened by the frozen agent.
+- **k3:** a per-email YES/NO commit check that stops at the first YES. Otherwise the model picks from a list and runs its own search; it picks the shown gold 68–80% of the time.
+
+**Other findings:**
+- e2b's mean token logprob separates its confident answers (about 95% right on hits) from unsure ones (70–75%, where any prompt change flips about 50:50). As a gate it did not survive confirmation: the −0.1 threshold was tuned on the screening sets.
+- Decision calls that share the answer prompt's prefix perturb later answers through Ollama's prompt cache (k2, h4). Decision prompts should not share the answer prompt's prefix.
+- Gates-start agents, which see `gates`' full context first, almost never search or open another email: safe but useless.
+

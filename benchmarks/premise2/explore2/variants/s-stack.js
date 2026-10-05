@@ -20,7 +20,7 @@ import { dedupContext, rulesLastPrompt } from "./o-reading.js"
 
 const reranker = (ctx) => ctx.resource("r-minilm", () => loadReranker(join(ctx.dataDir, "..", "models")))
 
-export async function stacked(ctx, record, { swap = true, dedup = false, rulesLast = false, depth = 30, escalate = false, margin = 0.15 } = {}) {
+export async function stacked(ctx, record, { swap = true, dedup = false, rulesLast = false, depth = 30, escalate = false, margin = 0.15, swapMargin = -Infinity } = {}) {
     const question = record.question
     const global = (await ctx.search(question, 20)).slice(0, 5)
     const mailboxRanked = (await ctx.search(question, depth, record.user)).slice(0, depth)
@@ -34,10 +34,17 @@ export async function stacked(ctx, record, { swap = true, dedup = false, rulesLa
         const model = await reranker(ctx)
         const candidates = mailboxRanked.filter((path) => !global.includes(path))
         if (candidates.length) {
-            const scores = await model.score(question, candidates.map((path) => rerankText(ctx.emailOf(path))))
-            const best = candidates[scores.indexOf(Math.max(...scores))]
-            globalCtx = [...global.slice(0, 4), best]
-            swapped = true
+            // r4's condition (swapMargin -1): the best unseen mailbox email must score
+            // within |swapMargin| of the best global email; r5 (default) always swaps.
+            const pool = Number.isFinite(swapMargin) ? [...candidates, ...global] : candidates
+            const scores = await model.score(question, pool.map((path) => rerankText(ctx.emailOf(path))))
+            const cand = scores.slice(0, candidates.length)
+            const bestScore = Math.max(...cand)
+            const globalMax = Number.isFinite(swapMargin) ? Math.max(...scores.slice(candidates.length)) : -Infinity
+            if (bestScore > globalMax + swapMargin) {
+                globalCtx = [...global.slice(0, 4), candidates[cand.indexOf(bestScore)]]
+                swapped = true
+            }
         }
     }
     const contexts = switched ? [mailbox, globalCtx] : [globalCtx, mailbox]
@@ -69,5 +76,7 @@ export async function stacked(ctx, record, { swap = true, dedup = false, rulesLa
 export const VARIANTS = {
     s1: { version: 1, describe: "r5 swap + mailbox-context dedup (o11), sandwich prompt", run: (ctx, record) => stacked(ctx, record, { dedup: true }) },
     s3: { version: 1, describe: "s1 + a5's list-pick escalation", run: (ctx, record) => stacked(ctx, record, { dedup: true, escalate: true }) },
+    s4: { version: 1, describe: "miss-side stack: r4's conditional swap + mailbox dedup + a5 escalation", run: (ctx, record) => stacked(ctx, record, { dedup: true, escalate: true, swapMargin: -1 }) },
+    s5: { version: 1, describe: "r4's conditional swap + a5 escalation (no dedup)", run: (ctx, record) => stacked(ctx, record, { escalate: true, swapMargin: -1 }) },
     s2: { version: 1, describe: "s1 with the rules-last prompt (o4)", run: (ctx, record) => stacked(ctx, record, { dedup: true, rulesLast: true }) },
 }

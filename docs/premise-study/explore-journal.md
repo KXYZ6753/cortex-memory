@@ -283,3 +283,21 @@ Screening history: S100-8 gatesf +1.9 vs gates, gatesm +0.1; S100-9 gatesi +3.7 
 ## Phase 2 (Sun 4 Oct, from ~16:40 ET; at Kerem's request)
 
 The stop rule had fired and `gates` is frozen and pre-registered (tag `explore-checkpoint-gates`, commit ae287a5; PREREG-EXPLORE.md unchanged). Kerem asked for about six more hours of exploration with subagents, across one-shot, agent and hybrid methods. Phase 2 does not touch the frozen winner's code: new code lives in `benchmarks/premise2/explore2/` (the code hash of `explore/` is unchanged, `9801148b…`). A GPU lock (`explore2/lock.js`) serialises every generation and grading run from parallel workers. New sets: S300-2 (shared screening), S300-3 and FULL-1 (confirmation, lead only). Workers: retrieval (r), one-shot reading (o), agent/hybrid (a), multi-call methods (w), failure analysis (f); brief in `docs/premise-study/explore2/BRIEF.md`. If phase 2 finds a better method, it gets its own pre-registration addendum before any TEST run; `gates` stays the registered primary unless that addendum says otherwise.
+
+### Phase 2, round 1 results (Sun 4 Oct evening)
+
+Workers' notes: `docs/premise-study/explore2/{f,r,o,a,w}.md`. Findings: hits are at e2b's reading ceiling; e2b is deterministic in these runs (identical prompt, identical answer), so variant differences are prompt effects, but any change to a hit question's prompt flips about 5% of hit answers in a random direction. No single worker method reached +1.5 vs gates.
+
+| variant | S300-2 Δ vs gates | S300-3 Δ | FULL-0 Δ [95% CI] | note |
+|---|---|---|---|---|
+| r5 (CE swap into slot 5, always) | +1.9 | +2.3 | **−0.8 [−3.1, 1.5]** (misses +10, hits −1.5) | hit gains on S300 were luck |
+| r4 (swap only if CE close to global best) | +0.5 [0.2, 0.9] | +0.8 [−0.2, 1.8] | +0.4 [−0.4, 1.2] | changes few hit prompts |
+| s1 (r5 + mailbox dedup) | +2.1 | +1.7 | – | |
+| s2 (s1 + rules-last prompt) | −0.0 | +1.4 | – | |
+| s3 (s1 + a5 escalation) | +2.3 [0.0, 4.6] | +2.0 | – | |
+| a5 (guarded list-pick escalation) | +0.4 [0.2, 0.6] | +0.6 [0.2, 1.0] | – | never changed a hit answer |
+| w7 (YES/NO probe reorder, 18.7 calls) | +0.7 | – | – | 2.55 s |
+| o4 / o12 (prompt layout / + dedup) | +0.7 / +0.9 | – | – | |
+| a3 / a2 (harness-driven pick agents) | −2.3 / −3.5 | – | – | wrong picks on hits |
+
+Design principle adopted: lasting gains are miss-side changes that leave hit prompts unchanged. Next: s4/s5 (r4 + a5 [+ dedup]) on FULL-0; round-2 workers g, k (agent gap), h (hybrid), p (one-shot), n (new methods).

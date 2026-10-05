@@ -60,7 +60,7 @@ const pol = (name, choose) => {
     console.log(`${name.padEnd(34)} ${w.w.toFixed(1)} miss ${w.miss.toFixed(0)} hit ${w.hit.toFixed(1)} changed ${changed} (+${good}/-${bad}) unknown ${unknown}`)
 }
 pol("gates", () => "gates")
-for (const n of ["o4", "o5", "t2"]) pol(n, () => n)
+for (const n of ["o4", "t2"]) pol(n, () => n)
 for (const f of ["mean", "min", "sum", "first10", "meanC"]) {
     for (const set of [["gates", "o4"], ["gates", "t2"], C]) {
         for (const margin of [0, 0.05, 0.1, 0.2]) {

@@ -54,10 +54,11 @@ FROM: <name of the person who wrote the email> | TO: <name of the person it was 
 
 Search:`
 
-export function parsePlan(text) {
+export function parsePlan(text, { strict = false } = {}) {
     const t = String(text ?? "").replace(/\n/g, " ")
     const field = (name) => (t.match(new RegExp(`${name}\\s*:\\s*([^|]*)`, "i"))?.[1] ?? "").replace(/[<>]/g, "").trim()
-    const clean = (s) => (/^(none|n\/a|unknown|empty|-|\?)$/i.test(s) ? "" : s)
+    // strict: drop echoed template text ("<name of the person who wrote the email>")
+    const clean = (s) => (/^(none|n\/a|unknown|empty|-|\?)$/i.test(s) || (strict && /name of the person|keywords likely|leave a field/i.test(s)) ? "" : s)
     return { from: clean(field("FROM")), to: clean(field("TO")), about: clean(field("ABOUT")) }
 }
 
@@ -99,7 +100,7 @@ Question: ${question}
 Do the emails above contain the information needed to answer this question? Reply with only YES or NO.`
 }
 
-async function expandAgent(ctx, record, { maxOpens = 3, search = true, listSize = 15, commit = "email", ceList = false } = {}) {
+async function expandAgent(ctx, record, { maxOpens = 3, search = true, listSize = 15, commit = "email", ceList = false, weak = false, strictPlan = false } = {}) {
     const question = record.question
     const log = []
     // 0. first search (harness): gates' contexts.
@@ -116,6 +117,7 @@ async function expandAgent(ctx, record, { maxOpens = 3, search = true, listSize 
         if (result.status === "ok" && isAbstain(result.answer) && W1.length) { result = await ctx.generate({ prompt: prompt(W1) }); used = 2 }
         return { status: result.status, answer: result.answer ?? "", contextPaths: first, readPaths: used === 2 ? [...first, ...W1] : first, switched, used, log, ...extra }
     }
+    let weakYes = null
     // 1. commit check on the open working set.
     if (commit === "context") {
         const r = await ctx.generate({ prompt: contextCheckPrompt(question, W0.map((p) => ctx.emailOf(p))), options: YESNO() })
@@ -124,7 +126,12 @@ async function expandAgent(ctx, record, { maxOpens = 3, search = true, listSize 
         if (yes) return answerFrom(W0, { step: "commit", checks: 1 })
     } else {
         for (const path of W0) {
-            if (await probe(ctx, record, path, log)) return answerFrom(W0, { step: "commit", checks: log.length })
+            if (await probe(ctx, record, path, log)) {
+                // weak: a YES below the top result is not enough to stop; explore, and
+                // keep W0 unchanged unless a new email is judged answer-bearing.
+                if (weak && path !== W0[0]) { weakYes = path; break }
+                return answerFrom(W0, { step: "commit", checks: log.length })
+            }
         }
     }
     // 2. explore.
@@ -158,7 +165,7 @@ async function expandAgent(ctx, record, { maxOpens = 3, search = true, listSize 
         if (search && !searched) {
             searched = true
             const planReply = await ctx.generate({ prompt: planPrompt(question), options: PLAN() })
-            const plan = parsePlan(planReply.answer)
+            const plan = parsePlan(planReply.answer, { strict: strictPlan })
             const results = await plannedSearch(ctx, record, plan)
             log.push({ act: "search", reply: String(planReply.answer ?? "").trim().slice(0, 160), plan, results: results.slice(0, 10) })
             pool = [...new Set([...results.slice(0, 10), ...pool])].filter((p) => !seen.has(p)).slice(0, listSize)
@@ -168,12 +175,14 @@ async function expandAgent(ctx, record, { maxOpens = 3, search = true, listSize 
         }
     }
     // 3. answer over the working set.
-    const final = found ? [found, ...W0.filter((p) => p !== found).slice(0, 4)] : firstPick ? [...W0.slice(0, 4), firstPick] : W0
-    return answerFrom(final, { step: found ? "found" : firstPick ? "nofound" : "nopick", checks: log.filter((l) => l.act === "check").length, openedPaths: opened, foundPath: found })
+    const final = found ? [found, ...W0.filter((p) => p !== found).slice(0, 4)] : firstPick && !weakYes ? [...W0.slice(0, 4), firstPick] : W0
+    return answerFrom(final, { step: (weakYes ? "weak-" : "") + (found ? "found" : firstPick ? "nofound" : "nopick"), checks: log.filter((l) => l.act === "check").length, openedPaths: opened, foundPath: found })
 }
 
 export const VARIANTS = {
     k2: { version: 1, describe: "k1 with a context-level commit check (one YES/NO over all open emails) instead of per-email checks", run: (ctx, record) => expandAgent(ctx, record, { commit: "context" }) },
     k3: { version: 1, describe: "k1 with the explore list ordered by the cross-encoder (unopened gates ctx2 + mailbox top 30)", run: (ctx, record) => expandAgent(ctx, record, { ceList: true }) },
+    k4: { version: 1, describe: "k1 + weak commit (a YES only below the top result explores; W0 kept unless a new YES email is found) + strict plan parsing", run: (ctx, record) => expandAgent(ctx, record, { weak: true, strictPlan: true }) },
+    k5: { version: 1, describe: "k4 + k3: weak commit, strict plan parsing, cross-encoder-ordered explore list", run: (ctx, record) => expandAgent(ctx, record, { weak: true, strictPlan: true, ceList: true }) },
     k1: { version: 1, describe: "Agent: commit check (YES/NO) on open top results; else model picks/searches (FROM/TO/ABOUT), opens+checks up to 3; answer over working set (YES email first)", run: (ctx, record) => expandAgent(ctx, record) },
 }

@@ -79,15 +79,22 @@ export const CONFIGS = {
     "n2f-m-2": { nswap: 2, drop: "foreign", margin2: -2 }, "n2f-m-3": { nswap: 2, drop: "foreign", margin2: -3 },
     "n2f-bl": { nswap: 2, drop: "foreign", bestLast: true }, "n2f-m-2-bl": { nswap: 2, drop: "foreign", margin2: -2, bestLast: true },
     "n3f-m-2-bl": { nswap: 3, drop: "foreign", margin2: -2, bestLast: true },
+    "t0": { trigger: 0 }, "t0-f": { trigger: 0, drop: "foreign" }, "t-0.5-f": { trigger: -0.5, drop: "foreign" },
+    "t0-n2bl-f": { trigger: 0, nswap: 2, bestLast: true, drop: "foreign" }, "t-0.5-n2bl-f": { trigger: -0.5, nswap: 2, bestLast: true, drop: "foreign" },
+    "t0-n2bl-f-snip": { trigger: 0, nswap: 2, bestLast: true, drop: "foreign", text: "snip" }, "t0-n3bl-f": { trigger: 0, nswap: 3, bestLast: true, drop: "foreign" },
+    p4: { trigger: 0, nswap: 2, bestLast: true, drop: "foreign", pick: "maxsnip", dedup: true },
+    p3: { trigger: 0, nswap: 2, bestLast: true, drop: "foreign", pick: "maxsnip" },
     minCe: { drop: "minCe" }, foreign: { drop: "foreign" },
     "nswap2-foreign": { nswap: 2, drop: "foreign" }, "nswap2-minCe": { nswap: 2, drop: "minCe" },
     "foreign-dedup-revpool": { drop: "foreign", dedup: true, reverse: "pool" },
 }
 const missShare = env.missShare
 const r5ctx = new Map()
+const gatesCtx = new Map()
 const rows = []
 const lists = new Map(env.records.map((record) => [record.questionKey, {
     global: env.bm25.search(record.question, 20).map((h) => h.path),
+    globalScores: env.bm25.search(record.question, 2).map((h) => h.score),
     mailbox: env.bm25.search(record.question, 50, record.user).map((h) => h.path),
 }]))
 for (const [name, cfg] of Object.entries(CONFIGS)) {
@@ -98,22 +105,25 @@ for (const [name, cfg] of Object.entries(CONFIGS)) {
     const acc = { hit: [], miss: [] }
     for (const record of env.records) {
         const qk = record.questionKey
-        const { global, mailbox } = lists.get(qk)
+        const { global, mailbox, globalScores } = lists.get(qk)
         const d = dense.get(qk)
         if (cfg.dense && !d) missingDense++
         const cache = ce[text][qk] ?? {}
         const scoreCe = async (paths) => new Map(paths.map((p) => { if (cache[p] === undefined) missingCe++; return [p, cache[p] ?? -99] }))
+        const sc = ce.snip[qk] ?? {}
+        const scoreSnip = async (paths) => new Map(paths.map((p) => { if (sc[p] === undefined) missingCe++; return [p, sc[p] ?? -99] }))
         const built = cfg.gates
             ? await buildContexts({ question: record.question, user: record.user, lists: { global, mailbox, dense: null }, emailOf: env.emailOf, scoreCe, opts: { depth: 0 } })
-            : await buildContexts({ question: record.question, user: record.user, lists: { global, mailbox, dense: d ? d.mailbox.map((x) => x[0]) : null }, emailOf: env.emailOf, scoreCe, opts: cfg })
+            : await buildContexts({ question: record.question, user: record.user, lists: { global, mailbox, globalScores, dense: d ? d.mailbox.map((x) => x[0]) : null }, emailOf: env.emailOf, scoreCe, scoreSnip, opts: cfg })
         const [c0, c1] = built.contexts
         if (name === "r5") r5ctx.set(qk, c0.join(","))
+        if (name === "gates") gatesCtx.set(qk, c0.join(","))
         const pos = firstAb(record, c0)
         const union = pos >= 0 || firstAb(record, c1) >= 0
         const hits = known.get(`${qk}|${c0.join(",")}`) ?? []
         const entry = hits.find((h) => !h.abstain) ?? hits.find((h) => h.read === [...c0, ...c1].join(","))
         const est = entry ? entry.correct : pAt(record.stratum, pos)
-        acc[record.stratum].push({ pos, union, est, isKnown: Boolean(entry), changed: r5ctx.size && name !== "r5" ? r5ctx.get(qk) !== c0.join(",") : false })
+        acc[record.stratum].push({ pos, union, est, isKnown: Boolean(entry), changed: r5ctx.size && name !== "r5" ? r5ctx.get(qk) !== c0.join(",") : false, changedG: gatesCtx.get(qk) !== c0.join(",") })
     }
     const mean = (xs, f) => xs.reduce((s, x) => s + f(x), 0) / Math.max(1, xs.length)
     const w = (f) => missShare * mean(acc.miss, f) + (1 - missShare) * mean(acc.hit, f)
@@ -121,11 +131,11 @@ for (const [name, cfg] of Object.entries(CONFIGS)) {
     rows.push([name, pct(w((x) => x.pos === 0)), pct(w((x) => x.pos >= 0)), pct(w((x) => x.union)),
         `${pct(mean(acc.miss, (x) => x.pos === 0))}/${pct(mean(acc.miss, (x) => x.pos >= 0))}/${pct(mean(acc.miss, (x) => x.union))}`,
         `${pct(mean(acc.hit, (x) => x.pos === 0))}/${pct(mean(acc.hit, (x) => x.pos >= 0))}`,
-        `${acc.miss.filter((x) => x.changed).length}/${acc.hit.filter((x) => x.changed).length}`,
+        `${acc.miss.filter((x) => x.changedG).length}/${acc.hit.filter((x) => x.changedG).length}`,
         `${acc.miss.filter((x) => !x.isKnown).length}/${acc.hit.filter((x) => !x.isKnown).length}`,
         pct(w((x) => x.est)), pct(mean(acc.miss, (x) => x.est)), pct(mean(acc.hit, (x) => x.est)), `${missingCe}${missingDense ? ` d${missingDense}` : ""}`])
 }
 console.log(`\nSets ${sets.join("+")} (n=${env.records.length}); AB = gold/twin/evidence-bearing; ctx0 = context read first`)
-console.log("| config | w AB@1 | w AB@5 | w union | miss @1/@5/union | hit @1/@5 | ctx0 changed vs r5 (m/h) | unknown (m/h) | sim w | sim miss | sim hit | missing |")
+console.log("| config | w AB@1 | w AB@5 | w union | miss @1/@5/union | hit @1/@5 | ctx0 changed vs gates (m/h) | unknown (m/h) | sim w | sim miss | sim hit | missing |")
 console.log("|---|---|---|---|---|---|---|---|---|---|---|---|")
 for (const r of rows) console.log(`| ${r.join(" | ")} |`)

@@ -114,7 +114,7 @@ function systemPrompt(record, { start, names }) {
 
 const finalOptions = () => generationOptions({ num_predict: 160 })
 
-async function agent(ctx, record, { mode = "tools", start = "gates", maxCalls = 3, nFull = 2, nPreview = 8, names = ["search_mailbox", "search_all", "read", "answer"], finalCap = 5, fill = true } = {}) {
+async function agent(ctx, record, { mode = "tools", start = "gates", maxCalls = 3, nFull = 2, nPreview = 8, names = ["search_mailbox", "search_all", "read", "answer"], finalCap = 5, fill = true, emptyRetry = 0, finalMode = "fill", remind = false } = {}) {
     const question = record.question
     const ep = new Episode(ctx, record)
     // gates' retrieval (no generation)
@@ -130,7 +130,12 @@ async function agent(ctx, record, { mode = "tools", start = "gates", maxCalls = 
     const actions = []
     if (start === "gates") {
         const candidates = [...new Set([...first, ...second, ...mailboxOrdered])]
-        const text = ep.results(candidates, { nFull: first.length, nPreview: 10 })
+        let text = ep.results(candidates, { nFull: first.length, nPreview: 10 })
+        // remind: restate the question and the decision after the long result (sandwich lesson)
+        if (remind) text += `
+
+Question: ${question}
+If one of the full emails [1]-[${first.length}] answers it, call answer. If not, call read with the previews most likely to contain the answer (up to 3), or search_mailbox with other names and keywords from the question.`
         if (mode === "tools") {
             messages.push({ role: "assistant", content: "", tool_calls: [{ function: { name: "search_mailbox", arguments: { query: question } } }] })
             messages.push({ role: "tool", tool_name: "search_mailbox", content: text })
@@ -150,6 +155,13 @@ async function agent(ctx, record, { mode = "tools", start = "gates", maxCalls = 
         const action = parseAction(data, mode)
         actions.push({ name: action.name, args: action.args, error: action.error })
         if (action.name === "error") break
+        if (action.name === "text" && !String(action.args?.text ?? "").trim() && emptyRetry > 0) {
+            // empty turn (no content, no tool call): ask again without spending a call
+            emptyRetry--
+            call--
+            messages.push({ role: "user", content: `Reply with one tool call: ${names.join(", ")}.` })
+            continue
+        }
         let reply
         if (action.name === "search_mailbox" || action.name === "search_all") {
             const query = String(action.args?.query ?? "").trim() || question
@@ -191,6 +203,8 @@ async function agent(ctx, record, { mode = "tools", start = "gates", maxCalls = 
     let readSet = [...ep.reads]
     if (fill || !readSet.length) for (const path of ep.paths) if (ep.full.has(path) && !readSet.includes(path)) readSet.push(path)
     readSet = readSet.slice(0, finalCap)
+    // slot5: keep the top 4 of the first observation; the first explicit read takes slot 5
+    if (finalMode === "slot5" && start === "gates" && ep.reads.length) readSet = [...first.slice(0, 4), ep.reads[0]]
     if (!readSet.length) readSet = first
     const prompt = (paths) => sandwichPrompt(question, paths.map((path) => ctx.emailOf(path)))
     let result = await ctx.generate({ prompt: prompt(readSet), options: finalOptions() })
@@ -212,5 +226,9 @@ export const VARIANTS = {
     "g1": { version: 2, describe: "Agent (native tools, cold start): e2b searches/reads/answers; search shows top 2 in full + 8 previews; final sandwich over read emails", run: (ctx, record) => agent(ctx, record, { mode: "tools", start: "cold" }) },
     "g2": { version: 2, describe: "Agent (native tools, gates start): first search = gates' context in full + 10 previews; e2b answers/reads/searches; final sandwich (reads first, filled)", run: (ctx, record) => agent(ctx, record, { mode: "tools", start: "gates" }) },
     "g3": { version: 2, describe: "Agent (JSON-schema format, cold start), else as g1", run: (ctx, record) => agent(ctx, record, { mode: "json", start: "cold" }) },
+    "g5": { version: 1, describe: "Agent (native tools, cold start, mailbox search only): top 3 in full + 7 previews; empty turns re-asked once; final sandwich over read emails", run: (ctx, record) => agent(ctx, record, { mode: "tools", start: "cold", names: ["search_mailbox", "read", "answer"], nFull: 3, nPreview: 7, emptyRetry: 1 }) },
+    "g6": { version: 1, describe: "g2 with a hit-safe final: gates first context top 4 + the agent's first read (preview) in slot 5", run: (ctx, record) => agent(ctx, record, { mode: "tools", start: "gates", finalMode: "slot5", emptyRetry: 1 }) },
+    "g7": { version: 1, describe: "g2 + the question and the decision rule restated at the end of the first search result", run: (ctx, record) => agent(ctx, record, { mode: "tools", start: "gates", remind: true, emptyRetry: 1 }) },
+    "g8": { version: 1, describe: "g7 with JSON-schema format instead of native tools", run: (ctx, record) => agent(ctx, record, { mode: "json", start: "gates", remind: true, emptyRetry: 1 }) },
     "g4": { version: 2, describe: "Agent (JSON-schema format, gates start), else as g2", run: (ctx, record) => agent(ctx, record, { mode: "json", start: "gates" }) },
 }

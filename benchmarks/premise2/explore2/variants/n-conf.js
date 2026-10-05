@@ -132,22 +132,45 @@ export const HEDGE = /\b(do(es)?n['’]?t|do(es)? not|is not|are not|isn['’]t|
 // Confidence-triggered second context: the base answer from the first context; when it
 // abstains, hedges or its mean token logprob is below tau, the other context is read
 // too and the more confident usable answer is kept (an abstention never wins).
-export async function confRetry(ctx, record, { base = "s1", tau = -0.3, hedge = true, score = meanLp } = {}) {
-    const { contexts, switched } = base === "s1" ? await s1Contexts(ctx, record) : await gatesContexts(ctx, record)
+export async function confRetry(ctx, record, { base = "s1", tau = -0.3, hedge = true, score = meanLp, fresh = false, ce = false, margin = 0 } = {}) {
+    const { contexts, switched, mailboxRanked } = base === "s1" ? await s1Contexts(ctx, record) : await gatesContexts(ctx, record)
+    // fresh: the retry context is the 5 best emails not in the first context (other context first, then the header-ranked mailbox list).
+    if (fresh) contexts[1] = [...new Set([...contexts[1], ...byHeaderRank(record.question, mailboxRanked.slice(0, 20), ctx.emailOf)])].filter((path) => !contexts[0].includes(path)).slice(0, 5)
     const question = record.question
     const sand = (paths) => lpCall(ctx, { prompt: sandwichPrompt(question, emailsOf(ctx, paths)) })
     const first = await sand(contexts[0])
     const low = !usable(first) || score(first) < tau || (hedge && HEDGE.test(first.answer))
     const out = { contextPaths: contexts[0], switched, firstMean: Math.round(score(first) * 1000) / 1000, trigger: low, first: { answer: first.answer, toks: first.toks, lps: first.lps, tops: first.tops } }
     if (!low || !contexts[1]?.length) return { ...out, status: first.status, answer: first.answer, readPaths: contexts[0], used: 1, picked: "first" }
+    // ce: the retry context is the cross-encoder top 5 of the unseen emails among the asker's mailbox BM25 top 30 and the global BM25 6-20 (computed only when triggered).
+    if (ce) {
+        const global = await ctx.search(question, 20)
+        const mbox = await ctx.search(question, 30, record.user)
+        const cands = [...new Set([...mbox, ...global.slice(5)])].filter((path) => !contexts[0].includes(path))
+        const scores = await (await reranker(ctx)).score(question, cands.map((path) => rerankText(ctx.emailOf(path))))
+        contexts[1] = cands.map((path, i) => [path, scores[i]]).sort((a, b) => b[1] - a[1]).slice(0, 5).map((x) => x[0])
+    }
     const second = await sand(contexts[1])
-    const pickSecond = usable(second) && (!usable(first) || score(second) > score(first))
+    const pickSecond = usable(second) && (!usable(first) || score(second) > score(first) + margin)
     const best = pickSecond ? second : first
     return { ...out, status: best.status, answer: best.answer, readPaths: [...contexts[0], ...contexts[1]], used: 2, picked: pickSecond ? "second" : "first", second: { answer: second.answer, toks: second.toks, lps: second.lps, tops: second.tops } }
 }
 
+// n-cs2 (DIAGNOSTIC, ids kept from the queued slot): gates' contexts; the answer is the
+// sandwich answer on the OTHER context (contexts[1]) so that J1 grades it, i.e. what a
+// confidence-triggered retry would get; o5 (worked example) on the first context is
+// stored with logprobs for the selection study. Both with logprobs.
+async function otherCtx(ctx, record) {
+    const { contexts, switched } = await gatesContexts(ctx, record)
+    const question = record.question
+    const other = contexts[1].length ? await lpCall(ctx, { prompt: sandwichPrompt(question, emailsOf(ctx, contexts[1])) }) : { status: "empty", answer: "", toks: [], lps: [] }
+    const o5 = await lpCall(ctx, { messages: demoMessages(question, emailsOf(ctx, contexts[0])) })
+    return { status: other.status, answer: other.answer, contextPaths: contexts[1], readPaths: contexts[1], switched, lp: { other: trace(other), o5: trace(o5) } }
+}
+
 export const VARIANTS = {
     "n-lp0": { version: 1, diagnostic: true, describe: "DIAGNOSTIC: gates via chatRaw with logprobs, plus o4 / T2 prompts on the same first context (logprobs stored)", run: lp0 },
-    "n-cs2": { version: 1, describe: "s1 contexts; sandwich + o4 + T2 answers on the final context, pick the highest mean token logprob", run: (ctx, record) => confSelect(ctx, record, { base: "s1" }) },
-    "n-cr1": { version: 1, describe: "s1 contexts; when the first answer abstains, hedges or has low mean token logprob, read the other context and keep the more confident answer", run: (ctx, record) => confRetry(ctx, record) },
+    "n-cs2": { version: 2, diagnostic: true, describe: "DIAGNOSTIC: gates contexts; answer = sandwich on the other context (graded for retry simulation); o5 on the first context; logprobs stored", run: otherCtx },
+    "n-cr1": { version: 3, describe: "gates; when the first answer abstains, hedges or has mean token logprob < -0.2, read the 5 best unseen emails (other context, then mailbox header rank) and keep the more confident answer", run: (ctx, record) => confRetry(ctx, record, { base: "gates", tau: -0.2, fresh: true }) },
+    "n-cr2": { version: 1, describe: "gates; when the first answer abstains, hedges or has mean token logprob < -0.2, read the cross-encoder top 5 of unseen mailbox-top-30 + global 6-20 emails and keep the more confident answer", run: (ctx, record) => confRetry(ctx, record, { base: "gates", tau: -0.2, ce: true }) },
 }

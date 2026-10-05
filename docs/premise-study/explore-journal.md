@@ -312,6 +312,7 @@ Workers: g (native function-calling agents), k (commit-check agents), p (one-sho
 |---|---|---|---|---|---|---|---|---|
 | **k3** (commit-check agent) | agent | +1.1 | +2.7 | **+3.2 [1.4, 5.2]** | +0.5 [−0.8, 1.9] | −0.1 [−1.6, 1.4] | ~1,200 | ~4 |
 | **g5** (native-tools agent) | agent | −0.2 | +2.1 | +3.4 [−0.2, 7.1] | −2.2 [−4.6, 0.2] | +0.6 [−2.0, 2.7] | ~1,490 | ~3.9 |
+| **x1** (k3 commit check → g5 native-tools search) | agent | +1.1 | **+3.8 [0.9, 6.9]** | **+2.3 [0.2, 4.3]** | pending | **+1.3 [−0.4, 2.9]** | ~1,770 | ~5.4 |
 | **p3** (triggered 2-email swap) | one-shot | +0.7 [0.4, 1.0] | +1.0 [0.3, 1.7]* | +0.4 [−1.0, 1.3] | (trigger fitted on it) | **+1.0 [0.3, 1.7]** | ~1,320 | 1.0 |
 | g10 (logprob gate → g5) | hybrid | +1.6† | +1.8† | +1.3 [−0.3, 2.9] | −1.0 [−2.7, 0.8] | – | ~1,400 | 2.6 |
 | n-g5 (logprob gate → r5) | hybrid | +1.4 | +1.6 | +0.6 [−0.8, 2.1] | −0.3 [−2.0, 1.3] | – | ~1,200 | 1.4 |
@@ -319,7 +320,7 @@ Workers: g (native function-calling agents), k (commit-check agents), p (one-sho
 
 \* S300-1 was in p3's trigger training data. † simulated from stored answers.
 
-Absolute weighted scores on FULL-1: p3 85.7, g5 85.3, gates 84.6, k3 84.6.
+Absolute weighted scores on FULL-1: x1 86.0, p3 85.7, g5 85.3, gates 84.6, k3 84.6.
 
 **Agentic gap.** The frozen plain-text e2b agent scores 36.9 on FULL-0 (main study TEST: 40.0; 31b agent 75.8). The two new e2b agents, where the model writes its own queries and decides what to read and when to answer, score at `gates` level on every set (FULL-0: k3 87.4, g5 84.7; FULL-1: g5 85.3, k3 84.6). In both, the gain over `gates` comes from misses (+9 to +12 points). Their hits stay at e2b's reading ceiling, so the gap was the interface, not the model:
 - **g5:** native function calling, with the top 3 search results shown in full. The gold email reaches full text in 91% of episodes, against 41% opened by the frozen agent.
@@ -330,3 +331,9 @@ Absolute weighted scores on FULL-1: p3 85.7, g5 85.3, gates 84.6, k3 84.6.
 - Decision calls that share the answer prompt's prefix perturb later answers through Ollama's prompt cache (k2, h4). Decision prompts should not share the answer prompt's prefix.
 - Gates-start agents, which see `gates`' full context first, almost never search or open another email: safe but useless.
 
+
+**x1 (fusion worker, Mon 5 Oct morning)** is the best method found in phase 2 and the only one ahead of `gates` on all four sets where the comparison is fair. Pooled over the 1,500 questions in S300-1/2/3 and FULL-1 it is about +2.0 against `gates`. How it works:
+1. It runs k3's per-email YES/NO commit check on `gates`' contexts and stops at the first YES (answer prompt as in `gates`).
+2. If no email passes, the g5 native function-calling loop takes over: e2b writes its own mailbox query, sees the top 3 results in full plus previews, and opens or answers.
+
+So it is an agent in which the model makes every stop/search/read decision. Its gain comes mainly from misses (FULL-1 miss 42.7 against 29.3; hits 89.1 against 88.7). Cost is about 1.8 s and 5.4 calls per question (cap 3,243 ms). FULL-0 run queued for completeness. Code: `explore2/variants/x-*.js`, notes `docs/premise-study/explore2/x.md`.

@@ -63,3 +63,26 @@ So: **answer with gates; only when its answer is unsure, answer with the retriev
 | gates, pb if unsure | 85.0 | 83.2 | pb alone hit 87.0 → 89.5 gated | |
 
 τ sensitivity for gated r5: S300-2 −0.1 +1.9, −0.13 +1.8, −0.16 +1.3, −0.2 +1.2; S300-1 −0.1 +1.7, −0.13 +1.0, −0.16 +0.5, −0.2 −0.3. τ = −0.1 was picked after looking at both sets (a mild post-hoc choice; the lead's FULL-0 r5 answers + a gates logprob pass would be the clean test).
+
+## GPU results: gated swap
+
+| id | set | weighted | Δ vs gates [95% CI] | miss | hit | wall ms | calls | fired (unsure) | flips vs gates (miss / hit) |
+|---|---|---|---|---|---|---|---|---|---|
+| n-g5 | S300-2 | 86.5 | +1.4 [−0.4, 3.2] | 38 | 90.0 | 1,241 | 1.4 | 147 (107 r5, 40 switched → gates) | +7/−0 / +3/−1 |
+| n-g5 | S300-1 | 85.5 | +1.6 [−0.3, 3.9] | 44 | 88.5 | 1,258 | 1.4 | 147 (116 r5, 31 switched) | +11/−1 / +4/−2 |
+| n-g6 (s1 when unsure) | S300-2 | 86.5 | +1.5 [−0.4, 3.3] | 39 | 90.0 | 1,254 | 1.5 | 147 | +9/−1 / +3/−1 |
+| *ref: r5* | S300-2 / S300-1 | 87.0 / 84.3 | +1.9 / +0.4 | | | 1,230 | 1.0 | all | |
+| *ref: s1* | S300-2 | 87.1 | +2.1 | | | 1,146 | 1.0 | all | |
+
+n-g5 on S300-2: the 153 confident questions reproduce gates' text exactly (153/153), so no confident hit can flip; all 11 verdict changes are on unsure questions, 10 of them gains. r5's rerun texts differ from stored r5 on 26/107 fired questions (r5 not fully deterministic), which explains real +1.4 vs simulated +1.9.
+
+n-g5 on S300-1 reproduces the same profile: 153/153 confident questions keep gates' exact text; changed verdicts +15/−3. **Pooled over 600 questions (S300-2 + S300-1): n-g5 ≈ +1.5 (miss +18/−1, hit +7/−3)**, vs r5 alone ≈ +1.15 (and −0.8 on FULL-0 per the lead, where it lost 1.5 hit points). Within-set CIs still include 0.
+
+## Conclusions
+
+1. **Logprobs work and are calibrated between questions** (AUC 0.69–0.74 on hits, both sets), **but not within a question**: choosing between two prompts' answers by confidence is a coin flip (60 rules on S300-2, replicated null on S300-1; n-cs2 on S300-2 −0.7 vs its base s1). e2b is equally sure of both readings when prompts disagree.
+2. **Where e2b's remaining errors are:** unsure answers (bottom half by mean logprob) hold almost all fixable errors. Unsure misses are mostly wrong-context (gold in the first context ~10%), so retrieval helps there. Unsure hits are ~70–75% right and alternatives are a fair coin there. Confident hits are ~95% right and every alternative variant loses on them (S300-2 +34/−76, S300-1 +15/−122 summed over 23–27 variants). This is why every simple hit-side change looked like a coin flip with a negative drift, and why r5 lost hits on FULL-0.
+3. **Gating changes by confidence is a systematic mechanism:** keep gates' exact answer when confident (≈ half of questions, zero flips by construction), apply the retrieval change only when unsure. n-g5 (gates → r5 when unsure): +1.4 / +1.6, pooled ≈ +1.5, 1.4 calls, ~1,250 ms. The unsure threshold τ = −0.1 (≈ the median) was picked after seeing both sets' offline curves (τ −0.13: +1.8 / +1.0 simulated), so treat it as one degree of freedom spent.
+4. Dropped: confidence selection among prompts (n-cs*), deterministic evidence sentences (answer sentence in the CE top 3 only 53%), question-type routing (who-failures are oracle-level relation errors), lexical grounding selection, confidence retry on the other context (n-cr1@1 +0.1 vs s1; the other context rarely has the gold).
+
+**For the lead:** the clean test of n-g5 is FULL-0/FULL-1/S300-3. It would be good to also run a gates-with-logprobs pass (n-lp0, or just n-g5's first call) on FULL-0, so the gated composition can be checked offline against the stored FULL-0 r5 answers (prediction: the gated r5 keeps most of r5's +10 miss points and removes most of its −1.5 hit loss). The same gate can wrap any other candidate (s1, s3, k*, w7): offline on S300-2, gated s3 is +2.1 and gated k3 +1.4.

@@ -62,7 +62,7 @@ A successor replaces x1 in §1 only if all three of these hold:
 2. Wall time within the cost cap.
 3. Δ vs x1 not negative on both S300-3 and FULL-1.
 
-Otherwise x1 is the arm. Outcome: `<fill>`.
+Otherwise x1 is the arm. Outcome (Tue 6 Oct, 19:30 ET): **no successor; x1 is the arm.** y1 (x1 + m2 + j2) met rule 1 (+1.07 pooled) and rule 2 (2,280 ms), but failed rule 3: S300-3 −2.1 [−5.1, 0.9], FULL-1 +0.2 [−1.2, 2.4], pooled confirmation −0.5 [−1.6, 1.6]. y2 missed rule 1 (+0.97); h7/h8 +0.3/+0.4. Details: `docs/premise-study/explore-journal.md` (Round 4).
 
 ## 3. Population
 

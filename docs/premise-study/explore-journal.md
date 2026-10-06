@@ -370,7 +370,7 @@ Reading: of the ~48-point gap between the frozen e2b agent and x1, ~40 points ar
 
 Round 3 ends with no promotion: nothing beat x1 by the +1.0 bar.
 
-### Round 4 (Tue 6 Oct, 16:50–19:15 ET)
+### Round 4 (Tue 6 Oct, 16:50–19:30 ET)
 
 The PC restarted around 10:30 ET. All round-3 runs had already finished, so nothing was lost. I restarted Ollama 0.34.2 with `ollama serve`; auto-update is still off and the digests match.
 
@@ -400,3 +400,63 @@ So the minimal agent keeps about half of x1's gain over gates at about two third
 - **Hits: x1 ≈ gates on every path**, about +10 questions over 1,500 hits.
 - **Misses: almost all of the gain is the explore "found" path.** When no first-context email gets a YES and the agent finds one, x1 is right on 74 misses where gates is wrong, and wrong on 6 where gates is right.
 - **Remaining hit errors vs the gold-only oracle** (FULL-0) concentrate on the unsure-commit → g5 handover path: 108/128 vs 115/128.
+
+**Round 4 worker results** (J1; Δ vs x1 pooled over S300-2 + S300-1 unless stated):
+- **h (hit-side reading on the handover path):** h7 (j2 + a re-ask for the specific item when the answer is vague) +0.3, h8 (+ answer from the YES-marked emails only) +0.4 at 1,929 ms. Both are −0.2 vs j2. e2b quotes the sentence around the asked item instead of naming it, and 73% of these questions have a single YES email, which j2 already covers. The 15 handover hit errors left after j2 are mostly e2b reading limits. Notes: `explore2/h.md`.
+- **y (stacking j2 and m2):**
+  - y1 = x1 + m2 + j2: **+1.07 [−0.3, 2.4]** (S300-2 +1.4, S300-1 +0.7), 88.0 weighted, +3.5 [1.7, 5.4] vs gates, 2,280 ms (p95 4.45 s), 6.7 calls.
+  - y2 = the same on t-lx: +0.97 [−0.4, 2.3] at 2,152 ms.
+  - The two add-ons add up with no interference. About +0.84 is mechanism: j2's hit gains, all on S300-2, and m2's miss gains, all on S300-1, the set m2's rule was chosen on. About +0.23 is re-roll luck on unchanged paths.
+  - Fresh replicate (S100-4 + S100-5, 200 questions, x1 and y1 in the same command): y1 −0.66 [−2.5, 0.5]. The miss-side recovery held (+5/−1), the hit-side re-read was null, and one g5 re-roll set the sign. Over all 800 paired questions: +0.74 [−0.1, 1.8].
+  - Engineering note: on S300-2 the stack moved Ollama's prompt cache onto a different trajectory after question 13, even though the calls within each question were identical to the parents'. Unchanged-path answers were re-rolled at 17–50%, netting zero. Offline simulation from stored parent answers cannot predict this. Notes: `explore2/y.md`.
+- y1 formally meets the promotion bar (point estimate ≥ +1.0 within the cap), so the lead runs it on S300-3 and FULL-1 (§2 of the addendum draft: not negative on both).
+
+**y1 confirmation (lead, J1; Δ vs x1 and gates on the same questions, paired stratified bootstrap from `explore2/tools/y-table.js`):**
+
+| set | y1 | Δ vs x1 | Δ vs gates | miss / hit | wall ms (p95) | calls |
+|---|---|---|---|---|---|---|
+| S300-3 | 83.9 | −2.1 [−5.1, 0.9] | +0.2 [−3.4, 3.8] | 42.0 / 87.0 | 2,138 (4,362) | 6.3 |
+| FULL-1 | 86.2 | +0.2 [−1.2, 2.4] | +1.6 [−0.5, 3.5] | 46.0 / 89.1 | 2,203 (4,431) | 6.4 |
+| both (900) | 85.5 | **−0.5 [−1.6, 1.6]** | +1.2 [−0.7, 3.4] | 44.4 / 88.5 | 2,181 | 6.4 |
+
+By mechanism, over every set y1 ran on (S300-2, S300-1, S100-4/5, S300-3, FULL-1; 1,700 paired questions):
+- **m2's recovery** (YES/NO probes down the asker's mailbox list when the first YES is doubted) is consistently right on misses: +9/−1 on the screening and replicate sets, +6/−2 on S300-3, and +5/−1 on FULL-1. That is about +16 net misses. With misses weighted at 6.8%, it is worth about +0.2 weighted points.
+- **j2's re-read** (re-reading the YES email alone when the committed answer is unsure) is null on hits: +4/−1 on screening (all on S300-2), +1/−4 on S300-3, and +2/−2 on FULL-1. j2's round-3 gain of +0.55 was a fluke specific to S300-2.
+- Paths whose logic is unchanged re-roll at roughly ±2 hits per set and net out to zero.
+
+**Decision: no successor. x1 stays the phase-2 arm.** y1 is negative vs x1 on S300-3 and on the 900 confirmation questions pooled, so it fails rule 3 of the draft's §2. Round 4 ends with no promotion.
+
+t-lk FULL-1 stays at 599/600. The missing question (`dev:dasovich-j/deleted_items/1872.#1`) returns `http_error` on t-lk's second call on every re-run, so it is reported as a technical failure. Grading total: $0.653.
+
+## Phase 2 summary (Tue 6 Oct, 19:30 ET; pause at the soft deadline)
+
+Phase 2 ran about 75 configurations across one-shot, hybrid and agent families. All numbers are J1, design-weighted. The exploration pool is the 30 tuning mailboxes. TEST was never touched.
+
+- **Best agent: x1** (the YES/NO commit check over gates' first context; an unsure answer goes to the g5 tool agent; with no YES, a CE-ordered list pick plus a model-written fielded search).
+  - 86.7 over 2,100 questions, +1.6 [0.5, 2.6] vs gates.
+  - On the never-used confirmation sets (900 questions): +1.7 [0.2, 3.3].
+  - 1,778 ms and 5.3 calls per question, about 55% of the 3,243 ms cap. It is byte-identical on re-run.
+- **Minimal agent: t-lk** (commit check plus one list pick). +1.0 [0.1, 2.0] vs gates at 1,191 ms, keeping about half of x1's gain.
+- **Best one-shot: p3** (triggered email swap). +0.8 [0.3, 1.3] vs gates, positive on all 4 of its sets.
+- **Hybrids** (a confidence gate between one-shot and agent) did not beat gates reliably: n-g5 +0.6 [−0.5, 1.7], g10 −0.2.
+- **The agentic gap closes.** On the same 600 questions:
+  - the frozen plain-text e2b agent scores 39.2 and x1 scores 86.9;
+  - native tool calls are worth +17, full text of the top results +23, mailbox-scoped search +4, and agent control about +2;
+  - on FULL-0, x1 = 31b P-B (87.4 vs 87.4).
+- **What limits further gains:**
+  - Hit reading is at e2b's ceiling: gold-only reading scores 92.2 on hits, while every system from gates on reads hits at 88.5–90.5.
+  - The remaining headroom is on misses (x1 46 vs gold-only 82), but misses carry 6.8% of the weight. So even m2's real recall gain (+16 misses over 1,700 questions) moves the weighted score by about +0.2.
+- **Rounds 3–4 nulls:**
+  - ensembles e1 +0.15;
+  - thinking mode / quote-verified extraction −1.4 / −0.9;
+  - specificity re-ask and YES-filtered context (h7/h8) +0.3 / +0.4;
+  - recall probes m1–m3 +0.1 to +0.2;
+  - j2 null on confirmation;
+  - the y1 stack −0.5 on confirmation.
+- **Methodological lesson:** screening gains of +0.5 to +1 shrink on fresh sets (x1 +2.5 → +1.7, n-g5 +1.5 → −0.3, j2 +0.55 → 0, y1 +1.07 → −0.5). Selecting on 600 questions cannot resolve effects below about 1.5 points. Re-rolls from Ollama's prompt cache add about ±2 hit flips per 300 questions, even with identical calls.
+
+**State at pause:**
+- `gates` stays the registered primary.
+- The x1 TEST arm is drafted in `docs/premise-study/explore2/PREREG-X1-DRAFT.md`. It is not binding; Kerem decides.
+- The TEST confirmation of `gates` is still blocked on LibreHardwareMonitor (admin, web server on port 8085) and the Mac tier-A verdict files, or the registered fallback.
+- `explore2/confirm2.js` does not exist yet; it is needed only if the x1 arm runs.

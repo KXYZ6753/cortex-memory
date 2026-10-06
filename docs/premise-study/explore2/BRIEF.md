@@ -72,3 +72,29 @@ Main study (TEST, frozen plain-text SEARCH/OPEN/ANSWER agent): e2b agent **40.0*
 - GPU queue is now FIFO with lead priority; grading has its own lock (no longer blocks the GPU). `cli2.js queue` shows the queue.
 - Smoke tests: prefer `run S100-x myvar` (any S100 set) or `run S300-2 myvar 30`. Full screening on S300-2; second screening set for promising variants: **S300-1** (gates is there; phase-1 answers too). Don't use S300-3, FULL-0, FULL-1 (lead's confirmation sets).
 - Be GPU-frugal: simulate offline from stored answers whenever possible; each GPU run ≤ 2 variants × 300 questions.
+
+---
+
+# Round 3 (Mon 5 Oct ~08:00 ET to Tue 6 Oct ~18:00 ET; lead wraps up by 20:00)
+
+## Standings (Δ vs gates, weighted J1; FULL-1 is the cleanest set, never used for selection)
+
+| id | kind | S300-2 | S300-1 | S300-3 | FULL-1 | wall ms | calls |
+|---|---|---|---|---|---|---|---|
+| **x1** (champion to beat; `variants/x-agent.js`) | agent | +1.1 | +3.8 | +2.3 [0.2, 4.3] | +1.3 [−0.4, 2.9] | ~1,800 | ~5.4 |
+| k3 (`k-agent.js`) | agent | +1.1 | +2.7 | +3.2 | −0.1 | ~1,250 | ~4 |
+| g5 (`g-agent.js`) | agent | −0.2 | +2.1 | +3.4 | +0.6 | ~1,490 | ~3.9 |
+| p3 (`p-perfect.js`) | one-shot | +0.7 | +1.0 | +0.4 | +1.0 [0.3, 1.7] | ~1,320 | 1 |
+| gates | one-shot | 85.1 | 83.9 | 83.7 | 84.6 (absolute) | ~750 | 1 |
+
+x1 = YES/NO commit check over gates' first context (stop at first YES) → answer with gates' prompt → if mean token logprob < −0.1 hand to the g5 native-tools agent; no YES → k3's explore (CE-ordered list pick, own search, ≤3 opens). Read g.md, k.md, x.md, n.md, p.md before designing.
+
+## Where the remaining points are
+
+- **Hits (93% of the weight):** every system reads at ~88–90; gold-only reading (`oracles`) is 92.2. f.md: reading errors ≈ 9.7 points, ~3.4 of them J1 strictness (answer incomplete/over-specific vs the reference). Any hit-prompt change flips ~5% of hit answers at random, so hit-side ideas must be **targeted** (e.g. only on unsure answers, logprob < −0.1, where answers are 70–75% right) or **systematic** (answer form/completeness).
+- **Misses:** x1 ≈ 43–49 vs gold-only 82. ~25/100 false YES stops (detectable, YES-logprob AUC 0.73, but recovery rarely finds a better email), ~11/100 never found.
+- **Nondeterminism:** short decision calls interleaved with answer calls perturb answers via Ollama's prompt cache; decision prompts must not share the answer prompt's prefix. Offline simulations that reuse stored answers from a different call sequence overstate gains — confirm on the GPU.
+
+## Promotion
+
+Candidate = pooled Δ vs **x1** ≥ +1.0 over S300-2 + S300-1 (or Δ vs gates ≥ +2.5 pooled) within the cost cap. The lead confirms on S300-3 and FULL-1 (and FULL-0). Workers never run on S300-3, FULL-0, FULL-1. Each worker: ≤ 2 variants × 300 per GPU run; offline-first.

@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="820" viewBox="0 0 1200 820" font-family="Helvetica, Arial, sans-serif">
+<rect width="1200" height="820" fill="#ffffff"/>
+<text x="70" y="26" font-size="17" font-weight="bold" fill="#111">Accuracy vs cost: e2b on EnronQA exploration sets (J1, design-weighted)</text>
+<text x="70" y="45" font-size="12" fill="#444">y: gates-anchored pooled weighted accuracy = gates' pooled score over all 5 sets (85.1) + the variant's paired Δ vs gates on its own sets.</text><text x="70" y="61" font-size="12" fill="#444">x: mean wall time per question. Every deployable variant graded on ≥ 2 of the 5 sets (S300-2, S300-1, S300-3, FULL-0, FULL-1).</text>
+<line x1="70" x2="1170" y1="682" y2="682" stroke="#e5e5e5"/><text x="62" y="686" font-size="11" text-anchor="end" fill="#333">78</text>
+<line x1="70" x2="1170" y1="633.52" y2="633.52" stroke="#e5e5e5"/><text x="62" y="637.52" font-size="11" text-anchor="end" fill="#333">79</text>
+<line x1="70" x2="1170" y1="585.04" y2="585.04" stroke="#e5e5e5"/><text x="62" y="589.04" font-size="11" text-anchor="end" fill="#333">80</text>
+<line x1="70" x2="1170" y1="536.56" y2="536.56" stroke="#e5e5e5"/><text x="62" y="540.56" font-size="11" text-anchor="end" fill="#333">81</text>
+<line x1="70" x2="1170" y1="488.08" y2="488.08" stroke="#e5e5e5"/><text x="62" y="492.08" font-size="11" text-anchor="end" fill="#333">82</text>
+<line x1="70" x2="1170" y1="439.59999999999997" y2="439.59999999999997" stroke="#e5e5e5"/><text x="62" y="443.59999999999997" font-size="11" text-anchor="end" fill="#333">83</text>
+<line x1="70" x2="1170" y1="391.12" y2="391.12" stroke="#e5e5e5"/><text x="62" y="395.12" font-size="11" text-anchor="end" fill="#333">84</text>
+<line x1="70" x2="1170" y1="342.64" y2="342.64" stroke="#e5e5e5"/><text x="62" y="346.64" font-size="11" text-anchor="end" fill="#333">85</text>
+<line x1="70" x2="1170" y1="294.15999999999997" y2="294.15999999999997" stroke="#e5e5e5"/><text x="62" y="298.15999999999997" font-size="11" text-anchor="end" fill="#333">86</text>
+<line x1="70" x2="1170" y1="245.68" y2="245.68" stroke="#e5e5e5"/><text x="62" y="249.68" font-size="11" text-anchor="end" fill="#333">87</text>
+<line x1="70" x2="1170" y1="197.2" y2="197.2" stroke="#e5e5e5"/><text x="62" y="201.2" font-size="11" text-anchor="end" fill="#333">88</text>
+<line x1="70" x2="1170" y1="148.72" y2="148.72" stroke="#e5e5e5"/><text x="62" y="152.72" font-size="11" text-anchor="end" fill="#333">89</text>
+<line x1="70" x2="1170" y1="100.24000000000002" y2="100.24000000000002" stroke="#e5e5e5"/><text x="62" y="104.24000000000002" font-size="11" text-anchor="end" fill="#333">90</text>
+<line x1="70" x2="70" y1="76" y2="682" stroke="#f0f0f0"/><text x="70" y="698" font-size="11" text-anchor="middle" fill="#333">0</text>
+<line x1="222.77777777777777" x2="222.77777777777777" y1="76" y2="682" stroke="#f0f0f0"/><text x="222.77777777777777" y="698" font-size="11" text-anchor="middle" fill="#333">500</text>
+<line x1="375.55555555555554" x2="375.55555555555554" y1="76" y2="682" stroke="#f0f0f0"/><text x="375.55555555555554" y="698" font-size="11" text-anchor="middle" fill="#333">1,000</text>
+<line x1="528.3333333333334" x2="528.3333333333334" y1="76" y2="682" stroke="#f0f0f0"/><text x="528.3333333333334" y="698" font-size="11" text-anchor="middle" fill="#333">1,500</text>
+<line x1="681.1111111111111" x2="681.1111111111111" y1="76" y2="682" stroke="#f0f0f0"/><text x="681.1111111111111" y="698" font-size="11" text-anchor="middle" fill="#333">2,000</text>
+<line x1="833.8888888888889" x2="833.8888888888889" y1="76" y2="682" stroke="#f0f0f0"/><text x="833.8888888888889" y="698" font-size="11" text-anchor="middle" fill="#333">2,500</text>
+<line x1="986.6666666666667" x2="986.6666666666667" y1="76" y2="682" stroke="#f0f0f0"/><text x="986.6666666666667" y="698" font-size="11" text-anchor="middle" fill="#333">3,000</text>
+<line x1="1139.4444444444443" x2="1139.4444444444443" y1="76" y2="682" stroke="#f0f0f0"/><text x="1139.4444444444443" y="698" font-size="11" text-anchor="middle" fill="#333">3,500</text>
+<rect x="70" y="76" width="1100" height="606" fill="none" stroke="#888"/>
+<text x="620" y="718" font-size="13" text-anchor="middle" fill="#111">mean wall time per question (ms)</text>
+<text transform="translate(18 379) rotate(-90)" font-size="13" text-anchor="middle" fill="#111">weighted accuracy (%)</text>
+<line x1="1060.9166666666667" x2="1060.9166666666667" y1="76" y2="682" stroke="#c0392b" stroke-width="2" stroke-dasharray="6 4"/><text x="1054.9166666666667" y="92" font-size="12" text-anchor="end" fill="#c0392b">cost cap 3,243 ms (5× P-B)</text>
+<line x1="70" x2="1170" y1="110.98841697021625" y2="110.98841697021625" stroke="#777" stroke-dasharray="3 4"/><text x="1052.9166666666667" y="104.98841697021625" font-size="11" text-anchor="end" fill="#555">gold email only (reading ceiling): FULL-0 91.5 = gates +4.7 → 89.8</text>
+<line x1="70" x2="1170" y1="310.09540647096634" y2="310.09540647096634" stroke="#777" stroke-dasharray="3 4"/><text x="1052.9166666666667" y="325.09540647096634" font-size="11" text-anchor="end" fill="#555">31b P-B (external reference): FULL-0 87.4 = gates +0.6 → 85.7</text>
+<path d="M 266.1 554.8 H 268.0 V 513.1 H 273.3 V 485.8 H 290.1 V 298.1 H 291.0 V 291.7 H 422.8 V 245.8 H 577.9 V 224.6 H 601.9 V 192.4" fill="none" stroke="#999" stroke-width="1.3" stroke-dasharray="5 3"/>
+<path d="M 267.4 615.7 H 299.0 V 338.6 H 433.8 V 288.8 H 444.5 V 284.2 H 613.4 V 262.3" fill="none" stroke="#333" stroke-width="2"/>
+<circle cx="299.0122883597884" cy="338.57277523034014" r="8" fill="#1f6fb4" stroke="#000" stroke-width="2.5"/>
+<line x1="299.0122883597884" y1="338.57277523034014" x2="287.0122883597884" y2="337.90610856367346" stroke="#aaa" stroke-width="0.7"/>
+<text x="246.4122883597884" y="342.57277523034014" font-size="14" font-weight="bold" fill="#000">gates</text>
+<circle cx="613.3656613756614" cy="262.2949436468817" r="8" fill="#11906b" stroke="#000" stroke-width="2.5"/>
+<text x="623.3656613756614" y="266.2949436468817" font-size="14" font-weight="bold" fill="#000">x1</text>
+<circle cx="444.5401058201058" cy="284.21451896293047" r="5.5" fill="#11906b" stroke="#000" stroke-width="1"/>
+<line x1="444.5401058201058" y1="284.21451896293047" x2="432.5401058201058" y2="272.38118562959716" stroke="#aaa" stroke-width="0.7"/>
+<text x="419.2001058201058" y="276.21451896293047" font-size="11.5" font-weight="bold" fill="#222">k3</text>
+<circle cx="267.36240740740743" cy="615.7207412279669" r="5.5" fill="#1f6fb4" stroke="#000" stroke-width="1"/>
+<line x1="267.36240740740743" y1="615.7207412279669" x2="255.36240740740743" y2="615.8874078946335" stroke="#aaa" stroke-width="0.7"/>
+<text x="235.35240740740744" y="619.7207412279669" font-size="11.5" font-weight="bold" fill="#222">P-B</text>
+<circle cx="433.77092135497736" cy="288.8477742067099" r="5.5" fill="#11906b" stroke="#000" stroke-width="1"/>
+<line x1="433.77092135497736" y1="288.8477742067099" x2="421.7709213549774" y2="289.0144408733766" stroke="#aaa" stroke-width="0.7"/>
+<text x="388.4209213549774" y="292.8477742067099" font-size="11.5" font-weight="bold" fill="#222">t-lk*</text>
+<circle cx="266.07364197530865" cy="554.7768668062163" r="5.5" fill="#1f6fb4" stroke="#000" stroke-width="1"/>
+<line x1="266.07364197530865" y1="554.7768668062163" x2="254.07364197530865" y2="555.4435334728829" stroke="#aaa" stroke-width="0.7"/>
+<text x="230.87364197530866" y="558.7768668062163" font-size="10"  fill="#222">hdru</text>
+<circle cx="268.0064506172839" cy="513.0693320696869" r="5.5" fill="#1f6fb4" stroke="#000" stroke-width="1"/>
+<line x1="268.0064506172839" y1="513.0693320696869" x2="256.0064506172839" y2="513.7359987363535" stroke="#aaa" stroke-width="0.7"/>
+<text x="215.40645061728392" y="517.0693320696869" font-size="10"  fill="#222">hdrud10</text>
+<circle cx="601.8739351851851" cy="192.40335483179746" r="4.5" fill="#fff" stroke="#11906b" stroke-width="2"/>
+<text x="611.8739351851851" y="196.40335483179746" font-size="10"  fill="#222">j2</text>
+<circle cx="290.05296296296297" cy="298.0917285193911" r="4.5" fill="#fff" stroke="#1f6fb4" stroke-width="2"/>
+<line x1="290.05296296296297" y1="298.0917285193911" x2="278.05296296296297" y2="298.7583951860578" stroke="#aaa" stroke-width="0.7"/>
+<text x="260.652962962963" y="302.0917285193911" font-size="10"  fill="#222">o12</text>
+<circle cx="291.0073148148148" cy="291.74119391471993" r="4.5" fill="#fff" stroke="#1f6fb4" stroke-width="2"/>
+<text x="279.20731481481477" y="281.74119391471993" font-size="10"  fill="#222">o4</text>
+<circle cx="273.2660802469136" cy="485.7791057671702" r="5.5" fill="#1f6fb4" stroke="#000" stroke-width="1"/>
+<line x1="273.2660802469136" y1="485.7791057671702" x2="261.2660802469136" y2="486.4457724338369" stroke="#aaa" stroke-width="0.7"/>
+<text x="243.86608024691358" y="489.7791057671702" font-size="10"  fill="#222">pbs</text>
+<circle cx="422.77611111111105" cy="245.82861088493607" r="5.5" fill="#1f6fb4" stroke="#000" stroke-width="1"/>
+<line x1="422.77611111111105" y1="245.82861088493607" x2="410.77611111111105" y2="246.49527755160273" stroke="#aaa" stroke-width="0.7"/>
+<text x="399.176111111111" y="249.82861088493607" font-size="10"  fill="#222">s1</text>
+<circle cx="577.9097222222222" cy="224.64230812084773" r="4.5" fill="#fff" stroke="#11906b" stroke-width="2"/>
+<line x1="577.9097222222222" y1="224.64230812084773" x2="565.9097222222222" y2="225.3089747875144" stroke="#aaa" stroke-width="0.7"/>
+<text x="542.7097222222221" y="228.64230812084773" font-size="10"  fill="#222">t-lx</text>
+<circle cx="369.62421296296293" cy="313.84649496464453" r="4.8" fill="#d4820a" stroke="#fff" stroke-width="1"/>
+<text x="379.62421296296293" y="317.84649496464453" font-size="10"  fill="#222">a5</text>
+<circle cx="678.0224537037036" cy="211.69809877865825" r="4.5" fill="#fff" stroke="#11906b" stroke-width="2"/>
+<text x="688.0224537037036" y="215.69809877865825" font-size="10"  fill="#222">e1</text>
+<circle cx="467.0439814814815" cy="400.24012470537747" r="4.5" fill="#fff" stroke="#11906b" stroke-width="2"/>
+<text x="477.0439814814815" y="404.24012470537747" font-size="10"  fill="#222">g1</text>
+<circle cx="499.5245370370371" cy="349.5918251223811" r="4.8" fill="#d4820a" stroke="#fff" stroke-width="1"/>
+<text x="509.5245370370371" y="353.5918251223811" font-size="10"  fill="#222">g10</text>
+<circle cx="575.9877777777779" cy="328.4391229912145" r="4.5" fill="#fff" stroke="#11906b" stroke-width="2"/>
+<text x="585.9877777777779" y="332.4391229912145" font-size="10"  fill="#222">g2</text>
+<circle cx="523.6621164021165" cy="324.2271394900357" r="4.8" fill="#11906b" stroke="#fff" stroke-width="1"/>
+<text x="533.6621164021165" y="328.2271394900357" font-size="10"  fill="#222">g5</text>
+<circle cx="571.4431481481481" cy="328.4391229912145" r="4.5" fill="#fff" stroke="#11906b" stroke-width="2"/>
+<line x1="571.4431481481481" y1="328.4391229912145" x2="561.4431481481481" y2="329.1057896578812" stroke="#aaa" stroke-width="0.7"/>
+<text x="549.8431481481481" y="332.4391229912145" font-size="10"  fill="#222">g6</text>
+<circle cx="295.2698148148148" cy="518.9478447033998" r="4.8" fill="#1f6fb4" stroke="#fff" stroke-width="1"/>
+<text x="305.2698148148148" y="522.9478447033998" font-size="10"  fill="#222">gatea</text>
+<circle cx="304.9100925925926" cy="343.84771502035505" r="4.8" fill="#1f6fb4" stroke="#fff" stroke-width="1"/>
+<text x="314.9100925925926" y="347.84771502035505" font-size="10"  fill="#222">gates6</text>
+<circle cx="302.75796296296295" cy="414.67900786207537" r="4.8" fill="#1f6fb4" stroke="#fff" stroke-width="1"/>
+<text x="312.75796296296295" y="418.67900786207537" font-size="10"  fill="#222">gatesf</text>
+<circle cx="306.81540123456796" cy="361.70643144171004" r="4.8" fill="#1f6fb4" stroke="#fff" stroke-width="1"/>
+<text x="316.81540123456796" y="365.70643144171004" font-size="10"  fill="#222">gatesi</text>
+<circle cx="303.17962962962963" cy="399.4577613357279" r="4.8" fill="#1f6fb4" stroke="#fff" stroke-width="1"/>
+<text x="313.17962962962963" y="403.4577613357279" font-size="10"  fill="#222">gatesm</text>
+<circle cx="676.3495370370371" cy="288.6339344332541" r="4.5" fill="#fff" stroke="#d4820a" stroke-width="2"/>
+<text x="686.3495370370371" y="292.6339344332541" font-size="10"  fill="#222">h4</text>
+<circle cx="285.333487654321" cy="581.620736068302" r="4.8" fill="#1f6fb4" stroke="#fff" stroke-width="1"/>
+<text x="295.333487654321" y="585.620736068302" font-size="10"  fill="#222">hdru6</text>
+<circle cx="288.89626543209874" cy="531.8892023866422" r="4.8" fill="#1f6fb4" stroke="#fff" stroke-width="1"/>
+<text x="298.89626543209874" y="535.8892023866422" font-size="10"  fill="#222">hfill</text>
+<circle cx="519.0744907407407" cy="260.1780987786582" r="4.5" fill="#fff" stroke="#11906b" stroke-width="2"/>
+<text x="529.0744907407407" y="264.1780987786582" font-size="10"  fill="#222">j1</text>
+<circle cx="449.23162037037036" cy="279.47284272551894" r="4.5" fill="#fff" stroke="#11906b" stroke-width="2"/>
+<text x="459.23162037037036" y="283.47284272551894" font-size="10"  fill="#222">k1</text>
+<circle cx="746.1918981481482" cy="217.80549325048165" r="4.5" fill="#fff" stroke="#11906b" stroke-width="2"/>
+<text x="756.1918981481482" y="221.80549325048165" font-size="10"  fill="#222">m1</text>
+<circle cx="746.9608796296296" cy="213.10337733019017" r="4.5" fill="#fff" stroke="#11906b" stroke-width="2"/>
+<line x1="746.9608796296296" y1="213.10337733019017" x2="736.9608796296296" y2="213.77004399685683" stroke="#aaa" stroke-width="0.7"/>
+<text x="725.3608796296296" y="217.10337733019017" font-size="10"  fill="#222">m2</text>
+<circle cx="443.65181352915" cy="309.2489761394588" r="4.8" fill="#d4820a" stroke="#fff" stroke-width="1"/>
+<text x="453.65181352915" y="313.2489761394588" font-size="10"  fill="#222">n-g5*</text>
+<circle cx="449.15523148148145" cy="289.6064949646445" r="4.8" fill="#d4820a" stroke="#fff" stroke-width="1"/>
+<line x1="449.15523148148145" y1="289.6064949646445" x2="463.15523148148145" y2="268.2731616313112" stroke="#aaa" stroke-width="0.7"/>
+<text x="463.15523148148145" y="271.6064949646445" font-size="10"  fill="#222">n-g6</text>
+<circle cx="445.3587037037037" cy="289.36335483179744" r="4.5" fill="#fff" stroke="#1f6fb4" stroke-width="2"/>
+<line x1="445.3587037037037" y1="289.36335483179744" x2="435.3587037037037" y2="300.0300214984641" stroke="#aaa" stroke-width="0.7"/>
+<text x="423.7587037037037" y="303.36335483179744" font-size="10"  fill="#222">p2</text>
+<circle cx="473.9637962962963" cy="299.0107268052275" r="4.8" fill="#1f6fb4" stroke="#fff" stroke-width="1"/>
+<text x="483.9637962962963" y="303.0107268052275" font-size="10"  fill="#222">p3</text>
+<circle cx="468.29675925925926" cy="297.36230812084773" r="4.5" fill="#fff" stroke="#1f6fb4" stroke-width="2"/>
+<text x="478.29675925925926" y="289.36230812084773" font-size="10"  fill="#222">p4</text>
+<circle cx="287.3165432098765" cy="602.3629141764594" r="4.8" fill="#1f6fb4" stroke="#fff" stroke-width="1"/>
+<text x="297.3165432098765" y="606.3629141764594" font-size="10"  fill="#222">pbfill</text>
+<circle cx="523.5106481481482" cy="302.0338737233052" r="4.8" fill="#1f6fb4" stroke="#fff" stroke-width="1"/>
+<line x1="523.5106481481482" y1="302.0338737233052" x2="513.5106481481482" y2="302.7005403899719" stroke="#aaa" stroke-width="0.7"/>
+<text x="501.9106481481482" y="306.0338737233052" font-size="10"  fill="#222">r4</text>
+<circle cx="537.5012222222222" cy="311.2801961288476" r="4.8" fill="#1f6fb4" stroke="#fff" stroke-width="1"/>
+<text x="547.5012222222222" y="315.2801961288476" font-size="10"  fill="#222">r5</text>
+<circle cx="411.3799074074074" cy="307.00968009427845" r="4.8" fill="#1f6fb4" stroke="#fff" stroke-width="1"/>
+<line x1="411.3799074074074" y1="307.00968009427845" x2="417.1799074074074" y2="321.67634676094514" stroke="#aaa" stroke-width="0.7"/>
+<text x="405.5799074074074" y="325.00968009427845" font-size="10"  fill="#222">s2</text>
+<circle cx="637.4339814814815" cy="234.28968009427845" r="4.8" fill="#d4820a" stroke="#fff" stroke-width="1"/>
+<text x="647.4339814814815" y="238.28968009427845" font-size="10"  fill="#222">s3</text>
+<circle cx="367.6528703703704" cy="583.5937544461103" r="4.5" fill="#fff" stroke="#11906b" stroke-width="2"/>
+<text x="377.6528703703704" y="587.5937544461103" font-size="10"  fill="#222">t2</text>
+<circle cx="507.0305092592593" cy="491.5790104992496" r="4.5" fill="#fff" stroke="#11906b" stroke-width="2"/>
+<text x="517.0305092592594" y="495.5790104992496" font-size="10"  fill="#222">t3</text>
+<circle cx="600.035" cy="253.34128390829142" r="4.5" fill="#fff" stroke="#11906b" stroke-width="2"/>
+<line x1="600.035" y1="253.34128390829142" x2="590.035" y2="254.00795057495807" stroke="#aaa" stroke-width="0.7"/>
+<text x="578.435" y="257.3412839082914" font-size="10"  fill="#222">x2</text>
+<circle cx="654.2930092592592" cy="261.3402371973424" r="4.5" fill="#fff" stroke="#11906b" stroke-width="2"/>
+<text x="664.2930092592592" y="265.3402371973424" font-size="10"  fill="#222">x3</text>
+<path d="M 330.5985648148148 670 L 340.5985648148148 670 L 335.5985648148148 678 Z" fill="#11906b"/><text x="343.5985648148148" y="668" font-size="10.5" fill="#222">t1 56.9 (off scale)</text>
+<path d="M 347.9846759259259 670 L 357.9846759259259 670 L 352.9846759259259 678 Z" fill="#11906b"/><text x="360.9846759259259" y="655" font-size="10.5" fill="#222">frozen agent 37.4 (off scale)</text>
+<circle cx="76" cy="744" r="6" fill="#1f6fb4"/><text x="86" y="748" font-size="12" fill="#111">one-shot</text>
+<circle cx="171" cy="744" r="6" fill="#d4820a"/><text x="181" y="748" font-size="12" fill="#111">hybrid</text>
+<circle cx="266" cy="744" r="6" fill="#11906b"/><text x="276" y="748" font-size="12" fill="#111">agent</text>
+<circle cx="361" cy="744" r="5" fill="#fff" stroke="#555" stroke-width="2"/><text x="371" y="748" font-size="12" fill="#111">hollow = only screening sets S300-2/S300-1 (selection-optimistic)</text>
+<circle cx="77" cy="764" r="7" fill="#fff" stroke="#000" stroke-width="2.5"/><text x="89" y="768" font-size="12" fill="#111">gates (one-shot champion), x1 (best agent)</text>
+<line x1="360" x2="384" y1="764" y2="764" stroke="#333" stroke-width="2"/><text x="390" y="768" font-size="12" fill="#111">frontier, variants on ≥ 3 sets</text>
+<line x1="575" x2="599" y1="764" y2="764" stroke="#999" stroke-width="1.3" stroke-dasharray="5 3"/><text x="605" y="768" font-size="12" fill="#111">frontier, all variants on ≥ 2 sets</text>
+<text x="70" y="792" font-size="10.5" fill="#555">Sets: S300-2, S300-1 (screening), S300-3, FULL-1 (confirmation), FULL-0 (phase-1 selection set, favours gates). Judge J1 = gpt-oss-20b; weighted = 0.068·miss + 0.932·hit.</text>
+<text x="70" y="808" font-size="10.5" fill="#555">* includes one near-complete set (n-g5 S300-3 298/300, t-lk FULL-1 599/600); strict-coverage values are in the tables.</text>
+</svg>

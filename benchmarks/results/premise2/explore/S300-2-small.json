@@ -2,9 +2,9 @@
   "set": "S300-2",
   "alias": "small",
   "missShare": 0.06800407113777587,
-  "baseline": "gates@1+cold",
+  "baseline": "x1@1+cold",
   "champion": "x1@1+cold",
-  "at": "2026-10-06T06:14:18.026Z",
+  "at": "2026-10-06T21:18:56.830Z",
   "summaries": [
     {
       "variant": "s3@1+cold",
@@ -16,11 +16,11 @@
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": 0.022820468180844156,
-        "miss": 0.13,
+        "weighted": 0.011939816798800074,
+        "miss": -0.02999999999999997,
         "hit": 0.015000000000000013,
-        "low": 0.00021732741626423469,
-        "high": 0.04615120396805639
+        "low": -0.020371495712835586,
+        "high": 0.04387219297872558
       },
       "vsChampion": {
         "weighted": 0.011939816798800074,
@@ -48,1596 +48,8 @@
         }
       },
       "wallMs": 2334.1033333333335,
-      "wallX": 3.0596611887668828,
+      "wallX": 1.282408594431055,
       "calls": 2.0633333333333335,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "s1@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.871337984786801,
-      "miss": 0.41,
-      "hit": 0.905,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.020780346046710974,
-        "miss": 0.09999999999999998,
-        "hit": 0.015000000000000013,
-        "low": -0.0017636393492225233,
-        "high": 0.044395483548201664
-      },
-      "vsChampion": {
-        "weighted": 0.009899694664666892,
-        "miss": -0.06,
-        "hit": 0.015000000000000013,
-        "low": -0.023080122891246613,
-        "high": 0.04304194996305688
-      },
-      "buckets": {
-        "never found": {
-          "miss": 44,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 41,
-          "hit": 181
-        },
-        "read but wrong": {
-          "miss": 10,
-          "hit": 19
-        },
-        "abstained": {
-          "miss": 5,
-          "hit": 0
-        }
-      },
-      "wallMs": 1145.6366666666668,
-      "wallX": 1.5017587248043556,
-      "calls": 1.0366666666666666,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "r5@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8699779033640455,
-      "miss": 0.39,
-      "hit": 0.905,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.019420264623955408,
-        "miss": 0.08000000000000002,
-        "hit": 0.015000000000000013,
-        "low": -0.0034325395503191913,
-        "high": 0.0424915565059556
-      },
-      "vsChampion": {
-        "weighted": 0.008539613241911326,
-        "miss": -0.07999999999999996,
-        "hit": 0.015000000000000013,
-        "low": -0.02363394265396912,
-        "high": 0.040703379141749485
-      },
-      "buckets": {
-        "never found": {
-          "miss": 46,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 39,
-          "hit": 181
-        },
-        "read but wrong": {
-          "miss": 10,
-          "hit": 19
-        },
-        "abstained": {
-          "miss": 5,
-          "hit": 0
-        }
-      },
-      "wallMs": 1229.6166666666666,
-      "wallX": 1.6118439738004622,
-      "calls": 1.0333333333333334,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "n-cs2@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8647381883436898,
-      "miss": 0.45,
-      "hit": 0.895,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.014180549603599713,
-        "miss": 0.14,
-        "hit": 0.0050000000000000044,
-        "low": -0.0157972414726405,
-        "high": 0.046957030023461854
-      },
-      "vsChampion": {
-        "weighted": 0.0032998982215556305,
-        "miss": -0.019999999999999962,
-        "hit": 0.0050000000000000044,
-        "low": -0.028613910096647266,
-        "high": 0.03910481064240745
-      },
-      "buckets": {
-        "never found": {
-          "miss": 43,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 45,
-          "hit": 179
-        },
-        "abstained": {
-          "miss": 5,
-          "hit": 0
-        },
-        "read but wrong": {
-          "miss": 7,
-          "hit": 21
-        }
-      },
-      "wallMs": 2448.61,
-      "wallX": 3.2097623427525246,
-      "calls": 3.0033333333333334,
-      "reloads": 0,
-      "outputLimit": 1
-    },
-    {
-      "variant": "k3@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8614382901221341,
-      "miss": 0.47,
-      "hit": 0.89,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.010880651382044082,
-        "miss": 0.15999999999999998,
-        "hit": 0,
-        "low": -0.008016051080592224,
-        "high": 0.02842429134153779
-      },
-      "vsChampion": {
-        "weighted": 0,
-        "miss": 0,
-        "hit": 0,
-        "low": -0.02329989822155565,
-        "high": 0.02301677420273862
-      },
-      "buckets": {
-        "read but wrong": {
-          "miss": 18,
-          "hit": 17
-        },
-        "never found": {
-          "miss": 33,
-          "hit": 5
-        },
-        "correct": {
-          "miss": 47,
-          "hit": 178
-        },
-        "abstained": {
-          "miss": 2,
-          "hit": 0
-        }
-      },
-      "wallMs": 1287.5766666666666,
-      "wallX": 1.6878208853486207,
-      "calls": 4.28,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "k1@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8607582494107564,
-      "miss": 0.46,
-      "hit": 0.89,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.010200610670666355,
-        "miss": 0.15000000000000002,
-        "hit": 0,
-        "low": -0.008740560561237842,
-        "high": 0.027630536878685552
-      },
-      "vsChampion": {
-        "weighted": -0.0006800407113777274,
-        "miss": -0.009999999999999953,
-        "hit": 0,
-        "low": -0.02382715906392785,
-        "high": 0.022296553322062818
-      },
-      "buckets": {
-        "read but wrong": {
-          "miss": 16,
-          "hit": 18
-        },
-        "never found": {
-          "miss": 36,
-          "hit": 4
-        },
-        "correct": {
-          "miss": 46,
-          "hit": 178
-        },
-        "abstained": {
-          "miss": 2,
-          "hit": 0
-        }
-      },
-      "wallMs": 1332.29,
-      "wallX": 1.7464333934868193,
-      "calls": 4.303333333333334,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "o12@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8592978626526676,
-      "miss": 0.37,
-      "hit": 0.895,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.00874022391257756,
-        "miss": 0.06,
-        "hit": 0.0050000000000000044,
-        "low": -0.01826172451191377,
-        "high": 0.03918807207651165
-      },
-      "vsChampion": {
-        "weighted": -0.0021404274694665215,
-        "miss": -0.09999999999999998,
-        "hit": 0.0050000000000000044,
-        "low": -0.03989537835209578,
-        "high": 0.03729472008790813
-      },
-      "buckets": {
-        "abstained": {
-          "miss": 9,
-          "hit": 0
-        },
-        "never found": {
-          "miss": 50,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 37,
-          "hit": 179
-        },
-        "read but wrong": {
-          "miss": 4,
-          "hit": 21
-        }
-      },
-      "wallMs": 725.42,
-      "wallX": 0.9509173770749675,
-      "calls": 1.0533333333333332,
-      "reloads": 0,
-      "outputLimit": 1
-    },
-    {
-      "variant": "w7@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8573580458538677,
-      "miss": 0.41,
-      "hit": 0.89,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.006800407113777607,
-        "miss": 0.09999999999999998,
-        "hit": 0,
-        "low": -0.012567237988898583,
-        "high": 0.026789734950053767
-      },
-      "vsChampion": {
-        "weighted": -0.004080244268266475,
-        "miss": -0.06,
-        "hit": 0,
-        "low": -0.03900897731685149,
-        "high": 0.027974891836142213
-      },
-      "buckets": {
-        "read but wrong": {
-          "miss": 20,
-          "hit": 22
-        },
-        "never found": {
-          "miss": 37,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 41,
-          "hit": 178
-        },
-        "abstained": {
-          "miss": 2,
-          "hit": 0
-        }
-      },
-      "wallMs": 2550.866666666667,
-      "wallX": 3.343805574611442,
-      "calls": 18.72,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "o4@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8572577405185344,
-      "miss": 0.34,
-      "hit": 0.895,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.006700101778444378,
-        "miss": 0.030000000000000027,
-        "hit": 0.0050000000000000044,
-        "low": -0.01961236625413776,
-        "high": 0.035349494707597184
-      },
-      "vsChampion": {
-        "weighted": -0.004180549603599704,
-        "miss": -0.12999999999999995,
-        "hit": 0.0050000000000000044,
-        "low": -0.041881191327281964,
-        "high": 0.03504191014788827
-      },
-      "buckets": {
-        "abstained": {
-          "miss": 11,
-          "hit": 0
-        },
-        "never found": {
-          "miss": 50,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 34,
-          "hit": 179
-        },
-        "read but wrong": {
-          "miss": 5,
-          "hit": 21
-        }
-      },
-      "wallMs": 729.47,
-      "wallX": 0.9562263227576805,
-      "calls": 1.0533333333333332,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "r4@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8553179237197344,
-      "miss": 0.38,
-      "hit": 0.89,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.004760284979644314,
-        "miss": 0.07,
-        "hit": 0,
-        "low": 0.0018546564855757008,
-        "high": 0.008870096235362057
-      },
-      "vsChampion": {
-        "weighted": -0.006120366402399768,
-        "miss": -0.08999999999999997,
-        "hit": 0,
-        "low": -0.03772308866792762,
-        "high": 0.023965751385367273
-      },
-      "buckets": {
-        "never found": {
-          "miss": 46,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 38,
-          "hit": 178
-        },
-        "read but wrong": {
-          "miss": 10,
-          "hit": 22
-        },
-        "abstained": {
-          "miss": 6,
-          "hit": 0
-        }
-      },
-      "wallMs": 1245.5966666666666,
-      "wallX": 1.6327913693584257,
-      "calls": 1.0366666666666666,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "a5@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8546378830083565,
-      "miss": 0.37,
-      "hit": 0.89,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.004080244268266475,
-        "miss": 0.06,
-        "hit": 0,
-        "low": 0.00229227206082383,
-        "high": 0.0060717920658728275
-      },
-      "vsChampion": {
-        "weighted": -0.006800407113777607,
-        "miss": -0.09999999999999998,
-        "hit": 0,
-        "low": -0.038851516787842266,
-        "high": 0.023007358551860646
-      },
-      "buckets": {
-        "never found": {
-          "miss": 50,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 37,
-          "hit": 178
-        },
-        "read but wrong": {
-          "miss": 10,
-          "hit": 22
-        },
-        "abstained": {
-          "miss": 3,
-          "hit": 0
-        }
-      },
-      "wallMs": 987.2333333333333,
-      "wallX": 1.2941155908222968,
-      "calls": 2.0766666666666667,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "o11@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8519177201628455,
-      "miss": 0.33,
-      "hit": 0.89,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.0013600814227554547,
-        "miss": 0.020000000000000018,
-        "hit": 0,
-        "low": 0,
-        "high": 0.004584544121647771
-      },
-      "vsChampion": {
-        "weighted": -0.009520569959288627,
-        "miss": -0.13999999999999996,
-        "hit": 0,
-        "low": -0.04125458220165745,
-        "high": 0.020117877386896077
-      },
-      "buckets": {
-        "never found": {
-          "miss": 54,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 33,
-          "hit": 178
-        },
-        "read but wrong": {
-          "miss": 7,
-          "hit": 22
-        },
-        "abstained": {
-          "miss": 6,
-          "hit": 0
-        }
-      },
-      "wallMs": 753.1933333333334,
-      "wallX": 0.9873240729007817,
-      "calls": 1.0366666666666666,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "r2@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.851337984786801,
-      "miss": 0.39,
-      "hit": 0.885,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.0007803460467109558,
-        "miss": 0.08000000000000002,
-        "hit": -0.0050000000000000044,
-        "low": -0.01318862163484269,
-        "high": 0.011610451169864144
-      },
-      "vsChampion": {
-        "weighted": -0.010100305335333126,
-        "miss": -0.07999999999999996,
-        "hit": -0.0050000000000000044,
-        "low": -0.04425034291949992,
-        "high": 0.021554259501049056
-      },
-      "buckets": {
-        "never found": {
-          "miss": 47,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 39,
-          "hit": 177
-        },
-        "read but wrong": {
-          "miss": 10,
-          "hit": 23
-        },
-        "abstained": {
-          "miss": 4,
-          "hit": 0
-        }
-      },
-      "wallMs": 1386.3133333333333,
-      "wallX": 1.8172499224413283,
-      "calls": 1.03,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "gates@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.85055763874009,
-      "miss": 0.31,
-      "hit": 0.89,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": null,
-      "vsChampion": {
-        "weighted": -0.010880651382044082,
-        "miss": -0.15999999999999998,
-        "hit": 0,
-        "low": -0.04275905341436537,
-        "high": 0.019825170741009313
-      },
-      "buckets": {
-        "never found": {
-          "miss": 55,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 31,
-          "hit": 178
-        },
-        "read but wrong": {
-          "miss": 7,
-          "hit": 22
-        },
-        "abstained": {
-          "miss": 7,
-          "hit": 0
-        }
-      },
-      "wallMs": 762.8633333333333,
-      "wallX": 1,
-      "calls": 1.0366666666666666,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "a4@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.85055763874009,
-      "miss": 0.31,
-      "hit": 0.89,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0,
-        "miss": 0,
-        "hit": 0,
-        "low": 0,
-        "high": 0
-      },
-      "vsChampion": {
-        "weighted": -0.010880651382044082,
-        "miss": -0.15999999999999998,
-        "hit": 0,
-        "low": -0.04275905341436537,
-        "high": 0.019825170741009313
-      },
-      "buckets": {
-        "never found": {
-          "miss": 55,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 31,
-          "hit": 178
-        },
-        "read but wrong": {
-          "miss": 7,
-          "hit": 22
-        },
-        "abstained": {
-          "miss": 7,
-          "hit": 0
-        }
-      },
-      "wallMs": 791.8833333333333,
-      "wallX": 1.0380408898055133,
-      "calls": 1.14,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "o6@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.85055763874009,
-      "miss": 0.31,
-      "hit": 0.89,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0,
-        "miss": 0,
-        "hit": 0,
-        "low": 0,
-        "high": 0
-      },
-      "vsChampion": {
-        "weighted": -0.010880651382044082,
-        "miss": -0.15999999999999998,
-        "hit": 0,
-        "low": -0.04275905341436537,
-        "high": 0.019825170741009313
-      },
-      "buckets": {
-        "never found": {
-          "miss": 55,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 31,
-          "hit": 178
-        },
-        "read but wrong": {
-          "miss": 7,
-          "hit": 22
-        },
-        "abstained": {
-          "miss": 7,
-          "hit": 0
-        }
-      },
-      "wallMs": 750.04,
-      "wallX": 0.9831905234227187,
-      "calls": 1.0366666666666666,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "n-lp0@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.85055763874009,
-      "miss": 0.31,
-      "hit": 0.89,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0,
-        "miss": 0,
-        "hit": 0,
-        "low": 0,
-        "high": 0
-      },
-      "vsChampion": {
-        "weighted": -0.010880651382044082,
-        "miss": -0.15999999999999998,
-        "hit": 0,
-        "low": -0.04275905341436537,
-        "high": 0.019825170741009313
-      },
-      "buckets": {
-        "never found": {
-          "miss": 55,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 31,
-          "hit": 178
-        },
-        "read but wrong": {
-          "miss": 7,
-          "hit": 22
-        },
-        "abstained": {
-          "miss": 7,
-          "hit": 0
-        }
-      },
-      "wallMs": 2036.1233333333332,
-      "wallX": 2.669053871597796,
-      "calls": 3.0366666666666666,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "s2@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8500782086993786,
-      "miss": 0.44,
-      "hit": 0.88,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": -0.00047943004071149264,
-        "miss": 0.13,
-        "hit": -0.010000000000000009,
-        "low": -0.02863771600610676,
-        "high": 0.030328870548569586
-      },
-      "vsChampion": {
-        "weighted": -0.011360081422755575,
-        "miss": -0.02999999999999997,
-        "hit": -0.010000000000000009,
-        "low": -0.03985061225568487,
-        "high": 0.021371362114326775
-      },
-      "buckets": {
-        "abstained": {
-          "miss": 7,
-          "hit": 0
-        },
-        "never found": {
-          "miss": 42,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 44,
-          "hit": 176
-        },
-        "read but wrong": {
-          "miss": 7,
-          "hit": 24
-        }
-      },
-      "wallMs": 1113.64,
-      "wallX": 1.4598158691596137,
-      "calls": 1.0433333333333332,
-      "reloads": 0,
-      "outputLimit": 1
-    },
-    {
-      "variant": "w6@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8499779033640454,
-      "miss": 0.37,
-      "hit": 0.885,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": -0.00057973537604461,
-        "miss": 0.06,
-        "hit": -0.0050000000000000044,
-        "low": -0.024329210007782542,
-        "high": 0.023739865687958717
-      },
-      "vsChampion": {
-        "weighted": -0.011460386758088692,
-        "miss": -0.09999999999999998,
-        "hit": -0.0050000000000000044,
-        "low": -0.04795007798003781,
-        "high": 0.021445471697909002
-      },
-      "buckets": {
-        "read but wrong": {
-          "miss": 17,
-          "hit": 23
-        },
-        "never found": {
-          "miss": 41,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 37,
-          "hit": 177
-        },
-        "abstained": {
-          "miss": 5,
-          "hit": 0
-        }
-      },
-      "wallMs": 2153.6766666666667,
-      "wallX": 2.8231487509776763,
-      "calls": 13.73,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "r1@2+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8473580458538675,
-      "miss": 0.4,
-      "hit": 0.88,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": -0.003199592886222513,
-        "miss": 0.09000000000000002,
-        "hit": -0.010000000000000009,
-        "low": -0.022166875126291785,
-        "high": 0.012626730571258182
-      },
-      "vsChampion": {
-        "weighted": -0.014080244268266595,
-        "miss": -0.06999999999999995,
-        "hit": -0.010000000000000009,
-        "low": -0.04761904761904745,
-        "high": 0.017473979009412166
-      },
-      "buckets": {
-        "never found": {
-          "miss": 49,
-          "hit": 1
-        },
-        "read but wrong": {
-          "miss": 9,
-          "hit": 23
-        },
-        "correct": {
-          "miss": 40,
-          "hit": 176
-        },
-        "abstained": {
-          "miss": 2,
-          "hit": 0
-        }
-      },
-      "wallMs": 1465.11,
-      "wallX": 1.9205405948640866,
-      "calls": 1.03,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "w4@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8472577405185344,
-      "miss": 0.33,
-      "hit": 0.885,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": -0.0032998982215556305,
-        "miss": 0.020000000000000018,
-        "hit": -0.0050000000000000044,
-        "low": -0.02769671671803653,
-        "high": 0.02222705376726808
-      },
-      "vsChampion": {
-        "weighted": -0.014180549603599713,
-        "miss": -0.13999999999999996,
-        "hit": -0.0050000000000000044,
-        "low": -0.0460569626800057,
-        "high": 0.015320457178901514
-      },
-      "buckets": {
-        "abstained": {
-          "miss": 9,
-          "hit": 0
-        },
-        "never found": {
-          "miss": 47,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 33,
-          "hit": 177
-        },
-        "read but wrong": {
-          "miss": 11,
-          "hit": 23
-        }
-      },
-      "wallMs": 1752.4566666666667,
-      "wallX": 2.2972091986769145,
-      "calls": 8.73,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "o5@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8465776998071567,
-      "miss": 0.32,
-      "hit": 0.885,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": -0.003979938932933358,
-        "miss": 0.010000000000000009,
-        "hit": -0.0050000000000000044,
-        "low": -0.040521562124444466,
-        "high": 0.03545636685888898
-      },
-      "vsChampion": {
-        "weighted": -0.01486059031497744,
-        "miss": -0.14999999999999997,
-        "hit": -0.0050000000000000044,
-        "low": -0.05473754659857233,
-        "high": 0.03187815541813932
-      },
-      "buckets": {
-        "never found": {
-          "miss": 62,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 32,
-          "hit": 177
-        },
-        "read but wrong": {
-          "miss": 6,
-          "hit": 23
-        }
-      },
-      "wallMs": 759.2766666666666,
-      "wallX": 0.9952984151813998,
-      "calls": 1.0166666666666666,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "o9@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8465776998071567,
-      "miss": 0.32,
-      "hit": 0.885,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": -0.003979938932933358,
-        "miss": 0.010000000000000009,
-        "hit": -0.0050000000000000044,
-        "low": -0.030226894990126207,
-        "high": 0.020106993696590414
-      },
-      "vsChampion": {
-        "weighted": -0.01486059031497744,
-        "miss": -0.14999999999999997,
-        "hit": -0.0050000000000000044,
-        "low": -0.049666172833774724,
-        "high": 0.016525163018845213
-      },
-      "buckets": {
-        "abstained": {
-          "miss": 7,
-          "hit": 0
-        },
-        "never found": {
-          "miss": 54,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 32,
-          "hit": 177
-        },
-        "read but wrong": {
-          "miss": 7,
-          "hit": 23
-        }
-      },
-      "wallMs": 762.6433333333333,
-      "wallX": 0.9997116128271119,
-      "calls": 1.04,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "o3@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8453179237197342,
-      "miss": 0.37,
-      "hit": 0.88,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": -0.005239715020355806,
-        "miss": 0.06,
-        "hit": -0.010000000000000009,
-        "low": -0.020468757204503363,
-        "high": 0.00829317940704588
-      },
-      "vsChampion": {
-        "weighted": -0.01612036640239989,
-        "miss": -0.09999999999999998,
-        "hit": -0.010000000000000009,
-        "low": -0.048501613136655686,
-        "high": 0.013374223720706624
-      },
-      "buckets": {
-        "never found": {
-          "miss": 50,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 37,
-          "hit": 176
-        },
-        "read but wrong": {
-          "miss": 8,
-          "hit": 24
-        },
-        "abstained": {
-          "miss": 5,
-          "hit": 0
-        }
-      },
-      "wallMs": 764.33,
-      "wallX": 1.0019225811525874,
-      "calls": 1.0333333333333334,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "o7@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8419177201628455,
-      "miss": 0.32,
-      "hit": 0.88,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": -0.008639918577244554,
-        "miss": 0.010000000000000009,
-        "hit": -0.010000000000000009,
-        "low": -0.036548859955381374,
-        "high": 0.020440293081701588
-      },
-      "vsChampion": {
-        "weighted": -0.019520569959288636,
-        "miss": -0.14999999999999997,
-        "hit": -0.010000000000000009,
-        "low": -0.04820850001745125,
-        "high": 0.011519963975787473
-      },
-      "buckets": {
-        "never found": {
-          "miss": 55,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 32,
-          "hit": 176
-        },
-        "abstained": {
-          "miss": 8,
-          "hit": 0
-        },
-        "read but wrong": {
-          "miss": 5,
-          "hit": 24
-        }
-      },
-      "wallMs": 779.6266666666667,
-      "wallX": 1.02197422867355,
-      "calls": 1.0433333333333332,
-      "reloads": 0,
-      "outputLimit": 1
-    },
-    {
-      "variant": "a1@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8412376794514678,
-      "miss": 0.31,
-      "hit": 0.88,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": -0.009319959288622282,
-        "miss": 0,
-        "hit": -0.010000000000000009,
-        "low": -0.055118038803679825,
-        "high": 0.03253766288012072
-      },
-      "vsChampion": {
-        "weighted": -0.020200610670666364,
-        "miss": -0.15999999999999998,
-        "hit": -0.010000000000000009,
-        "low": -0.061376012269013125,
-        "high": 0.021185231746339794
-      },
-      "buckets": {
-        "never found": {
-          "miss": 54,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 31,
-          "hit": 176
-        },
-        "abstained": {
-          "miss": 7,
-          "hit": 0
-        },
-        "read but wrong": {
-          "miss": 8,
-          "hit": 24
-        }
-      },
-      "wallMs": 1128.2433333333333,
-      "wallX": 1.4789586601357168,
-      "calls": 2.01,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "o2@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.833277801585601,
-      "miss": 0.33,
-      "hit": 0.87,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": -0.017279837154488997,
-        "miss": 0.020000000000000018,
-        "hit": -0.020000000000000018,
-        "low": -0.050437933201332386,
-        "high": 0.020528731366126762
-      },
-      "vsChampion": {
-        "weighted": -0.02816048853653308,
-        "miss": -0.13999999999999996,
-        "hit": -0.020000000000000018,
-        "low": -0.0632372300340176,
-        "high": 0.010316909940987884
-      },
-      "buckets": {
-        "abstained": {
-          "miss": 8,
-          "hit": 0
-        },
-        "never found": {
-          "miss": 54,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 33,
-          "hit": 174
-        },
-        "read but wrong": {
-          "miss": 5,
-          "hit": 26
-        }
-      },
-      "wallMs": 1042.3,
-      "wallX": 1.3662997740967144,
-      "calls": 1.04,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "k2@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8321183308335119,
-      "miss": 0.45,
-      "hit": 0.86,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": -0.018439307906578106,
-        "miss": 0.14,
-        "hit": -0.030000000000000027,
-        "low": -0.042594585846760236,
-        "high": 0.003313109214003518
-      },
-      "vsChampion": {
-        "weighted": -0.029319959288622188,
-        "miss": -0.019999999999999962,
-        "hit": -0.030000000000000027,
-        "low": -0.0681149585452473,
-        "high": 0.007988530022834617
-      },
-      "buckets": {
-        "read but wrong": {
-          "miss": 12,
-          "hit": 23
-        },
-        "never found": {
-          "miss": 39,
-          "hit": 5
-        },
-        "correct": {
-          "miss": 45,
-          "hit": 172
-        },
-        "abstained": {
-          "miss": 4,
-          "hit": 0
-        }
-      },
-      "wallMs": 998.55,
-      "wallX": 1.3089500522155562,
-      "calls": 2.9233333333333333,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "a3@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8272577405185344,
-      "miss": 0.31,
-      "hit": 0.865,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": -0.02329989822155565,
-        "miss": 0,
-        "hit": -0.025000000000000022,
-        "low": -0.06577393103761953,
-        "high": 0.017055875817855837
-      },
-      "vsChampion": {
-        "weighted": -0.03418054960359973,
-        "miss": -0.15999999999999998,
-        "hit": -0.025000000000000022,
-        "low": -0.0686773216168951,
-        "high": -0.0013793293685542274
-      },
-      "buckets": {
-        "never found": {
-          "miss": 53,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 31,
-          "hit": 173
-        },
-        "abstained": {
-          "miss": 9,
-          "hit": 0
-        },
-        "read but wrong": {
-          "miss": 7,
-          "hit": 27
-        }
-      },
-      "wallMs": 917.5933333333334,
-      "wallX": 1.2028279420953514,
-      "calls": 2.1033333333333335,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "a2@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8153179237197343,
-      "miss": 0.34,
-      "hit": 0.85,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": -0.03523971502035572,
-        "miss": 0.030000000000000027,
-        "hit": -0.040000000000000036,
-        "low": -0.08569758136156502,
-        "high": 0.01153579513679015
-      },
-      "vsChampion": {
-        "weighted": -0.046120366402399804,
-        "miss": -0.12999999999999995,
-        "hit": -0.040000000000000036,
-        "low": -0.09036193124683911,
-        "high": -0.005222867484255378
-      },
-      "buckets": {
-        "correct": {
-          "miss": 34,
-          "hit": 170
-        },
-        "shown not opened": {
-          "miss": 19,
-          "hit": 9
-        },
-        "never found": {
-          "miss": 31,
-          "hit": 0
-        },
-        "read but wrong": {
-          "miss": 12,
-          "hit": 21
-        },
-        "abstained": {
-          "miss": 4,
-          "hit": 0
-        }
-      },
-      "wallMs": 1057.0166666666667,
-      "wallX": 1.3855911281618813,
-      "calls": 2.203333333333333,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "pb@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8142366616670238,
-      "miss": 0.05,
-      "hit": 0.87,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": -0.03632097707306625,
-        "miss": -0.26,
-        "hit": -0.020000000000000018,
-        "low": -0.10166081331206167,
-        "high": 0.024592015048002236
-      },
-      "vsChampion": {
-        "weighted": -0.047201628455110334,
-        "miss": -0.42,
-        "hit": -0.020000000000000018,
-        "low": -0.10896160269590294,
-        "high": 0.014513665430555989
-      },
-      "buckets": {
-        "abstained": {
-          "miss": 30,
-          "hit": 0
-        },
-        "never found": {
-          "miss": 65,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 5,
-          "hit": 174
-        },
-        "read but wrong": {
-          "miss": 0,
-          "hit": 26
-        }
-      },
-      "wallMs": 652.95,
-      "wallX": 0.8559200206240524,
-      "calls": 1,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "w2@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8045375776730234,
-      "miss": 0.25,
-      "hit": 0.845,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": -0.04602006106706669,
-        "miss": -0.06,
-        "hit": -0.04500000000000004,
-        "low": -0.08513032299248213,
-        "high": -0.006997324320771714
-      },
-      "vsChampion": {
-        "weighted": -0.05690071244911077,
-        "miss": -0.21999999999999997,
-        "hit": -0.04500000000000004,
-        "low": -0.09823447962273135,
-        "high": -0.010895132641292271
-      },
-      "buckets": {
-        "never found": {
-          "miss": 65,
-          "hit": 9
-        },
-        "correct": {
-          "miss": 25,
-          "hit": 169
-        },
-        "abstained": {
-          "miss": 6,
-          "hit": 0
-        },
-        "read but wrong": {
-          "miss": 4,
-          "hit": 22
-        }
-      },
-      "wallMs": 523.4066666666666,
-      "wallX": 0.6861080403217701,
-      "calls": 1.44,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "o1@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8039578422969788,
-      "miss": 0.31,
-      "hit": 0.84,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": -0.0465997964431113,
-        "miss": 0,
-        "hit": -0.050000000000000044,
-        "low": -0.08383032164369209,
-        "high": -0.010301681343251712
-      },
-      "vsChampion": {
-        "weighted": -0.05748044782515538,
-        "miss": -0.15999999999999998,
-        "hit": -0.050000000000000044,
-        "low": -0.09924368336624612,
-        "high": -0.015196795580903588
-      },
-      "buckets": {
-        "abstained": {
-          "miss": 11,
-          "hit": 0
-        },
-        "never found": {
-          "miss": 51,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 31,
-          "hit": 168
-        },
-        "read but wrong": {
-          "miss": 7,
-          "hit": 32
-        }
-      },
-      "wallMs": 925.4066666666666,
-      "wallX": 1.2130700562354986,
-      "calls": 1.05,
-      "reloads": 0,
-      "outputLimit": 1
-    },
-    {
-      "variant": "g1@1+cold",
-      "n": 30,
-      "graded": 30,
-      "weighted": null,
-      "miss": 0.3333333333333333,
-      "hit": null,
-      "nMiss": 30,
-      "nHit": 0,
-      "vsBaseline": {
-        "weighted": null,
-        "miss": -0.06666666666666671,
-        "hit": null
-      },
-      "vsChampion": {
-        "weighted": null,
-        "miss": -0.23333333333333334,
-        "hit": null
-      },
-      "buckets": {
-        "never found": {
-          "miss": 17,
-          "hit": 0
-        },
-        "shown not opened": {
-          "miss": 1,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 10,
-          "hit": 0
-        },
-        "read but wrong": {
-          "miss": 1,
-          "hit": 0
-        },
-        "abstained": {
-          "miss": 1,
-          "hit": 0
-        }
-      },
-      "wallMs": 1431.5333333333333,
-      "wallX": 1.8765265949776937,
-      "calls": 3.8,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "g2@1+cold",
-      "n": 30,
-      "graded": 30,
-      "weighted": null,
-      "miss": 0.4666666666666667,
-      "hit": null,
-      "nMiss": 30,
-      "nHit": 0,
-      "vsBaseline": {
-        "weighted": null,
-        "miss": 0.06666666666666665,
-        "hit": null
-      },
-      "vsChampion": {
-        "weighted": null,
-        "miss": -0.09999999999999998,
-        "hit": null
-      },
-      "buckets": {
-        "shown not opened": {
-          "miss": 4,
-          "hit": 0
-        },
-        "never found": {
-          "miss": 10,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 14,
-          "hit": 0
-        },
-        "read but wrong": {
-          "miss": 2,
-          "hit": 0
-        }
-      },
-      "wallMs": 1800.3,
-      "wallX": 2.3599246697748395,
-      "calls": 2.7666666666666666,
       "reloads": 0,
       "outputLimit": 0
     },
@@ -1651,11 +63,11 @@
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": 0.0214603867580887,
-        "miss": 0.10999999999999999,
+        "weighted": 0.010579735376044619,
+        "miss": -0.04999999999999999,
         "hit": 0.015000000000000013,
-        "low": -0.0012866507706916774,
-        "high": 0.045181971196073034
+        "low": -0.022417922529342937,
+        "high": 0.04355597923873078
       },
       "vsChampion": {
         "weighted": 0.010579735376044619,
@@ -1683,358 +95,154 @@
         }
       },
       "wallMs": 1249.0766666666666,
-      "wallX": 1.6373531300932014,
+      "wallX": 0.6862706674382999,
       "calls": 1.07,
       "reloads": 0,
       "outputLimit": 0
     },
     {
-      "variant": "j2@1+cold",
+      "variant": "s1@1+cold",
       "n": 300,
       "graded": 300,
-      "weighted": 0.869398167988001,
-      "miss": 0.45,
-      "hit": 0.9,
+      "weighted": 0.871337984786801,
+      "miss": 0.41,
+      "hit": 0.905,
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": 0.01884052924791091,
-        "miss": 0.14,
-        "hit": 0.010000000000000009,
-        "low": -0.00734643655832079,
-        "high": 0.04803661971407913
+        "weighted": 0.009899694664666892,
+        "miss": -0.06,
+        "hit": 0.015000000000000013,
+        "low": -0.023080122891246613,
+        "high": 0.04304194996305688
       },
       "vsChampion": {
-        "weighted": 0.007959877865866827,
-        "miss": -0.019999999999999962,
-        "hit": 0.010000000000000009,
-        "low": -0.002487953822113753,
-        "high": 0.023535250728843993
+        "weighted": 0.009899694664666892,
+        "miss": -0.06,
+        "hit": 0.015000000000000013,
+        "low": -0.023080122891246613,
+        "high": 0.04304194996305688
       },
       "buckets": {
-        "read but wrong": {
-          "miss": 17,
-          "hit": 14
-        },
         "never found": {
-          "miss": 33,
-          "hit": 6
-        },
-        "correct": {
-          "miss": 45,
-          "hit": 180
-        },
-        "shown not opened": {
-          "miss": 3,
+          "miss": 44,
           "hit": 0
         },
+        "correct": {
+          "miss": 41,
+          "hit": 181
+        },
+        "read but wrong": {
+          "miss": 10,
+          "hit": 19
+        },
         "abstained": {
-          "miss": 2,
+          "miss": 5,
           "hit": 0
         }
       },
-      "wallMs": 1778.2733333333333,
-      "wallX": 2.3310509964650725,
-      "calls": 5.5,
+      "wallMs": 1145.6366666666668,
+      "wallX": 0.6294384170775126,
+      "calls": 1.0366666666666666,
       "reloads": 0,
       "outputLimit": 0
     },
     {
-      "variant": "e1@1+cold",
+      "variant": "r5@1+cold",
       "n": 300,
       "graded": 300,
-      "weighted": 0.8674583511892008,
-      "miss": 0.49,
-      "hit": 0.895,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.016900712449110733,
-        "miss": 0.18,
-        "hit": 0.0050000000000000044,
-        "low": -0.008247546639503112,
-        "high": 0.04573403363823603
-      },
-      "vsChampion": {
-        "weighted": 0.006020061067066651,
-        "miss": 0.020000000000000018,
-        "hit": 0.0050000000000000044,
-        "low": -0.008868633828002292,
-        "high": 0.02244353538757471
-      },
-      "buckets": {
-        "read but wrong": {
-          "miss": 19,
-          "hit": 16
-        },
-        "never found": {
-          "miss": 29,
-          "hit": 5
-        },
-        "correct": {
-          "miss": 49,
-          "hit": 179
-        },
-        "shown not opened": {
-          "miss": 1,
-          "hit": 0
-        },
-        "abstained": {
-          "miss": 2,
-          "hit": 0
-        }
-      },
-      "wallMs": 2004.2766666666666,
-      "wallX": 2.627307643570932,
-      "calls": 5.973333333333334,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "m3@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8655185343904007,
-      "miss": 0.53,
-      "hit": 0.89,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.014960895650310668,
-        "miss": 0.22000000000000003,
-        "hit": 0,
-        "low": -0.015950332301714165,
-        "high": 0.049079843484026386
-      },
-      "vsChampion": {
-        "weighted": 0.004080244268266586,
-        "miss": 0.06000000000000005,
-        "hit": 0,
-        "low": 0.0007816559900893916,
-        "high": 0.008892840071862973
-      },
-      "buckets": {
-        "read but wrong": {
-          "miss": 17,
-          "hit": 15
-        },
-        "never found": {
-          "miss": 26,
-          "hit": 6
-        },
-        "correct": {
-          "miss": 53,
-          "hit": 178
-        },
-        "shown not opened": {
-          "miss": 3,
-          "hit": 1
-        },
-        "abstained": {
-          "miss": 1,
-          "hit": 0
-        }
-      },
-      "wallMs": 2430.096666666667,
-      "wallX": 3.185494125203728,
-      "calls": 7.303333333333334,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "z-ext1@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8654182290550675,
-      "miss": 0.46,
-      "hit": 0.895,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.01486059031497744,
-        "miss": 0.15000000000000002,
-        "hit": 0.0050000000000000044,
-        "low": -0.014682931879478334,
-        "high": 0.04511927969181018
-      },
-      "vsChampion": {
-        "weighted": 0.003979938932933358,
-        "miss": -0.009999999999999953,
-        "hit": 0.0050000000000000044,
-        "low": -0.016155371142412278,
-        "high": 0.023299898221555537
-      },
-      "buckets": {
-        "correct": {
-          "miss": 46,
-          "hit": 179
-        },
-        "never found": {
-          "miss": 38,
-          "hit": 3
-        },
-        "read but wrong": {
-          "miss": 15,
-          "hit": 18
-        },
-        "abstained": {
-          "miss": 1,
-          "hit": 0
-        }
-      },
-      "wallMs": 458.35333333333335,
-      "wallX": 0.6008328271992799,
-      "calls": 0.5666666666666667,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "n-g6@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8653179237197344,
+      "weighted": 0.8699779033640455,
       "miss": 0.39,
-      "hit": 0.9,
+      "hit": 0.905,
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": 0.014760284979644323,
-        "miss": 0.08000000000000002,
-        "hit": 0.010000000000000009,
-        "low": -0.004203687066520301,
-        "high": 0.032815202784678865
+        "weighted": 0.008539613241911326,
+        "miss": -0.07999999999999996,
+        "hit": 0.015000000000000013,
+        "low": -0.02363394265396912,
+        "high": 0.040703379141749485
       },
       "vsChampion": {
-        "weighted": 0.0038796335976002405,
+        "weighted": 0.008539613241911326,
         "miss": -0.07999999999999996,
-        "hit": 0.010000000000000009,
-        "low": -0.022620934209478305,
-        "high": 0.02850637926519206
+        "hit": 0.015000000000000013,
+        "low": -0.02363394265396912,
+        "high": 0.040703379141749485
       },
       "buckets": {
         "never found": {
-          "miss": 47,
+          "miss": 46,
           "hit": 0
         },
         "correct": {
           "miss": 39,
-          "hit": 180
+          "hit": 181
         },
         "read but wrong": {
-          "miss": 9,
-          "hit": 20
+          "miss": 10,
+          "hit": 19
         },
         "abstained": {
           "miss": 5,
           "hit": 0
         }
       },
-      "wallMs": 1253.8733333333332,
-      "wallX": 1.643640844362686,
-      "calls": 1.5266666666666666,
+      "wallMs": 1229.6166666666666,
+      "wallX": 0.6755789080413458,
+      "calls": 1.0333333333333334,
       "reloads": 0,
       "outputLimit": 0
     },
     {
-      "variant": "n-g5@1+cold",
+      "variant": "n-cs2@1+cold",
       "n": 300,
       "graded": 300,
-      "weighted": 0.8646378830083566,
-      "miss": 0.38,
-      "hit": 0.9,
+      "weighted": 0.8647381883436898,
+      "miss": 0.45,
+      "hit": 0.895,
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": 0.014080244268266595,
-        "miss": 0.07,
-        "hit": 0.010000000000000009,
-        "low": -0.00412710767360569,
-        "high": 0.03168946831131414
+        "weighted": 0.0032998982215556305,
+        "miss": -0.019999999999999962,
+        "hit": 0.0050000000000000044,
+        "low": -0.028613910096647266,
+        "high": 0.03910481064240745
       },
       "vsChampion": {
-        "weighted": 0.003199592886222513,
-        "miss": -0.08999999999999997,
-        "hit": 0.010000000000000009,
-        "low": -0.023370721630644464,
-        "high": 0.027628359864618424
+        "weighted": 0.0032998982215556305,
+        "miss": -0.019999999999999962,
+        "hit": 0.0050000000000000044,
+        "low": -0.028613910096647266,
+        "high": 0.03910481064240745
       },
       "buckets": {
         "never found": {
-          "miss": 49,
+          "miss": 43,
           "hit": 0
         },
         "correct": {
-          "miss": 38,
-          "hit": 180
-        },
-        "read but wrong": {
-          "miss": 8,
-          "hit": 20
+          "miss": 45,
+          "hit": 179
         },
         "abstained": {
           "miss": 5,
           "hit": 0
-        }
-      },
-      "wallMs": 1241.03,
-      "wallX": 1.626805150769688,
-      "calls": 1.39,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "m1@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.862118330833512,
-      "miss": 0.48,
-      "hit": 0.89,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.01156069209342192,
-        "miss": 0.16999999999999998,
-        "hit": 0,
-        "low": -0.01871590307932669,
-        "high": 0.04332546883638022
-      },
-      "vsChampion": {
-        "weighted": 0.0006800407113778384,
-        "miss": 0.010000000000000009,
-        "hit": 0,
-        "low": 0,
-        "high": 0.0022296416766484084
-      },
-      "buckets": {
+        },
         "read but wrong": {
-          "miss": 17,
-          "hit": 15
-        },
-        "never found": {
-          "miss": 30,
-          "hit": 6
-        },
-        "correct": {
-          "miss": 48,
-          "hit": 178
-        },
-        "shown not opened": {
-          "miss": 3,
-          "hit": 1
-        },
-        "abstained": {
-          "miss": 2,
-          "hit": 0
+          "miss": 7,
+          "hit": 21
         }
       },
-      "wallMs": 2233.133333333333,
-      "wallX": 2.9273045849190984,
-      "calls": 6.913333333333333,
+      "wallMs": 2448.61,
+      "wallX": 1.3453211190634913,
+      "calls": 3.0033333333333334,
       "reloads": 0,
-      "outputLimit": 0
+      "outputLimit": 1
     },
     {
-      "variant": "x1@1+cold",
+      "variant": "k3@1+cold",
       "n": 300,
       "graded": 300,
       "weighted": 0.8614382901221341,
@@ -2043,94 +251,45 @@
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": 0.010880651382044082,
-        "miss": 0.15999999999999998,
+        "weighted": 0,
+        "miss": 0,
         "hit": 0,
-        "low": -0.019308517358379573,
-        "high": 0.042760815486863724
-      },
-      "vsChampion": null,
-      "buckets": {
-        "read but wrong": {
-          "miss": 17,
-          "hit": 15
-        },
-        "never found": {
-          "miss": 30,
-          "hit": 6
-        },
-        "correct": {
-          "miss": 47,
-          "hit": 178
-        },
-        "shown not opened": {
-          "miss": 4,
-          "hit": 1
-        },
-        "abstained": {
-          "miss": 2,
-          "hit": 0
-        }
-      },
-      "wallMs": 1820.0933333333332,
-      "wallX": 2.38587077632953,
-      "calls": 5.593333333333334,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "t-x1r@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8614382901221341,
-      "miss": 0.47,
-      "hit": 0.89,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.010880651382044082,
-        "miss": 0.15999999999999998,
-        "hit": 0,
-        "low": -0.019308517358379573,
-        "high": 0.042760815486863724
+        "low": -0.02329989822155565,
+        "high": 0.02301677420273862
       },
       "vsChampion": {
         "weighted": 0,
         "miss": 0,
         "hit": 0,
-        "low": 0,
-        "high": 0
+        "low": -0.02329989822155565,
+        "high": 0.02301677420273862
       },
       "buckets": {
         "read but wrong": {
-          "miss": 17,
-          "hit": 15
+          "miss": 18,
+          "hit": 17
         },
         "never found": {
-          "miss": 30,
-          "hit": 6
+          "miss": 33,
+          "hit": 5
         },
         "correct": {
           "miss": 47,
           "hit": 178
         },
-        "shown not opened": {
-          "miss": 4,
-          "hit": 1
-        },
         "abstained": {
           "miss": 2,
           "hit": 0
         }
       },
-      "wallMs": 1904.2333333333333,
-      "wallX": 2.496165761451374,
-      "calls": 5.593333333333334,
+      "wallMs": 1287.5766666666666,
+      "wallX": 0.7074234288351513,
+      "calls": 4.28,
       "reloads": 0,
       "outputLimit": 0
     },
     {
-      "variant": "t-lk@1+cold",
+      "variant": "k1@1+cold",
       "n": 300,
       "graded": 300,
       "weighted": 0.8607582494107564,
@@ -2139,167 +298,112 @@
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": 0.010200610670666355,
-        "miss": 0.15000000000000002,
+        "weighted": -0.0006800407113777274,
+        "miss": -0.009999999999999953,
         "hit": 0,
-        "low": -0.008676284780958943,
-        "high": 0.027512056795583106
+        "low": -0.02382715906392785,
+        "high": 0.022296553322062818
       },
       "vsChampion": {
         "weighted": -0.0006800407113777274,
         "miss": -0.009999999999999953,
         "hit": 0,
-        "low": -0.02344691342582783,
-        "high": 0.02215037664378383
+        "low": -0.02382715906392785,
+        "high": 0.022296553322062818
       },
       "buckets": {
-        "abstained": {
-          "miss": 3,
-          "hit": 0
-        },
         "read but wrong": {
-          "miss": 12,
-          "hit": 17
-        },
-        "never found": {
-          "miss": 39,
-          "hit": 5
-        },
-        "correct": {
-          "miss": 46,
-          "hit": 178
-        }
-      },
-      "wallMs": 1204.42,
-      "wallX": 1.5788149034995347,
-      "calls": 3.5233333333333334,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "t-lx@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8607582494107564,
-      "miss": 0.46,
-      "hit": 0.89,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.010200610670666355,
-        "miss": 0.15000000000000002,
-        "hit": 0,
-        "low": -0.020210317071728268,
-        "high": 0.042290769057113375
-      },
-      "vsChampion": {
-        "weighted": -0.0006800407113777274,
-        "miss": -0.009999999999999953,
-        "hit": 0,
-        "low": -0.001985520325190504,
-        "high": 0
-      },
-      "buckets": {
-        "abstained": {
-          "miss": 3,
-          "hit": 0
-        },
-        "read but wrong": {
-          "miss": 11,
-          "hit": 15
+          "miss": 16,
+          "hit": 18
         },
         "never found": {
           "miss": 36,
-          "hit": 6
+          "hit": 4
         },
         "correct": {
           "miss": 46,
           "hit": 178
-        },
-        "shown not opened": {
-          "miss": 4,
-          "hit": 1
-        }
-      },
-      "wallMs": 1681.1,
-      "wallX": 2.2036712561009177,
-      "calls": 4.836666666666667,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "m2@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8607582494107564,
-      "miss": 0.46,
-      "hit": 0.89,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.010200610670666355,
-        "miss": 0.15000000000000002,
-        "hit": 0,
-        "low": -0.02010907247956617,
-        "high": 0.042400542818370024
-      },
-      "vsChampion": {
-        "weighted": -0.0006800407113777274,
-        "miss": -0.009999999999999953,
-        "hit": 0,
-        "low": -0.0035791616388303193,
-        "high": 0
-      },
-      "buckets": {
-        "read but wrong": {
-          "miss": 19,
-          "hit": 15
-        },
-        "never found": {
-          "miss": 30,
-          "hit": 6
-        },
-        "correct": {
-          "miss": 46,
-          "hit": 178
-        },
-        "shown not opened": {
-          "miss": 3,
-          "hit": 1
         },
         "abstained": {
           "miss": 2,
           "hit": 0
         }
       },
-      "wallMs": 2236.6433333333334,
-      "wallX": 2.93190567117745,
-      "calls": 6.913333333333333,
+      "wallMs": 1332.29,
+      "wallX": 0.7319899345821094,
+      "calls": 4.303333333333334,
       "reloads": 0,
       "outputLimit": 0
     },
     {
-      "variant": "e1o@1+cold",
+      "variant": "o12@1+cold",
       "n": 300,
       "graded": 300,
-      "weighted": 0.8600782086993787,
-      "miss": 0.45,
+      "weighted": 0.8592978626526676,
+      "miss": 0.37,
+      "hit": 0.895,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.0021404274694665215,
+        "miss": -0.09999999999999998,
+        "hit": 0.0050000000000000044,
+        "low": -0.03989537835209578,
+        "high": 0.03729472008790813
+      },
+      "vsChampion": {
+        "weighted": -0.0021404274694665215,
+        "miss": -0.09999999999999998,
+        "hit": 0.0050000000000000044,
+        "low": -0.03989537835209578,
+        "high": 0.03729472008790813
+      },
+      "buckets": {
+        "abstained": {
+          "miss": 9,
+          "hit": 0
+        },
+        "never found": {
+          "miss": 50,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 37,
+          "hit": 179
+        },
+        "read but wrong": {
+          "miss": 4,
+          "hit": 21
+        }
+      },
+      "wallMs": 725.42,
+      "wallX": 0.39856197850659675,
+      "calls": 1.0533333333333332,
+      "reloads": 0,
+      "outputLimit": 1
+    },
+    {
+      "variant": "w7@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8573580458538677,
+      "miss": 0.41,
       "hit": 0.89,
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": 0.009520569959288627,
-        "miss": 0.14,
+        "weighted": -0.004080244268266475,
+        "miss": -0.06,
         "hit": 0,
-        "low": -0.020789113190943898,
-        "high": 0.04161746142208589
+        "low": -0.03900897731685149,
+        "high": 0.027974891836142213
       },
       "vsChampion": {
-        "weighted": -0.0013600814227554547,
-        "miss": -0.019999999999999962,
+        "weighted": -0.004080244268266475,
+        "miss": -0.06,
         "hit": 0,
-        "low": -0.004250254446110935,
-        "high": 0
+        "low": -0.03900897731685149,
+        "high": 0.027974891836142213
       },
       "buckets": {
         "read but wrong": {
@@ -2307,11 +411,11 @@
           "hit": 22
         },
         "never found": {
-          "miss": 33,
+          "miss": 37,
           "hit": 0
         },
         "correct": {
-          "miss": 45,
+          "miss": 41,
           "hit": 178
         },
         "abstained": {
@@ -2319,242 +423,93 @@
           "hit": 0
         }
       },
-      "wallMs": 0.5266666666666666,
-      "wallX": 0.0006903814138836576,
-      "calls": 0,
+      "wallMs": 2550.866666666667,
+      "wallX": 1.4015032196151114,
+      "calls": 18.72,
       "reloads": 0,
       "outputLimit": 0
     },
     {
-      "variant": "p4@1+cold",
+      "variant": "o4@1+cold",
       "n": 300,
       "graded": 300,
-      "weighted": 0.8580380865652454,
-      "miss": 0.42,
-      "hit": 0.89,
+      "weighted": 0.8572577405185344,
+      "miss": 0.34,
+      "hit": 0.895,
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": 0.007480447825155334,
-        "miss": 0.10999999999999999,
-        "hit": 0,
-        "low": 0.0035418787050924827,
-        "high": 0.012219481532569132
+        "weighted": -0.004180549603599704,
+        "miss": -0.12999999999999995,
+        "hit": 0.0050000000000000044,
+        "low": -0.041881191327281964,
+        "high": 0.03504191014788827
       },
       "vsChampion": {
-        "weighted": -0.003400203556888748,
-        "miss": -0.04999999999999999,
-        "hit": 0,
-        "low": -0.035235743181581514,
-        "high": 0.025412646515958315
+        "weighted": -0.004180549603599704,
+        "miss": -0.12999999999999995,
+        "hit": 0.0050000000000000044,
+        "low": -0.041881191327281964,
+        "high": 0.03504191014788827
       },
       "buckets": {
+        "abstained": {
+          "miss": 11,
+          "hit": 0
+        },
         "never found": {
-          "miss": 42,
+          "miss": 50,
           "hit": 0
         },
         "correct": {
-          "miss": 42,
-          "hit": 178
+          "miss": 34,
+          "hit": 179
         },
         "read but wrong": {
-          "miss": 11,
-          "hit": 22
-        },
-        "abstained": {
-          "miss": 4,
-          "hit": 0
-        },
-        "technical": {
-          "miss": 1,
-          "hit": 0
-        }
-      },
-      "wallMs": 1296.57,
-      "wallX": 1.6996098034160771,
-      "calls": 1.0266666666666666,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "p2@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8573580458538677,
-      "miss": 0.41,
-      "hit": 0.89,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.006800407113777607,
-        "miss": 0.09999999999999998,
-        "hit": 0,
-        "low": 0.002804291593310304,
-        "high": 0.010373502376948895
-      },
-      "vsChampion": {
-        "weighted": -0.004080244268266475,
-        "miss": -0.06,
-        "hit": 0,
-        "low": -0.03620790868164869,
-        "high": 0.025230965442368025
-      },
-      "buckets": {
-        "never found": {
-          "miss": 43,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 41,
-          "hit": 178
-        },
-        "read but wrong": {
-          "miss": 11,
-          "hit": 22
-        },
-        "abstained": {
           "miss": 5,
-          "hit": 0
+          "hit": 21
         }
       },
-      "wallMs": 1224.04,
-      "wallX": 1.6045337959180106,
-      "calls": 1.0266666666666666,
+      "wallMs": 729.47,
+      "wallX": 0.4007871391210707,
+      "calls": 1.0533333333333332,
       "reloads": 0,
       "outputLimit": 0
     },
     {
-      "variant": "p3@1+cold",
+      "variant": "r4@1+cold",
       "n": 300,
       "graded": 300,
-      "weighted": 0.8573580458538677,
-      "miss": 0.41,
+      "weighted": 0.8553179237197344,
+      "miss": 0.38,
       "hit": 0.89,
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": 0.006800407113777607,
-        "miss": 0.09999999999999998,
+        "weighted": -0.006120366402399768,
+        "miss": -0.08999999999999997,
         "hit": 0,
-        "low": 0.0035418787050924827,
-        "high": 0.010200610670666466
+        "low": -0.03772308866792762,
+        "high": 0.023965751385367273
       },
       "vsChampion": {
-        "weighted": -0.004080244268266475,
-        "miss": -0.06,
+        "weighted": -0.006120366402399768,
+        "miss": -0.08999999999999997,
         "hit": 0,
-        "low": -0.036159776687748835,
-        "high": 0.024932002074627868
+        "low": -0.03772308866792762,
+        "high": 0.023965751385367273
       },
       "buckets": {
         "never found": {
-          "miss": 42,
+          "miss": 46,
           "hit": 0
         },
         "correct": {
-          "miss": 41,
+          "miss": 38,
           "hit": 178
         },
         "read but wrong": {
-          "miss": 11,
-          "hit": 22
-        },
-        "abstained": {
-          "miss": 5,
-          "hit": 0
-        },
-        "technical": {
-          "miss": 1,
-          "hit": 0
-        }
-      },
-      "wallMs": 1301.1633333333334,
-      "wallX": 1.7056309780257715,
-      "calls": 1.0266666666666666,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "z-think1@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.856778310477823,
-      "miss": 0.47,
-      "hit": 0.885,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.006220671737732997,
-        "miss": 0.15999999999999998,
-        "hit": -0.0050000000000000044,
-        "low": -0.03238024928344785,
-        "high": 0.045392976735950774
-      },
-      "vsChampion": {
-        "weighted": -0.004659979644311085,
-        "miss": 0,
-        "hit": -0.0050000000000000044,
-        "low": -0.02409991455801086,
-        "high": 0.015032192401003619
-      },
-      "buckets": {
-        "read but wrong": {
-          "miss": 11,
-          "hit": 15
-        },
-        "abstained": {
-          "miss": 17,
-          "hit": 6
-        },
-        "never found": {
-          "miss": 25,
-          "hit": 2
-        },
-        "correct": {
-          "miss": 47,
-          "hit": 177
-        }
-      },
-      "wallMs": 2030.4866666666667,
-      "wallX": 2.661665042668193,
-      "calls": 0.5666666666666667,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "p1@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8566780051424898,
-      "miss": 0.4,
-      "hit": 0.89,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.006120366402399768,
-        "miss": 0.09000000000000002,
-        "hit": 0,
-        "low": 0.0027946878549771625,
-        "high": 0.009235120771796668
-      },
-      "vsChampion": {
-        "weighted": -0.004760284979644314,
-        "miss": -0.06999999999999995,
-        "hit": 0,
-        "low": -0.0367955460888133,
-        "high": 0.02425028010366237
-      },
-      "buckets": {
-        "never found": {
-          "miss": 43,
-          "hit": 0
-        },
-        "correct": {
-          "miss": 40,
-          "hit": 178
-        },
-        "read but wrong": {
-          "miss": 11,
+          "miss": 10,
           "hit": 22
         },
         "abstained": {
@@ -2562,248 +517,432 @@
           "hit": 0
         }
       },
-      "wallMs": 1228.4266666666667,
-      "wallX": 1.610284061365295,
-      "calls": 1.03,
+      "wallMs": 1245.5966666666666,
+      "wallX": 0.6843586775769741,
+      "calls": 1.0366666666666666,
       "reloads": 0,
       "outputLimit": 0
     },
     {
-      "variant": "h4@1+cold",
+      "variant": "a5@1+cold",
       "n": 300,
       "graded": 300,
-      "weighted": 0.8555185343904007,
-      "miss": 0.52,
-      "hit": 0.88,
+      "weighted": 0.8546378830083565,
+      "miss": 0.37,
+      "hit": 0.89,
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": 0.004960895650310659,
-        "miss": 0.21000000000000002,
-        "hit": -0.010000000000000009,
-        "low": -0.007019495846025792,
-        "high": 0.015218715996586085
+        "weighted": -0.006800407113777607,
+        "miss": -0.09999999999999998,
+        "hit": 0,
+        "low": -0.038851516787842266,
+        "high": 0.023007358551860646
       },
       "vsChampion": {
-        "weighted": -0.005919755731733423,
-        "miss": 0.050000000000000044,
-        "hit": -0.010000000000000009,
-        "low": -0.037279837154489015,
-        "high": 0.024079598983983486
+        "weighted": -0.006800407113777607,
+        "miss": -0.09999999999999998,
+        "hit": 0,
+        "low": -0.038851516787842266,
+        "high": 0.023007358551860646
       },
       "buckets": {
-        "correct": {
-          "miss": 52,
-          "hit": 176
-        },
         "never found": {
-          "miss": 30,
+          "miss": 50,
           "hit": 0
         },
+        "correct": {
+          "miss": 37,
+          "hit": 178
+        },
         "read but wrong": {
-          "miss": 15,
-          "hit": 24
+          "miss": 10,
+          "hit": 22
         },
         "abstained": {
           "miss": 3,
           "hit": 0
         }
       },
-      "wallMs": 2017.0333333333333,
-      "wallX": 2.644029730095823,
-      "calls": 5.963333333333333,
+      "wallMs": 987.2333333333333,
+      "wallX": 0.5424080816368392,
+      "calls": 2.0766666666666667,
       "reloads": 0,
       "outputLimit": 0
     },
     {
-      "variant": "x2@1+cold",
+      "variant": "o11@1+cold",
       "n": 300,
       "graded": 300,
-      "weighted": 0.8541584529676451,
-      "miss": 0.5,
-      "hit": 0.88,
+      "weighted": 0.8519177201628455,
+      "miss": 0.33,
+      "hit": 0.89,
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": 0.0036008142275550936,
-        "miss": 0.19,
-        "hit": -0.010000000000000009,
-        "low": -0.018267176075733804,
-        "high": 0.026321070392827828
+        "weighted": -0.009520569959288627,
+        "miss": -0.13999999999999996,
+        "hit": 0,
+        "low": -0.04125458220165745,
+        "high": 0.020117877386896077
       },
       "vsChampion": {
-        "weighted": -0.007279837154488988,
-        "miss": 0.030000000000000027,
-        "hit": -0.010000000000000009,
-        "low": -0.030391171593333266,
-        "high": 0.015676755927452102
+        "weighted": -0.009520569959288627,
+        "miss": -0.13999999999999996,
+        "hit": 0,
+        "low": -0.04125458220165745,
+        "high": 0.020117877386896077
       },
       "buckets": {
-        "read but wrong": {
-          "miss": 17,
-          "hit": 17
-        },
         "never found": {
-          "miss": 31,
-          "hit": 7
+          "miss": 54,
+          "hit": 0
         },
         "correct": {
-          "miss": 50,
-          "hit": 176
+          "miss": 33,
+          "hit": 178
+        },
+        "read but wrong": {
+          "miss": 7,
+          "hit": 22
         },
         "abstained": {
-          "miss": 2,
+          "miss": 6,
           "hit": 0
         }
       },
-      "wallMs": 1748.4233333333334,
-      "wallX": 2.2919221005072994,
-      "calls": 4.17,
+      "wallMs": 753.1933333333334,
+      "wallX": 0.4138212692389402,
+      "calls": 1.0366666666666666,
       "reloads": 0,
       "outputLimit": 0
     },
     {
-      "variant": "k4@1+cold",
+      "variant": "r2@1+cold",
       "n": 300,
       "graded": 300,
-      "weighted": 0.8521183308335119,
-      "miss": 0.47,
-      "hit": 0.88,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": 0.0015606920934218005,
-        "miss": 0.15999999999999998,
-        "hit": -0.010000000000000009,
-        "low": -0.013099993070539662,
-        "high": 0.012315697922589353
-      },
-      "vsChampion": {
-        "weighted": -0.009319959288622282,
-        "miss": 0,
-        "hit": -0.010000000000000009,
-        "low": -0.0392179157248741,
-        "high": 0.01874268791423417
-      },
-      "buckets": {
-        "read but wrong": {
-          "miss": 14,
-          "hit": 19
-        },
-        "never found": {
-          "miss": 37,
-          "hit": 5
-        },
-        "correct": {
-          "miss": 47,
-          "hit": 176
-        },
-        "abstained": {
-          "miss": 2,
-          "hit": 0
-        }
-      },
-      "wallMs": 1267.61,
-      "wallX": 1.661647564657715,
-      "calls": 4.873333333333333,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "g6@1+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8506579440754233,
-      "miss": 0.38,
+      "weighted": 0.851337984786801,
+      "miss": 0.39,
       "hit": 0.885,
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": 0.00010030533533322838,
-        "miss": 0.07,
+        "weighted": -0.010100305335333126,
+        "miss": -0.07999999999999996,
         "hit": -0.0050000000000000044,
-        "low": -0.012256516028033015,
-        "high": 0.008698195145529497
+        "low": -0.04425034291949992,
+        "high": 0.021554259501049056
       },
       "vsChampion": {
-        "weighted": -0.010780346046710854,
-        "miss": -0.08999999999999997,
+        "weighted": -0.010100305335333126,
+        "miss": -0.07999999999999996,
         "hit": -0.0050000000000000044,
-        "low": -0.04183744154294089,
-        "high": 0.017602524413198317
+        "low": -0.04425034291949992,
+        "high": 0.021554259501049056
       },
       "buckets": {
-        "shown not opened": {
-          "miss": 17,
-          "hit": 0
-        },
         "never found": {
-          "miss": 29,
+          "miss": 47,
           "hit": 0
         },
         "correct": {
-          "miss": 38,
+          "miss": 39,
           "hit": 177
         },
         "read but wrong": {
-          "miss": 9,
+          "miss": 10,
           "hit": 23
+        },
+        "abstained": {
+          "miss": 4,
+          "hit": 0
+        }
+      },
+      "wallMs": 1386.3133333333333,
+      "wallX": 0.7616715626304879,
+      "calls": 1.03,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "gates@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.85055763874009,
+      "miss": 0.31,
+      "hit": 0.89,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.010880651382044082,
+        "miss": -0.15999999999999998,
+        "hit": 0,
+        "low": -0.04275905341436537,
+        "high": 0.019825170741009313
+      },
+      "vsChampion": {
+        "weighted": -0.010880651382044082,
+        "miss": -0.15999999999999998,
+        "hit": 0,
+        "low": -0.04275905341436537,
+        "high": 0.019825170741009313
+      },
+      "buckets": {
+        "never found": {
+          "miss": 55,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 31,
+          "hit": 178
+        },
+        "read but wrong": {
+          "miss": 7,
+          "hit": 22
         },
         "abstained": {
           "miss": 7,
           "hit": 0
         }
       },
-      "wallMs": 1636.9666666666667,
-      "wallX": 2.145819041418515,
-      "calls": 2.6633333333333336,
+      "wallMs": 762.8633333333333,
+      "wallX": 0.4191341835949805,
+      "calls": 1.0366666666666666,
       "reloads": 0,
       "outputLimit": 0
     },
     {
-      "variant": "h6@1+cold",
+      "variant": "a4@1+cold",
       "n": 300,
       "graded": 300,
-      "weighted": 0.8501785140347118,
-      "miss": 0.51,
-      "hit": 0.875,
+      "weighted": 0.85055763874009,
+      "miss": 0.31,
+      "hit": 0.89,
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": -0.00037912470537826426,
-        "miss": 0.2,
-        "hit": -0.015000000000000013,
-        "low": -0.014745553889008,
-        "high": 0.012364222118462775
+        "weighted": -0.010880651382044082,
+        "miss": -0.15999999999999998,
+        "hit": 0,
+        "low": -0.04275905341436537,
+        "high": 0.019825170741009313
       },
       "vsChampion": {
-        "weighted": -0.011259776087422346,
-        "miss": 0.040000000000000036,
-        "hit": -0.015000000000000013,
-        "low": -0.04233421756499334,
-        "high": 0.01920661917005939
+        "weighted": -0.010880651382044082,
+        "miss": -0.15999999999999998,
+        "hit": 0,
+        "low": -0.04275905341436537,
+        "high": 0.019825170741009313
       },
       "buckets": {
-        "correct": {
-          "miss": 51,
-          "hit": 175
-        },
         "never found": {
-          "miss": 30,
+          "miss": 55,
           "hit": 0
         },
+        "correct": {
+          "miss": 31,
+          "hit": 178
+        },
         "read but wrong": {
-          "miss": 16,
-          "hit": 25
+          "miss": 7,
+          "hit": 22
         },
         "abstained": {
-          "miss": 3,
+          "miss": 7,
           "hit": 0
         }
       },
-      "wallMs": 1991.27,
-      "wallX": 2.6102578443495776,
-      "calls": 5.963333333333333,
+      "wallMs": 791.8833333333333,
+      "wallX": 0.435078420886841,
+      "calls": 1.14,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "o6@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.85055763874009,
+      "miss": 0.31,
+      "hit": 0.89,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.010880651382044082,
+        "miss": -0.15999999999999998,
+        "hit": 0,
+        "low": -0.04275905341436537,
+        "high": 0.019825170741009313
+      },
+      "vsChampion": {
+        "weighted": -0.010880651382044082,
+        "miss": -0.15999999999999998,
+        "hit": 0,
+        "low": -0.04275905341436537,
+        "high": 0.019825170741009313
+      },
+      "buckets": {
+        "never found": {
+          "miss": 55,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 31,
+          "hit": 178
+        },
+        "read but wrong": {
+          "miss": 7,
+          "hit": 22
+        },
+        "abstained": {
+          "miss": 7,
+          "hit": 0
+        }
+      },
+      "wallMs": 750.04,
+      "wallX": 0.4120887573531028,
+      "calls": 1.0366666666666666,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "n-lp0@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.85055763874009,
+      "miss": 0.31,
+      "hit": 0.89,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.010880651382044082,
+        "miss": -0.15999999999999998,
+        "hit": 0,
+        "low": -0.04275905341436537,
+        "high": 0.019825170741009313
+      },
+      "vsChampion": {
+        "weighted": -0.010880651382044082,
+        "miss": -0.15999999999999998,
+        "hit": 0,
+        "low": -0.04275905341436537,
+        "high": 0.019825170741009313
+      },
+      "buckets": {
+        "never found": {
+          "miss": 55,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 31,
+          "hit": 178
+        },
+        "read but wrong": {
+          "miss": 7,
+          "hit": 22
+        },
+        "abstained": {
+          "miss": 7,
+          "hit": 0
+        }
+      },
+      "wallMs": 2036.1233333333332,
+      "wallX": 1.1186917154431641,
+      "calls": 3.0366666666666666,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "s2@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8500782086993786,
+      "miss": 0.44,
+      "hit": 0.88,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.011360081422755575,
+        "miss": -0.02999999999999997,
+        "hit": -0.010000000000000009,
+        "low": -0.03985061225568487,
+        "high": 0.021371362114326775
+      },
+      "vsChampion": {
+        "weighted": -0.011360081422755575,
+        "miss": -0.02999999999999997,
+        "hit": -0.010000000000000009,
+        "low": -0.03985061225568487,
+        "high": 0.021371362114326775
+      },
+      "buckets": {
+        "abstained": {
+          "miss": 7,
+          "hit": 0
+        },
+        "never found": {
+          "miss": 42,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 44,
+          "hit": 176
+        },
+        "read but wrong": {
+          "miss": 7,
+          "hit": 24
+        }
+      },
+      "wallMs": 1113.64,
+      "wallX": 0.6118587325192115,
+      "calls": 1.0433333333333332,
+      "reloads": 0,
+      "outputLimit": 1
+    },
+    {
+      "variant": "w6@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8499779033640454,
+      "miss": 0.37,
+      "hit": 0.885,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.011460386758088692,
+        "miss": -0.09999999999999998,
+        "hit": -0.0050000000000000044,
+        "low": -0.04795007798003781,
+        "high": 0.021445471697909002
+      },
+      "vsChampion": {
+        "weighted": -0.011460386758088692,
+        "miss": -0.09999999999999998,
+        "hit": -0.0050000000000000044,
+        "low": -0.04795007798003781,
+        "high": 0.021445471697909002
+      },
+      "buckets": {
+        "read but wrong": {
+          "miss": 17,
+          "hit": 23
+        },
+        "never found": {
+          "miss": 41,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 37,
+          "hit": 177
+        },
+        "abstained": {
+          "miss": 5,
+          "hit": 0
+        }
+      },
+      "wallMs": 2153.6766666666667,
+      "wallX": 1.1832781469082172,
+      "calls": 13.73,
       "reloads": 0,
       "outputLimit": 0
     },
@@ -2817,11 +956,11 @@
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": -0.00057973537604461,
-        "miss": 0.06,
+        "weighted": -0.011460386758088692,
+        "miss": -0.09999999999999998,
         "hit": -0.0050000000000000044,
-        "low": -0.013202176503012253,
-        "high": 0.008095722754497103
+        "low": -0.04277199354693961,
+        "high": 0.0172507052226899
       },
       "vsChampion": {
         "weighted": -0.011460386758088692,
@@ -2853,8 +992,1971 @@
         }
       },
       "wallMs": 1667.4333333333334,
-      "wallX": 2.1857562953608993,
+      "wallX": 0.9161251803936795,
       "calls": 2.6533333333333333,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "r1@2+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8473580458538675,
+      "miss": 0.4,
+      "hit": 0.88,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.014080244268266595,
+        "miss": -0.06999999999999995,
+        "hit": -0.010000000000000009,
+        "low": -0.04761904761904745,
+        "high": 0.017473979009412166
+      },
+      "vsChampion": {
+        "weighted": -0.014080244268266595,
+        "miss": -0.06999999999999995,
+        "hit": -0.010000000000000009,
+        "low": -0.04761904761904745,
+        "high": 0.017473979009412166
+      },
+      "buckets": {
+        "never found": {
+          "miss": 49,
+          "hit": 1
+        },
+        "read but wrong": {
+          "miss": 9,
+          "hit": 23
+        },
+        "correct": {
+          "miss": 40,
+          "hit": 176
+        },
+        "abstained": {
+          "miss": 2,
+          "hit": 0
+        }
+      },
+      "wallMs": 1465.11,
+      "wallX": 0.804964214289377,
+      "calls": 1.03,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "w4@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8472577405185344,
+      "miss": 0.33,
+      "hit": 0.885,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.014180549603599713,
+        "miss": -0.13999999999999996,
+        "hit": -0.0050000000000000044,
+        "low": -0.0460569626800057,
+        "high": 0.015320457178901514
+      },
+      "vsChampion": {
+        "weighted": -0.014180549603599713,
+        "miss": -0.13999999999999996,
+        "hit": -0.0050000000000000044,
+        "low": -0.0460569626800057,
+        "high": 0.015320457178901514
+      },
+      "buckets": {
+        "abstained": {
+          "miss": 9,
+          "hit": 0
+        },
+        "never found": {
+          "miss": 47,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 33,
+          "hit": 177
+        },
+        "read but wrong": {
+          "miss": 11,
+          "hit": 23
+        }
+      },
+      "wallMs": 1752.4566666666667,
+      "wallX": 0.962838902034328,
+      "calls": 8.73,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "o5@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8465776998071567,
+      "miss": 0.32,
+      "hit": 0.885,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.01486059031497744,
+        "miss": -0.14999999999999997,
+        "hit": -0.0050000000000000044,
+        "low": -0.05473754659857233,
+        "high": 0.03187815541813932
+      },
+      "vsChampion": {
+        "weighted": -0.01486059031497744,
+        "miss": -0.14999999999999997,
+        "hit": -0.0050000000000000044,
+        "low": -0.05473754659857233,
+        "high": 0.03187815541813932
+      },
+      "buckets": {
+        "never found": {
+          "miss": 62,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 32,
+          "hit": 177
+        },
+        "read but wrong": {
+          "miss": 6,
+          "hit": 23
+        }
+      },
+      "wallMs": 759.2766666666666,
+      "wallX": 0.41716358868043396,
+      "calls": 1.0166666666666666,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "o9@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8465776998071567,
+      "miss": 0.32,
+      "hit": 0.885,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.01486059031497744,
+        "miss": -0.14999999999999997,
+        "hit": -0.0050000000000000044,
+        "low": -0.049666172833774724,
+        "high": 0.016525163018845213
+      },
+      "vsChampion": {
+        "weighted": -0.01486059031497744,
+        "miss": -0.14999999999999997,
+        "hit": -0.0050000000000000044,
+        "low": -0.049666172833774724,
+        "high": 0.016525163018845213
+      },
+      "buckets": {
+        "abstained": {
+          "miss": 7,
+          "hit": 0
+        },
+        "never found": {
+          "miss": 54,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 32,
+          "hit": 177
+        },
+        "read but wrong": {
+          "miss": 7,
+          "hit": 23
+        }
+      },
+      "wallMs": 762.6433333333333,
+      "wallX": 0.41901331067271275,
+      "calls": 1.04,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "o3@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8453179237197342,
+      "miss": 0.37,
+      "hit": 0.88,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.01612036640239989,
+        "miss": -0.09999999999999998,
+        "hit": -0.010000000000000009,
+        "low": -0.048501613136655686,
+        "high": 0.013374223720706624
+      },
+      "vsChampion": {
+        "weighted": -0.01612036640239989,
+        "miss": -0.09999999999999998,
+        "hit": -0.010000000000000009,
+        "low": -0.048501613136655686,
+        "high": 0.013374223720706624
+      },
+      "buckets": {
+        "never found": {
+          "miss": 50,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 37,
+          "hit": 176
+        },
+        "read but wrong": {
+          "miss": 8,
+          "hit": 24
+        },
+        "abstained": {
+          "miss": 5,
+          "hit": 0
+        }
+      },
+      "wallMs": 764.33,
+      "wallX": 0.4199400030767653,
+      "calls": 1.0333333333333334,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "o7@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8419177201628455,
+      "miss": 0.32,
+      "hit": 0.88,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.019520569959288636,
+        "miss": -0.14999999999999997,
+        "hit": -0.010000000000000009,
+        "low": -0.04820850001745125,
+        "high": 0.011519963975787473
+      },
+      "vsChampion": {
+        "weighted": -0.019520569959288636,
+        "miss": -0.14999999999999997,
+        "hit": -0.010000000000000009,
+        "low": -0.04820850001745125,
+        "high": 0.011519963975787473
+      },
+      "buckets": {
+        "never found": {
+          "miss": 55,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 32,
+          "hit": 176
+        },
+        "abstained": {
+          "miss": 8,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 5,
+          "hit": 24
+        }
+      },
+      "wallMs": 779.6266666666667,
+      "wallX": 0.42834433399019833,
+      "calls": 1.0433333333333332,
+      "reloads": 0,
+      "outputLimit": 1
+    },
+    {
+      "variant": "a1@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8412376794514678,
+      "miss": 0.31,
+      "hit": 0.88,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.020200610670666364,
+        "miss": -0.15999999999999998,
+        "hit": -0.010000000000000009,
+        "low": -0.061376012269013125,
+        "high": 0.021185231746339794
+      },
+      "vsChampion": {
+        "weighted": -0.020200610670666364,
+        "miss": -0.15999999999999998,
+        "hit": -0.010000000000000009,
+        "low": -0.061376012269013125,
+        "high": 0.021185231746339794
+      },
+      "buckets": {
+        "never found": {
+          "miss": 54,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 31,
+          "hit": 176
+        },
+        "abstained": {
+          "miss": 7,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 8,
+          "hit": 24
+        }
+      },
+      "wallMs": 1128.2433333333333,
+      "wallX": 0.6198821305867098,
+      "calls": 2.01,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "o2@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.833277801585601,
+      "miss": 0.33,
+      "hit": 0.87,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.02816048853653308,
+        "miss": -0.13999999999999996,
+        "hit": -0.020000000000000018,
+        "low": -0.0632372300340176,
+        "high": 0.010316909940987884
+      },
+      "vsChampion": {
+        "weighted": -0.02816048853653308,
+        "miss": -0.13999999999999996,
+        "hit": -0.020000000000000018,
+        "low": -0.0632372300340176,
+        "high": 0.010316909940987884
+      },
+      "buckets": {
+        "abstained": {
+          "miss": 8,
+          "hit": 0
+        },
+        "never found": {
+          "miss": 54,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 33,
+          "hit": 174
+        },
+        "read but wrong": {
+          "miss": 5,
+          "hit": 26
+        }
+      },
+      "wallMs": 1042.3,
+      "wallX": 0.5726629403620327,
+      "calls": 1.04,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "k2@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8321183308335119,
+      "miss": 0.45,
+      "hit": 0.86,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.029319959288622188,
+        "miss": -0.019999999999999962,
+        "hit": -0.030000000000000027,
+        "low": -0.0681149585452473,
+        "high": 0.007988530022834617
+      },
+      "vsChampion": {
+        "weighted": -0.029319959288622188,
+        "miss": -0.019999999999999962,
+        "hit": -0.030000000000000027,
+        "low": -0.0681149585452473,
+        "high": 0.007988530022834617
+      },
+      "buckets": {
+        "read but wrong": {
+          "miss": 12,
+          "hit": 23
+        },
+        "never found": {
+          "miss": 39,
+          "hit": 5
+        },
+        "correct": {
+          "miss": 45,
+          "hit": 172
+        },
+        "abstained": {
+          "miss": 4,
+          "hit": 0
+        }
+      },
+      "wallMs": 998.55,
+      "wallX": 0.5486257115019743,
+      "calls": 2.9233333333333333,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "a3@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8272577405185344,
+      "miss": 0.31,
+      "hit": 0.865,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.03418054960359973,
+        "miss": -0.15999999999999998,
+        "hit": -0.025000000000000022,
+        "low": -0.0686773216168951,
+        "high": -0.0013793293685542274
+      },
+      "vsChampion": {
+        "weighted": -0.03418054960359973,
+        "miss": -0.15999999999999998,
+        "hit": -0.025000000000000022,
+        "low": -0.0686773216168951,
+        "high": -0.0013793293685542274
+      },
+      "buckets": {
+        "never found": {
+          "miss": 53,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 31,
+          "hit": 173
+        },
+        "abstained": {
+          "miss": 9,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 7,
+          "hit": 27
+        }
+      },
+      "wallMs": 917.5933333333334,
+      "wallX": 0.5041463075153656,
+      "calls": 2.1033333333333335,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "a2@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8153179237197343,
+      "miss": 0.34,
+      "hit": 0.85,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.046120366402399804,
+        "miss": -0.12999999999999995,
+        "hit": -0.040000000000000036,
+        "low": -0.09036193124683911,
+        "high": -0.005222867484255378
+      },
+      "vsChampion": {
+        "weighted": -0.046120366402399804,
+        "miss": -0.12999999999999995,
+        "hit": -0.040000000000000036,
+        "low": -0.09036193124683911,
+        "high": -0.005222867484255378
+      },
+      "buckets": {
+        "correct": {
+          "miss": 34,
+          "hit": 170
+        },
+        "shown not opened": {
+          "miss": 19,
+          "hit": 9
+        },
+        "never found": {
+          "miss": 31,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 12,
+          "hit": 21
+        },
+        "abstained": {
+          "miss": 4,
+          "hit": 0
+        }
+      },
+      "wallMs": 1057.0166666666667,
+      "wallX": 0.5807486062985782,
+      "calls": 2.203333333333333,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "pb@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8142366616670238,
+      "miss": 0.05,
+      "hit": 0.87,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.047201628455110334,
+        "miss": -0.42,
+        "hit": -0.020000000000000018,
+        "low": -0.10896160269590294,
+        "high": 0.014513665430555989
+      },
+      "vsChampion": {
+        "weighted": -0.047201628455110334,
+        "miss": -0.42,
+        "hit": -0.020000000000000018,
+        "low": -0.10896160269590294,
+        "high": 0.014513665430555989
+      },
+      "buckets": {
+        "abstained": {
+          "miss": 30,
+          "hit": 0
+        },
+        "never found": {
+          "miss": 65,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 5,
+          "hit": 174
+        },
+        "read but wrong": {
+          "miss": 0,
+          "hit": 26
+        }
+      },
+      "wallMs": 652.95,
+      "wallX": 0.35874533906686107,
+      "calls": 1,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "w2@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8045375776730234,
+      "miss": 0.25,
+      "hit": 0.845,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.05690071244911077,
+        "miss": -0.21999999999999997,
+        "hit": -0.04500000000000004,
+        "low": -0.09823447962273135,
+        "high": -0.010895132641292271
+      },
+      "vsChampion": {
+        "weighted": -0.05690071244911077,
+        "miss": -0.21999999999999997,
+        "hit": -0.04500000000000004,
+        "low": -0.09823447962273135,
+        "high": -0.010895132641292271
+      },
+      "buckets": {
+        "never found": {
+          "miss": 65,
+          "hit": 9
+        },
+        "correct": {
+          "miss": 25,
+          "hit": 169
+        },
+        "abstained": {
+          "miss": 6,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 4,
+          "hit": 22
+        }
+      },
+      "wallMs": 523.4066666666666,
+      "wallX": 0.2875713333382171,
+      "calls": 1.44,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "o1@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8039578422969788,
+      "miss": 0.31,
+      "hit": 0.84,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.05748044782515538,
+        "miss": -0.15999999999999998,
+        "hit": -0.050000000000000044,
+        "low": -0.09924368336624612,
+        "high": -0.015196795580903588
+      },
+      "vsChampion": {
+        "weighted": -0.05748044782515538,
+        "miss": -0.15999999999999998,
+        "hit": -0.050000000000000044,
+        "low": -0.09924368336624612,
+        "high": -0.015196795580903588
+      },
+      "buckets": {
+        "abstained": {
+          "miss": 11,
+          "hit": 0
+        },
+        "never found": {
+          "miss": 51,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 31,
+          "hit": 168
+        },
+        "read but wrong": {
+          "miss": 7,
+          "hit": 32
+        }
+      },
+      "wallMs": 925.4066666666666,
+      "wallX": 0.5084391276637829,
+      "calls": 1.05,
+      "reloads": 0,
+      "outputLimit": 1
+    },
+    {
+      "variant": "g1@1+cold",
+      "n": 30,
+      "graded": 30,
+      "weighted": null,
+      "miss": 0.3333333333333333,
+      "hit": null,
+      "nMiss": 30,
+      "nHit": 0,
+      "vsBaseline": {
+        "weighted": null,
+        "miss": -0.23333333333333334,
+        "hit": null
+      },
+      "vsChampion": {
+        "weighted": null,
+        "miss": -0.23333333333333334,
+        "hit": null
+      },
+      "buckets": {
+        "never found": {
+          "miss": 17,
+          "hit": 0
+        },
+        "shown not opened": {
+          "miss": 1,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 10,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 1,
+          "hit": 0
+        },
+        "abstained": {
+          "miss": 1,
+          "hit": 0
+        }
+      },
+      "wallMs": 1431.5333333333333,
+      "wallX": 0.7865164423802442,
+      "calls": 3.8,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "g2@1+cold",
+      "n": 30,
+      "graded": 30,
+      "weighted": null,
+      "miss": 0.4666666666666667,
+      "hit": null,
+      "nMiss": 30,
+      "nHit": 0,
+      "vsBaseline": {
+        "weighted": null,
+        "miss": -0.09999999999999998,
+        "hit": null
+      },
+      "vsChampion": {
+        "weighted": null,
+        "miss": -0.09999999999999998,
+        "hit": null
+      },
+      "buckets": {
+        "shown not opened": {
+          "miss": 4,
+          "hit": 0
+        },
+        "never found": {
+          "miss": 10,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 14,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 2,
+          "hit": 0
+        }
+      },
+      "wallMs": 1800.3,
+      "wallX": 0.9891250998117312,
+      "calls": 2.7666666666666666,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "j2@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.869398167988001,
+      "miss": 0.45,
+      "hit": 0.9,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": 0.007959877865866827,
+        "miss": -0.019999999999999962,
+        "hit": 0.010000000000000009,
+        "low": -0.002487953822113753,
+        "high": 0.023535250728843993
+      },
+      "vsChampion": {
+        "weighted": 0.007959877865866827,
+        "miss": -0.019999999999999962,
+        "hit": 0.010000000000000009,
+        "low": -0.002487953822113753,
+        "high": 0.023535250728843993
+      },
+      "buckets": {
+        "read but wrong": {
+          "miss": 17,
+          "hit": 14
+        },
+        "never found": {
+          "miss": 33,
+          "hit": 6
+        },
+        "correct": {
+          "miss": 45,
+          "hit": 180
+        },
+        "shown not opened": {
+          "miss": 3,
+          "hit": 0
+        },
+        "abstained": {
+          "miss": 2,
+          "hit": 0
+        }
+      },
+      "wallMs": 1778.2733333333333,
+      "wallX": 0.9770231563216538,
+      "calls": 5.5,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "e1@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8674583511892008,
+      "miss": 0.49,
+      "hit": 0.895,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": 0.006020061067066651,
+        "miss": 0.020000000000000018,
+        "hit": 0.0050000000000000044,
+        "low": -0.008868633828002292,
+        "high": 0.02244353538757471
+      },
+      "vsChampion": {
+        "weighted": 0.006020061067066651,
+        "miss": 0.020000000000000018,
+        "hit": 0.0050000000000000044,
+        "low": -0.008868633828002292,
+        "high": 0.02244353538757471
+      },
+      "buckets": {
+        "read but wrong": {
+          "miss": 19,
+          "hit": 16
+        },
+        "never found": {
+          "miss": 29,
+          "hit": 5
+        },
+        "correct": {
+          "miss": 49,
+          "hit": 179
+        },
+        "shown not opened": {
+          "miss": 1,
+          "hit": 0
+        },
+        "abstained": {
+          "miss": 2,
+          "hit": 0
+        }
+      },
+      "wallMs": 2004.2766666666666,
+      "wallX": 1.1011944442409547,
+      "calls": 5.973333333333334,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "h8@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8660982697664452,
+      "miss": 0.47,
+      "hit": 0.895,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": 0.004659979644311085,
+        "miss": 0,
+        "hit": 0.0050000000000000044,
+        "low": -0.009862390781610886,
+        "high": 0.021775605814537857
+      },
+      "vsChampion": {
+        "weighted": 0.004659979644311085,
+        "miss": 0,
+        "hit": 0.0050000000000000044,
+        "low": -0.009862390781610886,
+        "high": 0.021775605814537857
+      },
+      "buckets": {
+        "read but wrong": {
+          "miss": 16,
+          "hit": 14
+        },
+        "never found": {
+          "miss": 33,
+          "hit": 7
+        },
+        "correct": {
+          "miss": 47,
+          "hit": 179
+        },
+        "shown not opened": {
+          "miss": 2,
+          "hit": 0
+        },
+        "abstained": {
+          "miss": 2,
+          "hit": 0
+        }
+      },
+      "wallMs": 1971.08,
+      "wallX": 1.0829554528339207,
+      "calls": 6.86,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "m3@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8655185343904007,
+      "miss": 0.53,
+      "hit": 0.89,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": 0.004080244268266586,
+        "miss": 0.06000000000000005,
+        "hit": 0,
+        "low": 0.0007816559900893916,
+        "high": 0.008892840071862973
+      },
+      "vsChampion": {
+        "weighted": 0.004080244268266586,
+        "miss": 0.06000000000000005,
+        "hit": 0,
+        "low": 0.0007816559900893916,
+        "high": 0.008892840071862973
+      },
+      "buckets": {
+        "read but wrong": {
+          "miss": 17,
+          "hit": 15
+        },
+        "never found": {
+          "miss": 26,
+          "hit": 6
+        },
+        "correct": {
+          "miss": 53,
+          "hit": 178
+        },
+        "shown not opened": {
+          "miss": 3,
+          "hit": 1
+        },
+        "abstained": {
+          "miss": 1,
+          "hit": 0
+        }
+      },
+      "wallMs": 2430.096666666667,
+      "wallX": 1.3351494795138712,
+      "calls": 7.303333333333334,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "z-ext1@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8654182290550675,
+      "miss": 0.46,
+      "hit": 0.895,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": 0.003979938932933358,
+        "miss": -0.009999999999999953,
+        "hit": 0.0050000000000000044,
+        "low": -0.016155371142412278,
+        "high": 0.023299898221555537
+      },
+      "vsChampion": {
+        "weighted": 0.003979938932933358,
+        "miss": -0.009999999999999953,
+        "hit": 0.0050000000000000044,
+        "low": -0.016155371142412278,
+        "high": 0.023299898221555537
+      },
+      "buckets": {
+        "correct": {
+          "miss": 46,
+          "hit": 179
+        },
+        "never found": {
+          "miss": 38,
+          "hit": 3
+        },
+        "read but wrong": {
+          "miss": 15,
+          "hit": 18
+        },
+        "abstained": {
+          "miss": 1,
+          "hit": 0
+        }
+      },
+      "wallMs": 458.35333333333335,
+      "wallX": 0.2518295765052342,
+      "calls": 0.5666666666666667,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "n-g6@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8653179237197344,
+      "miss": 0.39,
+      "hit": 0.9,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": 0.0038796335976002405,
+        "miss": -0.07999999999999996,
+        "hit": 0.010000000000000009,
+        "low": -0.022620934209478305,
+        "high": 0.02850637926519206
+      },
+      "vsChampion": {
+        "weighted": 0.0038796335976002405,
+        "miss": -0.07999999999999996,
+        "hit": 0.010000000000000009,
+        "low": -0.022620934209478305,
+        "high": 0.02850637926519206
+      },
+      "buckets": {
+        "never found": {
+          "miss": 47,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 39,
+          "hit": 180
+        },
+        "read but wrong": {
+          "miss": 9,
+          "hit": 20
+        },
+        "abstained": {
+          "miss": 5,
+          "hit": 0
+        }
+      },
+      "wallMs": 1253.8733333333332,
+      "wallX": 0.6889060634253188,
+      "calls": 1.5266666666666666,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "h7@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8647381883436898,
+      "miss": 0.45,
+      "hit": 0.895,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": 0.0032998982215556305,
+        "miss": -0.019999999999999962,
+        "hit": 0.0050000000000000044,
+        "low": -0.012227749777707464,
+        "high": 0.01975321682254072
+      },
+      "vsChampion": {
+        "weighted": 0.0032998982215556305,
+        "miss": -0.019999999999999962,
+        "hit": 0.0050000000000000044,
+        "low": -0.012227749777707464,
+        "high": 0.01975321682254072
+      },
+      "buckets": {
+        "read but wrong": {
+          "miss": 17,
+          "hit": 15
+        },
+        "never found": {
+          "miss": 33,
+          "hit": 6
+        },
+        "correct": {
+          "miss": 45,
+          "hit": 179
+        },
+        "shown not opened": {
+          "miss": 3,
+          "hit": 0
+        },
+        "abstained": {
+          "miss": 2,
+          "hit": 0
+        }
+      },
+      "wallMs": 1791.7933333333333,
+      "wallX": 0.9844513468173793,
+      "calls": 5.53,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "n-g5@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8646378830083566,
+      "miss": 0.38,
+      "hit": 0.9,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": 0.003199592886222513,
+        "miss": -0.08999999999999997,
+        "hit": 0.010000000000000009,
+        "low": -0.023370721630644464,
+        "high": 0.027628359864618424
+      },
+      "vsChampion": {
+        "weighted": 0.003199592886222513,
+        "miss": -0.08999999999999997,
+        "hit": 0.010000000000000009,
+        "low": -0.023370721630644464,
+        "high": 0.027628359864618424
+      },
+      "buckets": {
+        "never found": {
+          "miss": 49,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 38,
+          "hit": 180
+        },
+        "read but wrong": {
+          "miss": 8,
+          "hit": 20
+        },
+        "abstained": {
+          "miss": 5,
+          "hit": 0
+        }
+      },
+      "wallMs": 1241.03,
+      "wallX": 0.6818496487359623,
+      "calls": 1.39,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "m1@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.862118330833512,
+      "miss": 0.48,
+      "hit": 0.89,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": 0.0006800407113778384,
+        "miss": 0.010000000000000009,
+        "hit": 0,
+        "low": 0,
+        "high": 0.0022296416766484084
+      },
+      "vsChampion": {
+        "weighted": 0.0006800407113778384,
+        "miss": 0.010000000000000009,
+        "hit": 0,
+        "low": 0,
+        "high": 0.0022296416766484084
+      },
+      "buckets": {
+        "read but wrong": {
+          "miss": 17,
+          "hit": 15
+        },
+        "never found": {
+          "miss": 30,
+          "hit": 6
+        },
+        "correct": {
+          "miss": 48,
+          "hit": 178
+        },
+        "shown not opened": {
+          "miss": 3,
+          "hit": 1
+        },
+        "abstained": {
+          "miss": 2,
+          "hit": 0
+        }
+      },
+      "wallMs": 2233.133333333333,
+      "wallX": 1.2269334173339097,
+      "calls": 6.913333333333333,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "x1@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8614382901221341,
+      "miss": 0.47,
+      "hit": 0.89,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "read but wrong": {
+          "miss": 17,
+          "hit": 15
+        },
+        "never found": {
+          "miss": 30,
+          "hit": 6
+        },
+        "correct": {
+          "miss": 47,
+          "hit": 178
+        },
+        "shown not opened": {
+          "miss": 4,
+          "hit": 1
+        },
+        "abstained": {
+          "miss": 2,
+          "hit": 0
+        }
+      },
+      "wallMs": 1820.0933333333332,
+      "wallX": 1,
+      "calls": 5.593333333333334,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "t-x1r@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8614382901221341,
+      "miss": 0.47,
+      "hit": 0.89,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": 0,
+        "miss": 0,
+        "hit": 0,
+        "low": 0,
+        "high": 0
+      },
+      "vsChampion": {
+        "weighted": 0,
+        "miss": 0,
+        "hit": 0,
+        "low": 0,
+        "high": 0
+      },
+      "buckets": {
+        "read but wrong": {
+          "miss": 17,
+          "hit": 15
+        },
+        "never found": {
+          "miss": 30,
+          "hit": 6
+        },
+        "correct": {
+          "miss": 47,
+          "hit": 178
+        },
+        "shown not opened": {
+          "miss": 4,
+          "hit": 1
+        },
+        "abstained": {
+          "miss": 2,
+          "hit": 0
+        }
+      },
+      "wallMs": 1904.2333333333333,
+      "wallX": 1.0462283985436645,
+      "calls": 5.593333333333334,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "t-lk@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8607582494107564,
+      "miss": 0.46,
+      "hit": 0.89,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.0006800407113777274,
+        "miss": -0.009999999999999953,
+        "hit": 0,
+        "low": -0.02344691342582783,
+        "high": 0.02215037664378383
+      },
+      "vsChampion": {
+        "weighted": -0.0006800407113777274,
+        "miss": -0.009999999999999953,
+        "hit": 0,
+        "low": -0.02344691342582783,
+        "high": 0.02215037664378383
+      },
+      "buckets": {
+        "abstained": {
+          "miss": 3,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 12,
+          "hit": 17
+        },
+        "never found": {
+          "miss": 39,
+          "hit": 5
+        },
+        "correct": {
+          "miss": 46,
+          "hit": 178
+        }
+      },
+      "wallMs": 1204.42,
+      "wallX": 0.6617352956258654,
+      "calls": 3.5233333333333334,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "t-lx@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8607582494107564,
+      "miss": 0.46,
+      "hit": 0.89,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.0006800407113777274,
+        "miss": -0.009999999999999953,
+        "hit": 0,
+        "low": -0.001985520325190504,
+        "high": 0
+      },
+      "vsChampion": {
+        "weighted": -0.0006800407113777274,
+        "miss": -0.009999999999999953,
+        "hit": 0,
+        "low": -0.001985520325190504,
+        "high": 0
+      },
+      "buckets": {
+        "abstained": {
+          "miss": 3,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 11,
+          "hit": 15
+        },
+        "never found": {
+          "miss": 36,
+          "hit": 6
+        },
+        "correct": {
+          "miss": 46,
+          "hit": 178
+        },
+        "shown not opened": {
+          "miss": 4,
+          "hit": 1
+        }
+      },
+      "wallMs": 1681.1,
+      "wallX": 0.9236339528375834,
+      "calls": 4.836666666666667,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "m2@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8607582494107564,
+      "miss": 0.46,
+      "hit": 0.89,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.0006800407113777274,
+        "miss": -0.009999999999999953,
+        "hit": 0,
+        "low": -0.0035791616388303193,
+        "high": 0
+      },
+      "vsChampion": {
+        "weighted": -0.0006800407113777274,
+        "miss": -0.009999999999999953,
+        "hit": 0,
+        "low": -0.0035791616388303193,
+        "high": 0
+      },
+      "buckets": {
+        "read but wrong": {
+          "miss": 19,
+          "hit": 15
+        },
+        "never found": {
+          "miss": 30,
+          "hit": 6
+        },
+        "correct": {
+          "miss": 46,
+          "hit": 178
+        },
+        "shown not opened": {
+          "miss": 3,
+          "hit": 1
+        },
+        "abstained": {
+          "miss": 2,
+          "hit": 0
+        }
+      },
+      "wallMs": 2236.6433333333334,
+      "wallX": 1.2288618898664538,
+      "calls": 6.913333333333333,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "e1o@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8600782086993787,
+      "miss": 0.45,
+      "hit": 0.89,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.0013600814227554547,
+        "miss": -0.019999999999999962,
+        "hit": 0,
+        "low": -0.004250254446110935,
+        "high": 0
+      },
+      "vsChampion": {
+        "weighted": -0.0013600814227554547,
+        "miss": -0.019999999999999962,
+        "hit": 0,
+        "low": -0.004250254446110935,
+        "high": 0
+      },
+      "buckets": {
+        "read but wrong": {
+          "miss": 20,
+          "hit": 22
+        },
+        "never found": {
+          "miss": 33,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 45,
+          "hit": 178
+        },
+        "abstained": {
+          "miss": 2,
+          "hit": 0
+        }
+      },
+      "wallMs": 0.5266666666666666,
+      "wallX": 0.00028936245027727514,
+      "calls": 0,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "p4@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8580380865652454,
+      "miss": 0.42,
+      "hit": 0.89,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.003400203556888748,
+        "miss": -0.04999999999999999,
+        "hit": 0,
+        "low": -0.035235743181581514,
+        "high": 0.025412646515958315
+      },
+      "vsChampion": {
+        "weighted": -0.003400203556888748,
+        "miss": -0.04999999999999999,
+        "hit": 0,
+        "low": -0.035235743181581514,
+        "high": 0.025412646515958315
+      },
+      "buckets": {
+        "never found": {
+          "miss": 42,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 42,
+          "hit": 178
+        },
+        "read but wrong": {
+          "miss": 11,
+          "hit": 22
+        },
+        "abstained": {
+          "miss": 4,
+          "hit": 0
+        },
+        "technical": {
+          "miss": 1,
+          "hit": 0
+        }
+      },
+      "wallMs": 1296.57,
+      "wallX": 0.7123645673848228,
+      "calls": 1.0266666666666666,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "p2@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8573580458538677,
+      "miss": 0.41,
+      "hit": 0.89,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.004080244268266475,
+        "miss": -0.06,
+        "hit": 0,
+        "low": -0.03620790868164869,
+        "high": 0.025230965442368025
+      },
+      "vsChampion": {
+        "weighted": -0.004080244268266475,
+        "miss": -0.06,
+        "hit": 0,
+        "low": -0.03620790868164869,
+        "high": 0.025230965442368025
+      },
+      "buckets": {
+        "never found": {
+          "miss": 43,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 41,
+          "hit": 178
+        },
+        "read but wrong": {
+          "miss": 11,
+          "hit": 22
+        },
+        "abstained": {
+          "miss": 5,
+          "hit": 0
+        }
+      },
+      "wallMs": 1224.04,
+      "wallX": 0.6725149626026504,
+      "calls": 1.0266666666666666,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "p3@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8573580458538677,
+      "miss": 0.41,
+      "hit": 0.89,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.004080244268266475,
+        "miss": -0.06,
+        "hit": 0,
+        "low": -0.036159776687748835,
+        "high": 0.024932002074627868
+      },
+      "vsChampion": {
+        "weighted": -0.004080244268266475,
+        "miss": -0.06,
+        "hit": 0,
+        "low": -0.036159776687748835,
+        "high": 0.024932002074627868
+      },
+      "buckets": {
+        "never found": {
+          "miss": 42,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 41,
+          "hit": 178
+        },
+        "read but wrong": {
+          "miss": 11,
+          "hit": 22
+        },
+        "abstained": {
+          "miss": 5,
+          "hit": 0
+        },
+        "technical": {
+          "miss": 1,
+          "hit": 0
+        }
+      },
+      "wallMs": 1301.1633333333334,
+      "wallX": 0.7148882474891398,
+      "calls": 1.0266666666666666,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "z-think1@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.856778310477823,
+      "miss": 0.47,
+      "hit": 0.885,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.004659979644311085,
+        "miss": 0,
+        "hit": -0.0050000000000000044,
+        "low": -0.02409991455801086,
+        "high": 0.015032192401003619
+      },
+      "vsChampion": {
+        "weighted": -0.004659979644311085,
+        "miss": 0,
+        "hit": -0.0050000000000000044,
+        "low": -0.02409991455801086,
+        "high": 0.015032192401003619
+      },
+      "buckets": {
+        "read but wrong": {
+          "miss": 11,
+          "hit": 15
+        },
+        "abstained": {
+          "miss": 17,
+          "hit": 6
+        },
+        "never found": {
+          "miss": 25,
+          "hit": 2
+        },
+        "correct": {
+          "miss": 47,
+          "hit": 177
+        }
+      },
+      "wallMs": 2030.4866666666667,
+      "wallX": 1.115594804662032,
+      "calls": 0.5666666666666667,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "p1@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8566780051424898,
+      "miss": 0.4,
+      "hit": 0.89,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.004760284979644314,
+        "miss": -0.06999999999999995,
+        "hit": 0,
+        "low": -0.0367955460888133,
+        "high": 0.02425028010366237
+      },
+      "vsChampion": {
+        "weighted": -0.004760284979644314,
+        "miss": -0.06999999999999995,
+        "hit": 0,
+        "low": -0.0367955460888133,
+        "high": 0.02425028010366237
+      },
+      "buckets": {
+        "never found": {
+          "miss": 43,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 40,
+          "hit": 178
+        },
+        "read but wrong": {
+          "miss": 11,
+          "hit": 22
+        },
+        "abstained": {
+          "miss": 6,
+          "hit": 0
+        }
+      },
+      "wallMs": 1228.4266666666667,
+      "wallX": 0.6749250954163524,
+      "calls": 1.03,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "h4@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8555185343904007,
+      "miss": 0.52,
+      "hit": 0.88,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.005919755731733423,
+        "miss": 0.050000000000000044,
+        "hit": -0.010000000000000009,
+        "low": -0.037279837154489015,
+        "high": 0.024079598983983486
+      },
+      "vsChampion": {
+        "weighted": -0.005919755731733423,
+        "miss": 0.050000000000000044,
+        "hit": -0.010000000000000009,
+        "low": -0.037279837154489015,
+        "high": 0.024079598983983486
+      },
+      "buckets": {
+        "correct": {
+          "miss": 52,
+          "hit": 176
+        },
+        "never found": {
+          "miss": 30,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 15,
+          "hit": 24
+        },
+        "abstained": {
+          "miss": 3,
+          "hit": 0
+        }
+      },
+      "wallMs": 2017.0333333333333,
+      "wallX": 1.1082032423245696,
+      "calls": 5.963333333333333,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "x2@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8541584529676451,
+      "miss": 0.5,
+      "hit": 0.88,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.007279837154488988,
+        "miss": 0.030000000000000027,
+        "hit": -0.010000000000000009,
+        "low": -0.030391171593333266,
+        "high": 0.015676755927452102
+      },
+      "vsChampion": {
+        "weighted": -0.007279837154488988,
+        "miss": 0.030000000000000027,
+        "hit": -0.010000000000000009,
+        "low": -0.030391171593333266,
+        "high": 0.015676755927452102
+      },
+      "buckets": {
+        "read but wrong": {
+          "miss": 17,
+          "hit": 17
+        },
+        "never found": {
+          "miss": 31,
+          "hit": 7
+        },
+        "correct": {
+          "miss": 50,
+          "hit": 176
+        },
+        "abstained": {
+          "miss": 2,
+          "hit": 0
+        }
+      },
+      "wallMs": 1748.4233333333334,
+      "wallX": 0.9606228984594197,
+      "calls": 4.17,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "k4@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8521183308335119,
+      "miss": 0.47,
+      "hit": 0.88,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.009319959288622282,
+        "miss": 0,
+        "hit": -0.010000000000000009,
+        "low": -0.0392179157248741,
+        "high": 0.01874268791423417
+      },
+      "vsChampion": {
+        "weighted": -0.009319959288622282,
+        "miss": 0,
+        "hit": -0.010000000000000009,
+        "low": -0.0392179157248741,
+        "high": 0.01874268791423417
+      },
+      "buckets": {
+        "read but wrong": {
+          "miss": 14,
+          "hit": 19
+        },
+        "never found": {
+          "miss": 37,
+          "hit": 5
+        },
+        "correct": {
+          "miss": 47,
+          "hit": 176
+        },
+        "abstained": {
+          "miss": 2,
+          "hit": 0
+        }
+      },
+      "wallMs": 1267.61,
+      "wallX": 0.6964532954353989,
+      "calls": 4.873333333333333,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "g6@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8506579440754233,
+      "miss": 0.38,
+      "hit": 0.885,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.010780346046710854,
+        "miss": -0.08999999999999997,
+        "hit": -0.0050000000000000044,
+        "low": -0.04183744154294089,
+        "high": 0.017602524413198317
+      },
+      "vsChampion": {
+        "weighted": -0.010780346046710854,
+        "miss": -0.08999999999999997,
+        "hit": -0.0050000000000000044,
+        "low": -0.04183744154294089,
+        "high": 0.017602524413198317
+      },
+      "buckets": {
+        "shown not opened": {
+          "miss": 17,
+          "hit": 0
+        },
+        "never found": {
+          "miss": 29,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 38,
+          "hit": 177
+        },
+        "read but wrong": {
+          "miss": 9,
+          "hit": 23
+        },
+        "abstained": {
+          "miss": 7,
+          "hit": 0
+        }
+      },
+      "wallMs": 1636.9666666666667,
+      "wallX": 0.8993861120675131,
+      "calls": 2.6633333333333336,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "h6@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8501785140347118,
+      "miss": 0.51,
+      "hit": 0.875,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.011259776087422346,
+        "miss": 0.040000000000000036,
+        "hit": -0.015000000000000013,
+        "low": -0.04233421756499334,
+        "high": 0.01920661917005939
+      },
+      "vsChampion": {
+        "weighted": -0.011259776087422346,
+        "miss": 0.040000000000000036,
+        "hit": -0.015000000000000013,
+        "low": -0.04233421756499334,
+        "high": 0.01920661917005939
+      },
+      "buckets": {
+        "correct": {
+          "miss": 51,
+          "hit": 175
+        },
+        "never found": {
+          "miss": 30,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 16,
+          "hit": 25
+        },
+        "abstained": {
+          "miss": 3,
+          "hit": 0
+        }
+      },
+      "wallMs": 1991.27,
+      "wallX": 1.094048290563854,
+      "calls": 5.963333333333333,
       "reloads": 0,
       "outputLimit": 0
     },
@@ -2868,11 +2970,11 @@
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": -0.0010591654167559916,
-        "miss": 0.19,
+        "weighted": -0.011939816798800074,
+        "miss": 0.030000000000000027,
         "hit": -0.015000000000000013,
-        "low": -0.027084881342009037,
-        "high": 0.0223420154639411
+        "low": -0.042036393198957356,
+        "high": 0.01371924878812436
       },
       "vsChampion": {
         "weighted": -0.011939816798800074,
@@ -2900,7 +3002,7 @@
         }
       },
       "wallMs": 1903.1166666666666,
-      "wallX": 2.4947019780738358,
+      "wallX": 1.04561487689276,
       "calls": 5.19,
       "reloads": 0,
       "outputLimit": 0
@@ -2915,11 +3017,11 @@
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": -0.0018395114634669474,
-        "miss": 0.10999999999999999,
+        "weighted": -0.01272016284551103,
+        "miss": -0.04999999999999999,
         "hit": -0.010000000000000009,
-        "low": -0.03471194403765798,
-        "high": 0.03154691717905389
+        "low": -0.04239074859210534,
+        "high": 0.01698786502494709
       },
       "vsChampion": {
         "weighted": -0.01272016284551103,
@@ -2951,7 +3053,7 @@
         }
       },
       "wallMs": 1483.75,
-      "wallX": 1.9449748535124247,
+      "wallX": 0.8152054473396969,
       "calls": 3.82,
       "reloads": 0,
       "outputLimit": 1
@@ -2966,11 +3068,11 @@
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": -0.0019398167988000647,
-        "miss": 0.03999999999999998,
+        "weighted": -0.012820468180844147,
+        "miss": -0.12,
         "hit": -0.0050000000000000044,
-        "low": -0.014940476595592833,
-        "high": 0.00739174686280164
+        "low": -0.044341178011094495,
+        "high": 0.016568844788861337
       },
       "vsChampion": {
         "weighted": -0.012820468180844147,
@@ -3002,7 +3104,7 @@
         }
       },
       "wallMs": 1662.04,
-      "wallX": 2.178686440122521,
+      "wallX": 0.9131619623902071,
       "calls": 2.716666666666667,
       "reloads": 0,
       "outputLimit": 0
@@ -3017,11 +3119,11 @@
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": -0.0019398167988000647,
-        "miss": 0.03999999999999998,
+        "weighted": -0.012820468180844147,
+        "miss": -0.12,
         "hit": -0.0050000000000000044,
-        "low": -0.014793586172416218,
-        "high": 0.0072745919057627395
+        "low": -0.04450345782061493,
+        "high": 0.016405934152655455
       },
       "vsChampion": {
         "weighted": -0.012820468180844147,
@@ -3053,7 +3155,7 @@
         }
       },
       "wallMs": 1614.4533333333334,
-      "wallX": 2.1163074207262986,
+      "wallX": 0.8870167830221162,
       "calls": 2.433333333333333,
       "reloads": 0,
       "outputLimit": 0
@@ -3068,11 +3170,11 @@
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": -0.0025195521748446748,
-        "miss": 0.09999999999999998,
+        "weighted": -0.013400203556888757,
+        "miss": -0.06,
         "hit": -0.010000000000000009,
-        "low": -0.03232666822499697,
-        "high": 0.03125431848594973
+        "low": -0.04151329756937827,
+        "high": 0.015380885070763406
       },
       "vsChampion": {
         "weighted": -0.013400203556888757,
@@ -3104,7 +3206,7 @@
         }
       },
       "wallMs": 1744.3966666666668,
-      "wallX": 2.286643741342923,
+      "wallX": 0.9584105577003378,
       "calls": 3.8266666666666667,
       "reloads": 0,
       "outputLimit": 1
@@ -3119,11 +3221,11 @@
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": -0.0030992875508892848,
-        "miss": 0.15999999999999998,
+        "weighted": -0.013979938932933367,
+        "miss": 0,
         "hit": -0.015000000000000013,
-        "low": -0.035777764089228836,
-        "high": 0.030603047070358325
+        "low": -0.03709436532784982,
+        "high": 0.009759119673950045
       },
       "vsChampion": {
         "weighted": -0.013979938932933367,
@@ -3151,7 +3253,7 @@
         }
       },
       "wallMs": 1484.6733333333334,
-      "wallX": 1.9461852057380309,
+      "wallX": 0.8157127473316388,
       "calls": 4.666666666666667,
       "reloads": 0,
       "outputLimit": 0
@@ -3166,11 +3268,11 @@
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": -0.014760284979644323,
-        "miss": -0.07999999999999999,
+        "weighted": -0.025640936361688405,
+        "miss": -0.23999999999999996,
         "hit": -0.010000000000000009,
-        "low": -0.045136973006739245,
-        "high": 0.017437773058583073
+        "low": -0.0731175832992852,
+        "high": 0.021442849900965344
       },
       "vsChampion": {
         "weighted": -0.025640936361688405,
@@ -3202,8 +3304,59 @@
         }
       },
       "wallMs": 1286.8566666666666,
-      "wallX": 1.686877072782805,
+      "wallX": 0.7070278447259115,
       "calls": 3.683333333333333,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "t3@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8003570280694235,
+      "miss": 0.12,
+      "hit": 0.85,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.06108126205271058,
+        "miss": -0.35,
+        "hit": -0.040000000000000036,
+        "low": -0.09564315580918659,
+        "high": -0.02627316279734171
+      },
+      "vsChampion": {
+        "weighted": -0.06108126205271058,
+        "miss": -0.35,
+        "hit": -0.040000000000000036,
+        "low": -0.09564315580918659,
+        "high": -0.02627316279734171
+      },
+      "buckets": {
+        "abstained": {
+          "miss": 21,
+          "hit": 2
+        },
+        "never found": {
+          "miss": 49,
+          "hit": 0
+        },
+        "correct": {
+          "miss": 12,
+          "hit": 170
+        },
+        "shown not opened": {
+          "miss": 12,
+          "hit": 8
+        },
+        "read but wrong": {
+          "miss": 6,
+          "hit": 20
+        }
+      },
+      "wallMs": 1431.92,
+      "wallX": 0.7867288856981695,
+      "calls": 4.036666666666667,
       "reloads": 0,
       "outputLimit": 0
     },
@@ -3217,11 +3370,11 @@
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": -0.05952056995928878,
-        "miss": -0.19,
+        "weighted": -0.07040122134133286,
+        "miss": -0.35,
         "hit": -0.050000000000000044,
-        "low": -0.11496058663605313,
-        "high": -0.005961242916146414
+        "low": -0.11601664654831667,
+        "high": -0.024922056129217274
       },
       "vsChampion": {
         "weighted": -0.07040122134133286,
@@ -3253,7 +3406,7 @@
         }
       },
       "wallMs": 974.85,
-      "wallX": 1.2778828885907918,
+      "wallX": 0.5356044012394969,
       "calls": 3.0366666666666666,
       "reloads": 0,
       "outputLimit": 1
@@ -3268,11 +3421,11 @@
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": -0.2731995928862224,
-        "miss": -0.18,
+        "weighted": -0.2840802442682665,
+        "miss": -0.33999999999999997,
         "hit": -0.28,
-        "low": -0.3427920368073316,
-        "high": -0.19966358322922229
+        "low": -0.34948853766021937,
+        "high": -0.21327997519407949
       },
       "vsChampion": {
         "weighted": -0.2840802442682665,
@@ -3304,7 +3457,7 @@
         }
       },
       "wallMs": 879.2133333333334,
-      "wallX": 1.1525174889342347,
+      "wallX": 0.4830594768033874,
       "calls": 3.0166666666666666,
       "reloads": 0,
       "outputLimit": 0
@@ -3319,11 +3472,11 @@
       "nMiss": 100,
       "nHit": 200,
       "vsBaseline": {
-        "weighted": -0.4343590636383116,
-        "miss": -0.22,
+        "weighted": -0.4452397150203557,
+        "miss": -0.38,
         "hit": -0.45,
-        "low": -0.5104740766708344,
-        "high": -0.36000008585936255
+        "low": -0.5163752535989485,
+        "high": -0.3768505684632891
       },
       "vsChampion": {
         "weighted": -0.4452397150203557,
@@ -3355,7 +3508,7 @@
         }
       },
       "wallMs": 959.77,
-      "wallX": 1.2581152587400977,
+      "wallX": 0.5273191118404185,
       "calls": 2.8766666666666665,
       "reloads": 0,
       "outputLimit": 0

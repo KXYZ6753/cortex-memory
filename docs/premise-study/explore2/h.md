@@ -103,3 +103,97 @@ Wall: questions whose src got YES ≈ 1.53 s (r4 + one probe), probed ones ≈ 3
 - The e2b probe on the answer's own source email is a better failure detector than any lexical/CE feature (src NO on 64% of wrong misses vs 11% of correct hits; with "some unseen email YES" 39% vs 2.2%), but its false NOs on gold (≈10% of hits) are what costs the hit losses when a YES distractor exists.
 - Engine nondeterminism: in h-runs, identical prompts gave different texts on ~30% of questions (other workers' multi-call runs did not). Worth checking before trusting small Δs from variants that interleave very short (3-token) calls.
 - Not done: stacking with a5 (both target non-switched misses, expected overlap); re-answer context with src appended (h2-style "YES + best") — h6's result suggests old-context emails hurt.
+
+---
+
+# Round 4 (Tue 6 Oct, 16:40–19:15 ET): hit-side reading on x1's unsure-commit (handover) path
+
+Code: `explore2/variants/h-spec.js` (h7, h8; ids h1–h6 are round 2's). Offline tools: `tools/h-handover.js` (handover anatomy, joins x1 / j1 / j2 answers with m-diag's five W0 probes), `h-agree.js` (A~S agreement policy, vague detector on handover answers), `h-vague.js` (vague detector over every stored graded answer), `h-stub.js` (stub routing check, no GPU), `h-flips.js` (flips vs x1 / j2, re-ask cases; JUDGE=1 grades never-graded old answers without storing), `h-extract.js` (m-diag extract read as a third reading, J1-graded into scratch).
+Notation on the handover path: A = gates' unsure answer over W0, S = single read of the first YES email (j1's logged read), B = g5's answer, j2 = S if S is confident (mean lp ≥ −0.1) else B.
+
+## R4.1 Offline: where the handover path fails after j2
+
+Handover questions (x1 step `commit-g5`), from `h-handover.js`:
+
+| | S300-2 hits | S300-2 misses | S300-1 hits | S300-1 misses |
+|---|---|---|---|---|
+| n | 72 | 32 | 67 | 32 |
+| x1 right / j2 right | 63 / 65 | 13 / 11 | 59 / 59 | 14 / 12 |
+| first YES email is AB | 69 | 11 | 63 | 8 |
+| W0 YES count (m-diag) = 1 / 2 / ≥3 | 52 / 12 / 8 | 13 / 11 / 8 | 50 / 7 / 9 (+1 none) | 11 / 12 / 8 (+1 none) |
+| ≥2 YES and the YES set holds AB | 20 | 5 | 16 | 9 |
+| ≥2 YES, first YES not AB, a later YES AB | 2 | 1 | 2 | 4 |
+| j2 right where ≥2 YES | 18/20 | 3/19 | 13/16 | 9/20 |
+
+(m-diag's first YES = x1's first YES on 201/203 handovers; the probes are reproducible.)
+
+**Hypothesis (a), YES-filtered context, is mostly j2 already.** On 73% of handover hits exactly one W0 email probes YES, so "answer over the YES emails" is the single read j1/j2 already made. It can only change the ~36 hits / 39 misses per two sets with ≥2 YES emails, where j2 is already 31/36 right on hits; the room is ≤ 5 hits and ≤ 5 misses (first YES not AB, a later one AB) over both sets. Cheap to test as an add-on (h8), not expected to move much.
+
+**Selection between existing readings is capped (z's finding replicated with S).** Among j2's g5-fallback questions, A and S agree (novel-word Jaccard ≥ 0.5) on 47 hits: S right 40, A 37, g5 44. Every "A ~ S agree → take S/A instead of g5" rule (thr 0.3–0.6) is −2 to +1 hits vs j2 on S300-2 (`h-agree.js`). Dropped.
+
+**Vague answers are the one reliably wrong shape on this path.** Detector = `VAGUE` ("something", "someone", "the website", "a report/document/project/position…" not followed by a name, "does not specify/mention", "unspecified") ∪ n's `HEDGE` ∪ a leaked corpus path ("hyvl-d/all_documents/1102."):
+- over all stored graded answers (S300-2, S300-1, FULL-0; 36,049 hit answers) vague-not-hedge hit answers are 67.8% right vs 86.5% overall; hedges 8.9% (`h-vague.js`);
+- on the handover path (both sets) the detector fires on j2's final answer for 10 hits (5 right) and 6 misses (2 right); on A for 9 hits (3 right); on S for 9 hits (3 right). On sure commits it fires on 4 hits, all right → **trigger on the handover path only**.
+- The 15 wrong handover hits left after j2: PART/vague 6 (seven-mile project → light rail; Sheetal → Midmarket; Kim Decell's attachment name; Ben Brasseaux's sick-time question; Pipeline Notes → AOPL's website; Chris Germany → Deal Volume Tracking report), WF 2 (hurricane 5 AM vs 11 AM, memorial vs scholarship), WE 2 (Tradespark via g5; Ed McMichael, YES email not AB), AMB 2, GRAN 1 (x3-9890), OVER 1, 1 judge call on a right-looking answer. In 5 of the 6 PART cases the YES (gold) email states the specific thing verbatim ("expansion to Metro's light rail system", "Midmarket will grant…", "Association of Oil Pipe Lines", "you ran the Deal Volume Tracking report", the forwarded sick-time text).
+
+## R4.2 Candidates (queued 16:45 ET: S300-2 then S300-1)
+
+- **h7** = j2 + specificity re-ask. Only on the handover path (j2's `commit-single` / `commit-g5`), when the final answer is vague / hedged / leaks a path: one more call over the YES email with an exact-detail prompt (own instruction first, no shared prefix with the sandwich prompt; "copy the exact name, title, file name, number, date, website, organisation or role; no general description; resolve 'our website' / 'the attached file' / 'your question' with the email's own words"). The new answer replaces the old only if it is usable (not abstained / hedged / vague) and adds a specific token (capitalised word, number, URL, quoted span) absent from the old answer and the question. Expected fire rate ≈ 16 / 600 questions; ceiling ≈ +5 hits pooled, risk ≈ 5 right vague hits.
+- **h8** = h7 + YES-filtered context (hypothesis a): on unsure commits the rest of W0 is probed (x1's probe); with ≥ 2 YES emails the question is first answered over the YES emails only (rank order, sandwich prompt), kept if confident (≥ −0.1, no hedge/abstention); else j2's cascade. The re-ask reads the YES emails. h8 − h7 isolates (a).
+- Every non-handover path is x1's call sequence (j2's wrapper); stub check (`h-stub.js`): routing, re-ask prompt holds exactly the YES email(s) 6/6 in each configuration.
+- Not built: (c) "A ~ S agreement" (offline nil, above); header-contradiction filtering of W0 (the WE cases on this path come from g5's own reads and one false YES, not from W0 distractors the probe accepted).
+
+## R4.3 h7 on S300-2 (J1)
+
+h7 is **byte-identical to stored j2 on 297/300 questions** (every path, including the 66 g5 fallbacks and 35 single reads), so its Δ vs j2 is exactly the re-ask's effect. The re-ask fired on 9 questions (6 hits) and was accepted on 3 hits: all 3 changed verdicts or stayed wrong — Sheetal: wrong → wrong (quotes "who do I need to speak to…"), Ben Brasseaux: wrong → wrong (quotes "Carmen, please assist me with this"), **Livia: right → wrong** (re-read finds "gained weight", j1's known misread). Rejected re-asks: Pipeline Notes (re-ask answers "We will have this correspondence up on our website soon" — e2b does not resolve "our" to the newsletter's association), Kim Decell (copies the description as the title), the path leak (re-ask leaks the same path), Barry Tycholiz (right, kept).
+Result: hits +0/−1 vs j2 (+2/−1 vs x1), misses identical to j2. **The specificity re-ask does not work with e2b**: the vague answers are a reading limit (e2b quotes the referring phrase instead of resolving it), not a prompt problem; the "novel quoted span" acceptance test lets quoted non-answers through.
+
+## R4.4 A third reading from stored data: m-diag's extract read (offline, `tools/h-extract.js`)
+
+m-diag logged an email-first one-sentence extract read (own prompt, logprobs) of every YES email. Graded with J1 for the first YES email of all 203 handovers (≈ $0.01, verdicts kept in scratch, not in verdicts.jsonl). As a fallback when j2's single read is unsure (instead of g5): hits S300-2 64/72 (j2 65), S300-1 60/67 (j2 59) at τ −0.1 (E's own mean lp); "E agrees with S" 64 / 57; "final vague → E" 66 / 59. On j2's g5-fallback hits E is right where g5 is wrong 6 times and wrong where g5 is right 13 times. Another reading of the same email does not beat g5, and e2b's confidence does not pick the right one (z's cap again). No GPU run.
+
+## R4.5 S300-2 results (J1; paired stratified bootstrap from `t-ladder.js`)
+
+| id | weighted | Δ vs x1 [CI] | Δ vs j2 [CI] | miss | hit | wall ms | calls |
+|---|---|---|---|---|---|---|---|
+| h7 | 86.5 | +0.3 [−1.1, 2.1] | −0.5 [−1.4, 0.0] | 45.0 | 89.5 | 1,792 | 5.53 |
+| h8 | 86.6 | +0.5 [−1.2, 2.3] | −0.3 [−1.3, 0.3] | 47.0 | 89.5 | 1,971 | 6.86 |
+| j2 | 86.9 | +0.8 [−0.2, 2.3] | – | 45.0 | 90.0 | 1,778 | 5.50 |
+| x1 | 86.1 | – | −0.8 | 47.0 | 89.0 | 1,820 | 5.59 |
+
+- h7 = j2 + 3 accepted re-asks (R4.3): the only verdict change is Livia (hit, right → wrong).
+- h8: the extra W0 probes (382, ≈ 3.7 per handover) found ≥ 2 YES emails on 41/104 handovers; the YES-context answer was confident and kept on 11 (misses **+2/0** vs j2: Chris Germany's local-production email, the California-update legislators; hits 0/0). Re-asks accepted 2 (wrong → wrong). The one lost hit (CPUC meeting date) is not the YES-context step (its YES-context read was unsure, −0.18): after the extra probes the single read of the same email came out different and confident ("October 24", j1's known misread) where j2's run had sent it to g5. The extra probes perturb the later calls through Ollama's cache, as x.md/j.md warned: g5 texts identical to j2's on 54/61, single reads 24/25.
+
+## R4.6 S300-1 results and pooled (J1; `t-ladder.js`, paired stratified bootstrap)
+
+| id | set | weighted | Δ vs x1 [CI] | Δ vs j2 [CI] | miss | hit | wall ms | calls |
+|---|---|---|---|---|---|---|---|---|
+| h7 | S300-1 | 88.0 | +0.3 [−0.2, 1.3] | +0.0 [0.0, 0.0] | 47.0 | 91.0 | 1,687 | 5.25 |
+| h8 | S300-1 | 88.0 | +0.3 [−0.8, 1.4] | +0.0 [−0.9, 0.9] | 47.0 | 91.0 | 1,887 | 6.51 |
+| j2 | S300-1 | 88.0 | +0.3 [−0.2, 1.3] | – | 47.0 | 91.0 | 1,703 | 5.22 |
+| **h7** | **pooled 600** | 87.2 | **+0.3 [−0.7, 0.9]** | **−0.2 [−0.7, 0.0]** | 46.0 | 90.3 | 1,739 | 5.39 |
+| **h8** | **pooled 600** | 87.3 | **+0.4 [−0.8, 1.4]** | **−0.2 [−1.1, 0.8]** | 47.0 | 90.3 | 1,929 | 6.68 |
+| j2 | pooled 600 | 87.5 | +0.6 [−0.2, 1.1] | – | 46.0 | 90.5 | 1,741 | 5.36 |
+| x1 | pooled 600 | 86.9 | – | −0.6 | 48.0 | 89.8 | 1,910 | 5.50 |
+
+(Pooled vs gates: h7 +2.8 [0.7, 4.5], h8 +2.9 [1.0, 4.6], j2 +3.0, x1 +2.5.)
+
+S300-1 details: h7 is again text-identical to j2 on 297/300 and verdict-identical on 300/300. Its re-ask fired 7 (4 hits), accepted 3 (all misses, verdicts unchanged: e2b answers by quoting the email's sentence — "He was checking out our german workers, to see if they were 'illegals'", "Become a Gold member today and send a Hi note…"). h8: YES context (≥ 2 YES on 35/99 handovers) kept on 6: hits 0/−1 (home-business email: the YES-context answer drops "lucrative tax benefits" that g5 had), misses 0/0; one hit +1 from a g5 re-run that came out differently (Gas Fundies; noise).
+
+Flips on the unsure (handover) path, both sets:
+
+| | vs x1 hits | vs x1 misses | vs j2 hits | vs j2 misses |
+|---|---|---|---|---|
+| h7 | +2/−1 | 0/−4 | 0/−1 (re-ask: Livia) | 0/0 |
+| h8 | +3/−2 | +1/−3 | +1/−2 (YES ctx −1, cache noise −1/+1) | +2/0 (YES ctx) |
+
+Mechanism totals: re-ask fired 16 (10 hits), accepted 6, changed 1 verdict (right → wrong). YES-filtered context kept 17 times: misses +2/0, hits 0/−1.
+
+## R4.7 Conclusions (round 4)
+
+- **No promotion.** h7 pooled Δ vs x1 +0.3 [−0.7, 0.9], h8 +0.4 [−0.8, 1.4]; both are −0.2 vs j2. Neither stacks on j2: h7 *is* j2 except on 6 re-asked answers; h8 adds ≈ 0 (misses +2, hits −1, plus cache noise on later calls).
+- **(b) Specificity re-ask: refuted for e2b.** The vague answers on the handover path are the model's reading limit, not a missing instruction: told to give "the exact name / website / report", e2b quotes the sentence that refers to it ("We will have this correspondence up on our website soon", "Carmen, please assist me with this") instead of resolving the reference; on one confusing email it re-reads a different fact (Livia, j1's known misread). The detector is good (vague handover hits are ~1/3 right), the fix is not available to e2b in one call.
+- **(a) YES-filtered context: ≈ j2.** 73% of handover hits have one YES email in W0, where (a) is j2's single read. With ≥ 2 YES emails the YES-only context is kept on 17/76 questions: misses +2/0, hits 0/−1. Probing the rest of W0 also perturbs the later calls (g5 texts identical to j2's on 101/115; one single read flipped to a confident misread).
+- **(c) Third reading / selection: capped.** "A ~ S agree" rules and m-diag's extract read (email-first prompt) as a fallback are within ±1 hit of j2 per set offline (`h-agree.js`, `h-extract.js`); g5 beats the extract read 13 to 6 where they disagree. Header-contradiction filtering of W0 was not built: the remaining WE errors on this path come from g5's own reads (1) and a false YES (1), not from W0 distractors.
+- What is left on the path after j2 (15 wrong hits over both sets): 6 vague/incomplete (e2b cannot resolve the reference), 2 wrong fact, 2 other email, 2 ambiguous question, 1 granularity (x3-9890), 1 over-answer, 1 judge call. None has a pipeline lever that e2b can use; j2 remains the best handover rule.
+- Cost: h7 ≈ j2 (+0.03 calls); h8 +0.19 s and +1.3 calls (YES/NO probes on the rest of W0 for unsure commits). GPU: 2 runs (S300-2, S300-1 × h7, h8); two queued replay runs (h9/h10, re-ask on stored j2/x1) were cancelled before starting as redundant once h7 proved byte-identical to j2. J1 spend ≈ $0.0005 via `cli2 grade` + ≈ $0.01 direct J1 calls for the extract study (scratch only).

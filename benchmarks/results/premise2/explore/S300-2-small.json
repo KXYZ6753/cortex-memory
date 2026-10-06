@@ -4,7 +4,7 @@
   "missShare": 0.06800407113777587,
   "baseline": "x1@1+cold",
   "champion": "x1@1+cold",
-  "at": "2026-10-06T21:18:56.830Z",
+  "at": "2026-10-06T21:59:13.560Z",
   "summaries": [
     {
       "variant": "s3@1+cold",
@@ -1323,6 +1323,57 @@
       "outputLimit": 0
     },
     {
+      "variant": "g1@2+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8357973537604457,
+      "miss": 0.23,
+      "hit": 0.88,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": -0.025640936361688405,
+        "miss": -0.23999999999999996,
+        "hit": -0.010000000000000009,
+        "low": -0.0731175832992852,
+        "high": 0.021442849900965344
+      },
+      "vsChampion": {
+        "weighted": -0.025640936361688405,
+        "miss": -0.23999999999999996,
+        "hit": -0.010000000000000009,
+        "low": -0.0731175832992852,
+        "high": 0.021442849900965344
+      },
+      "buckets": {
+        "never found": {
+          "miss": 57,
+          "hit": 7
+        },
+        "shown not opened": {
+          "miss": 9,
+          "hit": 3
+        },
+        "correct": {
+          "miss": 23,
+          "hit": 176
+        },
+        "read but wrong": {
+          "miss": 4,
+          "hit": 14
+        },
+        "abstained": {
+          "miss": 7,
+          "hit": 0
+        }
+      },
+      "wallMs": 1286.8566666666666,
+      "wallX": 0.7070278447259115,
+      "calls": 3.683333333333333,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
       "variant": "o2@1+cold",
       "n": 300,
       "graded": 300,
@@ -1742,6 +1793,108 @@
       "wallMs": 1800.3,
       "wallX": 0.9891250998117312,
       "calls": 2.7666666666666666,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "y1@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8754182290550675,
+      "miss": 0.47,
+      "hit": 0.905,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": 0.013979938932933367,
+        "miss": 0,
+        "hit": 0.015000000000000013,
+        "low": -0.015695403860126578,
+        "high": 0.05116201412442667
+      },
+      "vsChampion": {
+        "weighted": 0.013979938932933367,
+        "miss": 0,
+        "hit": 0.015000000000000013,
+        "low": -0.015695403860126578,
+        "high": 0.05116201412442667
+      },
+      "buckets": {
+        "read but wrong": {
+          "miss": 19,
+          "hit": 14
+        },
+        "never found": {
+          "miss": 32,
+          "hit": 4
+        },
+        "correct": {
+          "miss": 47,
+          "hit": 181
+        },
+        "abstained": {
+          "miss": 2,
+          "hit": 0
+        },
+        "shown not opened": {
+          "miss": 0,
+          "hit": 1
+        }
+      },
+      "wallMs": 2308.45,
+      "wallX": 1.268314079131473,
+      "calls": 6.833333333333333,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "y2@1+cold",
+      "n": 300,
+      "graded": 300,
+      "weighted": 0.8747381883436898,
+      "miss": 0.46,
+      "hit": 0.905,
+      "nMiss": 100,
+      "nHit": 200,
+      "vsBaseline": {
+        "weighted": 0.01329989822155564,
+        "miss": -0.009999999999999953,
+        "hit": 0.015000000000000013,
+        "low": -0.016944931706610933,
+        "high": 0.05078175903679483
+      },
+      "vsChampion": {
+        "weighted": 0.01329989822155564,
+        "miss": -0.009999999999999953,
+        "hit": 0.015000000000000013,
+        "low": -0.016944931706610933,
+        "high": 0.05078175903679483
+      },
+      "buckets": {
+        "abstained": {
+          "miss": 3,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 12,
+          "hit": 14
+        },
+        "never found": {
+          "miss": 39,
+          "hit": 4
+        },
+        "correct": {
+          "miss": 46,
+          "hit": 181
+        },
+        "shown not opened": {
+          "miss": 0,
+          "hit": 1
+        }
+      },
+      "wallMs": 2171.6266666666666,
+      "wallX": 1.1931402785205154,
+      "calls": 6.06,
       "reloads": 0,
       "outputLimit": 0
     },
@@ -3255,57 +3408,6 @@
       "wallMs": 1484.6733333333334,
       "wallX": 0.8157127473316388,
       "calls": 4.666666666666667,
-      "reloads": 0,
-      "outputLimit": 0
-    },
-    {
-      "variant": "g1@2+cold",
-      "n": 300,
-      "graded": 300,
-      "weighted": 0.8357973537604457,
-      "miss": 0.23,
-      "hit": 0.88,
-      "nMiss": 100,
-      "nHit": 200,
-      "vsBaseline": {
-        "weighted": -0.025640936361688405,
-        "miss": -0.23999999999999996,
-        "hit": -0.010000000000000009,
-        "low": -0.0731175832992852,
-        "high": 0.021442849900965344
-      },
-      "vsChampion": {
-        "weighted": -0.025640936361688405,
-        "miss": -0.23999999999999996,
-        "hit": -0.010000000000000009,
-        "low": -0.0731175832992852,
-        "high": 0.021442849900965344
-      },
-      "buckets": {
-        "never found": {
-          "miss": 57,
-          "hit": 7
-        },
-        "shown not opened": {
-          "miss": 9,
-          "hit": 3
-        },
-        "correct": {
-          "miss": 23,
-          "hit": 176
-        },
-        "read but wrong": {
-          "miss": 4,
-          "hit": 14
-        },
-        "abstained": {
-          "miss": 7,
-          "hit": 0
-        }
-      },
-      "wallMs": 1286.8566666666666,
-      "wallX": 0.7070278447259115,
-      "calls": 3.683333333333333,
       "reloads": 0,
       "outputLimit": 0
     },

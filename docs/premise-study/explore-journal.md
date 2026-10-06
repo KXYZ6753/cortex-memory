@@ -339,3 +339,28 @@ Absolute weighted scores on FULL-1: x1 86.0, p3 85.7, g5 85.3, gates 84.6, k3 84
 
 Pooled vs k3 it is +0.5 (the g5 handover's flips nearly cancel). What it reliably does is keep `gates`' confident hit answers. When the gold email is shown, it ends up in the final reading context 93–94% of the time; the frozen agent opened it 41%. x2 (k3 starting from p3's swap context) and x3 (doubted YES keeps exploring) did not beat it. False-YES stops are detectable from the YES logprob (AUC 0.73), but a better email is rarely found afterwards.
 So it is an agent in which the model makes every stop/search/read decision. Its gain comes mainly from misses (FULL-1 miss 42.7 against 29.3; hits 89.1 against 88.7). Cost is about 1.8 s and 5.4 calls per question (cap 3,243 ms). FULL-0 (favours gates): +0.6 [−1.2, 2.6] (87.4 vs 86.8). Pooled over all five sets (2,100 questions): about +1.6. Code: `explore2/variants/x-*.js`, notes `docs/premise-study/explore2/x.md`.
+
+### Round 3 (Mon 5 Oct evening – Tue 6 Oct): agent ablation ladder and null results
+
+**Ablation ladder** (worker t; J1 weighted, pooled over S300-2 and S300-1; step Δ vs the previous rung, paired bootstrap CI; `docs/premise-study/explore2/t.md`):
+
+| # | rung | component added | pooled (miss / hit) | step Δ [CI] | wall ms | calls | gold read when shown |
+|---|---|---|---|---|---|---|---|
+| 0 | frozen agent | plain-text SEARCH/OPEN/ANSWER protocol | 39.2 (11.5 / 41.3) | – | 946 | 2.9 | 44% |
+| 1 | t1 | native tool calls | 56.3 (16.0 / 59.3) | **+17.1 [12.3, 22.6]** | 869 | 3.0 | 63% |
+| 2 | t2 | top-3 search results in full text | 79.4 (13.0 / 84.3) | **+23.1 [18.2, 28.1]** | 974 | 3.0 | 86% |
+| 3 | t3 | separate sandwich answer call | 81.3 (13.5 / 86.3) | +1.9 [−1.2, 4.4] | 1,430 | 4.0 | 86% |
+| 4 | g5 | asker's-mailbox search + small-model fixes | 85.4 (43.5 / 88.5) | **+4.1 [2.0, 6.9]** | 1,477 | 3.8 | 91% |
+| 5 | g2 | harness runs the first search | 84.7 (39.0 / 88.0) | −0.8 [−2.1, 1.2] | 1,656 | 2.7 | |
+| 6 | k1 | per-email YES/NO commit check + list-pick explore | 85.7 (47.0 / 88.5) | +1.0 [−0.2, 2.9] | 1,241 | 4.3 | 97% |
+| 7 | k3 | cross-encoder-ordered pick list | 86.4 (47.0 / 89.3) | +0.7 [0.0, 1.4] | 1,273 | 4.2 | 97% |
+| 8 | x1 | logprob handover of unsure answers to g5 | 86.9 (48.0 / 89.8) | +0.5 [−0.9, 2.1] | 1,910 | 5.5 | 93% |
+| ref | gates | no agent | 84.5 (32.5 / 88.3) | | 759 | 1.0 | |
+
+Reading: of the ~48-point gap between the frozen e2b agent and x1, ~40 points are the interface (native tool calls +17: the model opens emails instead of answering from snippets; full text of the top results +23), ~4 retrieval scope (mailbox search, all on misses), ~2 the separate answer call, ~2 agent control (only the per-email commit check is near-reliable; CE list and handover are noise-level). x1 is byte-identical on re-run (600/600); its variation comes from call-sequence/prompt-cache effects (the g5 sub-agent inside x1 matches its standalone answers on 61/104). x1 wall: mean 1,910, p50 1,939, p95 3,634, max 5,361 ms; calls mean 5.5, max 14. Simplified forms: t-lx (x1 without model-written search and opens 2–3) −0.1 vs x1 at −13% wall; t-lk (commit check + one list pick, no handover) −0.8 at −38% wall.
+
+**Null results** (no promotion; Δ vs x1 pooled over S300-2/S300-1):
+- j2, re-reading the YES email alone when unsure: about +0.5. j's taxonomy of 84 wrong x1 hit answers: 23 wrong fact/relation from the right email (the e2b reading limit), 15 incomplete, 12 judge strictness on correct-looking answers (not addressed: fixing them would be judge-gaming), 10 wrong email, and smaller classes.
+- z, thinking mode / quote-verified JSON extraction on x1's unsure half: −1.4 / −0.9. All readings fail on the same questions; e2b quotes the right email verbatim on 96% of hits, so hit errors are misreadings, not grounding failures.
+- e, ensembles: agreement cannot select between two answers (g5 vs gates disagreements: 67 vs 69 right). e1 is about +0.15.
+- m, miss-side recall (m1/m2/m3): m3 +0.4 [0.1, 0.9] on S300-2; S300-1 pending.

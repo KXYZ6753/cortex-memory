@@ -96,4 +96,4 @@ p1 vs r5: hits +2/−5 on the 193 hit prompts r5 changes (r5's hit "gain" on S30
 - It is not a +1.5 candidate on its own: the lasting miss-side gain is ≈ +0.6-1.0 weighted. It should stack with other miss-side levers that leave hit prompts unchanged (a5's escalation, dedup).
 - What the offline work killed: swapped email in slots 1-4 (slot 1 destroys hit @1; pos 2-4 read worse), depth 50 as such, nomic dense candidates (no AB gain on S300-2), reverse swap in switched contexts (≈ +0.07), unconditional 2nd swap (costs hit AB @5), CE+BM25/header fusions for the pick. The reading-side ideas o8/o10/o13 were not run: o6 showed the source cut is inert and o9's relevance sentence was −0.4, and every hit-prompt change is a ±5% lottery.
 
-Pending at hand-off (03:06): `run S300-1 p2` + grade is still in the GPU queue (behind lead-priority runs); results will land in answers.jsonl / verdicts automatically (`cli2.js report S300-1 r5 gates`, `tools/p-flips.js S300-1 gates p2`).
+S300-1 p2 finished after the hand-off: see the S300-1 table (+1.4 [0.5, 2.5] vs gates; hits 13 changed, +1/−0; misses +14/−1).

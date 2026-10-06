@@ -380,3 +380,23 @@ Round 4 has three workers:
 - **v** builds the final pooled tables and the cost/accuracy frontier offline.
 
 The lead confirms t-lk (the minimal agent) on S300-3 and FULL-1.
+
+**t-lk confirmation (lead, J1).** t-lk is the minimal agent: a YES/NO commit check over gates' first context and one pick from the CE-ordered list, with no model search and no handover.
+
+| set | t-lk | Δ vs gates | Δ vs x1 | miss / hit | wall ms | calls |
+|---|---|---|---|---|---|---|
+| S300-3 | 85.3 | +1.6 [−0.3, 3.6] | −0.7 [−2.9, 1.4] | 34.0 / 89.0 | 1,185 | 3.5 |
+| FULL-1 | 84.8 | +0.2 [−1.1, 1.7] | −1.1 [−3.0, 0.7] | 38.3 / 88.2 | 1,193 | 3.3 |
+
+FULL-1 has 599 graded answers; one answer was a technical error.
+
+Summary over four sets (S300-2, S300-1, S300-3, FULL-1):
+- t-lk vs x1: −0.8, −1.6, −0.7, −1.1.
+- t-lk vs gates: +1.0, +2.2, +1.6, +0.2.
+
+So the minimal agent keeps about half of x1's gain over gates at about two thirds of x1's wall time. The handover and the model-written search are worth about 1 point together. Grading spend: $0.644 so far.
+
+**Where x1's gain comes from** (lead, offline, `explore2/tools/lead-paths.js`; 5 sets, 2,100 questions, same questions as gates):
+- **Hits: x1 ≈ gates on every path**, about +10 questions over 1,500 hits.
+- **Misses: almost all of the gain is the explore "found" path.** When no first-context email gets a YES and the agent finds one, x1 is right on 74 misses where gates is wrong, and wrong on 6 where gates is right.
+- **Remaining hit errors vs the gold-only oracle** (FULL-0) concentrate on the unsure-commit → g5 handover path: 108/128 vs 115/128.

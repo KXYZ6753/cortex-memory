@@ -40,7 +40,7 @@ One question goes through these steps. All model calls are e2b with the main run
 |---|---|---|---|
 | S300-2 | screening | 86.1 | +1.1 [−1.9, 4.3] |
 | S300-1 | screening | 87.7 | +3.8 [0.9, 6.9] |
-| S300-3 | confirmation | | +2.3 [0.2, 4.3] |
+| S300-3 | confirmation | 86.0 | +2.3 [0.2, 4.3] |
 | FULL-0 (600) | biased toward gates (phase 1 selected gates on it) | | +0.6 [−1.2, 2.6] |
 | FULL-1 (600) | clean confirmation | 86.0 | +1.3 [−0.4, 2.9] |
 

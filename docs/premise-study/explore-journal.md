@@ -363,4 +363,20 @@ Reading: of the ~48-point gap between the frozen e2b agent and x1, ~40 points ar
 - j2, re-reading the YES email alone when unsure: about +0.5. j's taxonomy of 84 wrong x1 hit answers: 23 wrong fact/relation from the right email (the e2b reading limit), 15 incomplete, 12 judge strictness on correct-looking answers (not addressed: fixing them would be judge-gaming), 10 wrong email, and smaller classes.
 - z, thinking mode / quote-verified JSON extraction on x1's unsure half: −1.4 / −0.9. All readings fail on the same questions; e2b quotes the right email verbatim on 96% of hits, so hit errors are misreadings, not grounding failures.
 - e, ensembles: agreement cannot select between two answers (g5 vs gates disagreements: 67 vs 69 right). e1 is about +0.15.
-- m, miss-side recall (m1/m2/m3): m3 +0.4 [0.1, 0.9] on S300-2; S300-1 pending.
+- m, miss-side recall (m1/m2/m3): YES/NO recovery probes down a snippet-CE list of the asker's mailbox when x1's first YES is unsure (token logprob < −0.1).
+  - Δ vs x1: m1 +0.1 / +0.0, m2 −0.1 / **+0.3 [0.1, 0.7]**, m3 +0.4 [0.1, 0.9] / +0.0 (S300-2 / S300-1).
+  - Pooled about +0.1 to +0.2.
+  - On S300-2 the false-stop golds sit deep (8/27 beyond mailbox rank 100), so the probes have nothing to find. On S300-1 the recovered emails were answer-bearing on 11 of 18 misses, but that is only about +5 to +7 misses per 100. Notes: `explore2/m.md`.
+
+Round 3 ends with no promotion: nothing beat x1 by the +1.0 bar.
+
+### Round 4 (Tue 6 Oct, 16:50–19:15 ET)
+
+The PC restarted around 10:30 ET. All round-3 runs had already finished, so nothing was lost. I restarted Ollama 0.34.2 with `ollama serve`; auto-update is still off and the digests match.
+
+Round 4 has three workers:
+- **y** stacks j2 and m2 on x1 and on t-lx.
+- **h** works on hit-side reading on x1's unsure-commit (handover) path.
+- **v** builds the final pooled tables and the cost/accuracy frontier offline.
+
+The lead confirms t-lk (the minimal agent) on S300-3 and FULL-1.

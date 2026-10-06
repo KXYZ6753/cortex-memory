@@ -98,3 +98,18 @@ x1 = YES/NO commit check over gates' first context (stop at first YES) → answe
 ## Promotion
 
 Candidate = pooled Δ vs **x1** ≥ +1.0 over S300-2 + S300-1 (or Δ vs gates ≥ +2.5 pooled) within the cost cap. The lead confirms on S300-3 and FULL-1 (and FULL-0). Workers never run on S300-3, FULL-0, FULL-1. Each worker: ≤ 2 variants × 300 per GPU run; offline-first.
+
+---
+
+# Round 4 (Tue 6 Oct ~16:50 ET to ~19:15 ET; lead wraps up by 20:00)
+
+The PC restarted around 10:30 ET; nothing was lost (all round-3 runs had finished). Ollama 0.34.2 was restarted with `ollama serve`; digests match.
+
+Round-3 results (Δ vs x1, pooled S300-2 + S300-1, J1): j2 +0.55 (single re-read of the YES email on unsure commits, kept only if itself confident), m2 +0.1 / m1 +0.05 / m3 +0.2 (YES/NO recovery probes down the snippet-CE mailbox list when the first YES is unsure), e1 +0.15, z-think1 −1.4, z-ext1 −0.9, t-lx −0.1 at −13% wall, t-lk −0.8 at −38% wall. Notes: j.md, m.md, e.md, z.md, t.md.
+
+Round 4 has three workers:
+- **y**: stack j2 and m2 (they act on different paths) on x1 and on t-lx.
+- **h**: hit-side reading on x1's unsure-commit (handover) path.
+- **v**: offline final tables for the paper and the presentation.
+
+Promotion is unchanged: pooled Δ vs x1 ≥ +1.0 over S300-2 + S300-1, within the cost cap. GPU time is short. Each worker gets at most 4 runs of 300 questions, and every GPU run must be queued by 18:45 ET.

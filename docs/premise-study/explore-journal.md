@@ -520,3 +520,38 @@ Demos change the answer's form, not the reading. Answers get 20–25% shorter an
 - 13% of hits are right under some presentations and wrong under others, but no presentation wins consistently.
 
 **New worker l** (Wed 04:35 ET): pointwise self-verification to select among diverse candidate answers. There is answer diversity on unsure hits (c, n), and no selector yet beats a coin flip (pairwise choose, voting). A pointwise YES/NO with logprob has not been tried. l measures the verifier's within-question pairwise accuracy on stored candidates first, and builds a best-of-K variant only if that accuracy is clearly above 50%.
+
+**Wed 07:01 ET: the PC restarted again.** Ollama was restarted with `ollama serve` (0.34.2, same digest). Worker u had already stopped earlier on an API usage limit, and worker l was interrupted; l was resumed at 07:20.
+
+**u (literature methods) is closed** (`explore2/u.md`).
+- **Prompt repetition** (Leviathan et al.) is null pooled: gates + repetition 0.0, x1 + repetition −1.1.
+- **Speculative context-aware decoding (CAD, α 0.5)** improves single-email reading: gold-only hits +38/−24 over four dev sets (+1.3 hit points), and +2.2 over a padding placebo.
+- **CAD does not survive multi-email contexts:**
+  - x1 with CAD on every answer call is +0.3 on S300-2;
+  - gates + CAD is −0.1.
+- **x1 + CAD re-read of the YES email alone on sure commits (u-xyc)** is null:
+  - S300-4: −0.1 [−2.3, 2.1];
+  - S300-5: +0.1 [−1.9, 1.8];
+  - S300-1: −0.6.
+- **Calibration:** a content-free placebo (gates with its prompt padded by periods) moved S300-4 + S300-5 pooled by +0.7 (S300-5 alone +2.5). The +1.5 bar is about two placebo draws.
+
+**i (determinism and energy) is done** (`explore2/i.md`).
+- **The `det()` wrapper** (`variants/i-det.js`) issues a long fixed reset prompt before each call. That makes every prompt compute from cache position 0, so answers no longer depend on earlier questions.
+- **Verified natural experiment:** behind det, x1 and t-lk give byte-identical answers on every path where they issue the same prompts. Unwrapped, 5 verdicts flipped on those paths from history alone.
+- **Cost of det:** gates +36 ms per question (byte-identical to stored gates), x1 +151 ms. Accuracy is unchanged.
+- **Identical call sequences reproduce exactly** (x1, t-lk and gates re-runs 300/300).
+- **Energy per question, S300-1:**
+  - RTX 5060 Ti board power; idle 8.2 W subtracted from the marginal figures;
+  - CPU attributed to the runner, llama-server and ollama;
+  - design-weighted J1.
+
+| system | J1 | wall ms | total J/question | J per correct answer |
+|---|---|---|---|---|
+| P-B | 77.6 | 647 | 72 | 93 |
+| gates | 83.9 | 759 | 81 | 96 |
+| t-lk | 86.1 | 1,099 | 114 | 132 |
+| x1 | 87.7 | 1,687 | 174 | 199 |
+
+- Energy tracks wall time, a little sublinearly: agents draw 96–98 W against P-B's 111 W.
+- gates buys +6.3 points for +3% energy per correct answer.
+- x1 buys +10.1 points over P-B for +114%.

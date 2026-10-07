@@ -555,3 +555,34 @@ Demos change the answer's form, not the reading. Answers get 20–25% shorter an
 - Energy tracks wall time, a little sublinearly: agents draw 96–98 W against P-B's 111 W.
 - gates buys +6.3 points for +3% energy per correct answer.
 - x1 buys +10.1 points over P-B for +114%.
+
+**q (stacking the small real gains) is done** (`explore2/q.md`, Wed 09:32 ET).
+- **q1** = x1 + d8 (g5 seeded with the doubted first-YES email) + m2 (recovery of an answer-bearing email on committed questions) + d6's explore list. **q2** = q1 + thread labels (c). Both run behind det (mode "all"); the baseline is `i-det-x1` v2.
+- **Stub check:** 0 failures over 8 scenarios. q1 issues exactly the calls of x1, d8 or m2 wherever only that component acts. On the decision sets, the 411 of 600 questions where no component acts gave byte-identical answers.
+- **Decision sets** (S300-4 + S300-5, Δ vs det x1, mailbox-cluster bootstrap):
+  - q1: +1.20 [−0.1, 3.0] (S300-4 +2.41, S300-5 +0.00). With S300-1 added: +0.94 [−0.0, 2.0] over 900 questions.
+  - **q2: +2.51 [0.2, 4.6], p = 0.026** (S300-4 +1.94, S300-5 +3.07). It passes the +1.5 bar.
+  - Labels alone (q2 − q1): +1.30 [−1.1, 3.4], and set-dependent (−0.47, +3.07, +0.14 on S300-1), as in c.
+- **Flips, q1 vs det x1:** hits +7/−3, misses +13/−5. m2 on misses is the most robust piece (+15/−3 over 900 questions).
+- **Wall time with det:** q1 2,494 ms, q2 2,480 ms, det x1 2,025 ms. Without det, about 2,300 ms. Inside the 3,243 ms cap.
+- **Erratum found by q:** the LCG used for bootstrap intervals in several analysis tools multiplies in doubles. Its period is about 10,466 and its output is not uniform. Affected tools: `y-lib`, `t-ladder`, `c-pooled`, `l-lib`, `l-stub`, `e-lib`, `x-tau`, `p-logit`, `h-clean`, `c-gold-eval`.
+  - Point estimates are unaffected; intervals from those tools are unreliable.
+  - Example: the y1 confirmation interval −0.5 [−1.6, 1.6] becomes [−1.91, 0.93] with a correct RNG. The decision is unchanged.
+  - Intervals from `analyze.js` and `cli2 report` are correct.
+  - An audit of the journal's intervals follows.
+
+**Lead confirmation on FULL-2. The rule is fixed here, before the run** (Wed 09:45 ET).
+- **Arms**, all behind det (mode "all"): `i-det-x1` v2 (reference), `q-det-q1` v1, `q-det-q2` v1, `i-det-gates`.
+- **Primary contrast:** q-det-q2 − i-det-x1. J1 weighted, paired, mailbox-cluster bootstrap (`cli2 report`).
+- **Outcomes:**
+  - *confirmed*: Δ ≥ +1.0 and the 95% CI lower bound > 0;
+  - *consistent*: Δ > 0 but not confirmed;
+  - *not confirmed*: Δ ≤ 0.
+- **Secondary (descriptive only):**
+  - q1 − x1: the retrieval mechanisms;
+  - q2 − q1: the labels;
+  - q2 − gates: against the registered primary;
+  - the pooled estimate over S300-4 + S300-5 + FULL-2.
+- **Cost:** mean wall time with det must be ≤ 3,243 ms.
+- **Energy:** `energy-logger.js` is recording to `.data/premise2/explore/r5-energy.jsonl`, with an `i-idle` baseline. Energy per question is reported with `tools/i-energy.js`.
+- No variant changes after this entry, and FULL-2 is not used for any selection.

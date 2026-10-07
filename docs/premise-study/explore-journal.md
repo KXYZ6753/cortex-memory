@@ -943,3 +943,20 @@ Kerem asked for the best systems to be run as study data, most important first. 
   - tier-A grading of the new answers: J1 353, J2 353, adjudication 101, 0 errors;
   - cost $0.046 (total $1.036).
   - It ran under the explore2 GPU lock, so worker p3's dev dry-runs waited.
+
+**Addendum 4 committed, and the three arms started on TEST** (Wed 16:40 ET).
+- **Code:** worker p3's code is committed at 3317f76:
+  - `confirm2.js`, now multi-arm;
+  - `tier-a.js` (grading);
+  - `confirm-comp.js` (comparator grading);
+  - `confirm2-analyze.js` and `confirm2-energy.js`.
+  - The code hash over `explore2/` is `afbc5e25…`. explore2 is frozen until the arms are graded.
+- **Addendum 4:** `benchmarks/premise2/PREREG-EXPLORE2.md`, commit e460c7d.
+  - **Confirmatory arm:** q-det-q1, Holm over three tests:
+    - Z1: q1 − e2b P-B, superiority;
+    - Z2-NI: q1 − 31b P-B, non-inferiority at a 5-point margin;
+    - Z3: q1 − gates, superiority.
+  - **Secondary arms:** lite-det-ub and i-det-x1.
+  - `confirm2.js check` reports ok for all three arms.
+- **Runs:** q1 → lite → x1, 600 TEST questions each. The energy logger and CPU sampler are verified at start; the q1 runner is pid 22488.
+- **Comparator tier-A grading** (`confirm-comp.js grade`) is running in parallel: 1,200 answers, 1,045 J1 calls, 1,045 J2 calls.

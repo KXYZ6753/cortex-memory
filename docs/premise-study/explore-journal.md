@@ -849,3 +849,41 @@ Round 5 had 10 workers (b, c, d, u, i, l, q, r, s, lite) plus v5 for the tables.
   - x1 is dominated by lite.
 
 **det gates on S300-4 and S300-5** (lead, Wed 15:10 ET; descriptive). This completes the det-vs-det table against the registered primary over all four fresh sets. Reported: q1, lite and x1, each minus det gates, pooled over 1,800 questions.
+
+**Against the registered primary over all four fresh sets** (lead, Wed 15:15 ET; det vs det; S300-4 + S300-5 + FULL-2 + FULL-3, 1,800 questions; `tools/q-stats.js`):
+
+| system − det gates | weighted Δ | mailbox-cluster CI | stratified question CI | sign-flip p | discordant misses | discordant hits |
+|---|---|---|---|---|---|---|
+| q1 | **+1.64** | [0.79, 3.78] | [0.48, 2.81] | 0.006 | +121/−11 | +34/−32 |
+| lite-det-ub | +0.80 | [0.35, 2.64] | [−0.08, 1.67] | 0.08 | +101/−11 | +15/−21 |
+| det x1 | +0.77 | [0.04, 2.36] | [−0.29, 1.84] | 0.16 | +92/−9 | +25/−30 |
+
+- **The hybrid systems' gain over the one-shot pipeline is almost entirely on misses.** On hits, gates reads as well as x1, lite or q1: net discordant hits are −5, −6 and +2.
+- **Weight decides the size.** Misses carry 6.8% of the weight, so even +100 net miss flips over 500 misses is only about +1.4 weighted.
+- **For the TEST arm** (Y3, superiority over gates at n = 600): q1 is the only arm whose fresh-set gain is clearly above zero. x1's +0.77 makes Y3 with x1 a likely null.
+
+**e2 (complete energy accounting) is done** (`explore2/e2.md`, Wed 15:10 ET).
+- **Runner processes:** identified for every run inside the CPU sampler's window. 99.7–100% of each runner's CPU falls inside its own question windows.
+- **CPU pricing:**
+  - package W regressed on busy % over 10 s blocks: 8.37 J per CPU-second, R² 0.90;
+  - i's 1 s pairs were misaligned in time and gave 4.9;
+  - a direct share of package power above idle agrees within 1 J per question.
+- **Total energy per correct answer on FULL-3** (GPU gross + attributed CPU):
+
+| system | GPU only | total | CPU share |
+|---|---|---|---|
+| gates | 99 | **106** | 7% |
+| lite | 175 | **205** | 15% |
+| x1 | 205 | **227** | 10% |
+| q1 | 237 | **283** | 16% |
+
+- **The order gates < lite < x1 < q1 holds under every attribution. The gaps change:**
+  - lite's saving vs x1 is −10% on FULL-3 and −18% on FULL-2;
+  - q1's premium over x1 is +25%;
+  - q1 costs 2.67× gates.
+- **m2 is CPU-heavy:** each firing costs about 9 CPU-seconds (about 75 J), because the cross-encoder keeps about 7 cores busy for 1.1–1.4 s.
+- **Corrections:**
+  - q1's S300-1 CPU is 36 J per question, not 7 (total per correct answer 239 on the marginal basis).
+  - Worker i's S300-1 CPU figures were overstated: runner PIDs were counted 2–3 times from queue snapshots. Det x1 drops from 30 to 20 J per question.
+  - GPU figures are unaffected.
+- **FULL-2:** CPU for gates, x1, q1 and q2 is an upper bound or estimate only, because those runs finished before the sampler started.

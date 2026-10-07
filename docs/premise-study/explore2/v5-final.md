@@ -334,3 +334,28 @@ FULL-3 was drawn after FULL-2, with its rule fixed in the journal before the run
 | det q1 | +1.64 [0.79, 3.78] (0.006) | +121/−11 / +34/−32 | 283 |
 
 **Slide message.** Engineering around e2b pays only where retrieval misses the answer email. On questions where the answer email is retrieved, the one-shot pipeline reads as well as any agent. The best stack (q1) costs 2.7× gates' energy per correct answer, for +1.6 points.
+
+## TEST results: study data (Wed 7 Oct 2026, 17:45 ET)
+
+These are the 600 TEST questions (P-B items 0..599), graded tier A (J1 + J2 + adjudication), with a paired mailbox-cluster bootstrap (B = 10,000). Each system was pre-registered before its run:
+- gates: addendum 3, `benchmarks/premise2/PREREG-EXPLORE.md`;
+- q1, lite and x1: addendum 4, `benchmarks/premise2/PREREG-EXPLORE2.md`.
+
+Full tables are in `benchmarks/results/premise2/explore/confirm.md` and `benchmarks/results/premise2/explore2/confirm2.md`.
+
+| system (all e2b unless noted) | accuracy | vs e2b P-B | vs 31b P-B (non-inferiority at 5 points) | vs gates | mean latency | total J per correct answer |
+|---|---|---|---|---|---|---|
+| e2b P-B (baseline) | 88.0 | – | – | – | 649 ms | – |
+| 31b P-B (25× larger model) | 91.7 | – | – | – | – | – |
+| **gates** (one-shot, addendum 3 primary) | **92.3** | **+4.3 [2.1, 6.6], superior** | **+0.7 [−1.5, 2.9], non-inferior** | – | 744 ms | **96** |
+| lite (hybrid, cheaper) | 92.3 | +4.3 [1.8, 6.9] | +0.7, non-inferior | 0.0 [−1.3, 1.3] | 1,517 ms | 174 |
+| x1 (hybrid agent) | 92.3 | +4.3 [1.7, 7.0] | +0.7, non-inferior | 0.0 [−1.8, 1.7] | 1,699 ms | 202 |
+| **q1** (best hybrid, addendum 4 confirmatory) | **92.7** | **+4.7 [2.0, 7.3], superior** | **+1.0 [−1.7, 3.7], non-inferior** | +0.3 [−1.4, 2.0], inconclusive | 2,202 ms | 246 |
+
+**Slide message.**
+- Retrieval engineering offsets model scale here: a 2B model with a better one-shot retrieval pipeline matches the 31b model's P-B score on TEST (non-inferior at 5 points) and beats its own baseline by 4.3 points.
+- Agentic and hybrid stacks add no measurable accuracy on top of the one-shot pipeline on TEST, at 1.8–2.6× its energy per correct answer.
+- Notes on the table:
+  - The 31b P-B row's "25×" is the parameter ratio.
+  - The comparator scores were re-graded on this machine and reproduce the published 88.0 and 91.8.
+  - The e2b P-B latency (649 ms) is the main study's figure.

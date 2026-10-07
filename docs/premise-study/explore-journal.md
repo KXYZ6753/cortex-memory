@@ -915,3 +915,26 @@ Round 5 had 10 workers (b, c, d, u, i, l, q, r, s, lite) plus v5 for the tables.
   - TEST grading and analysis code for an explore2 arm (`confirm.js` handles gates only).
   - The freeze is strict: any later commit under `explore2/` changes the code hash and blocks the runner.
 - **Flag for Kerem, found by p2:** addendum 3 (`PREREG-EXPLORE.md` line 18) says the main run's options include num_predict 320. But `run-state.json` records 160, and `confirm.js` passes 160. The gates TEST run would therefore use 160, contrary to the registered text. This needs a deviation-log line, or a decision, before that run. I have not edited the PREREG.
+
+## TEST runs (Kerem's go-ahead, Wed 7 Oct ~16:10 ET)
+
+Kerem asked for the best systems to be run as study data, most important first. The order:
+1. `gates` (addendum 3, registered).
+2. `q-det-q1` (primary for a new addendum 4).
+3. `lite-det-ub`.
+4. `i-det-x1`.
+5. The remaining 355 TEST questions for gates (secondary in addendum 3), if time allows.
+
+**gates on TEST** (addendum 3; runner `explore/confirm.js`, code hash 9801148b…, PREREG commit ba2da36):
+- **Deviations logged before the run:**
+  - num_predict 160, the main run's actual setting; the §1 text wrongly said 320;
+  - comparator fallback grading here, because the Mac tier-A verdicts are not on this machine;
+  - a CPU sampler alongside the energy logger.
+- **Run, Wed 16:13–16:24 ET:** 600/600 status ok, wall 744 ms mean, p95 1,099 ms.
+- **Tier-A grading:**
+  - J1: 598 calls;
+  - J2: 598 calls;
+  - adjudication: 158 calls;
+  - 2 answers pre-graded, 0 judge errors.
+  - Cost $0.074 (total spend $0.990 of the $5 cap).
+- **Analysis waits for the comparator grading** (e2b and 31b P-B answers, tier A here; code being built in `explore2/`, outside the frozen `explore/` hash).

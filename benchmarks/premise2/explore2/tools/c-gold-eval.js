@@ -5,6 +5,7 @@ import { questionType } from "../../text.js"
 import { segmentThread } from "../variants/c-render.js"
 import { latestAnswers } from "../../explore/grade.js"
 import { pool, dataDir, verdictOf, emails, closeEmails } from "./c-lib.js"
+import { mulberry32, BOOT_B } from "./rng.js"
 
 const [setsArg, variant = "c-gold", baseName = "base"] = process.argv.slice(2)
 const sets = setsArg.split(",")
@@ -20,9 +21,8 @@ for (const a of latestAnswers(dataDir)) {
 closeEmails()
 const names = Object.keys(rows[0]?.v ?? {})
 const pct = (n, d) => (d ? (100 * n / d).toFixed(1) : "-")
-function boot(diffs, B = 2000) {
-    let seed = 7
-    const rnd = () => ((seed = (seed * 1103515245 + 12345) >>> 0) / 2 ** 32)
+function boot(diffs, B = BOOT_B) {
+    const rnd = mulberry32(7) // was a double-precision LCG; from seed 7 its period is 419 (ci-erratum.md)
     const out = []
     for (let b = 0; b < B; b++) { let s = 0; for (let i = 0; i < diffs.length; i++) s += diffs[Math.floor(rnd() * diffs.length)]; out.push(s / diffs.length) }
     out.sort((a, b) => a - b)

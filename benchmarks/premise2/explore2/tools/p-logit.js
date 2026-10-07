@@ -6,6 +6,7 @@
 
 import { join } from "node:path"
 import { SCRATCH, readJsonIf } from "./r-common.js"
+import { mulberry32 } from "./rng.js"
 
 const rows = readJsonIf(join(SCRATCH, "p-trigger-rows.json"), [])
 const feats = (r) => [1, r.b1 - r.gmax, r.b1 - r.g1, r.gmax, r.g1, r.b2 - r.gmax, Math.log1p(Math.abs(r.s1)), (r.s1 - r.s2) / (Math.abs(r.s1) || 1), r.h1, r.hb1 - r.h1]
@@ -23,8 +24,7 @@ function fit(idx) {
     }
     return w
 }
-let seed = 7
-const rand = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648)
+const rand = mulberry32(7) // was a double-precision LCG with period 10,466 (ci-erratum.md)
 const fold = rows.map(() => Math.floor(rand() * 5))
 const score = Array(rows.length)
 for (let f = 0; f < 5; f++) {

@@ -3,6 +3,7 @@
 // where the escalation replaced it. Separates the escalation from engine nondeterminism.
 //   node benchmarks/premise2/explore2/tools/h-clean.js S300-2 h4@1+cold r4@1+cold
 import { openH } from "./h-common.js"
+import { mulberry32, BOOT_B, pctSorted } from "./rng.js"
 const [set, v, ref] = process.argv.slice(2)
 const env = await openH()
 const R = new Map(env.graded(ref, set).map((i) => [i.record.questionKey, i]))
@@ -22,14 +23,14 @@ const ms = env.missShare
 const miss = rows.filter((r) => r.record.stratum === "miss"), hit = rows.filter((r) => r.record.stratum === "hit")
 const d = (L) => L.map((r) => r.clean - r.gates)
 const dm = d(miss), dh = d(hit)
-let seed = 7; const rnd = () => ((seed = (seed * 1103515245 + 12345) % 2 ** 31) / 2 ** 31)
+const rnd = mulberry32(7) // was a double-precision LCG with period 10,466 (ci-erratum.md)
 const boot = []
-for (let b = 0; b < 4000; b++) {
+for (let b = 0; b < BOOT_B; b++) {
     const s = (a) => { let t = 0; for (let k = 0; k < a.length; k++) t += a[Math.floor(rnd() * a.length)]; return t / a.length }
     boot.push(100 * (ms * s(dm) + (1 - ms) * s(dh)))
 }
 boot.sort((a, b) => a - b)
 const mean = 100 * (ms * dm.reduce((a, b) => a + b, 0) / dm.length + (1 - ms) * dh.reduce((a, b) => a + b, 0) / dh.length)
-console.log(`clean − gates ${mean.toFixed(2)} [${boot[100].toFixed(2)}, ${boot[3899].toFixed(2)}]`)
+console.log(`clean − gates ${mean.toFixed(2)} [${pctSorted(boot, 0.025).toFixed(2)}, ${pctSorted(boot, 0.975).toFixed(2)}]`)
 const fl = (L, a, b) => `${L.filter((r) => r[a] && !r[b]).length}/${L.filter((r) => !r[a] && r[b]).length}`
 console.log(`replaced: miss ${miss.filter((r) => r.replaced).length} (vs ${ref} +/- ${fl(miss.filter((r) => r.replaced), "raw", "ref")}), hit ${hit.filter((r) => r.replaced).length} (+/- ${fl(hit.filter((r) => r.replaced), "raw", "ref")}); unreplaced raw vs ${ref} (same prompt): miss ${fl(miss.filter((r) => !r.replaced), "raw", "ref")}, hit ${fl(hit.filter((r) => !r.replaced), "raw", "ref")}`)

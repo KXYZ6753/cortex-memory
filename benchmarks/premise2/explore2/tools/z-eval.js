@@ -2,6 +2,7 @@
 // flips by x1 step, wall (measured for real variants; estimated for replays).
 // node tools/z-eval.js S300-2 z-think1 [z-ext1 ...]
 import { loadTable, pool, missShare } from "./n-lib.js"
+import { mulberry32, BOOT_B, pctSorted } from "./rng.js"
 const [set, ...ids] = process.argv.slice(2)
 const { table, keys } = loadTable(set, ["x1", "gates", ...ids])
 const W = (k) => (pool.byKey.get(k).stratum === "miss" ? missShare / 100 : (1 - missShare) / 200)
@@ -20,10 +21,10 @@ function delta(id, base) {
     const point = d(ks)
     const boots = []
     const mk = ks.filter((k) => strat(k) === "miss"), hk = ks.filter((k) => strat(k) === "hit")
-    let seed = 7; const rnd = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648)
-    for (let b = 0; b < 2000; b++) { const s = []; for (let i = 0; i < mk.length; i++) s.push(mk[Math.floor(rnd() * mk.length)]); for (let i = 0; i < hk.length; i++) s.push(hk[Math.floor(rnd() * hk.length)]); boots.push(d(s)) }
+    const rnd = mulberry32(7) // was a double-precision LCG with period 10,466 (ci-erratum.md)
+    for (let b = 0; b < BOOT_B; b++) { const s = []; for (let i = 0; i < mk.length; i++) s.push(mk[Math.floor(rnd() * mk.length)]); for (let i = 0; i < hk.length; i++) s.push(hk[Math.floor(rnd() * hk.length)]); boots.push(d(s)) }
     boots.sort((a, b) => a - b)
-    return `${point >= 0 ? "+" : ""}${point.toFixed(2)} [${boots[50].toFixed(1)}, ${boots[1949].toFixed(1)}]`
+    return `${point >= 0 ? "+" : ""}${point.toFixed(2)} [${pctSorted(boots, 0.025).toFixed(1)}, ${pctSorted(boots, 0.975).toFixed(1)}]`
 }
 const f1 = (x) => x.toFixed(1)
 for (const id of ["gates", "x1", ...ids]) {

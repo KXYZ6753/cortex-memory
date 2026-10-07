@@ -100,3 +100,11 @@ As in addendum 3 §5–§7, with the verdict key prefix `X-explore2-x1|small|<qu
 4. Run 600 → grade → analyze; report whatever it shows.
 
 ## Deviation log
+
+- **Wed 7 Oct 2026, 10:10 ET (interval erratum, `explore2/ci-erratum.md`).**
+  - The y1 intervals copied into §2 came from a tool with a defective bootstrap generator. With a correct generator they are:
+    - S300-3: [−4.9, 0.6] (printed [−5.1, 0.9]);
+    - FULL-1: [−1.4, 1.9] (printed [−1.2, 2.4]);
+    - pooled confirmation: [−1.9, 0.9] (printed [−1.6, 1.6]).
+  - Point estimates and the §2 outcome are unchanged.
+  - The intervals in §1 (lines 41–45) are mailbox-cluster intervals, not "paired stratified" as captioned; the numbers are right.

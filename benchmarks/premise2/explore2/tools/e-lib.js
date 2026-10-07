@@ -1,5 +1,6 @@
 // e: shared offline helpers (ensembles / answer agreement). Pool records + exploration answers only.
 import { openAll, weightedOf } from "./a-lib.js"
+import { mulberry32, BOOT_B } from "./rng.js"
 
 export const ctx = await openAll()
 export const { missShare } = ctx
@@ -21,9 +22,8 @@ export const W = (items) => weightedOf(items, missShare)
 export const fmt = (s) => `${(100 * s.weighted).toFixed(1)} (miss ${(100 * s.miss).toFixed(0)} hit ${(100 * s.hit).toFixed(1)})`
 
 // paired bootstrap CI on the weighted difference (stratified)
-export function bootDelta(rows, fa, fb, B = 2000, seed = 7) {
-    let s = seed
-    const rnd = () => ((s = (s * 1103515245 + 12345) % 2147483648) / 2147483648)
+export function bootDelta(rows, fa, fb, B = BOOT_B, seed = 7) {
+    const rnd = mulberry32(seed) // was a double-precision LCG with period 10,466 (ci-erratum.md)
     const miss = rows.filter((r) => r.record.stratum === "miss"), hit = rows.filter((r) => r.record.stratum === "hit")
     const d = (l) => l.map((r) => fa(r) - fb(r))
     const dm = d(miss), dh = d(hit)

@@ -586,3 +586,21 @@ Demos change the answer's form, not the reading. Answers get 20–25% shorter an
 - **Cost:** mean wall time with det must be ≤ 3,243 ms.
 - **Energy:** `energy-logger.js` is recording to `.data/premise2/explore/r5-energy.jsonl`, with an `i-idle` baseline. Energy per question is reported with `tools/i-energy.js`.
 - No variant changes after this entry, and FULL-2 is not used for any selection.
+
+**r (bootstrap interval erratum) is done** (`explore2/ci-erratum.md`, Wed 10:05 ET).
+- **The bug:** 15 analysis tools under `explore2/tools/` used `seed * 1103515245 + 12345` computed in doubles.
+  - The `& 0x7fffffff` and `% 2^31` forms share one cycle of period 10,466. `c-gold-eval` (`>>> 0`, re-seeded at 7) has a cycle of only 419.
+  - Synthetic test: with period 10,466 each bound is off by about ±0.4 points rms and coverage is 92–93%; `c-gold-eval`'s intervals are about half the correct width, with 63% coverage.
+  - `analyze.js` / `cli2 report`, `v-final.js` and `q-stats.js` were never affected.
+- **The fix:** `tools/rng.js` (mulberry32, B = 10,000), now used by every affected tool.
+- **The audit:** about 190 intervals were recomputed from stored data; every old value reproduced first.
+- **No promotion, null or confirmation decision changes.** Key corrected intervals:
+  - y1 − x1 confirmation: [−1.9, 0.9];
+  - x1 − gates over 2,700 questions: [0.15, 2.0], still excluding 0;
+  - x1 + thread labels over 1,800 questions: [−0.75, 1.7].
+- **Four statements in worker notes no longer hold at 95%:**
+  1. l's selector l-xs1 − x1: [−3.74, 0.16] (printed as excluding 0).
+  2. t's k1 − gates: [−0.38, 2.8].
+  3. c's gold-only presentation tables: about half width, so only `thread` stays significantly negative on FULL-1.
+  4. c's c-fin1 − x1 on S300-2: [0.00, 4.9].
+- The PREREG-X1 draft's copies of the y1 intervals are corrected in its deviation log.

@@ -5,11 +5,12 @@
 // set may be "S300-2+S300-1" (pooled; bootstrap stratified over the pooled questions).
 //   node benchmarks/premise2/explore2/tools/t-ladder.js S300-2 x1@1+cold agent@1+cold,... [--ref x1@1+cold]
 import { openAll, weightedOf } from "./a-lib.js"
+import { mulberry32, BOOT_B } from "./rng.js"
 const { graded, missShare } = await openAll()
 const argv = process.argv.slice(2)
 const refIdx = argv.indexOf("--ref")
 const ref = refIdx >= 0 ? argv[refIdx + 1] : "gates@1+cold"
-const [set, list] = argv.filter((_, i) => i !== refIdx && i !== refIdx + 1)
+const [set, list] = refIdx >= 0 ? argv.filter((_, i) => i !== refIdx && i !== refIdx + 1) : argv
 const variants = list.split(",")
 
 const isGold = (record) => (p) => p === record.path || (record.twins ?? []).includes(p)
@@ -24,13 +25,12 @@ function shownSet(a) {
     return s
 }
 const pct = (xs, q) => { const s = [...xs].sort((a, b) => a - b); return s[Math.min(s.length - 1, Math.floor(q * s.length))] }
-function bootstrap(pairs, B = 4000) {
+function bootstrap(pairs, B = BOOT_B) {
     // pairs: [{ stratum, d }] d = v - ref per question; stratified resampling
     const m = pairs.filter((p) => p.stratum === "miss").map((p) => p.d), h = pairs.filter((p) => p.stratum === "hit").map((p) => p.d)
     const mean = (l) => l.reduce((s, x) => s + x, 0) / l.length
     const point = missShare * mean(m) + (1 - missShare) * mean(h)
-    let seed = 12345
-    const rnd = () => ((seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff)
+    const rnd = mulberry32(12345) // was a double-precision LCG with period 10,466 (ci-erratum.md)
     const draws = []
     for (let b = 0; b < B; b++) {
         let sm = 0, sh = 0

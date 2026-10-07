@@ -69,6 +69,6 @@ if (MORE.length) Object.assign(pols, {
 const base = pols.x1, g = pols.gates
 for (const [name, f] of Object.entries(pols)) {
     const s = W(rows.map((r) => ({ record: r.record, correct: f(r.k) })))
-    const dx = bootDelta(rows, (r) => f(r.k), (r) => base(r.k), 1000), dg = bootDelta(rows, (r) => f(r.k), (r) => g(r.k), 1000)
+    const dx = bootDelta(rows, (r) => f(r.k), (r) => base(r.k)), dg = bootDelta(rows, (r) => f(r.k), (r) => g(r.k))
     console.log(name.padEnd(36), fmt(s).padEnd(28), `Δx1 ${dx.d.toFixed(1).padStart(5)} [${dx.lo.toFixed(1)}, ${dx.hi.toFixed(1)}]  Δgates ${dg.d.toFixed(1).padStart(5)}`)
 }

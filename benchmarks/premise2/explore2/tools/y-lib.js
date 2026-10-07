@@ -1,15 +1,15 @@
 // Worker y: shared offline helpers. Graded answers joined by question (a-lib.js openAll),
 // paired stratified bootstrap of a weighted Δ (same procedure and seed as t-ladder.js).
 import { openAll, weightedOf } from "./a-lib.js"
+import { mulberry32, BOOT_B } from "./rng.js"
 export { openAll, weightedOf }
 
-export function bootstrap(pairs, missShare, B = 4000) {
+export function bootstrap(pairs, missShare, B = BOOT_B) {
     // pairs: [{ stratum, d }], d = variant - reference per question
     const m = pairs.filter((p) => p.stratum === "miss").map((p) => p.d), h = pairs.filter((p) => p.stratum === "hit").map((p) => p.d)
     const mean = (l) => l.reduce((s, x) => s + x, 0) / l.length
     const point = missShare * mean(m) + (1 - missShare) * mean(h)
-    let seed = 12345
-    const rnd = () => ((seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff)
+    const rnd = mulberry32(12345) // was a double-precision LCG with period 10,466 (ci-erratum.md)
     const draws = []
     for (let b = 0; b < B; b++) {
         let sm = 0, sh = 0

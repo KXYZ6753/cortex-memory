@@ -95,7 +95,7 @@ console.log(`${set} theta ${TH}`)
 for (const [name, f] of Object.entries(pols)) {
     if (!f) continue
     const s = W(rows.map((r) => ({ record: r.record, correct: f(r.k) })))
-    const d = bootDelta(rows, (r) => f(r.k), (r) => pols.x1(r.k), 1000)
+    const d = bootDelta(rows, (r) => f(r.k), (r) => pols.x1(r.k))
     const fl = rows.reduce((acc, r) => { const a = f(r.k), b = pols.x1(r.k); if (a !== b) acc[(r.record.stratum === "miss" ? 0 : 2) + (a > b ? 0 : 1)]++; return acc }, [0, 0, 0, 0])
     console.log(name.padEnd(38), fmt(s).padEnd(28), `Δx1 ${d.d.toFixed(2).padStart(5)} [${d.lo.toFixed(1)}, ${d.hi.toFixed(1)}]  miss +${fl[0]}/-${fl[1]} hit +${fl[2]}/-${fl[3]}`)
 }

@@ -1042,3 +1042,5 @@ Every gain since phase 1 came from misses. Hits carry about 93% of the weight (a
 3. H6-C: the lead confirms, with a rule written here before the run.
 
 The lead runs det gates, q1 and lite on H6-D as parents.
+
+**Wed 19:55 ET: precision diagnostic added.** Kerem freed disk space (59 GB free). The lead pulled `gemma4:e2b-it-q8_0` (8.1 GB; the same e2b weights at Q8_0). The study's tags and their digests are untouched. Worker **q8** asks whether part of e2b's hit-reading floor is the Q4 quantization: Q8 vs Q4 on gold-only reading behind det, then end to end only if gold-only gains ≥ +1.0 hit points. It is a diagnostic, not an e2b-arm candidate; any use in the paper is Kerem's decision.

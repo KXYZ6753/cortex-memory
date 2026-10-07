@@ -720,3 +720,17 @@ Demos change the answer's form, not the reading. Answers get 20–25% shorter an
   - The honest size of q1's gain over x1 is about **+0.9 weighted**, with an interval of roughly [0.3, 1.9]. It is never negative on a fresh set (S300-4 +2.41, S300-5 0.00, FULL-2 +1.4, FULL-3 +0.06), but it is set-dependent.
   - The shrinkage pattern holds once more: the screening estimate (+1.2 on the decision sets) overstated the true effect.
 - **Against gates on the two clean sets:** x1 is +1.1 (FULL-2) and +2.0 (FULL-3); q1 is +2.5 and +2.0.
+
+**A cheaper arm added to FULL-3 and FULL-2. Rule fixed before the run** (lead, Wed 13:45 ET).
+- **The arm:** worker lite's leading candidate, `lite-det-ub` (`variants/lite-stack.js`), behind det. It is t-lk + d6's explore list + m2 recovery (only on doubted, unsure commits) + a d8-seeded g5 handover (only when the recovery finds no email). It skips x1's g5 handover on unsure commits that have a confident first YES.
+- **Dev screening, det vs det:**
+  - vs det x1: S300-1 about −0.1, S300-2 −0.86, S300-3 +0.20;
+  - GPU energy per correct answer 14–16% lower.
+- **Question:** does it keep x1-level accuracy on fresh sets at lower energy?
+- **Reported, all descriptive** (no selection; FULL-2 and FULL-3 are used for nothing else):
+  - lite-det-ub − det x1 per set and pooled over FULL-2 + FULL-3;
+  - lite-det-ub − det gates;
+  - wall time, calls, and GPU J per question and per correct answer.
+- **Pre-stated reading:**
+  - *x1-level*: the pooled Δ vs det x1 ≥ −0.5 with the CI lower bound ≥ −1.5, and lower energy per correct answer than det x1;
+  - otherwise *not x1-level*.

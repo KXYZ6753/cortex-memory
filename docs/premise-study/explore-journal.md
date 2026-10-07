@@ -1006,3 +1006,39 @@ Kerem asked for the best systems to be run as study data, most important first. 
   - On TEST the hybrid and agentic stacks add nothing measurable over the one-shot `gates`: q1 +0.3, lite 0.0, x1 0.0. They cost 1.8–2.6× its energy per correct answer and 2–3× its wall time.
   - The exploration prediction ("a null Z3 is the likely outcome", addendum 4 §4) held.
   - Exploration put the hybrids' gain on retrieval misses. On TEST that gain did not show; TEST's question mix may hold fewer of the questions where the recovery acts, which nobody has measured.
+
+## Round 6 (Wed 7 Oct ~20:00 ET to Thu 8 Oct 18:00 ET; Kerem: "keep exploring and finding new improvements ... especially high-yield ones")
+
+TEST is closed (results above). Round 6 is exploration only, and nothing in it goes to TEST without Kerem. From this round on, the explore2 code hash changes with every new file. Addendum 4's TEST runs are tied to commit 31af4e8 (code hash `afbc5e25…`), tagged `explore2-test-a4`.
+
+**Yield ranking used to choose directions** (what has moved accuracy most):
+- the agent interface, +40 for agents (done);
+- the sandwich prompt, +3.2 on hits, the only change that moved reading;
+- the gated mailbox switch, +3.1, and mailbox search in the agent, +4, both on misses;
+- the commit check and CE list, +1 to +2;
+- m2 + d8, +0.9.
+
+Every gain since phase 1 came from misses. Hits carry about 93% of the weight (about 95% on TEST) and sit at e2b's reading floor. The union of e2b's answers under four prompts covers 97% of hits, but no e2b-internal selector finds the right one.
+
+**Checked before choosing:**
+- The runtime is clean: repeat_penalty 1, num_ctx 16384, no truncation, temperature 0, seed 42. No hidden-default lever there.
+- `gemma4:e2b` on this box is Q4_K_M, not a higher-precision e2b. A precision diagnostic would need a download, and the disk is 99% full (16 GB free). Not done.
+
+**Sets.** The stratified draw is exhausted: only 8 unused miss questions remain under the email-disjoint rule. The new tool `explore2/tools/lead-draw.js` draws custom-sized sets with the same rules: registered, email- and twin-disjoint, round-robin over mailboxes, immutable.
+- **H6-D:** 600 hits, 19 mailboxes, hash 9b53c876ea4f. Decision set; each worker may run at most 2 variants there.
+- **H6-C:** 1,800 hits + 8 misses, 16 mailboxes, hash 04045cddb192. Lead only; confirmation.
+- About 600 more hits remain, from only 9 mailboxes.
+
+**Workers** (brief: `explore2/BRIEF.md` "Round 6"):
+- **v6:** an independent, non-generative encoder as answer selector among e2b's own candidates. Labelled `aux`, because it is outside the "e2b + retrieval helpers" scope, so Kerem decides whether it counts.
+- **a6:** error-class surgery on hits (multi-part decomposition, roles, header-field questions).
+- **p6:** prompt shape at large n with a padding placebo (o4/o12 and sandwich-mechanism extensions).
+- **n6:** document-contrastive decoding (CAD with the evidence email removed as the contrast).
+- **s6:** scale control with e4b (gold-only reading floor; gates' gain on e4b vs e2b). Diagnostic only.
+
+**Promotion path:**
+1. Development: det vs det, ≥ 900 hits pooled, Δ ≥ +1.0 hit points, lower bound > 0, within the cost cap.
+2. H6-D: at most 2 variants per worker.
+3. H6-C: the lead confirms, with a rule written here before the run.
+
+The lead runs det gates, q1 and lite on H6-D as parents.

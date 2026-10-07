@@ -191,3 +191,53 @@ The lead owns the new sets and FULL-2.
 - **So judge your change by its paired Δ vs its own parent** (gates or x1) on S300-4 + S300-5, with a bar of +1.5. Also report the Δ vs the other system.
 - **A gates-based variant gets a +0.7 head start vs x1 on these two sets from set noise alone.** Do not count that as a gain.
 - **Wall times are inflated** while workers run CPU-heavy jobs: gates 967 ms and x1 2,391 ms on S300-5. Compare wall times within the same time window.
+
+---
+
+# Round 6 (Wed 7 Oct ~20:00 ET to Thu 8 Oct 18:00 ET; Kerem: "keep exploring ... especially high-yield ones")
+
+## Status
+
+- **TEST is done and closed.** Tier A, 600 TEST questions: gates 92.3, q1 92.7, lite 92.3, x1 92.3 (`benchmarks/results/premise2/explore2/confirm2.md`). TEST stays off limits: never open, run or compute on anything TEST (hard rule 1 above still holds word for word). Nothing in round 6 goes to TEST without Kerem.
+- **Frozen code:** never edit `benchmarks/premise2/*.js`, `explore/*.js`, `PREREG*.md`, `tests/`, or any existing file under `explore2/` (TEST addendum 4 is bound to the explore2 code hash at commit e460c7d; the lead handles that). New files only, under your prefix.
+
+## What has improved accuracy most so far (use this to judge yield)
+
+| change | gain | where |
+|---|---|---|
+| agent interface: native tool calls (+17), full text of top results (+23) | +40 for agents | agents only; done |
+| sandwich prompt (question before and after the emails) | +3.2; raised even gold-only reading 88.6 → 91.5 | hits (reading) |
+| gated mailbox switch + abstention retry | +3.1 | misses |
+| mailbox-scoped search in the agent | +4 | misses |
+| YES/NO commit check, CE explore list | +1 to +2 | misses |
+| m2 recovery + d8 seeded handover (q1 over x1) | +0.9 | misses |
+
+Everything since phase 1 has come from misses. Hits carry 93% of the weight (TEST: ~95%), and hit reading sits at e2b's floor: gold-only reading 92.2 on hits vs 88.5–90.5 for every system. The **union** of e2b's answers under 4 prompts is right on 97% of hits (n.md), and oracle selection among x1's own candidates is worth about +4 (l.md). So the prize is selection or reading on hits; no e2b-internal signal has found it.
+
+**Dead ends (do not repeat without a genuinely new twist):** everything in the round-1/2/5 lists above, plus: voting/medoid/self-consistency across prompts or systems (w, e, z: errors correlated), e2b pointwise or pairwise verification (l: sees grounding, not correctness), logprob selection (n), demonstrations (b), rendering/thread labels/excerpts (c), prompt repetition and CAD in multi-email contexts (u), cloze and multiple choice (s), quote/thinking/JSON extraction (z), re-reading the YES email alone (j2), specificity re-ask (h), concision rule (o1: −4.7), chat/system format (o2), question after every email (o7), dense retrieval (d), HyDE (w), thread expansion (d). Runtime is clean: repeat_penalty 1, num_ctx 16384, truncate false, temperature 0, seed 42.
+
+## Sets for round 6 (drawn Wed 19:50 ET, registered, email-disjoint from all earlier sets)
+
+The stratified draw is exhausted: only 8 unused miss questions remain in the pool. Round-6 sets are therefore hit-weighted, which matches where the remaining points are.
+- **H6-D** (600 hits, 0 misses, 19 mailboxes): decision set. **At most 2 variants per worker, finished ones only.** The lead runs det gates, q1 and lite there.
+- **H6-C** (1,800 hits + 8 misses, 16 mailboxes): **lead only, never run or read it.**
+- **Development sets, free:** every earlier set (S100-*, S300-1..5, FULL-0..3). S300-4/5 and FULL-2/3 are development sets now; they hold det answers for gates, x1, q1 and lite. DEMO-1/2 stay demonstration banks (never evaluate on them).
+
+## Method rules for round 6
+
+- **Run every variant behind det** (`variants/i-det.js`: `det(run, { mode: "all" })`) and compare with a det parent (`i-det-gates`, `i-det-x1`, `q-det-q1`, `lite-det-ub`, or a det version of your own parent). Behind det, concordant pairs are byte-identical, so only real changes move the score; report discordant flips (+fixed/−broken) by stratum and path.
+- **Gold-only first for reading changes:** `variants/p-perfect.js` (gold email alone, ~350 ms per question) isolates reading; then end to end.
+- **Intervals:** `tools/rng.js` (mulberry32) for any bootstrap; question-stratified paired bootstrap plus mailbox-cluster bootstrap, B = 10,000. Never the old LCG.
+- **Calibration:** a content-free prompt change moved 600 questions by +0.7 (u's padding placebo). Any prompt-changing variant must be compared against that scale; a placebo arm is welcome.
+- **Promotion path:** (1) development: pooled over ≥ 900 dev hits, det vs det, Δ ≥ +1.0 hit points with the lower bound > 0, within the 3,243 ms cap; (2) H6-D: ≤ 2 variants, Δ vs parent reported; (3) the lead confirms on H6-C with a rule written in the journal before the run.
+- Grading: `cli2 grade <set> <variants>` (J1). Exploration budget left is about $2.50; J1 is cents per thousand answers.
+- GPU only through the lock (`cli2 run`, or your own wrapper that calls `explore2/lock.js` `withLock`). Keep each locked job ≤ ~15 min so others can interleave. Never unload or pull models.
+- Notes in `docs/premise-study/explore2/<prefix>.md` as you go; do not commit (the lead commits). Hard deadline for your final report: **Thu 8 Oct 12:00 ET**; H6-D runs before 11:00 ET.
+
+## Workers and prefixes (round 6)
+
+- **v6**: an independent selection signal for hits (auxiliary encoder; scope-flagged).
+- **a6**: error-class surgery on hits (multi-part decomposition, roles/relations, header-field questions).
+- **p6**: prompt-shape family at large n with a placebo arm (o4/o12 layout, sandwich-mechanism extensions).
+- **n6**: decoding: document-contrastive CAD (the only reading method with a real single-email gain).
+- **s6**: scale control: gates and gold-only reading with Gemma 4 e4b (`gemma4:e4b-it-qat`, alias `mid`; diagnostic, not an e2b candidate).

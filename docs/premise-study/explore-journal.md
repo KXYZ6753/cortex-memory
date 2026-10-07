@@ -960,3 +960,22 @@ Kerem asked for the best systems to be run as study data, most important first. 
   - `confirm2.js check` reports ok for all three arms.
 - **Runs:** q1 → lite → x1, 600 TEST questions each. The energy logger and CPU sampler are verified at start; the q1 runner is pid 22488.
 - **Comparator tier-A grading** (`confirm-comp.js grade`) is running in parallel: 1,200 answers, 1,045 J1 calls, 1,045 J2 calls.
+
+**Result: gates on TEST under addendum 3** (`explore/cli.js confirm-analyze`, Wed 16:45 ET; `benchmarks/results/premise2/explore/confirm.{json,md}`).
+- **Grading:** tier A (J1 gpt-oss-20b, J2 nemotron-3-nano-30b-a3b, adjudicator deepseek-v4.1-flash).
+- **Statistics:** paired mailbox-cluster bootstrap, B = 10,000, seed 20260922, n = 600, Holm over three tests.
+
+| test | arm means | Δ [95% CI] | Holm p | label |
+|---|---|---|---|---|
+| X1 e2b(gates) − e2b(P-B), superiority | 92.3 vs 88.0 | **+4.3 [2.1, 6.6]** | 0.0003 | **SUPERIOR** |
+| X2-NI e2b(gates) − 31b(P-B), 5-point margin | 92.3 vs 91.7 | +0.7 [−1.5, 2.9] | 0.0003 | **NON-INFERIOR** |
+| X2-sup e2b(gates) − 31b(P-B), superiority | 92.3 vs 91.7 | +0.7 [−1.5, 2.9] | 0.608 | inconclusive |
+
+- **The comparator fallback reproduces the published scores.** Graded here, e2b P-B is 88.0 (published 88.0) and 31b P-B is 91.7 (published 91.8).
+- **Secondary results:**
+  - J1-only X1: +5.2 [2.5, 7.9];
+  - J1-only X2: +3.3 [0.3, 6.5];
+  - X1 over every TEST question run (n = 640 with e2b P-B answers): +4.8 [2.7, 7.0].
+- **Cost:** latency 744 ms mean (p95 1,099); 1.01 calls per question; the gate switched on 75 questions and the abstention retry fired on 6; 0 overflows; 0 unresolved.
+- **Energy** (lower bound, CPU package + GPU): 116.9 J gross and 82.1 J marginal per answer; 126.6 J gross per correct answer.
+- **Reading:** the frozen one-shot pipeline lets e2b beat its own P-B baseline by 4.3 points and makes it non-inferior to 31b P-B at the registered 5-point margin, at about 1.15× e2b P-B's wall time.

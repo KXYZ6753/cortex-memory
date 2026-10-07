@@ -938,3 +938,8 @@ Kerem asked for the best systems to be run as study data, most important first. 
   - 2 answers pre-graded, 0 judge errors.
   - Cost $0.074 (total spend $0.990 of the $5 cap).
 - **Analysis waits for the comparator grading** (e2b and 31b P-B answers, tier A here; code being built in `explore2/`, outside the frozen `explore/` hash).
+- **gates on the remaining 355 TEST questions** (addendum 3 §3, secondary), Wed 16:27–16:32 ET:
+  - all 955 answers have status ok;
+  - tier-A grading of the new answers: J1 353, J2 353, adjudication 101, 0 errors;
+  - cost $0.046 (total $1.036).
+  - It ran under the explore2 GPU lock, so worker p3's dev dry-runs waited.

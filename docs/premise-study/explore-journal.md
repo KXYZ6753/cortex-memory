@@ -766,7 +766,7 @@ Demos change the answer's form, not the reading. Answers get 20–25% shorter an
 - **Technical failures, lite on FULL-2:** 7 of 600 (context overflow 4, output limit 2, http_error 1). One answer is ungraded.
 - **Note on question keys:** keys with a `test:` prefix are EnronQA's source split inside the exploration pool. They are not the study's TEST set; the pool excludes the evaluation mailboxes and their emails (`pool-manifest.json` exclusions).
 
-**lite (a cheaper frontier point) is done** (`explore2/lite.md`, Wed 15:05 ET).
+**lite (a cheaper frontier point) is done** (`explore2/lite.md`, Wed 14:45 ET).
 - **Variants, all in `variants/lite-stack.js` with det forms:**
   - lite-a = t-lk + d6 + m2 as in q1, no g5;
   - lite-u = m2 only on doubted, unsure commits;
@@ -790,7 +790,7 @@ Demos change the answer's form, not the reading. Answers get 20–25% shorter an
 - **lite-det-u** is +0.27 [0.12, 0.43] over det t-lk, all on misses, but it is off the convex frontier.
 - **Fresh-set result:** see the lead's FULL-2/FULL-3 entry above. lite-det-ub is x1-level there (−0.30 [−1.24, 0.46]) at 15–22% less energy per correct answer.
 
-## Round 5 summary (Wed 7 Oct, 15:30 ET)
+## Round 5 summary (Wed 7 Oct, 14:45 ET)
 
 Round 5 had 10 workers (b, c, d, u, i, l, q, r, s, lite) plus v5 for the tables. Its evaluation used three new fresh sets (S300-4, S300-5, FULL-2) and one drawn today (FULL-3). Every decision rule was fixed in this journal before its run. Exploration spend on J1 grading is about $0.92 in total.
 

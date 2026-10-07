@@ -503,3 +503,10 @@ The lead runs x1 and gates on S300-4 and S300-5.
 - **Gold-only reading with demos:** −1.2 to +0.1.
 
 Demos change the answer's form, not the reading. Answers get 20–25% shorter and about 90% of texts change; the lost hits are mostly short answers that dropped needed context. Demos also suppress abstention (17 → 2 in 600 questions) and make x1's commit answer more confident, so fewer questions go to g5. A different prompt is a coin flip on e2b's unsure hits, so confidence gating gives the same +0.8 with any prompt. b ran nothing on the decision sets.
+
+**d (retrieval) is a small real gain, not a candidate** (Wed 04:10 ET; `explore2/d.md`).
+- **Hits are not a retrieval problem.** Only 12 of 1,600 wrong-or-right dev hits lack an answer-bearing email in the final context. x1's "wrong email" hits are misreads among contexts that include the right email.
+- **Misses:** perfect retrieval plus gold-only reading is worth at most +2.4 weighted; a perfect explore list, about +0.5.
+- **Dense retrieval (nomic)** is worse than BM25 as a first stage. Fused with BM25 it adds only +2 golds to the explore list. Embedding the query inside a run slows e2b 3–6× on this box, so it is out.
+- **Thread expansion, sender/recipient filters and date cues** add nothing.
+- **d8** = x1 with a lexical CE explore list plus the email x1's YES-probe accepted seeded into g5's first search. The x1 replay is +0.6 [0.0, 1.2] over 1,500 dev questions; on S300-4 + S300-5 it is +0.5 [−0.7, 1.6] vs x1. The flips are mechanism: explore misses +17/−1, seeded handover hits +9/−3.

@@ -1,0 +1,39 @@
+{
+  "c-fin1": {
+    "base": "x1",
+    "opts": {
+      "render": "thread1"
+    },
+    "note": "= c-xT: x1 with thread labels on chain emails in every answer prompt"
+  },
+  "c-fin2": {
+    "base": "gates",
+    "opts": {
+      "render": "thread1"
+    },
+    "note": "= c-gT: gates with thread labels on chain emails"
+  },
+  "c-goldx": {
+    "renders": [
+      "base",
+      "thread",
+      "thread1",
+      "threadh2",
+      "markce"
+    ]
+  },
+  "c-fin3": {
+    "base": "x1",
+    "opts": {
+      "render": "thread1"
+    },
+    "note": "screening slot (S300-4/5 only); set before its first run"
+  },
+  "c-fin4": {
+    "base": "gates",
+    "opts": {
+      "render": "thread1"
+    },
+    "note": "screening slot (S300-4/5 only); set before its first run"
+  }
+}

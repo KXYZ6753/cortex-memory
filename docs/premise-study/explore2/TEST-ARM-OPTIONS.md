@@ -81,3 +81,17 @@ This is the deployable form, run on a development set.
   - 181 J per question total (GPU marginal plus attributed CPU);
   - 205 J per correct answer.
   - This is comparable to worker i's S300-1 table, where x1 used 174 J per question and 199 J per correct answer.
+
+## Addendum: FULL-3, the second replication (lead, Wed 12:25 ET)
+
+The FULL-3 rule was fixed before the run. On FULL-3, q1 − det x1 is **+0.06** (stratified question bootstrap [−0.76, 0.85]; misses +12/−6, hits +1/−2). Against det gates, q1 is +2.0 [0.9, 3.7] and x1 is +2.0 [0.8, 3.7].
+
+Pooled over all four fresh sets (1,800 questions), q1 − det x1 is **+0.87 [0.28, 1.88]**, p = 0.007. Over FULL-2 + FULL-3 alone it is +0.74 [0.23, 1.17].
+
+**Updated reading.**
+- q1's real gain over x1 is about +0.9 weighted, and it varies by set. Almost all of the robust part is on misses.
+- On TEST (n = 600), q1 and x1 will be indistinguishable. Both should come out about +2 over gates.
+- The recommendation is unchanged, but weaker.
+  - **C (q1, behind det)** is the better-supported arm, because it was never below x1 on a fresh set.
+  - **B (x1)** is equally defensible: it is cheaper (−18% wall, about −10% energy per correct answer) and has a longer record.
+  - Either way, run the arm behind det.

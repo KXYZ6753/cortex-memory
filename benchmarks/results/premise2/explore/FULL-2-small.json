@@ -1,0 +1,214 @@
+{
+  "set": "FULL-2",
+  "alias": "small",
+  "missShare": 0.06800407113777587,
+  "baseline": "i-det-gates@2+cold",
+  "champion": "q-det-q1@1+cold",
+  "at": "2026-10-07T14:52:50.875Z",
+  "summaries": [
+    {
+      "variant": "q-det-q1@1+cold",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8682028069423613,
+      "miss": 0.49333333333333335,
+      "hit": 0.8955555555555555,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": {
+        "weighted": 0.025316405971002043,
+        "miss": 0.22000000000000003,
+        "hit": 0.011111111111111072,
+        "low": 0.0040219762974677,
+        "high": 0.051272425346241546
+      },
+      "vsChampion": null,
+      "buckets": {
+        "read but wrong": {
+          "miss": 13,
+          "hit": 36
+        },
+        "correct": {
+          "miss": 74,
+          "hit": 403
+        },
+        "never found": {
+          "miss": 53,
+          "hit": 8
+        },
+        "abstained": {
+          "miss": 2,
+          "hit": 0
+        },
+        "technical": {
+          "miss": 4,
+          "hit": 1
+        },
+        "shown not opened": {
+          "miss": 4,
+          "hit": 2
+        }
+      },
+      "wallMs": 2363.145,
+      "wallX": 2.9294338593511755,
+      "calls": 13.016666666666667,
+      "reloads": 0,
+      "outputLimit": 1
+    },
+    {
+      "variant": "q-det-q2@1+cold",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8631538818655811,
+      "miss": 0.48,
+      "hit": 0.8911111111111111,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": {
+        "weighted": 0.020267480894221812,
+        "miss": 0.20666666666666667,
+        "hit": 0.006666666666666599,
+        "low": -0.0059580078197745134,
+        "high": 0.04885900192072834
+      },
+      "vsChampion": {
+        "weighted": -0.005048925076780231,
+        "miss": -0.013333333333333364,
+        "hit": -0.004444444444444473,
+        "low": -0.029971043054394242,
+        "high": 0.016513763703126738
+      },
+      "buckets": {
+        "read but wrong": {
+          "miss": 14,
+          "hit": 39
+        },
+        "correct": {
+          "miss": 72,
+          "hit": 401
+        },
+        "never found": {
+          "miss": 53,
+          "hit": 7
+        },
+        "abstained": {
+          "miss": 3,
+          "hit": 0
+        },
+        "technical": {
+          "miss": 4,
+          "hit": 1
+        },
+        "shown not opened": {
+          "miss": 4,
+          "hit": 2
+        }
+      },
+      "wallMs": 2361.9483333333333,
+      "wallX": 2.9279504311858746,
+      "calls": 13.056666666666667,
+      "reloads": 0,
+      "outputLimit": 2
+    },
+    {
+      "variant": "i-det-x1@2+cold",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8540247125205342,
+      "miss": 0.4066666666666667,
+      "hit": 0.8866666666666667,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": {
+        "weighted": 0.011138311549174995,
+        "miss": 0.13333333333333336,
+        "hit": 0.0022222222222222365,
+        "low": -0.008152114835743407,
+        "high": 0.03569566459538609
+      },
+      "vsChampion": {
+        "weighted": -0.014178094421827048,
+        "miss": -0.08666666666666667,
+        "hit": -0.008888888888888835,
+        "low": -0.022032143807909965,
+        "high": -0.005893686165273859
+      },
+      "buckets": {
+        "correct": {
+          "miss": 61,
+          "hit": 399
+        },
+        "read but wrong": {
+          "miss": 10,
+          "hit": 40
+        },
+        "shown not opened": {
+          "miss": 10,
+          "hit": 2
+        },
+        "never found": {
+          "miss": 61,
+          "hit": 8
+        },
+        "abstained": {
+          "miss": 4,
+          "hit": 0
+        },
+        "technical": {
+          "miss": 4,
+          "hit": 1
+        }
+      },
+      "wallMs": 1944.2333333333333,
+      "wallX": 2.4101368968666192,
+      "calls": 10.986666666666666,
+      "reloads": 0,
+      "outputLimit": 1
+    },
+    {
+      "variant": "i-det-gates@2+cold",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8428864009713593,
+      "miss": 0.2733333333333333,
+      "hit": 0.8844444444444445,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": {
+        "weighted": -0.025316405971002043,
+        "miss": -0.22000000000000003,
+        "hit": -0.011111111111111072,
+        "low": -0.051272425346241546,
+        "high": -0.0040219762974677
+      },
+      "buckets": {
+        "never found": {
+          "miss": 98,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 3,
+          "hit": 51
+        },
+        "correct": {
+          "miss": 41,
+          "hit": 398
+        },
+        "abstained": {
+          "miss": 7,
+          "hit": 0
+        },
+        "technical": {
+          "miss": 1,
+          "hit": 1
+        }
+      },
+      "wallMs": 806.69,
+      "wallX": 1,
+      "calls": 2.05,
+      "reloads": 0,
+      "outputLimit": 2
+    }
+  ]
+}

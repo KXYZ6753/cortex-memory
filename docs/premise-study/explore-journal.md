@@ -695,3 +695,28 @@ Demos change the answer's form, not the reading. Answers get 20–25% shorter an
 - **Secondary (descriptive):**
   - q1 − det gates on FULL-3;
   - the pooled q1 − det x1 over S300-4 + S300-5 + FULL-2 + FULL-3 (1,800 questions, `tools/q-stats.js`).
+
+**FULL-3 result: q1's second replication is essentially null** (lead, Wed 12:25 ET; J1; all arms behind det).
+
+| arm | weighted | miss | hit | Δ vs det x1 [95% CI] | Δ vs det gates | wall ms |
+|---|---|---|---|---|---|---|
+| i-det-gates | 82.0 | 18.7 | 86.7 | −2.0 [−3.7, −0.8] | – | 794 |
+| i-det-x1 | 84.0 | 38.7 | 87.3 | – | +2.0 [0.8, 3.7] | 2,016 |
+| q-det-q1 | 84.1 | 42.7 | 87.1 | **+0.06 [−0.49, 0.27]** | +2.0 [0.9, 3.7] | 2,508 |
+
+- **Primary contrast** (q1 − det x1): +0.06. By the letter of the rule fixed before the run this is "consistent" (Δ > 0), but in practice it is null.
+  - Discordant pairs: misses +12/−6, hits +1/−2.
+  - Sign-flip p = 0.91.
+  - The cluster interval is narrow and lopsided because FULL-3 has only 21 mailboxes. The stratified question bootstrap gives [−0.76, 0.85].
+- **Pooled over the four fresh sets**, S300-4 + S300-5 + FULL-2 + FULL-3 (1,800 questions): **q1 − det x1 = +0.87**:
+  - mailbox-cluster bootstrap [0.28, 1.88];
+  - stratified question bootstrap [0.24, 1.52];
+  - sign-flip p = 0.007;
+  - discordant pairs: misses +42/−15, hits +13/−6.
+  - Over the two clean confirmation sets alone (FULL-2 + FULL-3): +0.74 [0.23, 1.17], p = 0.03.
+- **Reading:**
+  - The miss mechanism (m2's recovery plus g5 seeded by d8) is robust on every fresh set: +42/−15 discordant misses over 1,800 questions. It is worth about +0.4 weighted, because misses carry 6.8% of the weight.
+  - The hit part (+13/−6) is small and set-dependent; most of it came from S300-4.
+  - The honest size of q1's gain over x1 is about **+0.9 weighted**, with an interval of roughly [0.3, 1.9]. It is never negative on a fresh set (S300-4 +2.41, S300-5 0.00, FULL-2 +1.4, FULL-3 +0.06), but it is set-dependent.
+  - The shrinkage pattern holds once more: the screening estimate (+1.2 on the decision sets) overstated the true effect.
+- **Against gates on the two clean sets:** x1 is +1.1 (FULL-2) and +2.0 (FULL-3); q1 is +2.5 and +2.0.

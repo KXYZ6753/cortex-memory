@@ -346,7 +346,7 @@ Full tables are in `benchmarks/results/premise2/explore/confirm.md` and `benchma
 | system (all e2b unless noted) | accuracy | vs e2b P-B | vs 31b P-B (non-inferiority at 5 points) | vs gates | mean latency | total J per correct answer |
 |---|---|---|---|---|---|---|
 | e2b P-B (baseline) | 88.0 | – | – | – | 649 ms | – |
-| 31b P-B (25× larger model) | 91.7 | – | – | – | – | – |
+| 31b P-B (Gemma 4 31b) | 91.7 | – | – | – | – | – |
 | **gates** (one-shot, addendum 3 primary) | **92.3** | **+4.3 [2.1, 6.6], superior** | **+0.7 [−1.5, 2.9], non-inferior** | – | 744 ms | **96** |
 | lite (hybrid, cheaper) | 92.3 | +4.3 [1.8, 6.9] | +0.7, non-inferior | 0.0 [−1.3, 1.3] | 1,517 ms | 174 |
 | x1 (hybrid agent) | 92.3 | +4.3 [1.7, 7.0] | +0.7, non-inferior | 0.0 [−1.8, 1.7] | 1,699 ms | 202 |
@@ -356,6 +356,5 @@ Full tables are in `benchmarks/results/premise2/explore/confirm.md` and `benchma
 - Retrieval engineering offsets model scale here: a 2B model with a better one-shot retrieval pipeline matches the 31b model's P-B score on TEST (non-inferior at 5 points) and beats its own baseline by 4.3 points.
 - Agentic and hybrid stacks add no measurable accuracy on top of the one-shot pipeline on TEST, at 1.8–2.6× its energy per correct answer.
 - Notes on the table:
-  - The 31b P-B row's "25×" is the parameter ratio.
   - The comparator scores were re-graded on this machine and reproduce the published 88.0 and 91.8.
   - The e2b P-B latency (649 ms) is the main study's figure.

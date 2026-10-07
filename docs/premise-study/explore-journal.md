@@ -460,3 +460,24 @@ Phase 2 ran about 75 configurations across one-shot, hybrid and agent families. 
 - The x1 TEST arm is drafted in `docs/premise-study/explore2/PREREG-X1-DRAFT.md`. It is not binding; Kerem decides.
 - The TEST confirmation of `gates` is still blocked on LibreHardwareMonitor (admin, web server on port 8085) and the Mac tier-A verdict files, or the registered fallback.
 - `explore2/confirm2.js` does not exist yet; it is needed only if the x1 arm runs.
+
+### Round 5 (Tue 6 Oct ~21:00 ET to Wed 7 Oct 18:00 ET; Kerem: "a new major discovery")
+
+Kerem extended exploration to Wed 18:00 ET. LibreHardwareMonitor is now running at http://localhost:8085.
+
+New sets drawn Tue 20:45 ET; all are registered and email-disjoint from earlier sets:
+- **S300-4, S300-5:** decision sets. Each worker may run at most 2 variants there.
+- **FULL-2:** clean confirmation, lead only.
+- **DEMO-1 (100), DEMO-2 (600):** demonstration bank, never evaluated.
+- The older sets become development sets.
+
+Promotion bar raised to **+1.5 vs x1** pooled over S300-4 + S300-5, because round 4 showed that gains of +0.5 to +1 vanish.
+
+Workers (brief: `explore2/BRIEF.md` "Round 5"):
+- **b:** in-domain few-shot demonstrations.
+- **c:** email rendering and reading format for a 2B model.
+- **d:** retrieval recall lab (dense, hybrid, thread expansion).
+- **u:** literature methods (context-aware decoding, generator-as-scorer).
+- **i:** cache-history determinism and energy per question.
+
+The lead runs x1 and gates on S300-4 and S300-5.

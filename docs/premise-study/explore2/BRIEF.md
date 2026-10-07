@@ -113,3 +113,66 @@ Round 4 has three workers:
 - **v**: offline final tables for the paper and the presentation.
 
 Promotion is unchanged: pooled Δ vs x1 ≥ +1.0 over S300-2 + S300-1, within the cost cap. GPU time is short. Each worker gets at most 4 runs of 300 questions, and every GPU run must be queued by 18:45 ET.
+
+# Round 5 (Tue 6 Oct ~21:00 ET to Wed 7 Oct; reports due Wed 15:00 ET; lead confirms and wraps up by 18:00)
+
+Kerem's ask: a new major discovery. Find innovative methods that move e2b's end-to-end accuracy clearly, not by another +0.5.
+
+## Standings (J1 weighted; read `docs/premise-study/explore-journal.md` "Phase 2 summary" and `explore2/v-final.md` first)
+
+- **x1** (agent, `variants/x-agent.js`): 86.7 pooled over 2,100 questions, +1.6 [0.5, 2.6] vs gates. It runs 1,778 ms and 5.3 calls per question and is the bar to beat.
+- **gates** (one-shot) 85.1; **t-lk** (minimal agent) +1.0 vs gates at 1,191 ms; **p3** (one-shot) +0.8 vs gates.
+- **Ceilings:**
+  - Gold-email-only reading reaches 92.2 on hits, while every system from gates on reads hits at 88.5–90.5.
+  - Misses: x1 46 vs gold-only 82, but misses carry only 6.8% of the weight.
+  - So the big lever is **hit reading**: each +1 point on hits is worth +0.93 weighted.
+- **x1's wrong hit answers** (84 of them, j.md):
+  - 23 wrong fact or relation from the right email;
+  - 15 incomplete;
+  - 12 judge strictness on correct-looking answers (do not chase these: that is judge-gaming);
+  - 10 wrong email;
+  - the rest are smaller classes.
+- **Dead ends; do not repeat without a new twist:**
+  - voting / self-consistency across contexts or systems (w.md, e.md: errors are correlated);
+  - the e2b pairwise "choose" step;
+  - thinking mode and quote-verified JSON extraction (z.md, −1.4 / −0.9);
+  - specificity re-ask and YES-filtered context (h.md);
+  - re-reading the YES email alone (j2: null on confirmation);
+  - recall probes (m.md: real, but only about +0.2 weighted);
+  - plus everything in the phase-1 list at the top of this brief.
+- **Untried in this project:**
+  - in-domain few-shot demonstrations;
+  - email rendering for a small model (quoted reply chains, header layout, highlighting);
+  - dense or hybrid retrieval inside the agent's list;
+  - context-aware decoding and other recent small-model RAG methods.
+
+## New sets (drawn Tue 6 Oct 20:45 ET; immutable, registered, email-disjoint from all earlier sets)
+
+- **S300-4, S300-5: decision (screening) sets.** Each worker may run **at most 2 variants** on them in total, and only finished ones. The lead runs x1 and gates there.
+- **FULL-2 (600): clean confirmation, lead only.** Never run or read it.
+- **DEMO-1 (100: 50 miss / 50 hit) and DEMO-2 (600: 150 miss / 450 hit): demonstration bank.** Use their questions, gold emails and gold answers freely for few-shot demos, prompt design and analysis. **Never evaluate on them** (they are training data now).
+- **Development sets, free for any number of runs:** S300-1, S300-2, S300-3, FULL-1, S100-0..9, and FULL-0 for offline analysis. Stored answers of x1, gates and other variants exist on most of them.
+
+## Promotion (raised: round 4 showed +0.5 to +1 screening gains vanish)
+
+- **Candidate:** pooled Δ ≥ **+1.5** vs x1 over S300-4 + S300-5 (600 questions) within the 3,243 ms cap. A one-shot or hybrid method that beats gates by ≥ +1.5 at ≤ 1,500 ms is also reportable as a separate result.
+- Show the flips by path (which mechanism moved which questions).
+- The lead confirms on FULL-2.
+- A component that works for both gates and x1, for example a better answer prompt, should be tested on both.
+
+## Workers and prefixes (new code only under your prefix; same hard rules as above)
+
+- **b**: few-shot demonstrations from the DEMO banks.
+- **c**: email rendering and reading format.
+- **d**: retrieval: dense or hybrid, plus a recall lab.
+- **u**: methods from the recent literature.
+- **i**: determinism and energy.
+
+The lead owns the new sets and FULL-2.
+
+## Practical
+
+- **Gold-only reading harness:** `variants/p-perfect.js` (oracle contexts). Reading changes can be tested on hits with the gold email alone (about 350 ms per question) before end-to-end runs. That isolates reading from retrieval and is far less noisy.
+- **The prompt cache** carries state across questions (y.md "Engineering lesson"). Expect about ±2 hit re-rolls per 300 questions on unchanged paths. Compare on many questions, and report flips by path.
+- **LibreHardwareMonitor is running** (http://localhost:8085/data.json). `benchmarks/premise2/energy-logger.js` and `energy-integrate.js` are the main study's energy tools; import them, do not edit them.
+- **Grading budget:** about $2.80 left before the $3.50 exploration cap. J1 costs about $0.003 per 300 answers, so it is not a constraint.

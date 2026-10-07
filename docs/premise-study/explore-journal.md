@@ -734,3 +734,34 @@ Demos change the answer's form, not the reading. Answers get 20–25% shorter an
 - **Pre-stated reading:**
   - *x1-level*: the pooled Δ vs det x1 ≥ −0.5 with the CI lower bound ≥ −1.5, and lower energy per correct answer than det x1;
   - otherwise *not x1-level*.
+
+**lite-det-ub on FULL-2 and FULL-3: x1-level accuracy at about 15–22% less energy** (lead, Wed 14:35 ET; J1; det vs det).
+
+| set | lite-det-ub | Δ vs det x1 | Δ vs det gates | wall ms (det x1) | GPU J/question (det x1) | GPU J per correct answer (det x1) |
+|---|---|---|---|---|---|---|
+| FULL-2 | 85.4 | +0.02 [−1.6, 1.4] | +1.1 [0.2, 2.5] | 1,684 (1,944) | 131 (168) | 154 (197) |
+| FULL-3 | 83.4 | −0.62 [−1.5, 0.0] | +1.4 [0.1, 2.7] | 1,826 (2,016) | 146 (173) | 175 (205) |
+| **pooled, 1,200 questions** | | **−0.30 [−1.24, 0.46]**, p = 0.55 | **+1.25 [0.78, 2.11]** | | | |
+
+- **Discordant pairs vs det x1, pooled:** misses +25/−20, hits +8/−12.
+- **Against det gates:** misses +62/−7.
+- **Pre-stated reading:**
+  - pooled Δ ≥ −0.5: met;
+  - CI lower bound ≥ −1.5: met (−1.24);
+  - lower energy per correct answer than det x1: met (−22% on FULL-2, −15% on FULL-3).
+  - So **x1-level**.
+- **FULL-3 energy table** (`.data/premise2/explore/r5-energy-full3.json`; GPU J per correct answer, gross):
+  - det gates 99;
+  - lite-det-ub 175;
+  - det x1 205;
+  - q1 237.
+- **The frontier on the clean confirmation sets:**
+  - gates: the cheapest;
+  - lite-det-ub: +1.25 over gates, at about 1.6–1.8× gates' energy per correct answer;
+  - x1: the same accuracy as lite, at about 2.1×;
+  - q1: about +0.9 over x1 on the four fresh sets, at about 2.3–2.4×.
+- **What it means:**
+  - x1 is dominated by lite-det-ub on this evidence.
+  - Most of x1's g5 handover is not worth its energy. lite keeps the handover only for doubted, unsure commits where m2's recovery finds no email.
+- **Technical failures, lite on FULL-2:** 7 of 600 (context overflow 4, output limit 2, http_error 1). One answer is ungraded.
+- **Note on question keys:** keys with a `test:` prefix are EnronQA's source split inside the exploration pool. They are not the study's TEST set; the pool excludes the evaluation mailboxes and their emails (`pool-manifest.json` exclusions).

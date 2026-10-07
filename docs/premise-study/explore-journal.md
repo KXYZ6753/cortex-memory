@@ -847,3 +847,5 @@ Round 5 had 10 workers (b, c, d, u, i, l, q, r, s, lite) plus v5 for the tables.
   - lite: the same accuracy as x1, at 9–13% less wall time and 15–22% less GPU energy per correct answer;
   - q1: +0.85 over both lite and x1, at about 1.4× lite's GPU energy per correct answer.
   - x1 is dominated by lite.
+
+**det gates on S300-4 and S300-5** (lead, Wed 15:10 ET; descriptive). This completes the det-vs-det table against the registered primary over all four fresh sets. Reported: q1, lite and x1, each minus det gates, pooled over 1,800 questions.

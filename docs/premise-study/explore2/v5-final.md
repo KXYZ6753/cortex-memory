@@ -290,3 +290,21 @@ Sources: `BRIEF.md` (P-B, gates), `g.md` (g5), `k.md` and `t.md` (commit check, 
   - S300-4/5 were used to screen q1/q2, c-fin3/4, d6/d8 and u-xyc.
   - Only FULL-2 is untouched by selection, and preferring q1 over q2 after FULL-2 is a post-hoc choice: any TEST arm needs its own addendum (journal).
 - **Intervals quoted from worker notes** use their corrected values from the CI erratum (`ci-erratum.md`): c's labels [−0.75, 1.7], l-xs1 [−3.74, 0.16], x1 − gates over 2,700 [0.15, 2.0]. Every other interval in the tables is computed here with `pairedBootstrap`, or reused from v-final; neither was affected by the erratum.
+
+## Update: FULL-3, the second clean replication (lead, Wed 7 Oct 12:25 ET)
+
+FULL-3 was drawn after FULL-2, with its rule fixed in the journal before the run: 600 questions from 21 mailboxes, all arms behind det.
+
+| arm | weighted | miss | hit | Δ vs det x1 | Δ vs det gates | wall ms |
+|---|---|---|---|---|---|---|
+| det gates | 82.0 | 18.7 | 86.7 | −2.0 [−3.7, −0.8] | – | 794 |
+| det x1 | 84.0 | 38.7 | 87.3 | – | +2.0 [0.8, 3.7] | 2,016 |
+| det q1 | 84.1 | 42.7 | 87.1 | +0.06 (stratified [−0.76, 0.85]) | +2.0 [0.9, 3.7] | 2,508 |
+
+**Revised headline for q1.**
+- **Pooled over all four fresh sets** (S300-4, S300-5, FULL-2, FULL-3; 1,800 questions): q1 − det x1 = **+0.87 [0.28, 1.88]**, p = 0.007.
+  - Discordant misses +42/−15, discordant hits +13/−6.
+  - Over the two clean confirmation sets alone: +0.74 [0.23, 1.17].
+- **Per set,** the gain is never negative but varies: +2.41, 0.00, +1.4, +0.06.
+- **What holds up:** the miss-side recovery is robust. The hit side is small and depends on the set.
+- **Against gates:** x1 and q1 are both about +2 on the clean confirmation sets (FULL-2: +1.1 / +2.5; FULL-3: +2.0 / +2.0).

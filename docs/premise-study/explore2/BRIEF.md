@@ -176,3 +176,18 @@ The lead owns the new sets and FULL-2.
 - **The prompt cache** carries state across questions (y.md "Engineering lesson"). Expect about ±2 hit re-rolls per 300 questions on unchanged paths. Compare on many questions, and report flips by path.
 - **LibreHardwareMonitor is running** (http://localhost:8085/data.json). `benchmarks/premise2/energy-logger.js` and `energy-integrate.js` are the main study's energy tools; import them, do not edit them.
 - **Grading budget:** about $2.80 left before the $3.50 exploration cap. J1 costs about $0.003 per 300 answers, so it is not a constraint.
+
+**Lead note, Tue 21:25 ET: baselines on the decision sets** (J1 weighted)
+
+| set | gates | x1 | x1 − gates | x1 miss / hit | gates miss / hit |
+|---|---|---|---|---|---|
+| S300-4 | 87.9 | 86.9 | −1.0 [−3.5, 2.2] | 51.0 / 89.5 | 32.0 / 92.0 |
+| S300-5 | 83.2 | 82.8 | −0.4 [−2.7, 1.5] | 32.0 / 86.5 | 17.0 / 88.0 |
+
+- **Both sets pooled:** gates is +0.7 [−1.0, 3.1] over x1. Over all 7 sets (2,700 questions), x1 is still +1.1 [0.1, 1.7] over gates.
+- **Where x1 loses hits** (`lead-paths.js`):
+  - the unsure-commit → g5 handover when the first YES was not W0's top email (6 vs 10);
+  - the explore path when the gold was in W0 but no YES was found (35 vs 38).
+- **So judge your change by its paired Δ vs its own parent** (gates or x1) on S300-4 + S300-5, with a bar of +1.5. Also report the Δ vs the other system.
+- **A gates-based variant gets a +0.7 head start vs x1 on these two sets from set noise alone.** Do not count that as a gain.
+- **Wall times are inflated** while workers run CPU-heavy jobs: gates 967 ms and x1 2,391 ms on S300-5. Compare wall times within the same time window.

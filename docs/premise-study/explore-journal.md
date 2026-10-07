@@ -481,3 +481,17 @@ Workers (brief: `explore2/BRIEF.md` "Round 5"):
 - **i:** cache-history determinism and energy per question.
 
 The lead runs x1 and gates on S300-4 and S300-5.
+
+**x1 and gates on the fresh decision sets** (lead, Tue 21:20 ET; J1):
+
+| set | gates | x1 | x1 − gates |
+|---|---|---|---|
+| S300-4 | 87.9 | 86.9 | −1.0 [−3.5, 2.2] |
+| S300-5 | 83.2 | 82.8 | −0.4 [−2.7, 1.5] |
+
+- **Misses vs hits:** x1 wins the misses by a wide margin (51 vs 32 and 32 vs 17) but loses 8 net hits out of 400. The hits are lost on two paths:
+  - the g5 handover when the first YES was not W0's top email (6 vs 10);
+  - the explore path when the gold was in W0 but drew no YES (35 vs 38).
+- **Pooled over all 7 sets (2,700 questions):** x1 is +1.1 [0.1, 1.7] vs gates, down from +1.6 over 5 sets. Its hit-side gain pooled over the 7 sets is about zero, so its advantage is the miss stratum, about +1 weighted.
+- **Implication for the paper:** a TEST arm's Y3 (x1 > gates) is very likely null.
+- **Measurement caveat:** wall times are inflated while round-5 workers run CPU jobs (gates 967 ms on S300-5).

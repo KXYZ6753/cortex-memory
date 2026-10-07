@@ -510,3 +510,13 @@ Demos change the answer's form, not the reading. Answers get 20–25% shorter an
 - **Dense retrieval (nomic)** is worse than BM25 as a first stage. Fused with BM25 it adds only +2 golds to the explore list. Embedding the query inside a run slows e2b 3–6× on this box, so it is out.
 - **Thread expansion, sender/recipient filters and date cues** add nothing.
 - **d8** = x1 with a lexical CE explore list plus the email x1's YES-probe accepted seeded into g5's first search. The x1 replay is +0.6 [0.0, 1.2] over 1,500 dev questions; on S300-4 + S300-5 it is +0.5 [−0.7, 1.6] vs x1. The flips are mechanism: explore misses +17/−1, seeded handover hits +9/−3.
+
+**c (email rendering) is null** (Wed 04:30 ET; `explore2/c.md`).
+- **Where the errors are:** 57% of gold emails are reply/forward chains, and they hold 104 of x1's 154 wrong dev hits. Who-questions on chains are the weakest cell (x1 75%, gold-only 76%).
+- **Gold-only presentations, 850 hits:** thread labels, all-email labels, bold key sentences, CE/lexical excerpts, oldest-first threads and question-type hints all land within run-to-run noise (2–4 verdict flips per 200). FULL-1 was negative for every presentation.
+- **End to end:**
+  - x1 + thread labels: +0.47 [−0.9, 1.6] over 1,800 questions; on S300-4 + S300-5, +0.8 [−1.1, 2.9].
+  - gates + labels: +0.44 over 1,500 questions; −0.7 on the decision sets.
+- 13% of hits are right under some presentations and wrong under others, but no presentation wins consistently.
+
+**New worker l** (Wed 04:35 ET): pointwise self-verification to select among diverse candidate answers. There is answer diversity on unsure hits (c, n), and no selector yet beats a coin flip (pairwise choose, voting). A pointwise YES/NO with logprob has not been tried. l measures the verifier's within-question pairwise accuracy on stored candidates first, and builds a best-of-K variant only if that accuracy is clearly above 50%.

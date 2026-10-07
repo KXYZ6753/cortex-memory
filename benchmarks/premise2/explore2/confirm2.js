@@ -1,8 +1,10 @@
-// TEST runner for one exploration-phase-2 arm (premise2 pre-registration addendum 4; draft:
-// docs/premise-study/explore2/PREREG-Q1-DRAFT.md, binding only once it is committed as
-// benchmarks/premise2/PREREG-EXPLORE2.md). Modelled on explore/confirm.js (imported, never
-// edited); the per-question ctx mirrors explore2/run2.js, so the arm sees exactly the ctx it
-// was explored with (same search, resource, chatRaw and generation defaults).
+// TEST runner, grading and analysis for the exploration-phase-2 arms of premise2 pre-registration
+// addendum 4 (candidate text: docs/premise-study/explore2/PREREG-EXPLORE2-CANDIDATE.md, binding
+// only once it is committed as benchmarks/premise2/PREREG-EXPLORE2.md). Written by p2 for one
+// arm, extended by p3 to the addendum's arm list (q-det-q1 primary, lite-det-ub, i-det-x1),
+// tier-A grading and the registered analysis. Modelled on explore/confirm.js (imported, never
+// edited); the per-question ctx mirrors explore2/run2.js, so an arm sees exactly the ctx it was
+// explored with (same search, resource, chatRaw and generation defaults).
 //
 //   node benchmarks/premise2/explore2/confirm2.js hash
 //        code hash over every file under benchmarks/premise2/explore2/ (fills "Code hash:")
@@ -10,33 +12,50 @@
 //        the pre-registration guards only; reads no TEST data; exit code 1 if TEST would refuse
 //   node benchmarks/premise2/explore2/confirm2.js run <arm> [n=600]
 //        TEST: the agent's 600 TEST questions (P-B items 0..599, agent-items.json order), the
-//        same item list and store layout as addendum 3's confirmation; resumable
+//        same item list as addendum 3's confirmation; resumable; arms in the addendum's order
+//   node benchmarks/premise2/explore2/confirm2.js grade <arm> [--plan]
+//        tier A (tier-a.js = confirm.js gradeConfirm's procedure) on the arm's TEST answers;
+//        verdicts to the arm's store dir under the addendum's verdict key prefix
+//   node benchmarks/premise2/explore2/confirm2.js analyze [--synthetic [outDir]]
+//        the registered analysis -> benchmarks/results/premise2/explore2/confirm2.{json,md};
+//        --synthetic: random accuracies + the dry-runs' energy, to test the pipeline (no TEST)
 //   node benchmarks/premise2/explore2/confirm2.js --dry-run <devSet> [limit=5] [arm=q-det-q1]
-//        the same path on a registered EXPLORATION set (never TEST); output under
-//        .data/premise2/explore/confirm2-dryrun/
+//        the same run path on a registered EXPLORATION set (never TEST); output under
+//        .data/premise2/explore/confirm2-dryrun/<arm>/
+//
+// The addendum's machine-readable lines (parsePrereg; each on its own line):
+//   Arms: q-det-q1, lite-det-ub, i-det-x1
+//   Verdict key prefix (q-det-q1): `X-explore2-q1|small|<questionKey>`      (one per arm)
+//   Code hash: `<64 hex>`
+// The first listed arm is the confirmatory one; `run` takes the arms in the listed order.
 //
 // Guard order on `run` (nothing from TEST is read before steps 1-2 pass):
-//   1. Pre-registration: PREREG-EXPLORE2.md exists, is tracked, committed and unmodified, and
-//      names `Arm: <arm>`, `Verdict key prefix: X-explore2-...|small|<questionKey>` and
-//      `Code hash: <sha256>` equal to codeHash2() now. Every file of the arm's import closure
-//      (explore2/, explore/, the frozen premise2 modules, src/bm25.js) and everything under
+//   1. Pre-registration: PREREG-EXPLORE2.md exists, is tracked, committed and unmodified, lists
+//      the arm in `Arms:` with exactly one verdict key prefix line (prefixes distinct), and has
+//      `Code hash:` equal to codeHash2() now. Every file of the arms' import closure (explore2/,
+//      explore/, the frozen premise2 modules, src/bm25.js) and everything under
 //      benchmarks/premise2/explore2/ is tracked and clean; explore/ still has addendum 3's
 //      registered code hash.
 //   2. Environment: the arm is an explore2 registry variant; Ollama's version and the e2b
 //      digest equal the main run's (explore/run.js preflight); the default generation options
 //      equal run-state.json's provenance options (temperature 0, seed 42, num_predict 160...).
-//   3. Only then the TEST item list (confirm.js confirmRecords: pools.json + agent-items.json).
-//   4. Energy logger (nvidia-smi + LibreHardwareMonitor) and CPU sampler started by this
-//      process and verified (GPU samples, LHM package samples, this pid in the sampler's
-//      process list) before the model is loaded; stopped (process tree) at the end.
+//   3. Only then the TEST item list (confirm.js confirmRecords: pools.json + agent-items.json),
+//      and the order check: every arm listed before this one has all n questions done in its
+//      own store (ExploreStore.done: a final answer, or 3 failed attempts).
+//   4. Under the explore2 GPU lock: energy logger (nvidia-smi + LibreHardwareMonitor) and CPU
+//      sampler started by this process and verified (GPU samples, LHM package samples, this
+//      pid in the sampler's process list) before the model is loaded; then a fresh model load,
+//      two warm-up calls, a 30 s idle baseline, blocks of 50; logger and sampler stopped
+//      (process tree) at the end; runner / logger / sampler pids in manifest.jsonl.
 // Dry-run: step 1 is evaluated and recorded in the manifest but not enforced (it would refuse
 // until the addendum is committed); the set name may not look like TEST and must be a
 // registered exploration development set (not S300-4/5, FULL-2/3, DEMO-*), and every
 // question must pass explore/pool.js assertExplorable
 // (tuning mailbox; no TEST, retrieval or bridge email, twin or near-duplicate). Steps 2 and 4
-// are enforced as on TEST.
+// are enforced as on TEST (LibreHardwareMonitor preferred, not required).
 //
-// Output (TEST: .data/premise2/explore/confirm2/, dry-run: .../confirm2-dryrun/):
+// Output, one store dir per arm (TEST: .data/premise2/explore/confirm2/<arm>/, dry-run:
+// .data/premise2/explore/confirm2-dryrun/<arm>/):
 //   answers.jsonl   one record per question attempt (explore/run.js ExploreStore semantics)
 //   markers.jsonl   load / ps / idle / block markers, as confirm.js (energy-integrate.js format)
 //   energy.jsonl    energy-logger.js samples (GPU board power, CPU package power)
@@ -44,7 +63,7 @@
 //   manifest.jsonl  one session-start and one session-end record per invocation: git HEAD,
 //                   PREREG commit and sha256, code hashes, runner / logger / sampler pids,
 //                   Ollama build, digest, options, item-list hash, counts, energy check
-// Grading and analysis are not part of this file (see docs/premise-study/explore2/p2.md).
+//   verdicts.jsonl  tier-A verdicts (grade <arm>), in explore/confirm.js gradeConfirm's shape
 
 import { spawn, execFileSync } from "node:child_process"
 import { existsSync, mkdirSync, readFileSync, readdirSync, appendFileSync, statSync } from "node:fs"
@@ -62,6 +81,8 @@ export const BLOCK_SIZE = 50
 export const IDLE_MS = 30_000
 export const DEFAULT_ARM = "q-det-q1"
 export const DRY_DEFAULT_LIMIT = 5
+export const STORE_DIR = "confirm2"
+export const DRY_STORE_DIR = "confirm2-dryrun"
 const ENERGY_VERIFY_MS = 25_000
 // Cell ids for the verdict key prefix in a dry-run (TEST takes it from the addendum).
 const DRY_CELLS = { "q-det-q1": "X-explore2-q1", "i-det-x1": "X-explore2-x1", "lite-det-ub": "X-explore2-lite" }
@@ -121,12 +142,45 @@ export function importClosure() {
     return [...seen].map(fromRoot).sort()
 }
 
+// The addendum's machine-readable lines. Pure (text in, structure out); `problems` lists every
+// way the text fails the format. Arms keep the listed order (the first is confirmatory).
+export function parsePrereg(text) {
+    const problems = []
+    const armsLines = [...text.matchAll(/^Arms: (.+)$/gm)]
+    if (armsLines.length !== 1) problems.push(`expected exactly one "Arms: a, b, c" line, found ${armsLines.length}`)
+    const arms = armsLines.length ? armsLines[0][1].split(",").map((name) => name.trim().replace(/^`|`$/g, "")).filter(Boolean) : []
+    if (armsLines.length && !arms.length) problems.push(`the "Arms:" line lists no arm`)
+    if (new Set(arms).size !== arms.length) problems.push(`the "Arms:" line lists an arm twice`)
+    for (const arm of arms) if (!/^[A-Za-z0-9_-]+$/.test(arm)) problems.push(`arm "${arm}" is not a variant id`)
+    const cellIds = {}
+    for (const match of text.matchAll(/^Verdict key prefix \(([^)]+)\): `([^`]*)`\s*$/gm)) {
+        const arm = match[1].trim()
+        const prefix = match[2].match(/^(X-explore2-[A-Za-z0-9_-]+)\|small\|<questionKey>$/)
+        if (!prefix) { problems.push(`verdict key prefix for ${arm} is not \`X-explore2-<short>|small|<questionKey>\``); continue }
+        if (!arms.includes(arm)) problems.push(`verdict key prefix line for ${arm}, which is not in "Arms:"`)
+        if (cellIds[arm]) problems.push(`two verdict key prefix lines for ${arm}`)
+        cellIds[arm] = prefix[1]
+    }
+    for (const arm of arms) if (!cellIds[arm]) problems.push(`no "Verdict key prefix (${arm}): \`X-explore2-...|small|<questionKey>\`" line`)
+    const cells = Object.values(cellIds)
+    if (new Set(cells).size !== cells.length) problems.push("two arms share a verdict key prefix")
+    if (/^Arm: `/m.test(text) || /^Verdict key prefix: `/m.test(text)) problems.push(`single-arm lines ("Arm:", "Verdict key prefix:") are not accepted; use "Arms:" and "Verdict key prefix (<arm>):"`)
+    const hashes = [...text.matchAll(/^Code hash: `([^`]*)`/gm)].map((match) => match[1])
+    if (hashes.length !== 1) problems.push(`expected exactly one "Code hash:" line, found ${hashes.length}`)
+    const recordedCodeHash = /^[0-9a-f]{64}$/.test(hashes[0] ?? "") ? hashes[0] : null
+    if (hashes.length === 1 && !recordedCodeHash) problems.push(`"Code hash:" is not filled (${hashes[0]})`)
+    return { arms, cellIds, recordedCodeHash, problems }
+}
+
+export const shortOf = (cellId) => cellId?.replace(/^X-explore2-/, "") ?? null
+
 // The pre-registration check. Pure: reads git, the addendum and code files, never TEST data.
+// arm = null checks the addendum as a whole (grade/analyze use the arm list).
 export async function preregStatus(arm) {
     const problems = []
     const head = git("rev-parse", "HEAD")
     const codeHash = codeHash2()
-    const prereg = { path: PREREG2_PATH, exists: false, tracked: false, commit: null, sha256: null, arm: null, cellId: null, recordedCodeHash: null }
+    const prereg = { path: PREREG2_PATH, exists: false, tracked: false, commit: null, sha256: null, arms: [], cellIds: {}, arm: null, cellId: null, recordedCodeHash: null, formatProblems: [] }
     const preregAbs = join(repoRoot, PREREG2_PATH)
     if (!existsSync(preregAbs)) problems.push(`${PREREG2_PATH} missing: TEST stays closed until addendum 4 is committed`)
     else {
@@ -138,11 +192,17 @@ export async function preregStatus(arm) {
         prereg.commit = git("log", "-1", "--format=%H", "--", PREREG2_PATH) || null
         if (!prereg.tracked || !prereg.commit) problems.push(`${PREREG2_PATH} is not committed`)
         if (git("status", "--porcelain", "--", PREREG2_PATH)) problems.push(`${PREREG2_PATH} has uncommitted changes`)
-        prereg.arm = text.match(/^Arm: `([^`]+)`/m)?.[1] ?? null
-        if (prereg.arm !== arm) problems.push(`${PREREG2_PATH} names arm ${prereg.arm ?? "(none)"}, not ${arm}`)
-        prereg.cellId = text.match(/Verdict key prefix: `(X-explore2-[A-Za-z0-9_-]+)\|small\|<questionKey>`/)?.[1] ?? null
-        if (!prereg.cellId) problems.push(`${PREREG2_PATH} has no "Verdict key prefix: \`X-explore2-...|small|<questionKey>\`" line`)
-        prereg.recordedCodeHash = text.match(/Code hash: `([0-9a-f]{64})`/)?.[1] ?? null
+        const parsed = parsePrereg(text)
+        prereg.arms = parsed.arms
+        prereg.cellIds = parsed.cellIds
+        prereg.formatProblems = parsed.problems
+        problems.push(...parsed.problems.map((problem) => `${PREREG2_PATH}: ${problem}`))
+        if (arm != null) {
+            prereg.arm = parsed.arms.includes(arm) ? arm : null
+            prereg.cellId = parsed.cellIds[arm] ?? null
+            if (!parsed.arms.includes(arm)) problems.push(`${PREREG2_PATH} does not list arm ${arm} (Arms: ${parsed.arms.join(", ") || "(none)"})`)
+        }
+        prereg.recordedCodeHash = parsed.recordedCodeHash
         if (prereg.recordedCodeHash !== codeHash) problems.push(`explore2 code hash ${codeHash} differs from the pre-registered ${prereg.recordedCodeHash ?? "(not filled)"}`)
     }
     const closure = importClosure()
@@ -260,6 +320,12 @@ async function dryRecords({ dataDir, setName, limit }) {
 
 // ---- the run ----
 
+// One store dir per arm (explore/pool.js exploreDirOf(dataDir) = <dataDir>/explore).
+export const armDirOf = (dataDir, arm, mode = "test") => {
+    if (!/^[A-Za-z0-9_-]+$/.test(arm ?? "")) throw new Error(`arm id ${arm}`)
+    return join(dataDir, "explore", mode === "test" ? STORE_DIR : DRY_STORE_DIR, arm)
+}
+
 export const confirm2Key = ({ mode, digest, arm, version, questionKey }) => sha256(`${CONFIRM2_VERSION}|${mode}|${digest}|${arm}@${version}|${questionKey}`)
 
 export async function runConfirm2({ mode, arm = DEFAULT_ARM, dataDir, n = 600, setName = null, limit = DRY_DEFAULT_LIMIT, ollamaUrl = "http://localhost:11434", log = console.log }) {
@@ -269,12 +335,11 @@ export async function runConfirm2({ mode, arm = DEFAULT_ARM, dataDir, n = 600, s
     const guard = await preregStatus(arm)
     if (mode === "test" && !guard.ok) throw new Error(`TEST refused before any TEST data was read:\n  - ${guard.problems.join("\n  - ")}`)
     if (mode === "dry-run") log(`[confirm2] dry-run: pre-registration check reported, not enforced; on TEST it would ${guard.ok ? "PASS" : `REFUSE:\n  - ${guard.problems.join("\n  - ")}`}`)
-    const cellId = mode === "test" ? guard.prereg.cellId : `DRY-${guard.prereg.cellId ?? DRY_CELLS[arm] ?? `X-explore2-${arm}`}`
+    const cellId = mode === "test" ? guard.prereg.cellId : `DRY-${guard.prereg.cellIds?.[arm] ?? DRY_CELLS[arm] ?? `X-explore2-${arm}`}`
 
     // 2. environment: registry arm, Ollama build and digest, generation options
     const { loadVariants } = await import("./registry.js")
     const { preflight, ExploreStore } = await import("../explore/run.js")
-    const { exploreDirOf } = await import("../explore/pool.js")
     const { NUM_PREDICT } = await import("../explore/variants.js")
     const { chat, generationOptions, version, ps, unload, load } = await import("../ollama.js")
     const VARIANTS = await loadVariants()
@@ -296,10 +361,18 @@ export async function runConfirm2({ mode, arm = DEFAULT_ARM, dataDir, n = 600, s
         const records = confirmRecords(dataDir, n)
         if (records.length !== n) throw new Error(`expected ${n} TEST questions, got ${records.length}`)
         items = { records, setName: "TEST-agent-items", setHash: sha256(JSON.stringify(records.map((record) => record.questionKey))), total: records.length }
+        // Order: every arm listed before this one has all n questions done in its own store.
+        for (const earlier of guard.prereg.arms.slice(0, guard.prereg.arms.indexOf(arm))) {
+            const earlierVariant = VARIANTS[earlier]
+            if (!earlierVariant) throw new Error(`arm ${earlier} (listed before ${arm}) is not an explore2 registry variant`)
+            const earlierStore = new ExploreStore(join(armDirOf(dataDir, earlier, mode), "answers.jsonl"))
+            const open = records.filter((record) => !earlierStore.done(confirm2Key({ mode, digest, arm: earlier, version: `${earlierVariant.version}`, questionKey: record.questionKey }))).length
+            if (open) throw new Error(`TEST order: ${earlier} (listed before ${arm} in ${PREREG2_PATH}) still has ${open} of ${n} questions to run`)
+        }
     } else {
         items = { ...(await dryRecords({ dataDir, setName, limit })), setName }
     }
-    const dir = join(exploreDirOf(dataDir), mode === "test" ? "confirm2" : "confirm2-dryrun")
+    const dir = armDirOf(dataDir, arm, mode)
     mkdirSync(dir, { recursive: true })
     const store = new ExploreStore(join(dir, "answers.jsonl"))
     const keyOf = (record) => confirm2Key({ mode, digest, arm, version: armVersion, questionKey: record.questionKey })
@@ -439,6 +512,66 @@ export async function runConfirm2({ mode, arm = DEFAULT_ARM, dataDir, n = 600, s
     }, { log })
 }
 
+// ---- grading and analysis ----
+
+// grade and analyze need the committed addendum's arm list and verdict key prefixes. They do
+// not refuse on the other guard problems (a later commit elsewhere, say): those are logged and
+// written into the outputs, because the answers being graded already exist.
+async function registeredArms(arm = null) {
+    const guard = await preregStatus(arm)
+    const fatal = !guard.prereg.exists || guard.prereg.formatProblems.length || (arm != null && !guard.prereg.cellId)
+    if (fatal) throw new Error(`no usable addendum 4:\n  - ${guard.problems.join("\n  - ")}`)
+    return guard
+}
+
+// Tier A on one arm's TEST answers (tier-a.js: explore/confirm.js gradeConfirm's procedure).
+// Verdicts go to the arm's store dir; identical keys already judged (main study, addendum 3's
+// confirm/verdicts.jsonl, the other arms' files) are reused, as verdict keys are the main study's.
+export async function gradeArm({ dataDir, arm, plan = false, log = console.log }) {
+    const guard = await registeredArms(arm)
+    if (!guard.ok) log(`[confirm2-grade] WARNING, guard problems (grading continues):\n  - ${guard.problems.join("\n  - ")}`)
+    const dir = armDirOf(dataDir, arm, "test")
+    if (!existsSync(join(dir, "answers.jsonl"))) throw new Error(`${arm} has no TEST answers in ${dir}`)
+    const { armUnits } = await import("./confirm2-analyze.js")
+    const { gradeTierA, planTierA } = await import("./tier-a.js")
+    const { loadCorpusOf } = await import("./confirm-comp.js")
+    const units = await armUnits({ dataDir, dir, cellId: guard.prereg.cellId, confirmVersion: CONFIRM2_VERSION })
+    const reuse = [join(dataDir, "explore", "confirm", "verdicts.jsonl"), ...guard.prereg.arms.filter((other) => other !== arm).map((other) => join(armDirOf(dataDir, other, "test"), "verdicts.jsonl"))]
+    if (plan) {
+        // counts only (no judge call; no answer, reference or verdict printed)
+        const out = planTierA({ dataDir, units, verdictsPath: join(dir, "verdicts.jsonl"), reuse, groupOf: () => arm })
+        log(JSON.stringify(out, null, 2))
+        return out
+    }
+    log(`[confirm2-grade] ${arm} (${guard.prereg.cellId}): ${units.length} answers`)
+    return gradeTierA({ dataDir, units, verdictsPath: join(dir, "verdicts.jsonl"), reuse, phase: "confirm2", loadCorpus: loadCorpusOf(dataDir), label: `confirm2-grade ${arm}`, log })
+}
+
+export async function analyze({ dataDir, synthetic = false, outDir = null, log = console.log }) {
+    const mod = await import("./confirm2-analyze.js")
+    if (synthetic) {
+        // The addendum may not exist yet: fall back to the candidate's arm list.
+        let arms, cellIds
+        const preregAbs = join(repoRoot, PREREG2_PATH)
+        const candidate = join(repoRoot, "docs/premise-study/explore2/PREREG-EXPLORE2-CANDIDATE.md")
+        const source = existsSync(preregAbs) ? preregAbs : candidate
+        if (existsSync(source)) ({ arms, cellIds } = parsePrereg(readFileSync(source, "utf8")))
+        if (!arms?.length) { arms = Object.keys(DRY_CELLS); cellIds = { ...DRY_CELLS } }
+        return mod.analyzeSynthetic({
+            armIds: arms, cellOf: cellIds, shortOf: Object.fromEntries(arms.map((arm) => [arm, shortOf(cellIds[arm])])), codeHash: codeHash2(), confirmVersion: CONFIRM2_VERSION,
+            dryDirOf: (arm) => armDirOf(dataDir, arm, "dry-run"), outDir: outDir ?? join(dataDir, "explore", DRY_STORE_DIR, "analyze-synthetic"), log,
+        })
+    }
+    const guard = await registeredArms(null)
+    if (!guard.ok) log(`[confirm2-analyze] WARNING, guard problems:\n  - ${guard.problems.join("\n  - ")}`)
+    const { arms, cellIds } = guard.prereg
+    const out = await mod.analyzeTest({
+        dataDir, armIds: arms, cellOf: cellIds, shortOf: Object.fromEntries(arms.map((arm) => [arm, shortOf(cellIds[arm])])), codeHash: guard.codeHash, confirmVersion: CONFIRM2_VERSION,
+        dirOf: (arm) => armDirOf(dataDir, arm, "test"), outDir: outDir ?? "benchmarks/results/premise2/explore2", log,
+    })
+    return { ...out, guard: { ok: guard.ok, problems: guard.problems } }
+}
+
 // ---- CLI ----
 
 const isMain = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)
@@ -454,9 +587,17 @@ if (isMain) {
         } else if (args[0] === "run") {
             if (!args[1]) throw new Error("usage: confirm2.js run <arm> [n]")
             await runConfirm2({ mode: "test", arm: args[1], dataDir, n: args[2] ? Number(args[2]) : 600 })
+        } else if (args[0] === "grade") {
+            if (!args[1]) throw new Error("usage: confirm2.js grade <arm> [--plan]")
+            if (existsSync(join(repoRoot, ".env"))) process.loadEnvFile(join(repoRoot, ".env"))
+            await gradeArm({ dataDir, arm: args[1], plan: args[2] === "--plan" })
+        } else if (args[0] === "analyze") {
+            if (existsSync(join(repoRoot, ".env"))) process.loadEnvFile(join(repoRoot, ".env"))
+            const synthetic = args[1] === "--synthetic"
+            await analyze({ dataDir, synthetic, outDir: synthetic ? args[2] ?? null : null })
         } else if (args[0] === "--dry-run") {
             await runConfirm2({ mode: "dry-run", setName: args[1], limit: args[2] ? Number(args[2]) : DRY_DEFAULT_LIMIT, arm: args[3] ?? DEFAULT_ARM, dataDir })
-        } else throw new Error("usage: confirm2.js hash | check <arm> | run <arm> [n] | --dry-run <devSet> [limit] [arm]")
+        } else throw new Error("usage: confirm2.js hash | check <arm> | run <arm> [n] | grade <arm> [--plan] | analyze [--synthetic [outDir]] | --dry-run <devSet> [limit] [arm]")
     } catch (error) {
         console.error(error?.message ?? error)
         process.exitCode = 1

@@ -649,3 +649,17 @@ Demos change the answer's form, not the reading. Answers get 20–25% shorter an
   - q1 = x1 + d8 + m2 (+ d6's explore list) is the first stack in rounds 4–5 whose gain held on a fresh confirmation set. Round 4's y1 (x1 + m2 + j2) failed confirmation; the difference is that j2 (null) is out and d8 is in.
   - The effect is small (about +1.3 weighted) and lives mostly on misses, which carry 6.8% of the weight.
   - q1 was named before the run as the secondary arm and as the lower-variance choice. Preferring it over q2 now is still a post-hoc choice on FULL-2, and any TEST arm needs its own addendum.
+
+**l (pointwise self-verification) is closed: a clean negative** (`explore2/l.md`, Wed 10:55 ET).
+- **The prize exists.** Oracle selection among x1's own deployable candidates (commit answer, the YES email read alone, CAD) is worth about +4 weighted.
+- **The verifier sees grounding, not correctness.** e2b's YES/NO verifier ("is the proposed answer correct and complete according to this email?") ranks right above wrong:
+  - in 76.9% of hit pairs with the gold email as evidence, against 73.6% for plain word overlap with the same email;
+  - in 72.1% with the deployable YES email, against 69.8% for word overlap.
+  - On pairs where both answers are drawn from the evidence email it is about 50%. That is exactly the class of x1's remaining hit errors: a wrong fact or relation read from the right email.
+- **NO-framing fails outright.** e2b ignores the negation in "is anything wrong or missing?"
+- **The deployable selector `l-xs1` hurts:** −1.74 vs x1 over 600 dev questions (S300-1, S300-3). The corrected interval is [−3.74, 0.16] (the printed [−3.4, −0.1] came from the defective generator; see r). Two reasons:
+  - Checking a single read against the email it was read from is circular. Switches where the YES email was not the gold went +1/−19.
+  - The in-sample simulation was biased, because single-read proxies existed almost only where the YES email was the gold.
+- **No other rule rescues it:** lexical selection −1.5; re-scoring with the answer-before-email prompt −0.07; the best cell is +0.66, placebo-sized.
+- **Side finding:** the verifier score of x1's own answer is a between-question confidence signal (AUC 0.71, vs 0.59 for answer logprob), but on hits there is no better answer to escalate to.
+- No S300-4/5 slot was used.

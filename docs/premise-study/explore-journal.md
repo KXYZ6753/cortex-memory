@@ -831,3 +831,8 @@ Round 5 had 10 workers (b, c, d, u, i, l, q, r, s, lite) plus v5 for the tables.
   - C: q1 behind det (recommended for Y3).
   - D: lite-det-ub behind det (the best accuracy per joule).
   - Whichever arm is chosen needs its own addendum and `confirm2.js`.
+
+**lite-det-ub on S300-4 and S300-5** (lead, Wed 14:50 ET; descriptive, decided before the run).
+- **Why:** lite-det-ub was never selected on S300-4 or S300-5, so both sets are fresh for it. Running it there gives it the same 1,800-question fresh-set base as q1 (S300-4 + S300-5 + FULL-2 + FULL-3).
+- **Reported:** pooled lite-det-ub − det x1, lite-det-ub − det q1, and per-set values.
+- **Reading:** the same as the FULL-2/FULL-3 rule (x1-level if pooled Δ ≥ −0.5 and the CI lower bound ≥ −1.5).

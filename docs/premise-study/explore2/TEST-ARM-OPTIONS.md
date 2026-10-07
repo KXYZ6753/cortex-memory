@@ -95,3 +95,19 @@ Pooled over all four fresh sets (1,800 questions), q1 − det x1 is **+0.87 [0.2
   - **C (q1, behind det)** is the better-supported arm, because it was never below x1 on a fresh set.
   - **B (x1)** is equally defensible: it is cheaper (−18% wall, about −10% energy per correct answer) and has a longer record.
   - Either way, run the arm behind det.
+
+## Addendum: option D, the cheaper stack `lite-det-ub` (lead, Wed 14:35 ET)
+
+`lite-det-ub` (`variants/lite-stack.js`) is t-lk + d6's list + m2 recovery, with the d8-seeded g5 handover kept only for doubted, unsure commits where the recovery finds no email.
+
+On the two clean confirmation sets:
+- **vs det x1:** −0.30 [−1.24, 0.46] pooled;
+- **vs det gates:** +1.25 [0.78, 2.11];
+- **cost:** 13% (FULL-2) and 9% (FULL-3) less wall time than det x1, and 15–22% less GPU energy per correct answer.
+
+On this evidence it dominates x1: the same accuracy at lower cost. Its record is shorter, though: 3 dev sets plus 2 fresh sets, all from today.
+
+**Effect on the recommendation.**
+- For Y3, q1 still has the largest point estimate over gates (+2.5 and +2.0 on FULL-2 and FULL-3, vs +1.1 and +1.4 for lite), so **C (q1 behind det)** remains the recommended arm.
+- If the paper's emphasis is accuracy per joule, D is the better hybrid arm.
+- B (x1) is now dominated, and is defensible only for its longer record.

@@ -323,3 +323,14 @@ FULL-3 was drawn after FULL-2, with its rule fixed in the journal before the run
 - **lite − q1** over the same 1,800 questions: −0.83 [−1.66, −0.08].
 - **x1 is dominated by lite:** the same accuracy at lower energy.
 - **The energy figures are GPU only.** The CPU cross-encoder used by m2 and on the explore path is not yet included; see `e2.md` when it exists.
+
+## Update: against gates on 1,800 fresh questions, and total energy (lead, Wed 7 Oct 15:20 ET)
+
+| system | Δ vs det gates, 1,800 fresh questions (p) | discordant misses / hits | total J per correct answer, FULL-3 (GPU + CPU) |
+|---|---|---|---|
+| det gates | – | – | 106 |
+| lite-det-ub | +0.80 [0.35, 2.64] (0.08) | +101/−11 / +15/−21 | 205 |
+| det x1 | +0.77 [0.04, 2.36] (0.16) | +92/−9 / +25/−30 | 227 |
+| det q1 | +1.64 [0.79, 3.78] (0.006) | +121/−11 / +34/−32 | 283 |
+
+**Slide message.** Engineering around e2b pays only where retrieval misses the answer email. On questions where the answer email is retrieved, the one-shot pipeline reads as well as any agent. The best stack (q1) costs 2.7× gates' energy per correct answer, for +1.6 points.

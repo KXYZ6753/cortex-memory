@@ -887,3 +887,14 @@ Round 5 had 10 workers (b, c, d, u, i, l, q, r, s, lite) plus v5 for the tables.
   - Worker i's S300-1 CPU figures were overstated: runner PIDs were counted 2–3 times from queue snapshots. Det x1 drops from 30 to 20 J per question.
   - GPU figures are unaffected.
 - **FULL-2:** CPU for gates, x1, q1 and q2 is an upper bound or estimate only, because those runs finished before the sampler started.
+
+**Round 5 closing update** (Wed 15:20 ET). The summary above was written at 14:45. Since then:
+- lite-det-ub is x1-level over 1,800 fresh questions (+0.02 [−0.75, 0.99]) and below q1 (−0.83 [−1.66, −0.08]).
+- Against det gates over 1,800 fresh questions:
+  - q1 +1.64 [0.79, 3.78], p = 0.006;
+  - lite +0.80, p = 0.08;
+  - x1 +0.77, p = 0.16.
+  - All of it comes from misses.
+- **Total energy per correct answer on FULL-3:** gates 106, lite 205, x1 227, q1 283.
+- **The TEST memo recommends C (q1 behind det)** for Y3. Kerem decides; nothing has run on TEST.
+- **Background processes stopped:** the energy logger and the CPU sampler. Logs are `r5-energy.jsonl` and `r5-cpu.jsonl`.

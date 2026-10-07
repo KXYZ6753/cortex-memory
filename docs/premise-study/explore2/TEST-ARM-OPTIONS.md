@@ -112,3 +112,18 @@ On this evidence it dominates x1: the same accuracy at lower cost. Its record is
 - If the paper's emphasis is accuracy per joule, D is the better hybrid arm.
 - B (x1) is now dominated, and is defensible only for its longer record.
 - **Update, 15:05 ET.** Over all four fresh sets (1,800 questions), lite-det-ub − det x1 is +0.02 [−0.75, 0.99] and lite-det-ub − q1 is −0.83 [−1.66, −0.08]. So the order is q1 > lite = x1 on accuracy, and lite < x1 < q1 on energy. The recommendation is unchanged: C for Y3; D if the arm is meant to show accuracy per joule.
+
+## Addendum: against gates over all four fresh sets, with total energy (lead, Wed 15:15 ET)
+
+These figures are det vs det over 1,800 fresh questions. The energy is GPU plus attributed CPU, per correct answer, on FULL-3 (`e2.md`).
+
+| arm | Δ vs det gates | sign-flip p | total J per correct answer | × gates |
+|---|---|---|---|---|
+| gates | – | – | 106 | 1.00 |
+| D: lite-det-ub | +0.80 [0.35, 2.64] | 0.08 | 205 | 1.93 |
+| B: x1 | +0.77 [0.04, 2.36] | 0.16 | 227 | 2.14 |
+| C: q1 | **+1.64 [0.79, 3.78]** | 0.006 | 283 | 2.67 |
+
+- **Y3 (superiority over gates at n = 600):** q1 is the only arm whose fresh-set gain over gates is clearly above zero. With x1 or lite, Y3 is a likely null.
+- **Recommendation: C (q1 behind det).**
+- **Disclose in the addendum** that the gain over gates is almost entirely on misses: discordant hits are net about 0 for every hybrid arm.

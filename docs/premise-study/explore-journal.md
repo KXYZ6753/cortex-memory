@@ -670,3 +670,16 @@ Demos change the answer's form, not the reading. Answers get 20–25% shorter an
 - **Energy:** 189 J per question GPU gross; 181 J per question total; 205 J per correct answer.
 - **Against i's S300-1 table** (x1: 174 J per question, 199 J per correct answer), q1 costs about 3–4% more energy per question.
 - **Decision memo:** `explore2/TEST-ARM-OPTIONS.md` lays out the TEST-arm options for Kerem: A gates only; B x1; C q1. It recommends C behind det, as a replacement for B.
+
+**s (cloze and recognition reformulations of reading) is closed: a clean negative** (`explore2/s.md`, Wed 11:28 ET).
+- **Setup:** a gold-only diagnostic on 400 dev hits (S300-1, S300-2), with a reset before every call.
+- **Change in hit points vs the standard prompt:**
+  - padding placebo: +1.3;
+  - cloze by continuation: −3.5 [−6.3, −0.8];
+  - explicit fill-in-the-blank: −6.0;
+  - multiple choice over spans pulled from the email: −10.8;
+  - per-option YES/NO: −8.0.
+- **Narrower rules** fixed on S300-1 (single-part questions, who-questions, confident choices only) all fail on S300-2.
+- **Why cloze fails:** it fixes some who-question inversions, but cannot hold two-part questions (23% of hits).
+- **Why multiple choice fails:** e2b recognises the right span when it is offered (91%), but picks "None of the above" only 25% of the time when no option is right. Only 40 of 1,050 dev hits are both wrong and of a type spans can be pulled for, so even perfect recognition caps out near +3.8 hit points.
+- **Reading floor, summary across workers:** presentation (c), demonstrations (b), decoding (u: CAD, repetition), selection (e, w, n, l), quote/thinking (z), re-reads (j, h) and task reformulation (s) all fail to move e2b's residual hit errors. The remaining errors are e2b misreading the right email.

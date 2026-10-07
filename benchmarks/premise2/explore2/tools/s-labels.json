@@ -1,0 +1,150 @@
+{
+ "test:king-j/deleted_items/334.#1": {
+  "set": "S300-1",
+  "label": "OVER"
+ },
+ "dev:hendrickson-s/sent_items/63.#0": {
+  "set": "S300-1",
+  "label": "PART"
+ },
+ "dev:may-l/all_documents/82.#0": {
+  "set": "S300-1",
+  "label": "WF"
+ },
+ "dev:shively-h/discussion_threads/78.#0": {
+  "set": "S300-1",
+  "label": "WF"
+ },
+ "test:symes-k/discussion_threads/2746.#0": {
+  "set": "S300-1",
+  "label": "PART"
+ },
+ "dev:shively-h/deleted_items/658.#0": {
+  "set": "S300-1",
+  "label": "PART"
+ },
+ "test:horton-s/discussion_threads/67.#0": {
+  "set": "S300-1",
+  "label": "AMB"
+ },
+ "dev:shapiro-r/deleted_items/1417.#1": {
+  "set": "S300-1",
+  "label": "TRUNC"
+ },
+ "test:symes-k/_sent_mail/794.#0": {
+  "set": "S300-1",
+  "label": "STRICT"
+ },
+ "test:germany-c/sent_items/99.#0": {
+  "set": "S300-1",
+  "label": "PART"
+ },
+ "dev:dean-c/inbox/668.#0": {
+  "set": "S300-1",
+  "label": "WF"
+ },
+ "dev:shapiro-r/california_legal_issues/3.#1": {
+  "set": "S300-1",
+  "label": "WF"
+ },
+ "dev:nemec-g/all_documents/5692.#0": {
+  "set": "S300-1",
+  "label": "PART"
+ },
+ "dev:dasovich-j/all_documents/10033.#0": {
+  "set": "S300-1",
+  "label": "OVER"
+ },
+ "dev:symes-k/deal_communication/deal_discrepancies/835.#1": {
+  "set": "S300-1",
+  "label": "WF"
+ },
+ "test:gay-r/all_documents/150.#0": {
+  "set": "S300-1",
+  "label": "WF"
+ },
+ "dev:shapiro-r/discussion_threads/372.#0": {
+  "set": "S300-1",
+  "label": "PART"
+ },
+ "dev:hyvl-d/all_documents/24.#0": {
+  "set": "S300-2",
+  "label": "HDR"
+ },
+ "dev:mcconnell-m/all_documents/885.#0": {
+  "set": "S300-2",
+  "label": "HEDGE"
+ },
+ "dev:grigsby-m/deleted_items/7.#1": {
+  "set": "S300-2",
+  "label": "PART"
+ },
+ "dev:grigsby-m/sent_items/348.#0": {
+  "set": "S300-2",
+  "label": "HEDGE"
+ },
+ "test:hyvl-d/all_documents/389.#0": {
+  "set": "S300-2",
+  "label": "STRICT"
+ },
+ "test:shapiro-r/nerc/41.#0": {
+  "set": "S300-2",
+  "label": "WF"
+ },
+ "dev:ruscitti-k/all_documents/331.#0": {
+  "set": "S300-2",
+  "label": "HEDGE"
+ },
+ "test:mcconnell-m/discussion_threads/557.#0": {
+  "set": "S300-2",
+  "label": "STRICT"
+ },
+ "test:badeer-r/discussion_threads/31.#0": {
+  "set": "S300-2",
+  "label": "WF"
+ },
+ "dev:nemec-g/all_documents/5497.#0": {
+  "set": "S300-2",
+  "label": "WF"
+ },
+ "test:hyvl-d/all_documents/129.#0": {
+  "set": "S300-2",
+  "label": "WF"
+ },
+ "test:symes-k/_sent_mail/1116.#0": {
+  "set": "S300-2",
+  "label": "WF"
+ },
+ "dev:grigsby-m/deleted_items/331.#0": {
+  "set": "S300-2",
+  "label": "OVER"
+ },
+ "dev:hyvl-d/all_documents/1156.#0": {
+  "set": "S300-2",
+  "label": "HEDGE"
+ },
+ "dev:kuykendall-t/notes_inbox/28.#1": {
+  "set": "S300-2",
+  "label": "PART"
+ },
+ "dev:hendrickson-s/deleted_items/161.#1": {
+  "set": "S300-2",
+  "label": "WF"
+ },
+ "dev:tycholiz-b/sent/26.#0": {
+  "set": "S300-2",
+  "label": "PART"
+ },
+ "test:staab-t/deleted_items/51.#0": {
+  "set": "S300-2",
+  "label": "GRAN"
+ },
+ "test:horton-s/deleted_items/347.#1": {
+  "set": "S300-2",
+  "label": "WF"
+ },
+ "dev:mcconnell-m/sent/634.#0": {
+  "set": "S300-2",
+  "label": "WF"
+ }
+}

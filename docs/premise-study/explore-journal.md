@@ -604,3 +604,48 @@ Demos change the answer's form, not the reading. Answers get 20–25% shorter an
   3. c's gold-only presentation tables: about half width, so only `thread` stays significantly negative on FULL-1.
   4. c's c-fin1 − x1 on S300-2: [0.00, 4.9].
 - The PREREG-X1 draft's copies of the y1 intervals are corrected in its deviation log.
+
+**FULL-2 confirmation result** (lead, Wed 10:55 ET; J1; all arms behind det; FULL-2 is used for nothing else).
+
+| arm | weighted | miss | hit | Δ vs det x1 [95% CI] | Δ vs det gates | wall ms | calls |
+|---|---|---|---|---|---|---|---|
+| i-det-gates | 84.3 | 27.3 | 88.4 | −1.1 [−3.6, 0.8] | – | 807 | 2.0 |
+| i-det-x1 | 85.4 | 40.7 | 88.7 | – | +1.1 [−0.8, 3.6] | 1,944 | 11.0 |
+| q-det-q1 | **86.8** | 49.3 | 89.6 | **+1.4 [0.6, 2.2]** | +2.5 [0.4, 5.1] | 2,363 | 13.0 |
+| q-det-q2 | 86.3 | 48.0 | 89.1 | +0.9 [−1.5, 3.1] | +2.0 [−0.6, 4.9] | 2,362 | 13.1 |
+
+- **Primary contrast** (q2 − det x1): +0.9 [−1.5, 3.1]. By the rule fixed above, q2 is **consistent, not confirmed**. Its screening gain of +2.51 shrank as in round 4.
+- **The labels did not replicate.** q2 − q1 is −0.5 [−3.0, 1.7] on FULL-2 (hits +13/−15, misses +3/−5). Over 2,400 questions across rounds, thread labels are noise.
+- **The retrieval stack q1 replicates** (secondary contrast, descriptive by the rule):
+  - FULL-2: +1.4 [0.6, 2.2];
+  - S300-4: +2.41;
+  - S300-5: +0.00;
+  - S300-1 (dev): +0.41.
+- **Pooled over the three fresh sets**, S300-4 + S300-5 + FULL-2 (1,200 questions, `tools/q-stats.js`):
+  - **q1 − det x1: +1.29**:
+    - mailbox-cluster bootstrap [0.49, 2.47];
+    - stratified question bootstrap [0.42, 2.19];
+    - sign-flip randomisation p = 0.004;
+    - discordant pairs: misses +30/−9, hits +12/−4.
+  - q2 − det x1: +1.65 [0.17, 3.31], p = 0.038.
+  - Behind det every concordant pair is byte-identical, so only the discordant pairs carry information. That is why q1's interval is narrow.
+- **Where q1's gain comes from:**
+  - mostly misses: m2's recovery of an answer-bearing email plus g5 seeded by d8, giving miss accuracy 40.7 → 49.3;
+  - plus a small hit gain (+0.9).
+  - Against det gates it is +22.0 on misses and +1.1 on hits.
+- **Energy on FULL-2** (GPU board power, design-weighted, idle 6.8 W from 3 `i-idle` windows; `tools/i-energy.js`, summary in `.data/premise2/explore/r5-energy-summary.json`):
+
+| arm | GPU J/question (gross) | GPU J/question (marginal) | GPU J per correct answer |
+|---|---|---|---|
+| det gates | 81 | 76 | 96 |
+| det x1 | 168 | 156 | 197 |
+| q1 | 189 | 175 | 218 |
+| q2 | 189 | 174 | 219 |
+
+  - CPU attribution is unavailable for this run because the CPU sampler was not running. The raw CPU package numbers are upper bounds, since other workers' CPU jobs ran concurrently.
+  - q1 buys +2.5 points over gates on FULL-2 for 2.3× the GPU energy per correct answer.
+  - Over det x1, q1 buys +1.4 for +11% energy per correct answer.
+- **Reading:**
+  - q1 = x1 + d8 + m2 (+ d6's explore list) is the first stack in rounds 4–5 whose gain held on a fresh confirmation set. Round 4's y1 (x1 + m2 + j2) failed confirmation; the difference is that j2 (null) is out and d8 is in.
+  - The effect is small (about +1.3 weighted) and lives mostly on misses, which carry 6.8% of the weight.
+  - q1 was named before the run as the secondary arm and as the lower-variance choice. Preferring it over q2 now is still a post-hoc choice on FULL-2, and any TEST arm needs its own addendum.

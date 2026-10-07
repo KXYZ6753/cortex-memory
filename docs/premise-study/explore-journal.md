@@ -898,3 +898,20 @@ Round 5 had 10 workers (b, c, d, u, i, l, q, r, s, lite) plus v5 for the tables.
 - **Total energy per correct answer on FULL-3:** gates 106, lite 205, x1 227, q1 283.
 - **The TEST memo recommends C (q1 behind det)** for Y3. Kerem decides; nothing has run on TEST.
 - **Background processes stopped:** the energy logger and the CPU sampler. Logs are `r5-energy.jsonl` and `r5-cpu.jsonl`.
+
+**p2 (preparation for option C, not binding) is done** (`explore2/p2.md`, Wed 15:35 ET).
+- **Draft addendum:** `explore2/PREREG-Q1-DRAFT.md`, addendum 4 for `q-det-q1`, with every number sourced. The Y3 power note: about 25% power at +1.6, 50% at +2.5.
+- **TEST runner:** `explore2/confirm2.js`.
+- **Guard order:**
+  1. `PREREG-EXPLORE2.md` must be committed and unmodified, and must name the arm, the verdict key prefix and a code hash equal to the current hash over `explore2/`. All imported files must be clean. This check runs before any TEST data is read.
+  2. Environment: Ollama version, e2b digest, and generation options equal to `run-state.json`.
+  3. Only then the TEST items are read, the same 600 as addendum 3.
+  - The runner also starts the energy logger and the CPU sampler and records the runner's pid.
+- **Verified:**
+  - `run q-det-q1 600` refuses today, and a file-access trace shows it touches nothing under `.data/` before refusing.
+  - A `--dry-run` on S100-0 (5 questions) works.
+  - 12 S300-1 questions through confirm2.js match the stored q-det-q1 run byte for byte.
+- **Open before any freeze:**
+  - TEST grading and analysis code for an explore2 arm (`confirm.js` handles gates only).
+  - The freeze is strict: any later commit under `explore2/` changes the code hash and blocks the runner.
+- **Flag for Kerem, found by p2:** addendum 3 (`PREREG-EXPLORE.md` line 18) says the main run's options include num_predict 320. But `run-state.json` records 160, and `confirm.js` passes 160. The gates TEST run would therefore use 160, contrary to the registered text. This needs a deviation-log line, or a decision, before that run. I have not edited the PREREG.

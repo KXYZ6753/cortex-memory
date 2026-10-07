@@ -683,3 +683,15 @@ Demos change the answer's form, not the reading. Answers get 20–25% shorter an
 - **Why cloze fails:** it fixes some who-question inversions, but cannot hold two-part questions (23% of hits).
 - **Why multiple choice fails:** e2b recognises the right span when it is offered (91%), but picks "None of the above" only 25% of the time when no option is right. Only 40 of 1,050 dev hits are both wrong and of a type spans can be pulled for, so even perfect recognition caps out near +3.8 hit points.
 - **Reading floor, summary across workers:** presentation (c), demonstrations (b), decoding (u: CAD, repetition), selection (e, w, n, l), quote/thinking (z), re-reads (j, h) and task reformulation (s) all fail to move e2b's residual hit errors. The remaining errors are e2b misreading the right email.
+
+**FULL-3: second replication of q1. Set drawn and rule fixed before any run** (lead, Wed 11:35 ET).
+- **The set:** FULL-3 was drawn now: 600 questions from 21 mailboxes, hash 2b0e7a36dab8, email-disjoint from all earlier sets. It is lead-only and used for nothing else.
+- **Arms**, all behind det: `i-det-x1` v2, `q-det-q1` v1, `i-det-gates`. A cheaper variant may be added later, if a worker screens one on dev sets first. Behind det, a later run is paired exactly with these.
+- **Primary contrast:** q-det-q1 − i-det-x1 on FULL-3. J1 weighted, mailbox-cluster bootstrap (`cli2 report`).
+- **Outcomes** (same as for FULL-2):
+  - *confirmed*: Δ ≥ +1.0 and the 95% CI lower bound > 0;
+  - *consistent*: Δ > 0;
+  - *not confirmed*: Δ ≤ 0.
+- **Secondary (descriptive):**
+  - q1 − det gates on FULL-3;
+  - the pooled q1 − det x1 over S300-4 + S300-5 + FULL-2 + FULL-3 (1,800 questions, `tools/q-stats.js`).

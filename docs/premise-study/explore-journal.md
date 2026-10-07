@@ -663,3 +663,10 @@ Demos change the answer's form, not the reading. Answers get 20–25% shorter an
 - **No other rule rescues it:** lexical selection −1.5; re-scoring with the answer-before-email prompt −0.07; the best cell is +0.66, placebo-sized.
 - **Side finding:** the verifier score of x1's own answer is a between-question confidence signal (AUC 0.71, vs 0.59 for answer logprob), but on hits there is no better answer to escalate to.
 - No S300-4/5 slot was used.
+
+**q1 without det on S300-1** (lead, Wed 11:10 ET; energy logger and CPU sampler running):
+- **Accuracy:** 88.2 vs stored x1 87.7, +0.5 [0.1, 0.9]. Hits are identical (90.5); misses go 49 → 56.
+- **Cost:** wall 2,261 ms mean (p95 4,212).
+- **Energy:** 189 J per question GPU gross; 181 J per question total; 205 J per correct answer.
+- **Against i's S300-1 table** (x1: 174 J per question, 199 J per correct answer), q1 costs about 3–4% more energy per question.
+- **Decision memo:** `explore2/TEST-ARM-OPTIONS.md` lays out the TEST-arm options for Kerem: A gates only; B x1; C q1. It recommends C behind det, as a replacement for B.

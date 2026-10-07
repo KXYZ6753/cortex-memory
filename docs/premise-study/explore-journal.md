@@ -495,3 +495,11 @@ The lead runs x1 and gates on S300-4 and S300-5.
 - **Pooled over all 7 sets (2,700 questions):** x1 is +1.1 [0.1, 1.7] vs gates, down from +1.6 over 5 sets. Its hit-side gain pooled over the 7 sets is about zero, so its advantage is the miss stratum, about +1 weighted.
 - **Implication for the paper:** a TEST arm's Y3 (x1 > gates) is very likely null.
 - **Measurement caveat:** wall times are inflated while round-5 workers run CPU jobs (gates 967 ms on S300-5).
+
+**b (few-shot demonstrations) is null** (Wed 02:20 ET; `explore2/b.md`). 13 demo-vs-parent comparisons on development sets; every CI includes 0.
+- **gates + 4 similar demos:** −0.0 [−2.7, 3.0] over 600 questions.
+- **gates + 4 fixed demos:** −0.9.
+- **x1 + 4 fixed demos:** −0.4 [−4.3, 3.7] on S300-2.
+- **Gold-only reading with demos:** −1.2 to +0.1.
+
+Demos change the answer's form, not the reading. Answers get 20–25% shorter and about 90% of texts change; the lost hits are mostly short answers that dropped needed context. Demos also suppress abstention (17 → 2 in 600 questions) and make x1's commit answer more confident, so fewer questions go to g5. A different prompt is a coin flip on e2b's unsure hits, so confidence gating gives the same +0.8 with any prompt. b ran nothing on the decision sets.

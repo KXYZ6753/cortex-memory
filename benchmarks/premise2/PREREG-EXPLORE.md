@@ -86,3 +86,8 @@ Comparators: the main study's tier-A verdicts for the e2b and 31b P-B answers on
 4. Report whatever it shows.
 
 ## Deviation log
+
+- **Wed 7 Oct 2026, 16:40 ET, before any TEST episode of `gates`.** Kerem gave the go-ahead for the TEST runs (16:10 ET). Three deviations are recorded here.
+  1. **num_predict.** §1 states that the main run's generation options include num_predict 320. That number is wrong. The main run's recorded options (`run-state.json` provenance) are num_predict 160, the same as exploration. The same sentence registers "the main run's generation options exactly", and `confirm.js` passes `run-state.json`'s options unchanged. This run therefore uses num_predict 160, identical to the comparator answers. Nothing else changes.
+  2. **Comparators (§5 fallback).** The main study's tier-A TEST verdicts for e2b and 31b P-B are not on this machine. This machine's verdict store holds only development J1 verdicts. The unchanged comparator answers are present: 600 e2b and 600 31b P-B answers on the 600 questions. As §5 provides, they are graded here by the same tier-A procedure (J1, J2, adjudication), with the same verdict keys. Grading code for them lives outside `explore/` (`explore2/`), so the frozen code hash is unchanged.
+  3. **CPU sampler.** For CPU attribution comparable with exploration, `explore2/tools/i-cpusampler.js` runs alongside `energy-logger.js` during the run. It only records data and does not change the registered energy analysis.

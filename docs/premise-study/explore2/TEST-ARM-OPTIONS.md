@@ -127,3 +127,19 @@ These figures are det vs det over 1,800 fresh questions. The energy is GPU plus 
 - **Y3 (superiority over gates at n = 600):** q1 is the only arm whose fresh-set gain over gates is clearly above zero. With x1 or lite, Y3 is a likely null.
 - **Recommendation: C (q1 behind det).**
 - **Disclose in the addendum** that the gain over gates is almost entirely on misses: discordant hits are net about 0 for every hybrid arm.
+
+## Outcome (Wed 7 Oct 17:45 ET)
+
+Kerem approved running every option on TEST. gates ran under addendum 3; q1 (confirmatory), lite and x1 ran under addendum 4 (`benchmarks/premise2/PREREG-EXPLORE2.md`).
+
+On the 600 TEST questions, tier A:
+
+| system | accuracy | total J per correct answer |
+|---|---|---|
+| gates | 92.3 | 96 |
+| q1 | 92.7 | 246 |
+| lite | 92.3 | 174 |
+| x1 | 92.3 | 202 |
+
+- **q1:** Z1 and Z2-NI hold; Z3 (q1 vs gates) is +0.3 [−1.4, 2.0], inconclusive, as predicted above.
+- **Results:** `benchmarks/results/premise2/explore2/confirm2.md`; the journal has the "TEST runs" section.

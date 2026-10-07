@@ -765,3 +765,69 @@ Demos change the answer's form, not the reading. Answers get 20–25% shorter an
   - Most of x1's g5 handover is not worth its energy. lite keeps the handover only for doubted, unsure commits where m2's recovery finds no email.
 - **Technical failures, lite on FULL-2:** 7 of 600 (context overflow 4, output limit 2, http_error 1). One answer is ungraded.
 - **Note on question keys:** keys with a `test:` prefix are EnronQA's source split inside the exploration pool. They are not the study's TEST set; the pool excludes the evaluation mailboxes and their emails (`pool-manifest.json` exclusions).
+
+**lite (a cheaper frontier point) is done** (`explore2/lite.md`, Wed 15:05 ET).
+- **Variants, all in `variants/lite-stack.js` with det forms:**
+  - lite-a = t-lk + d6 + m2 as in q1, no g5;
+  - lite-u = m2 only on doubted, unsure commits;
+  - lite-ub = lite-u + a d8-seeded g5 only where m2 finds nothing (11% of questions).
+- **Stub check:** 183 checks, 0 failures.
+- **Dev results** (det, S300-1/2/3, 900 questions; GPU J per correct answer measured):
+
+| system | weighted | wall ms | GPU J per correct answer |
+|---|---|---|---|
+| det t-lk | 85.67 | 1,278 | 125 |
+| lite-det-u | 85.90 | 1,576 | 141 |
+| lite-det-ub | 86.53 | 1,742 | 161 |
+| det x1 | 86.77 | 1,911 | 195 |
+| det q1 | 86.97 | 2,409 | 220 |
+
+- **lite-det-ub's paired differences:**
+  - vs det x1: −0.24 [−1.22, 0.70];
+  - vs det q1: −0.45 [−1.16, 0.20].
+  - Where lite-ub makes q1's calls, its answers are byte-identical to q1's on 529 of 529 questions. Its losses come from the three parts it drops: the handover after a confident first YES, x1's full explore, and m2 on sure commits.
+- **m2's recovery is not cheap.** Each time it fires it costs about 2 s: CPU cross-encoder list building plus up to 6 probes. That is why lite-a, which runs m2 on every doubted commit, is dominated (−0.8 vs det x1 on S300-1, by exact replay). Its replay method reproduced two real runs 596/596.
+- **lite-det-u** is +0.27 [0.12, 0.43] over det t-lk, all on misses, but it is off the convex frontier.
+- **Fresh-set result:** see the lead's FULL-2/FULL-3 entry above. lite-det-ub is x1-level there (−0.30 [−1.24, 0.46]) at 15–22% less energy per correct answer.
+
+## Round 5 summary (Wed 7 Oct, 15:30 ET)
+
+Round 5 had 10 workers (b, c, d, u, i, l, q, r, s, lite) plus v5 for the tables. Its evaluation used three new fresh sets (S300-4, S300-5, FULL-2) and one drawn today (FULL-3). Every decision rule was fixed in this journal before its run. Exploration spend on J1 grading is about $0.92 in total.
+
+**What held on fresh data (all contrasts det vs det):**
+
+| system | what it is | Δ vs det x1, fresh sets | Δ vs det gates, FULL-2 / FULL-3 | GPU J per correct answer, FULL-2 / FULL-3 |
+|---|---|---|---|---|
+| det gates | one-shot (registered primary) | – | – | 96 / 99 |
+| **lite-det-ub** | t-lk + d6 + m2, g5 only when recovery fails | −0.30 [−1.24, 0.46] (FULL-2+3) | +1.1 / +1.4; pooled **+1.25 [0.78, 2.11]** | **154 / 175** |
+| det x1 | hybrid agent (round 2) | – | +1.1 / +2.0 | 197 / 205 |
+| **q1** (q-det-q1) | x1 + d8 + m2 | **+0.87 [0.28, 1.88]** (four sets, 1,800 questions, p = 0.007) | +2.5 / +2.0 | 218 / 237 |
+
+1. **Retrieval engineering still pays on misses.**
+   - m2's recovery of an answer-bearing email, plus g5 seeded by d8, is robust on every fresh set (q1 vs x1: misses +42/−15).
+   - Because misses carry 6.8% of the weight, the effect is under +1 weighted.
+2. **There is a cheaper frontier point.** lite-det-ub keeps x1's accuracy at 15–22% less energy per correct answer, which makes x1 dominated. Most of x1's g5 handover is not worth its energy.
+3. **Reading floor.** Nothing moves e2b's residual hit errors, which are a wrong fact or relation read from the right email:
+   - demonstrations (b);
+   - rendering and thread labels (c; labels failed replication on FULL-2: q2 − q1 −0.5);
+   - decoding (u: CAD +1.3 on single-email reading, null end to end);
+   - self-verification (l: a grounding check, not a correctness check);
+   - cloze and multiple-choice reformulation (s: −3.5 to −10.8 hit points);
+   - the same holds for every attempt in rounds 3–4 (selection, quote, thinking, re-reads).
+   - Oracle selection among e2b's own candidates would be worth about +4, but no e2b-internal signal finds it.
+   - This is the part of the gap that engineering around e2b did not move. Whether a larger model moves it is the main study's question.
+4. **Methods:**
+   - det() makes every answer independent of earlier questions. Concordant pairs are then byte-identical and only discordant pairs carry information, so a change that touches few questions gets a narrow interval.
+   - A placebo moves pooled decision sets by +0.7.
+   - Screening gains do not carry over reliably: q2 went +2.5 → +0.9; q1 was +1.2 on the decision sets, then +1.4 and +0.06 on the two confirmation sets.
+   - A defective bootstrap generator was found and fixed (r); no decision changed.
+5. **Energy:** the GPU J per correct answer ladder runs gates ≈ 96–99 < lite 154–175 < x1 197–205 < q1 218–237. The agentic tier (t-lk) on S300-1 used 122.
+
+**Open for Kerem (nothing runs on TEST without him):**
+- The gates TEST confirmation still needs the Mac tier-A verdict files (or the registered fallback) and his go-ahead. LibreHardwareMonitor is ready.
+- Second TEST arm: `explore2/TEST-ARM-OPTIONS.md`.
+  - A: none.
+  - B: x1 (dominated).
+  - C: q1 behind det (recommended for Y3).
+  - D: lite-det-ub behind det (the best accuracy per joule).
+  - Whichever arm is chosen needs its own addendum and `confirm2.js`.

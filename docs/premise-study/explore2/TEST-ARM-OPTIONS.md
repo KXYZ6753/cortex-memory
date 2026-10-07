@@ -111,3 +111,4 @@ On this evidence it dominates x1: the same accuracy at lower cost. Its record is
 - For Y3, q1 still has the largest point estimate over gates (+2.5 and +2.0 on FULL-2 and FULL-3, vs +1.1 and +1.4 for lite), so **C (q1 behind det)** remains the recommended arm.
 - If the paper's emphasis is accuracy per joule, D is the better hybrid arm.
 - B (x1) is now dominated, and is defensible only for its longer record.
+- **Update, 15:05 ET.** Over all four fresh sets (1,800 questions), lite-det-ub − det x1 is +0.02 [−0.75, 0.99] and lite-det-ub − q1 is −0.83 [−1.66, −0.08]. So the order is q1 > lite = x1 on accuracy, and lite < x1 < q1 on energy. The recommendation is unchanged: C for Y3; D if the arm is meant to show accuracy per joule.

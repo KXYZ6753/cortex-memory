@@ -308,3 +308,18 @@ FULL-3 was drawn after FULL-2, with its rule fixed in the journal before the run
 - **Per set,** the gain is never negative but varies: +2.41, 0.00, +1.4, +0.06.
 - **What holds up:** the miss-side recovery is robust. The hit side is small and depends on the set.
 - **Against gates:** x1 and q1 are both about +2 on the clean confirmation sets (FULL-2: +1.1 / +2.5; FULL-3: +2.0 / +2.0).
+
+## Update: the cheaper stack lite-det-ub (lead, Wed 7 Oct 15:05 ET)
+
+`lite-det-ub` (`variants/lite-stack.js`, `explore2/lite.md`) is t-lk + d6's explore list + m2 recovery only on doubted, unsure commits, plus a d8-seeded g5 handover only where m2 finds nothing.
+
+| system | Δ vs det x1, 1,800 fresh questions | Δ vs det gates, FULL-2 / FULL-3 | wall ms, FULL-2 / FULL-3 | GPU J per correct answer, FULL-2 / FULL-3 |
+|---|---|---|---|---|
+| det gates | – | – | 807 / 794 | 96 / 99 |
+| lite-det-ub | +0.02 [−0.75, 0.99] | +1.1 / +1.4 | 1,684 / 1,826 | 154 / 175 |
+| det x1 | – | +1.1 / +2.0 | 1,944 / 2,016 | 197 / 205 |
+| det q1 | +0.87 [0.28, 1.88] | +2.5 / +2.0 | 2,363 / 2,508 | 218 / 237 |
+
+- **lite − q1** over the same 1,800 questions: −0.83 [−1.66, −0.08].
+- **x1 is dominated by lite:** the same accuracy at lower energy.
+- **The energy figures are GPU only.** The CPU cross-encoder used by m2 and on the explore path is not yet included; see `e2.md` when it exists.

@@ -836,3 +836,14 @@ Round 5 had 10 workers (b, c, d, u, i, l, q, r, s, lite) plus v5 for the tables.
 - **Why:** lite-det-ub was never selected on S300-4 or S300-5, so both sets are fresh for it. Running it there gives it the same 1,800-question fresh-set base as q1 (S300-4 + S300-5 + FULL-2 + FULL-3).
 - **Reported:** pooled lite-det-ub − det x1, lite-det-ub − det q1, and per-set values.
 - **Reading:** the same as the FULL-2/FULL-3 rule (x1-level if pooled Δ ≥ −0.5 and the CI lower bound ≥ −1.5).
+
+**lite-det-ub over all four fresh sets: same accuracy as x1, below q1** (lead, Wed 15:05 ET; det vs det).
+- **Per set vs det x1:** S300-4 +0.67 (87.6), S300-5 +0.86 (83.1), FULL-2 +0.02, FULL-3 −0.62.
+- **Pooled over S300-4 + S300-5 + FULL-2 + FULL-3** (1,800 questions):
+  - **lite − det x1: +0.02 [−0.75, 0.99]**, p = 0.97 (discordant misses +34/−27, hits +15/−16). By the pre-stated rule it is x1-level.
+  - **lite − q1: −0.83 [−1.66, −0.08]**, p = 0.04 (discordant misses +3/−22, hits +11/−19).
+- **The frontier on 1,800 fresh questions:**
+  - gates;
+  - lite: the same accuracy as x1, at 9–13% less wall time and 15–22% less GPU energy per correct answer;
+  - q1: +0.85 over both lite and x1, at about 1.4× lite's GPU energy per correct answer.
+  - x1 is dominated by lite.

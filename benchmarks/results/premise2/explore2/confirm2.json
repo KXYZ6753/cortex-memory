@@ -1,0 +1,1707 @@
+{
+  "version": "premise2-explore2-confirm-v1",
+  "arms": [
+    "q-det-q1",
+    "lite-det-ub",
+    "i-det-x1"
+  ],
+  "cells": {
+    "q-det-q1": "X-explore2-q1",
+    "lite-det-ub": "X-explore2-lite",
+    "i-det-x1": "X-explore2-x1"
+  },
+  "at": "2026-10-07T21:38:10.500Z",
+  "codeHash": "afbc5e254fdcded37f25dfc4de157faa3c195ff5c55ce9188f965053e24c0941",
+  "judges": {
+    "j1": "openai/gpt-oss-20b",
+    "j2": "nvidia/nemotron-3-nano-30b-a3b",
+    "adj": "deepseek/deepseek-v4.1-flash"
+  },
+  "confirmatory": {
+    "Z1": {
+      "name": "Z1 e2b(q1) - e2b(P-B), superiority",
+      "arms": [
+        "q-det-q1",
+        "e2bPB"
+      ],
+      "kind": "final",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.9267,
+        0.88
+      ],
+      "estimate": 0.0467,
+      "low": 0.0204,
+      "high": 0.073,
+      "p": 0.0004,
+      "label": "SUPERIOR",
+      "discordant": {
+        "onlyFirst": 47,
+        "onlySecond": 19
+      },
+      "holmP": 0.0008
+    },
+    "Z2ni": {
+      "name": "Z2-NI e2b(q1) - 31b(P-B), non-inferiority at 5 pts",
+      "arms": [
+        "q-det-q1",
+        "b31PB"
+      ],
+      "kind": "final",
+      "type": "noninferiority",
+      "margin": 0.05,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.9267,
+        0.9167
+      ],
+      "estimate": 0.01,
+      "low": -0.0167,
+      "high": 0.0369,
+      "p": 0.0001,
+      "label": "NON-INFERIOR",
+      "discordant": {
+        "onlyFirst": 39,
+        "onlySecond": 33
+      },
+      "holmP": 0.0003
+    },
+    "Z3": {
+      "name": "Z3 e2b(q1) - e2b(gates), superiority",
+      "arms": [
+        "q-det-q1",
+        "gates"
+      ],
+      "kind": "final",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.9267,
+        0.9233
+      ],
+      "estimate": 0.0033,
+      "low": -0.0135,
+      "high": 0.0199,
+      "p": 0.768,
+      "label": "INCONCLUSIVE",
+      "discordant": {
+        "onlyFirst": 15,
+        "onlySecond": 13
+      },
+      "holmP": 0.768
+    }
+  },
+  "secondary": {
+    "q1.excl.Z1": {
+      "name": "Z1 e2b(q1) - e2b(P-B), superiority, own overflow/failures excluded",
+      "arms": [
+        "q-det-q1:excl",
+        "e2bPB"
+      ],
+      "kind": "final",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.9267,
+        0.88
+      ],
+      "estimate": 0.0467,
+      "low": 0.0204,
+      "high": 0.073,
+      "p": 0.0004,
+      "label": "SUPERIOR",
+      "discordant": {
+        "onlyFirst": 47,
+        "onlySecond": 19
+      }
+    },
+    "q1.excl.Z2ni": {
+      "name": "Z2-NI e2b(q1) - 31b(P-B), non-inferiority at 5 pts, own overflow/failures excluded",
+      "arms": [
+        "q-det-q1:excl",
+        "b31PB"
+      ],
+      "kind": "final",
+      "type": "noninferiority",
+      "margin": 0.05,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.9267,
+        0.9167
+      ],
+      "estimate": 0.01,
+      "low": -0.0167,
+      "high": 0.0369,
+      "p": 0.0001,
+      "label": "NON-INFERIOR",
+      "discordant": {
+        "onlyFirst": 39,
+        "onlySecond": 33
+      }
+    },
+    "q1.excl.Z3": {
+      "name": "Z3 e2b(q1) - e2b(gates), superiority, own overflow/failures excluded",
+      "arms": [
+        "q-det-q1:excl",
+        "gates:excl"
+      ],
+      "kind": "final",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.9267,
+        0.9233
+      ],
+      "estimate": 0.0033,
+      "low": -0.0135,
+      "high": 0.0199,
+      "p": 0.768,
+      "label": "INCONCLUSIVE",
+      "discordant": {
+        "onlyFirst": 15,
+        "onlySecond": 13
+      }
+    },
+    "q1.j1.Z1": {
+      "name": "Z1 e2b(q1) - e2b(P-B), superiority, J1 only",
+      "arms": [
+        "q-det-q1",
+        "e2bPB"
+      ],
+      "kind": "j1",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.8933,
+        0.8433
+      ],
+      "estimate": 0.05,
+      "low": 0.0213,
+      "high": 0.0792,
+      "p": 0.0008,
+      "label": "SUPERIOR",
+      "discordant": {
+        "onlyFirst": 53,
+        "onlySecond": 23
+      }
+    },
+    "q1.j1.Z2ni": {
+      "name": "Z2-NI e2b(q1) - 31b(P-B), non-inferiority at 5 pts, J1 only",
+      "arms": [
+        "q-det-q1",
+        "b31PB"
+      ],
+      "kind": "j1",
+      "type": "noninferiority",
+      "margin": 0.05,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.8933,
+        0.8617
+      ],
+      "estimate": 0.0317,
+      "low": 0,
+      "high": 0.064,
+      "p": 0.0001,
+      "label": "NON-INFERIOR",
+      "discordant": {
+        "onlyFirst": 52,
+        "onlySecond": 33
+      }
+    },
+    "q1.j1.Z3": {
+      "name": "Z3 e2b(q1) - e2b(gates), superiority, J1 only",
+      "arms": [
+        "q-det-q1",
+        "gates"
+      ],
+      "kind": "j1",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.8933,
+        0.895
+      ],
+      "estimate": -0.0017,
+      "low": -0.0218,
+      "high": 0.0183,
+      "p": 0.9174,
+      "label": "INCONCLUSIVE",
+      "discordant": {
+        "onlyFirst": 16,
+        "onlySecond": 17
+      }
+    },
+    "q1.Z2sup": {
+      "name": "e2b(q1) - 31b(P-B), superiority",
+      "arms": [
+        "q-det-q1",
+        "b31PB"
+      ],
+      "kind": "final",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.9267,
+        0.9167
+      ],
+      "estimate": 0.01,
+      "low": -0.0167,
+      "high": 0.0369,
+      "p": 0.5152,
+      "label": "INCONCLUSIVE",
+      "discordant": {
+        "onlyFirst": 39,
+        "onlySecond": 33
+      }
+    },
+    "lite.Z1": {
+      "name": "Z1 e2b(lite) - e2b(P-B), superiority",
+      "arms": [
+        "lite-det-ub",
+        "e2bPB"
+      ],
+      "kind": "final",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.9233,
+        0.88
+      ],
+      "estimate": 0.0433,
+      "low": 0.0182,
+      "high": 0.0691,
+      "p": 0.0012,
+      "label": "SUPERIOR",
+      "discordant": {
+        "onlyFirst": 41,
+        "onlySecond": 15
+      }
+    },
+    "lite.Z2ni": {
+      "name": "Z2-NI e2b(lite) - 31b(P-B), non-inferiority at 5 pts",
+      "arms": [
+        "lite-det-ub",
+        "b31PB"
+      ],
+      "kind": "final",
+      "type": "noninferiority",
+      "margin": 0.05,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.9233,
+        0.9167
+      ],
+      "estimate": 0.0067,
+      "low": -0.0185,
+      "high": 0.032,
+      "p": 0.0001,
+      "label": "NON-INFERIOR",
+      "discordant": {
+        "onlyFirst": 33,
+        "onlySecond": 29
+      }
+    },
+    "lite.Z3": {
+      "name": "Z3 e2b(lite) - e2b(gates), superiority",
+      "arms": [
+        "lite-det-ub",
+        "gates"
+      ],
+      "kind": "final",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.9233,
+        0.9233
+      ],
+      "estimate": 0,
+      "low": -0.0133,
+      "high": 0.0133,
+      "p": 1,
+      "label": "INCONCLUSIVE",
+      "discordant": {
+        "onlyFirst": 8,
+        "onlySecond": 8
+      }
+    },
+    "lite.excl.Z1": {
+      "name": "Z1 e2b(lite) - e2b(P-B), superiority, own overflow/failures excluded",
+      "arms": [
+        "lite-det-ub:excl",
+        "e2bPB"
+      ],
+      "kind": "final",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.9233,
+        0.88
+      ],
+      "estimate": 0.0433,
+      "low": 0.0182,
+      "high": 0.0691,
+      "p": 0.0012,
+      "label": "SUPERIOR",
+      "discordant": {
+        "onlyFirst": 41,
+        "onlySecond": 15
+      }
+    },
+    "lite.excl.Z2ni": {
+      "name": "Z2-NI e2b(lite) - 31b(P-B), non-inferiority at 5 pts, own overflow/failures excluded",
+      "arms": [
+        "lite-det-ub:excl",
+        "b31PB"
+      ],
+      "kind": "final",
+      "type": "noninferiority",
+      "margin": 0.05,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.9233,
+        0.9167
+      ],
+      "estimate": 0.0067,
+      "low": -0.0185,
+      "high": 0.032,
+      "p": 0.0001,
+      "label": "NON-INFERIOR",
+      "discordant": {
+        "onlyFirst": 33,
+        "onlySecond": 29
+      }
+    },
+    "lite.excl.Z3": {
+      "name": "Z3 e2b(lite) - e2b(gates), superiority, own overflow/failures excluded",
+      "arms": [
+        "lite-det-ub:excl",
+        "gates:excl"
+      ],
+      "kind": "final",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.9233,
+        0.9233
+      ],
+      "estimate": 0,
+      "low": -0.0133,
+      "high": 0.0133,
+      "p": 1,
+      "label": "INCONCLUSIVE",
+      "discordant": {
+        "onlyFirst": 8,
+        "onlySecond": 8
+      }
+    },
+    "lite.j1.Z1": {
+      "name": "Z1 e2b(lite) - e2b(P-B), superiority, J1 only",
+      "arms": [
+        "lite-det-ub",
+        "e2bPB"
+      ],
+      "kind": "j1",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.8867,
+        0.8433
+      ],
+      "estimate": 0.0433,
+      "low": 0.0152,
+      "high": 0.0723,
+      "p": 0.0028,
+      "label": "SUPERIOR",
+      "discordant": {
+        "onlyFirst": 48,
+        "onlySecond": 22
+      }
+    },
+    "lite.j1.Z2ni": {
+      "name": "Z2-NI e2b(lite) - 31b(P-B), non-inferiority at 5 pts, J1 only",
+      "arms": [
+        "lite-det-ub",
+        "b31PB"
+      ],
+      "kind": "j1",
+      "type": "noninferiority",
+      "margin": 0.05,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.8867,
+        0.8617
+      ],
+      "estimate": 0.025,
+      "low": -0.0066,
+      "high": 0.057,
+      "p": 0.0001,
+      "label": "NON-INFERIOR",
+      "discordant": {
+        "onlyFirst": 48,
+        "onlySecond": 33
+      }
+    },
+    "lite.j1.Z3": {
+      "name": "Z3 e2b(lite) - e2b(gates), superiority, J1 only",
+      "arms": [
+        "lite-det-ub",
+        "gates"
+      ],
+      "kind": "j1",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.8867,
+        0.895
+      ],
+      "estimate": -0.0083,
+      "low": -0.0231,
+      "high": 0.0051,
+      "p": 0.3002,
+      "label": "INCONCLUSIVE",
+      "discordant": {
+        "onlyFirst": 6,
+        "onlySecond": 11
+      }
+    },
+    "lite-q1": {
+      "name": "e2b(lite) - e2b(q1)",
+      "arms": [
+        "lite-det-ub",
+        "q-det-q1"
+      ],
+      "kind": "final",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.9233,
+        0.9267
+      ],
+      "estimate": -0.0033,
+      "low": -0.0133,
+      "high": 0.0067,
+      "p": 0.6322,
+      "label": "INCONCLUSIVE",
+      "discordant": {
+        "onlyFirst": 5,
+        "onlySecond": 7
+      }
+    },
+    "lite-q1.j1": {
+      "name": "e2b(lite) - e2b(q1), J1 only",
+      "arms": [
+        "lite-det-ub",
+        "q-det-q1"
+      ],
+      "kind": "j1",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.8867,
+        0.8933
+      ],
+      "estimate": -0.0067,
+      "low": -0.0199,
+      "high": 0.0067,
+      "p": 0.3862,
+      "label": "INCONCLUSIVE",
+      "discordant": {
+        "onlyFirst": 6,
+        "onlySecond": 10
+      }
+    },
+    "x1.Z1": {
+      "name": "Z1 e2b(x1) - e2b(P-B), superiority",
+      "arms": [
+        "i-det-x1",
+        "e2bPB"
+      ],
+      "kind": "final",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.9233,
+        0.88
+      ],
+      "estimate": 0.0433,
+      "low": 0.0167,
+      "high": 0.0704,
+      "p": 0.002,
+      "label": "SUPERIOR",
+      "discordant": {
+        "onlyFirst": 46,
+        "onlySecond": 20
+      }
+    },
+    "x1.Z2ni": {
+      "name": "Z2-NI e2b(x1) - 31b(P-B), non-inferiority at 5 pts",
+      "arms": [
+        "i-det-x1",
+        "b31PB"
+      ],
+      "kind": "final",
+      "type": "noninferiority",
+      "margin": 0.05,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.9233,
+        0.9167
+      ],
+      "estimate": 0.0067,
+      "low": -0.0211,
+      "high": 0.0349,
+      "p": 0.0001,
+      "label": "NON-INFERIOR",
+      "discordant": {
+        "onlyFirst": 39,
+        "onlySecond": 35
+      }
+    },
+    "x1.Z3": {
+      "name": "Z3 e2b(x1) - e2b(gates), superiority",
+      "arms": [
+        "i-det-x1",
+        "gates"
+      ],
+      "kind": "final",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.9233,
+        0.9233
+      ],
+      "estimate": 0,
+      "low": -0.0182,
+      "high": 0.0169,
+      "p": 1,
+      "label": "INCONCLUSIVE",
+      "discordant": {
+        "onlyFirst": 16,
+        "onlySecond": 16
+      }
+    },
+    "x1.excl.Z1": {
+      "name": "Z1 e2b(x1) - e2b(P-B), superiority, own overflow/failures excluded",
+      "arms": [
+        "i-det-x1:excl",
+        "e2bPB"
+      ],
+      "kind": "final",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.9233,
+        0.88
+      ],
+      "estimate": 0.0433,
+      "low": 0.0167,
+      "high": 0.0704,
+      "p": 0.002,
+      "label": "SUPERIOR",
+      "discordant": {
+        "onlyFirst": 46,
+        "onlySecond": 20
+      }
+    },
+    "x1.excl.Z2ni": {
+      "name": "Z2-NI e2b(x1) - 31b(P-B), non-inferiority at 5 pts, own overflow/failures excluded",
+      "arms": [
+        "i-det-x1:excl",
+        "b31PB"
+      ],
+      "kind": "final",
+      "type": "noninferiority",
+      "margin": 0.05,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.9233,
+        0.9167
+      ],
+      "estimate": 0.0067,
+      "low": -0.0211,
+      "high": 0.0349,
+      "p": 0.0001,
+      "label": "NON-INFERIOR",
+      "discordant": {
+        "onlyFirst": 39,
+        "onlySecond": 35
+      }
+    },
+    "x1.excl.Z3": {
+      "name": "Z3 e2b(x1) - e2b(gates), superiority, own overflow/failures excluded",
+      "arms": [
+        "i-det-x1:excl",
+        "gates:excl"
+      ],
+      "kind": "final",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.9233,
+        0.9233
+      ],
+      "estimate": 0,
+      "low": -0.0182,
+      "high": 0.0169,
+      "p": 1,
+      "label": "INCONCLUSIVE",
+      "discordant": {
+        "onlyFirst": 16,
+        "onlySecond": 16
+      }
+    },
+    "x1.j1.Z1": {
+      "name": "Z1 e2b(x1) - e2b(P-B), superiority, J1 only",
+      "arms": [
+        "i-det-x1",
+        "e2bPB"
+      ],
+      "kind": "j1",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.8867,
+        0.8433
+      ],
+      "estimate": 0.0433,
+      "low": 0.0148,
+      "high": 0.073,
+      "p": 0.0022,
+      "label": "SUPERIOR",
+      "discordant": {
+        "onlyFirst": 52,
+        "onlySecond": 26
+      }
+    },
+    "x1.j1.Z2ni": {
+      "name": "Z2-NI e2b(x1) - 31b(P-B), non-inferiority at 5 pts, J1 only",
+      "arms": [
+        "i-det-x1",
+        "b31PB"
+      ],
+      "kind": "j1",
+      "type": "noninferiority",
+      "margin": 0.05,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.8867,
+        0.8617
+      ],
+      "estimate": 0.025,
+      "low": -0.0083,
+      "high": 0.0591,
+      "p": 0.0001,
+      "label": "NON-INFERIOR",
+      "discordant": {
+        "onlyFirst": 51,
+        "onlySecond": 36
+      }
+    },
+    "x1.j1.Z3": {
+      "name": "Z3 e2b(x1) - e2b(gates), superiority, J1 only",
+      "arms": [
+        "i-det-x1",
+        "gates"
+      ],
+      "kind": "j1",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.8867,
+        0.895
+      ],
+      "estimate": -0.0083,
+      "low": -0.0278,
+      "high": 0.0115,
+      "p": 0.4332,
+      "label": "INCONCLUSIVE",
+      "discordant": {
+        "onlyFirst": 14,
+        "onlySecond": 19
+      }
+    },
+    "x1-q1": {
+      "name": "e2b(x1) - e2b(q1)",
+      "arms": [
+        "i-det-x1",
+        "q-det-q1"
+      ],
+      "kind": "final",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.9233,
+        0.9267
+      ],
+      "estimate": -0.0033,
+      "low": -0.0135,
+      "high": 0.0067,
+      "p": 0.6368,
+      "label": "INCONCLUSIVE",
+      "discordant": {
+        "onlyFirst": 4,
+        "onlySecond": 6
+      }
+    },
+    "x1-q1.j1": {
+      "name": "e2b(x1) - e2b(q1), J1 only",
+      "arms": [
+        "i-det-x1",
+        "q-det-q1"
+      ],
+      "kind": "j1",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.8867,
+        0.8933
+      ],
+      "estimate": -0.0067,
+      "low": -0.0188,
+      "high": 0.0051,
+      "p": 0.35,
+      "label": "INCONCLUSIVE",
+      "discordant": {
+        "onlyFirst": 5,
+        "onlySecond": 9
+      }
+    },
+    "lite-x1": {
+      "name": "e2b(lite) - e2b(x1)",
+      "arms": [
+        "lite-det-ub",
+        "i-det-x1"
+      ],
+      "kind": "final",
+      "type": "superiority",
+      "margin": 0,
+      "n": 600,
+      "clusters": 120,
+      "armMeans": [
+        0.9233,
+        0.9233
+      ],
+      "estimate": 0,
+      "low": -0.0132,
+      "high": 0.0133,
+      "p": 1,
+      "label": "INCONCLUSIVE",
+      "discordant": {
+        "onlyFirst": 9,
+        "onlySecond": 9
+      }
+    }
+  },
+  "perArm": {
+    "q-det-q1": {
+      "answers600": 600,
+      "finals600": 600,
+      "unresolved600": 0,
+      "accuracy600": 0.9267,
+      "overflow": 0,
+      "technical": 0,
+      "describe": {
+        "n": 600,
+        "statuses": {
+          "ok": 600
+        },
+        "latency": {
+          "meanMs": 2202,
+          "p50Ms": 2133,
+          "p95Ms": 4683,
+          "maxMs": 6455
+        },
+        "calls": {
+          "meanAll": 11.643,
+          "meanReal": 5.822,
+          "meanResets": 5.822,
+          "maxReal": 14
+        },
+        "paths": {
+          "commit": 256,
+          "commit+g5": 138,
+          "explore": 59,
+          "m2": 80,
+          "m2+g5": 67
+        },
+        "det": {
+          "calls": 3493,
+          "at0": 3113,
+          "at1to99": 1,
+          "atLeast100": 379,
+          "unknown": 0
+        },
+        "switched": 75,
+        "retried": 0
+      },
+      "energy": {
+        "available": true,
+        "basis1": {
+          "label": "CPU package + GPU, blocks of 50 (addendum 3's basis; a lower bound)",
+          "grossJPerAnswer": {
+            "n": 12,
+            "mean": 333.48,
+            "stdDev": 35,
+            "ci95": [
+              313.67,
+              353.29
+            ]
+          },
+          "marginalJPerAnswer": {
+            "n": 12,
+            "mean": 223.01,
+            "stdDev": 24.58,
+            "ci95": [
+              209.11,
+              236.91
+            ]
+          },
+          "grossJPerCorrect": 359.9,
+          "marginalJPerCorrect": 240.7,
+          "idle": [
+            {
+              "seconds": 30.01,
+              "gpuMeanW": 8.81,
+              "cpuMeanW": 41.36
+            }
+          ],
+          "samples": {
+            "gpu": 12517,
+            "cpu": 1346
+          }
+        },
+        "basis2": {
+          "label": "e2.md attribution: GPU per question window + (runner + llama-server + ollama) CPU-seconds x J per CPU-second",
+          "answers": 600,
+          "cpuCovered": 600,
+          "fit": {
+            "source": "this run",
+            "a": 41.13,
+            "b": 1.4072,
+            "r2": 0.832,
+            "blocks": 135,
+            "jPerCpuS": 8.795
+          },
+          "runners": [
+            {
+              "session": "q-det-q1:test:2026-10-07T20:40:28.830Z",
+              "pid": 22488,
+              "source": "manifest",
+              "pinnedPid": 22488,
+              "found": true,
+              "covered": true,
+              "cpuSecondsInWindows": 1556.85,
+              "perAnswer": 2.595,
+              "runnerUp": null,
+              "rNonGen": 0.97,
+              "answers": 600
+            }
+          ],
+          "perAnswer": {
+            "gpuGrossJ": 191.4,
+            "gpuMarginalJ": 172,
+            "cpuSeconds": {
+              "runner": 2.595,
+              "llamaServer": 1.413,
+              "ollama": 0.11
+            },
+            "cpuAJ": 36.2,
+            "cpuBJ": 36.3,
+            "totalGrossJ": 227.6,
+            "totalMarginalJ": 208.2,
+            "cpuShare": 0.159
+          },
+          "perCorrect": {
+            "gpuGrossJ": 206.5,
+            "gpuMarginalJ": 185.6,
+            "totalGrossJ": 245.6,
+            "totalMarginalJ": 224.7,
+            "totalGrossJB": 245.7
+          }
+        }
+      }
+    },
+    "lite-det-ub": {
+      "answers600": 600,
+      "finals600": 600,
+      "unresolved600": 0,
+      "accuracy600": 0.9233,
+      "overflow": 0,
+      "technical": 0,
+      "describe": {
+        "n": 600,
+        "statuses": {
+          "ok": 600
+        },
+        "latency": {
+          "meanMs": 1517,
+          "p50Ms": 995,
+          "p95Ms": 4565,
+          "maxMs": 6524
+        },
+        "calls": {
+          "meanAll": 7.657,
+          "meanReal": 3.828,
+          "meanResets": 3.828,
+          "maxReal": 13
+        },
+        "paths": {
+          "commit": 470,
+          "explore": 59,
+          "m2+g5": 67,
+          "m2": 4
+        },
+        "det": {
+          "calls": 2297,
+          "at0": 2173,
+          "at1to99": 0,
+          "atLeast100": 124,
+          "unknown": 0
+        },
+        "switched": 75,
+        "retried": 1
+      },
+      "energy": {
+        "available": true,
+        "basis1": {
+          "label": "CPU package + GPU, blocks of 50 (addendum 3's basis; a lower bound)",
+          "grossJPerAnswer": {
+            "n": 12,
+            "mean": 228.61,
+            "stdDev": 33.84,
+            "ci95": [
+              209.46,
+              247.75
+            ]
+          },
+          "marginalJPerAnswer": {
+            "n": 12,
+            "mean": 161.03,
+            "stdDev": 24.14,
+            "ci95": [
+              147.37,
+              174.68
+            ]
+          },
+          "grossJPerCorrect": 247.6,
+          "marginalJPerCorrect": 174.4,
+          "idle": [
+            {
+              "seconds": 30.01,
+              "gpuMeanW": 9.09,
+              "cpuMeanW": 35.46
+            }
+          ],
+          "samples": {
+            "gpu": 8731,
+            "cpu": 939
+          }
+        },
+        "basis2": {
+          "label": "e2.md attribution: GPU per question window + (runner + llama-server + ollama) CPU-seconds x J per CPU-second",
+          "answers": 600,
+          "cpuCovered": 600,
+          "fit": {
+            "source": "this run",
+            "a": 38.4,
+            "b": 1.5855,
+            "r2": 0.866,
+            "blocks": 94,
+            "jPerCpuS": 9.91
+          },
+          "runners": [
+            {
+              "session": "lite-det-ub:test:2026-10-07T21:03:07.298Z",
+              "pid": 22564,
+              "source": "manifest",
+              "pinnedPid": 22564,
+              "found": true,
+              "covered": true,
+              "cpuSecondsInWindows": 912.96,
+              "perAnswer": 1.522,
+              "runnerUp": null,
+              "rNonGen": 0.98,
+              "answers": 600
+            }
+          ],
+          "perAnswer": {
+            "gpuGrossJ": 134.8,
+            "gpuMarginalJ": 121,
+            "cpuSeconds": {
+              "runner": 1.522,
+              "llamaServer": 0.993,
+              "ollama": 0.07
+            },
+            "cpuAJ": 25.6,
+            "cpuBJ": 25.8,
+            "totalGrossJ": 160.4,
+            "totalMarginalJ": 146.6,
+            "cpuShare": 0.16
+          },
+          "perCorrect": {
+            "gpuGrossJ": 146,
+            "gpuMarginalJ": 131,
+            "totalGrossJ": 173.7,
+            "totalMarginalJ": 158.8,
+            "totalGrossJB": 173.9
+          }
+        }
+      }
+    },
+    "i-det-x1": {
+      "answers600": 600,
+      "finals600": 600,
+      "unresolved600": 0,
+      "accuracy600": 0.9233,
+      "overflow": 0,
+      "technical": 0,
+      "describe": {
+        "n": 600,
+        "statuses": {
+          "ok": 600
+        },
+        "latency": {
+          "meanMs": 1699,
+          "p50Ms": 1254,
+          "p95Ms": 3289,
+          "maxMs": 4629
+        },
+        "calls": {
+          "meanAll": 8.843,
+          "meanReal": 4.422,
+          "meanResets": 4.422,
+          "maxReal": 14
+        },
+        "paths": {
+          "commit": 332,
+          "commit+g5": 209,
+          "explore": 59
+        },
+        "det": {
+          "calls": 2653,
+          "at0": 2266,
+          "at1to99": 0,
+          "atLeast100": 387,
+          "unknown": 0
+        },
+        "switched": 75,
+        "retried": 0
+      },
+      "energy": {
+        "available": true,
+        "basis1": {
+          "label": "CPU package + GPU, blocks of 50 (addendum 3's basis; a lower bound)",
+          "grossJPerAnswer": {
+            "n": 12,
+            "mean": 263.45,
+            "stdDev": 21.54,
+            "ci95": [
+              251.27,
+              275.64
+            ]
+          },
+          "marginalJPerAnswer": {
+            "n": 12,
+            "mean": 189.5,
+            "stdDev": 15.74,
+            "ci95": [
+              180.59,
+              198.4
+            ]
+          },
+          "grossJPerCorrect": 285.3,
+          "marginalJPerCorrect": 205.2,
+          "idle": [
+            {
+              "seconds": 30.01,
+              "gpuMeanW": 8.52,
+              "cpuMeanW": 34.99
+            }
+          ],
+          "samples": {
+            "gpu": 9741,
+            "cpu": 1048
+          }
+        },
+        "basis2": {
+          "label": "e2.md attribution: GPU per question window + (runner + llama-server + ollama) CPU-seconds x J per CPU-second",
+          "answers": 600,
+          "cpuCovered": 600,
+          "fit": {
+            "source": "this run",
+            "a": 38.09,
+            "b": 1.7046,
+            "r2": 0.856,
+            "blocks": 105,
+            "jPerCpuS": 10.654
+          },
+          "runners": [
+            {
+              "session": "i-det-x1:test:2026-10-07T21:18:54.978Z",
+              "pid": 14924,
+              "source": "manifest",
+              "pinnedPid": 14924,
+              "found": true,
+              "covered": true,
+              "cpuSecondsInWindows": 371.56,
+              "perAnswer": 0.619,
+              "runnerUp": null,
+              "rNonGen": 0.83,
+              "answers": 600
+            }
+          ],
+          "perAnswer": {
+            "gpuGrossJ": 165.9,
+            "gpuMarginalJ": 151.4,
+            "cpuSeconds": {
+              "runner": 0.619,
+              "llamaServer": 1.255,
+              "ollama": 0.082
+            },
+            "cpuAJ": 20.8,
+            "cpuBJ": 21,
+            "totalGrossJ": 186.7,
+            "totalMarginalJ": 172.2,
+            "cpuShare": 0.112
+          },
+          "perCorrect": {
+            "gpuGrossJ": 179.7,
+            "gpuMarginalJ": 164,
+            "totalGrossJ": 202.2,
+            "totalMarginalJ": 186.5,
+            "totalGrossJB": 202.4
+          }
+        }
+      }
+    },
+    "gates": {
+      "answers600": 600,
+      "finals600": 600,
+      "unresolved600": 0,
+      "accuracy600": 0.9233,
+      "overflow": 0,
+      "technical": 0,
+      "describe": {
+        "n": 600,
+        "statuses": {
+          "ok": 600
+        },
+        "latency": {
+          "meanMs": 744,
+          "p50Ms": 714,
+          "p95Ms": 1099,
+          "maxMs": 1434
+        },
+        "calls": {
+          "meanAll": 1.01,
+          "meanReal": 1.01,
+          "meanResets": 0,
+          "maxReal": 2
+        },
+        "paths": {
+          "one-shot": 600
+        },
+        "det": null,
+        "switched": 75,
+        "retried": 6
+      },
+      "energy": {
+        "available": true,
+        "basis1": {
+          "label": "CPU package + GPU, blocks of 50 (addendum 3's basis; a lower bound)",
+          "grossJPerAnswer": {
+            "n": 12,
+            "mean": 117.31,
+            "stdDev": 7.36,
+            "ci95": [
+              113.15,
+              121.47
+            ]
+          },
+          "marginalJPerAnswer": {
+            "n": 12,
+            "mean": 81.67,
+            "stdDev": 5.79,
+            "ci95": [
+              78.4,
+              84.95
+            ]
+          },
+          "grossJPerCorrect": 127.1,
+          "marginalJPerCorrect": 88.5,
+          "idle": [
+            {
+              "seconds": 30.02,
+              "gpuMeanW": 11.53,
+              "cpuMeanW": 36.34
+            },
+            {
+              "seconds": 30.01,
+              "gpuMeanW": 10.11,
+              "cpuMeanW": 35.69
+            }
+          ],
+          "samples": {
+            "gpu": 7150,
+            "cpu": 769
+          }
+        },
+        "basis2": {
+          "label": "e2.md attribution: GPU per question window + (runner + llama-server + ollama) CPU-seconds x J per CPU-second",
+          "answers": 600,
+          "cpuCovered": 600,
+          "fit": {
+            "source": "this run",
+            "a": 31.89,
+            "b": 2.3575,
+            "r2": 0.912,
+            "blocks": 47,
+            "jPerCpuS": 14.734
+          },
+          "runners": [
+            {
+              "session": "run",
+              "pid": 7268,
+              "source": "detected",
+              "pinnedPid": null,
+              "found": true,
+              "covered": true,
+              "cpuSecondsInWindows": 88.26,
+              "perAnswer": 0.147,
+              "runnerUp": {
+                "pid": 5096,
+                "perAnswer": 0
+              },
+              "rNonGen": 0.65,
+              "answers": 600
+            }
+          ],
+          "perAnswer": {
+            "gpuGrossJ": 78.2,
+            "gpuMarginalJ": 69.6,
+            "cpuSeconds": {
+              "runner": 0.147,
+              "llamaServer": 0.528,
+              "ollama": 0.01
+            },
+            "cpuAJ": 10.1,
+            "cpuBJ": 10.2,
+            "totalGrossJ": 88.3,
+            "totalMarginalJ": 79.7,
+            "cpuShare": 0.114
+          },
+          "perCorrect": {
+            "gpuGrossJ": 84.7,
+            "gpuMarginalJ": 75.4,
+            "totalGrossJ": 95.6,
+            "totalMarginalJ": 86.3,
+            "totalGrossJB": 95.8
+          }
+        }
+      }
+    },
+    "e2bPB": {
+      "alias": "small",
+      "answers600": 600,
+      "finals600": 600,
+      "unresolved600": 0,
+      "accuracy600": 0.88,
+      "note": "main study's P-B answers; energy: main study's figures (mainStudy below)"
+    },
+    "b31PB": {
+      "alias": "large",
+      "answers600": 600,
+      "finals600": 600,
+      "unresolved600": 0,
+      "accuracy600": 0.9167,
+      "note": "main study's P-B answers; energy: main study's figures (mainStudy below)"
+    }
+  },
+  "mainStudy": {
+    "energy": {
+      "small|D-B": {
+        "accuracy": 0.8413,
+        "grossJPerCorrect": 123.2,
+        "marginalJPerCorrect": 92.2
+      },
+      "small|D-k1-rank-R0": {
+        "accuracy": 0.7859,
+        "grossJPerCorrect": 61.5,
+        "marginalJPerCorrect": 44.5
+      },
+      "small|D-k3-rank-R0": {
+        "accuracy": 0.8035,
+        "grossJPerCorrect": 98.1,
+        "marginalJPerCorrect": 73.8
+      },
+      "small|D-k3-rank-R2": {
+        "accuracy": 0.806,
+        "grossJPerCorrect": 94.3,
+        "marginalJPerCorrect": 69.9
+      },
+      "small|D-k3-bestlast-R0": {
+        "accuracy": 0.8489,
+        "grossJPerCorrect": 88.5,
+        "marginalJPerCorrect": 66
+      },
+      "small|D-k3-bestlast-R2": {
+        "accuracy": 0.8035,
+        "grossJPerCorrect": 95,
+        "marginalJPerCorrect": 70.8
+      },
+      "small|D-k5-rank-R2": {
+        "accuracy": 0.8086,
+        "grossJPerCorrect": 129.8,
+        "marginalJPerCorrect": 98.4
+      },
+      "small|D-k5-bestlast-R0": {
+        "accuracy": 0.8564,
+        "grossJPerCorrect": 120,
+        "marginalJPerCorrect": 90.5
+      },
+      "small|D-k5-bestlast-R2": {
+        "accuracy": 0.8564,
+        "grossJPerCorrect": 122.1,
+        "marginalJPerCorrect": 92
+      },
+      "small|D-kgate-rank-R0": {
+        "accuracy": 0.7809,
+        "grossJPerCorrect": 84.6,
+        "marginalJPerCorrect": 63.1
+      },
+      "small|D-kgate-rank-R2": {
+        "accuracy": 0.7783,
+        "grossJPerCorrect": 73.9,
+        "marginalJPerCorrect": 54.6
+      },
+      "small|D-kgate-bestlast-R0": {
+        "accuracy": 0.7834,
+        "grossJPerCorrect": 91,
+        "marginalJPerCorrect": 67.9
+      },
+      "small|D-kgate-bestlast-R2": {
+        "accuracy": 0.7809,
+        "grossJPerCorrect": 94.3,
+        "marginalJPerCorrect": 70.6
+      },
+      "small|P-oracle": {
+        "accuracy": 0.9518,
+        "grossJPerCorrect": 49.5,
+        "marginalJPerCorrect": 36.2
+      },
+      "small|P-B": {
+        "accuracy": 0.8754,
+        "grossJPerCorrect": 114.3,
+        "marginalJPerCorrect": 86.2
+      },
+      "small|S-floor": {
+        "accuracy": 0,
+        "grossJPerCorrect": null,
+        "marginalJPerCorrect": null
+      },
+      "small|S-dist4hard": {
+        "accuracy": 0.8967,
+        "grossJPerCorrect": 112.8,
+        "marginalJPerCorrect": 84.9
+      },
+      "small|S-dist9hard": {
+        "accuracy": 0.8733,
+        "grossJPerCorrect": 187.1,
+        "marginalJPerCorrect": 142.6
+      },
+      "small|S-dist4rand": {
+        "accuracy": 0.91,
+        "grossJPerCorrect": 102,
+        "marginalJPerCorrect": 76.8
+      },
+      "small|S-format-T1": {
+        "accuracy": 0.9333,
+        "grossJPerCorrect": 36.8,
+        "marginalJPerCorrect": 27
+      },
+      "small|S-null-oracle": {
+        "accuracy": 0.9533,
+        "grossJPerCorrect": 48.2,
+        "marginalJPerCorrect": 35.2
+      },
+      "small|S-null-B": {
+        "accuracy": 0.87,
+        "grossJPerCorrect": 111.5,
+        "marginalJPerCorrect": 83.8
+      },
+      "small|S-oracle-R2": {
+        "accuracy": 0.9667,
+        "grossJPerCorrect": 49.5,
+        "marginalJPerCorrect": 36.3
+      },
+      "small|G-R2-bm25": {
+        "accuracy": 0.8317,
+        "grossJPerCorrect": 122.6,
+        "marginalJPerCorrect": 92.4
+      },
+      "small|V1-bridge-T1": {
+        "accuracy": 0.95,
+        "grossJPerCorrect": 37.8,
+        "marginalJPerCorrect": 28
+      },
+      "small|V1-bridge-T2": {
+        "accuracy": 0.95,
+        "grossJPerCorrect": 50.5,
+        "marginalJPerCorrect": 37.2
+      },
+      "tiny|P-oracle": {
+        "accuracy": 0.6764,
+        "grossJPerCorrect": 34.5,
+        "marginalJPerCorrect": 24.3
+      },
+      "tiny|P-B": {
+        "accuracy": 0.4785,
+        "grossJPerCorrect": 106.1,
+        "marginalJPerCorrect": 77.4
+      },
+      "tiny|S-floor": {
+        "accuracy": 0.01,
+        "grossJPerCorrect": 1193,
+        "marginalJPerCorrect": 851
+      },
+      "tiny|S-dist4hard": {
+        "accuracy": 0.4975,
+        "grossJPerCorrect": 102.1,
+        "marginalJPerCorrect": 74.4
+      },
+      "mid|P-oracle": {
+        "accuracy": 0.9686,
+        "grossJPerCorrect": 78.4,
+        "marginalJPerCorrect": 59.2
+      },
+      "mid|P-B": {
+        "accuracy": 0.9047,
+        "grossJPerCorrect": 188.7,
+        "marginalJPerCorrect": 145.8
+      },
+      "mid|S-floor": {
+        "accuracy": 0,
+        "grossJPerCorrect": null,
+        "marginalJPerCorrect": null
+      },
+      "mid|S-dist4hard": {
+        "accuracy": 0.9517,
+        "grossJPerCorrect": 177.1,
+        "marginalJPerCorrect": 137
+      },
+      "mid|S-R2-B": {
+        "accuracy": 0.9067,
+        "grossJPerCorrect": 193.8,
+        "marginalJPerCorrect": 149.9
+      },
+      "bridge|V1-bridge-T1": {
+        "accuracy": 0.9,
+        "grossJPerCorrect": 40.7,
+        "marginalJPerCorrect": 29.9
+      },
+      "bridge|V1-bridge-T2": {
+        "accuracy": 0.95,
+        "grossJPerCorrect": 50.5,
+        "marginalJPerCorrect": 37.8
+      },
+      "small|X-goldsel-B": {
+        "accuracy": 0.6633,
+        "grossJPerCorrect": 81.7,
+        "marginalJPerCorrect": 60.2
+      },
+      "small|G-R0-dense": {
+        "accuracy": 0.6883,
+        "grossJPerCorrect": 128.1,
+        "marginalJPerCorrect": 96.2
+      },
+      "small|G-R0-rrf60": {
+        "accuracy": 0.8017,
+        "grossJPerCorrect": 117.1,
+        "marginalJPerCorrect": 88
+      },
+      "small|G-R1-bm25": {
+        "accuracy": 0.8333,
+        "grossJPerCorrect": 111.5,
+        "marginalJPerCorrect": 83.6
+      },
+      "small|G-R1-dense": {
+        "accuracy": 0.695,
+        "grossJPerCorrect": 118.7,
+        "marginalJPerCorrect": 89
+      },
+      "small|G-R1-rrf60": {
+        "accuracy": 0.8017,
+        "grossJPerCorrect": 110,
+        "marginalJPerCorrect": 82.5
+      },
+      "small|G-R2-dense": {
+        "accuracy": 0.7017,
+        "grossJPerCorrect": 128.7,
+        "marginalJPerCorrect": 96.8
+      },
+      "small|G-R2-rrf60": {
+        "accuracy": 0.8083,
+        "grossJPerCorrect": 118,
+        "marginalJPerCorrect": 88.7
+      },
+      "small|X-bm25-k1": {
+        "accuracy": 0.8,
+        "grossJPerCorrect": 55.1,
+        "marginalJPerCorrect": 40.5
+      },
+      "small|X-bm25-k3": {
+        "accuracy": 0.8367,
+        "grossJPerCorrect": 87.1,
+        "marginalJPerCorrect": 65
+      },
+      "small|X-bm25-k10": {
+        "accuracy": 0.8233,
+        "grossJPerCorrect": 204.3,
+        "marginalJPerCorrect": 156.1
+      },
+      "small|X-bm25rr-k5": {
+        "accuracy": 0.8033,
+        "grossJPerCorrect": 120.5,
+        "marginalJPerCorrect": 90.8
+      },
+      "small|X-bm25rr-gate": {
+        "accuracy": 0.8,
+        "grossJPerCorrect": 77.2,
+        "marginalJPerCorrect": 57.3
+      },
+      "small|X-bm25-k5-bestlast": {
+        "accuracy": 0.86,
+        "grossJPerCorrect": 115.3,
+        "marginalJPerCorrect": 86.8
+      },
+      "small|X-hybv1-k5": {
+        "accuracy": 0.85,
+        "grossJPerCorrect": 117.9,
+        "marginalJPerCorrect": 88.8
+      },
+      "small|X-peruser-bm25-k5": {
+        "accuracy": 0.8667,
+        "grossJPerCorrect": 111,
+        "marginalJPerCorrect": 83.4
+      },
+      "small|X-rephrased-bm25-k5": {
+        "accuracy": 0.8067,
+        "grossJPerCorrect": 125.9,
+        "marginalJPerCorrect": 94.5
+      },
+      "small|X-oracle-RL": {
+        "accuracy": 0.4933,
+        "grossJPerCorrect": 62.9,
+        "marginalJPerCorrect": 45.6
+      },
+      "large|S-floor": {
+        "accuracy": 0,
+        "grossJPerCorrect": null,
+        "marginalJPerCorrect": null
+      },
+      "large|P-oracle": {
+        "accuracy": 0.9817,
+        "grossJPerCorrect": 1298.8,
+        "marginalJPerCorrect": 901.2
+      },
+      "large|P-B": {
+        "accuracy": 0.9183,
+        "grossJPerCorrect": 2387,
+        "marginalJPerCorrect": 1656.8
+      },
+      "large|P-Estar": {
+        "accuracy": 0.925,
+        "grossJPerCorrect": 2357.8,
+        "marginalJPerCorrect": 1637.3
+      },
+      "small|P-Estar": {
+        "accuracy": 0.8649,
+        "grossJPerCorrect": 120.2,
+        "marginalJPerCorrect": 90.4
+      },
+      "tiny|P-Estar": {
+        "accuracy": 0.5508,
+        "grossJPerCorrect": 93,
+        "marginalJPerCorrect": 67.1
+      },
+      "mid|P-Estar": {
+        "accuracy": 0.9005,
+        "grossJPerCorrect": 194.7,
+        "marginalJPerCorrect": 149.1
+      },
+      "large|S-dist4hard": {
+        "accuracy": 0.97,
+        "grossJPerCorrect": 2264.4,
+        "marginalJPerCorrect": 1567.1
+      },
+      "large|S-oracle-R2": {
+        "accuracy": 0.9733,
+        "grossJPerCorrect": 1359.7,
+        "marginalJPerCorrect": 940.9
+      },
+      "large|S-dist4rand": {
+        "accuracy": 0.9867,
+        "grossJPerCorrect": 2057.6,
+        "marginalJPerCorrect": 1420.4
+      }
+    }
+  },
+  "energyNote": "Energy: block basis = addendum 3's (CPU package + GPU, a lower bound); attribution = e2.md's (GPU per question window + runner/llama-server/ollama CPU-seconds x this run's J per CPU-second, method A; B = direct share). gates' runner pid is detected (no manifest); set CONFIRM2_GATES_RUNNER_PID to pin it."
+}

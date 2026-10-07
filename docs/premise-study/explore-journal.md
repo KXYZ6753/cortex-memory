@@ -979,3 +979,30 @@ Kerem asked for the best systems to be run as study data, most important first. 
 - **Cost:** latency 744 ms mean (p95 1,099); 1.01 calls per question; the gate switched on 75 questions and the abstention retry fired on 6; 0 overflows; 0 unresolved.
 - **Energy** (lower bound, CPU package + GPU): 116.9 J gross and 82.1 J marginal per answer; 126.6 J gross per correct answer.
 - **Reading:** the frozen one-shot pipeline lets e2b beat its own P-B baseline by 4.3 points and makes it non-inferior to 31b P-B at the registered 5-point margin, at about 1.15× e2b P-B's wall time.
+
+**Result: the three addendum-4 arms on TEST** (`explore2/confirm2.js analyze`, Wed 17:45 ET; `benchmarks/results/premise2/explore2/confirm2.{json,md}`).
+- **Runs:** each arm answered 600/600 with status ok. There were 0 overflows, 0 technical failures and 0 unresolved verdicts.
+- **Grading:** tier A, with verdicts reused for identical answer texts (addendum 3 §5). Cost: q1 $0.063, lite $0.026, x1 $0.017; total spend is now $1.29 of the $5 cap.
+- **Statistics:** paired mailbox-cluster bootstrap, B = 10,000, seed 20260922, n = 600.
+
+| arm | tier A | vs e2b P-B (88.0) | vs 31b P-B (91.7), NI at 5 points | vs gates (92.3) | mean ms (p95) | total J per correct answer (GPU + CPU, gross) |
+|---|---|---|---|---|---|---|
+| gates (addendum 3) | 92.3 | +4.3 [2.1, 6.6], superior | +0.7 [−1.5, 2.9], non-inferior | – | 744 (1,099) | 95.6 |
+| **q-det-q1** (confirmatory) | **92.7** | **Z1 +4.7 [2.0, 7.3], superior, Holm p 0.0008** | **Z2-NI +1.0 [−1.7, 3.7], non-inferior, Holm p 0.0003** | **Z3 +0.3 [−1.4, 2.0], inconclusive, p 0.77** | 2,202 (4,683) | 245.6 |
+| lite-det-ub (secondary) | 92.3 | +4.3 [1.8, 6.9] | +0.7 [−1.8, 3.2], non-inferior | 0.0 [−1.3, 1.3] | 1,517 (4,565) | 173.7 |
+| i-det-x1 (secondary) | 92.3 | +4.3 [1.7, 7.0] | +0.7 [−2.1, 3.5], non-inferior | 0.0 [−1.8, 1.7] | 1,699 (3,289) | 202.2 |
+
+- **Other secondary contrasts:** lite − q1 −0.3 [−1.3, 0.7]; x1 − q1 −0.3 [−1.4, 0.7]; lite − x1 0.0. On the J1-only basis, every hybrid is 0.2–0.8 below gates.
+- **Path mix on TEST:**
+
+| arm | path mix |
+|---|---|
+| q1 | commit 256, commit + g5 138, explore 59, m2 80, m2 + g5 67 |
+| lite | commit 470, explore 59, m2 + g5 67, m2 4 |
+| x1 | commit 332, commit + g5 209, explore 59 |
+
+- **Reading:**
+  - Every e2b system with retrieval engineering beats e2b P-B by 4.3–4.7 points and is non-inferior to 31b P-B.
+  - On TEST the hybrid and agentic stacks add nothing measurable over the one-shot `gates`: q1 +0.3, lite 0.0, x1 0.0. They cost 1.8–2.6× its energy per correct answer and 2–3× its wall time.
+  - The exploration prediction ("a null Z3 is the likely outcome", addendum 4 §4) held.
+  - Exploration put the hybrids' gain on retrieval misses. On TEST that gain did not show; TEST's question mix may hold fewer of the questions where the recovery acts, which nobody has measured.

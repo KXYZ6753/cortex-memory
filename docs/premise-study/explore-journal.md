@@ -1215,7 +1215,7 @@ The lead runs det gates, q1 and lite on H6-D as parents.
 - **Secondary:** flips by component (top2 vs truncation re-ask), per set, the 8 misses, the mailbox-cluster interval.
 - No change to the package or its config after this entry.
 
-**Thu 05:05 ET: a6 package on fresh hits. Consistent, not confirmed** (rule fixed 04:35 ET; `a6-rg-pkg@1+cold` vs `i-det-gates@2+cold`, H6-D + H6-C; J1 $0.002, explore total $1.31).
+**Thu 04:50 ET: a6 package on fresh hits. Consistent, not confirmed** (rule fixed 04:35 ET; `a6-rg-pkg@1+cold` vs `i-det-gates@2+cold`, H6-D + H6-C; J1 $0.002, explore total $1.31).
 - **Primary** (2,400 fresh hits, `tools/lead-hitpair.js`): **+0.08 hit points [−0.29, 0.46]**, mailbox-cluster [−0.19, 0.42], sign-flip p 0.83; flips +12/−10 (H6-D −0.33, +1/−3; H6-C +0.22, +11/−7). The 8 misses are unchanged.
 - **By component:**
   - **Two-email reread on two-part questions:** fired on 201 questions (76 texts unchanged), **+9/−10**. Null on fresh hits, like its +3/−4 on the dev sets not used to design it.

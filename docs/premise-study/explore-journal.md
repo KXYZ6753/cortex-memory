@@ -1140,3 +1140,26 @@ The lead runs det gates, q1 and lite on H6-D as parents.
 **Stacking check on H6-D (fixed at 00:10 ET):** lite-yas − lite and q1-yas − q1 are both **+0.62 [−0.78, 2.02]** (+12/−8). On these fresh hits lite and q1 are each −0.78 vs gates, so the stacked arms land at −0.16 vs gates. The sure-YES read adds the same hit gain on top of either parent. For q1 the g5 cell is +6/−2 here, against +15/−17 on development.
 
 **Thu 00:20 ET: lite-yas on H6-C, fixed before any H6-C lead-yas answer is graded.** lite-det-ub is run on H6-C at worker priority (5), behind the workers' queue. When it is graded, the derivation `tools/lead-q1yas.js H6-D,H6-C all lite-det-ub@1+cold --allow-h6c` is reported, pooled over H6-D + H6-C. The same wording as the primary rule applies to lite-yas − lite-det-ub: *confirmed*: Δ ≥ +0.5 and the lower bound > 0; *consistent*: Δ > 0; *not confirmed*: Δ ≤ 0. lite − i-det-gates on these 2,400 fresh hits is also reported, since H6-D showed the hybrids at −0.8 on hits. This is secondary to the lead-yas primary and does not change it.
+
+**Thu 01:10 ET: lead-yas H6 result. Consistent, not confirmed.**
+- **Primary** (pooled H6-D + H6-C, 2,408 questions, J1, design-weighted, question-stratified bootstrap): lead-yas − i-det-gates **+0.19 [−0.50, 0.89]**; sign-flip p 0.66. By the rule this is *consistent* (Δ > 0), not *confirmed* (it needed Δ ≥ +0.5 with the lower bound > 0).
+- **Secondary:**
+  - H6-C alone: +0.05 [−0.78, 0.88]; hits +34/−33.
+  - Mailbox-cluster interval (pooled): [−0.35, 0.81].
+  - Hit flips +46/−41 (89.21 vs 89.00), all on the 1,585 yes-alone questions. The 8 misses are wrong under both arms.
+  - Wall time 840 vs 770 ms; real calls 2.48 vs 1.00.
+- **Flips by YES cell** (`tools/lead-yabreak.js H6-D,H6-C lead-yas`):
+
+  | YES cell (sure) | n | flips |
+  |---|---|---|
+  | YES = gold | 1,455 | +41/−31 |
+  | YES = twin | 77 | +5/−1 |
+  | YES = another email | 50 | +0/−9 |
+
+  For comparison, the development replication had YES = gold +23/−11.
+- **Reading.**
+  - The gain shrank from +0.79 (development, 3,300 questions) to +0.19 on fresh hits, the usual development-to-fresh shrinkage in this project.
+  - The mechanism is real in direction: the sure-YES email alone beats gates' five-email read more often than it loses where it is the gold. But on fresh mailboxes that edge is small (+10 net in 1,455), and the sure-YES-on-the-wrong-email cases cost nearly as much (−9 in 50).
+  - Reading one email in place of five does not lift e2b's hit floor by more than a few tenths of a point.
+- **The line closes.** No change to lead-yas follows this entry. The lite-yas H6-C secondary (fixed at 00:20 ET) still runs, because it also measures the hybrids' hit loss vs gates on fresh hits.
+- **Grading cost:** H6 grading was $0.14 in all; explore total $1.20.

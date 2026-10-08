@@ -1123,7 +1123,7 @@ The lead runs det gates, q1 and lite on H6-D as parents.
 - **Why it can't pay:** each alternative fixes only a few hits (+1.5 to +4 hit points even with perfect selection); the parent is right on 55–64% of the disagreements, and the reader is decisive on only about a third. That caps the gain at about +0.3 to +0.6 hit points with this encoder.
 - **Data note:** FULL-0's answer store also holds 600 answers from the 31b model, and `l-lib.js`'s loader does not filter by model. v6's loader keeps e2b only; l's round-5 results were checked by v6 and are unaffected.
 
-**Thu 00:50 ET: does the sure-YES read stack on q1 or lite?** Exact offline derivation, behind det (`tools/lead-q1yas.js`). The parent's W0 commit check is checked probe-for-probe against lead-ya's: 1 of 2,700 questions differs and is skipped. On a sure first YES with an accepted alone-read, the derived arm answers with lead-ya's read; otherwise it gives the parent's answer. Sets: S300-1…5, FULL-2, FULL-3 (2,700 questions; development, and the lead-yas screen is among them).
+**Thu 00:10 ET: does the sure-YES read stack on q1 or lite?** Exact offline derivation, behind det (`tools/lead-q1yas.js`). The parent's W0 commit check is checked probe-for-probe against lead-ya's: 1 of 2,700 questions differs and is skipped. On a sure first YES with an accepted alone-read, the derived arm answers with lead-ya's read; otherwise it gives the parent's answer. Sets: S300-1…5, FULL-2, FULL-3 (2,700 questions; development, and the lead-yas screen is among them).
 
 | derived arm | − parent [95% CI] | hit flips | miss flips | − det gates |
 |---|---|---|---|---|

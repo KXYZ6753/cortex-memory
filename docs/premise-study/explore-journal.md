@@ -1184,3 +1184,8 @@ The lead runs det gates, q1 and lite on H6-D as parents.
 
 - **Reading.** What a non-oracle rule could still reach sits in about 25 questions where the YES lands on the wrong email (about +7 net, about 1 hit point at best). Everything else is e2b's reading of the gold itself. A "read every YES email" rule, which needs probes on all five W0 emails, could reach part of the 1 point at most. That is below what a fresh test can resolve (H6-C's interval half-width is ±0.8), so it is not pursued.
 - **Cost note:** q1's mean wall time on H6-D is 3,314 ms with 5.9 real calls, above the 3,243 ms cap on this hit-only mix. On the design-weighted development sets it is 2,363 ms.
+
+**Thu 03:20 ET: v6 final on all 1,300 pre-registered hits** (`explore2/v6.md` §6–7; the detached job finished).
+- Δ in hit points against `i-det-gates`: o4 layout alone −0.38 [−1.77, 1.00] (+40/−45); **R1, QA encoder chooses (primary): +0.08 [−0.62, 0.77]** (+11/−10); R2, QA + NLI: +0.15 [−0.31, 0.62] (+6/−4).
+- The encoder's AUC on the 85 discordant hits is 0.522 (NLI 0.541, both 0.547), down from 0.676 in the offline pool. R1's edge over o4 alone comes from keeping gates' answer, not from the encoder.
+- The 00:05 ET verdict stands: v6 is a clean negative, and o4's +1.0 on S300-1/2 was set noise. `v6-o4` answers equal what p6's `p6-e4` would produce, so p6 can reuse them. J1 grading for v6 was about $0.02 in all.

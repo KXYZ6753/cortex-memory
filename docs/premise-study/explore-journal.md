@@ -1134,3 +1134,7 @@ The lead runs det gates, q1 and lite on H6-D as parents.
 - **q1 hands sure-YES commits with an unsure A to g5**, which already fixes most of what the alone read fixes. There the read is +15/−17 vs g5, so the stack adds little.
 - **lite-yas reaches q1's accuracy** (q1 − gates +2.01 on the same sets). Its cost is lite's plus at most 0.53 single-email reads per question. A live version could skip A when the read is accepted.
 - **Descriptive check, fixed now, before any lead-yas H6-D answer is graded.** When lead-yas H6-D is graded, the same derivation is reported on H6-D (lite-det-ub and q-det-q1 are already there). No rule, no promotion: this only says whether the stacking holds on fresh hits.
+
+**Thu 00:45 ET: H6-D part of the lead-yas test (descriptive; the primary is pooled with H6-C).** On 600 fresh hits, lead-yas − i-det-gates is **+0.67 hit points [−0.83, 2.17]**, mailbox-cluster [−0.41, 1.84], with flips +12/−8, all on the 398 yes-alone questions. Wall time is 850 vs 801 ms, and real calls 2.5 vs 1.0. J1 grading of H6-D cost $0.005; explore total $1.05.
+
+**Stacking check on H6-D (fixed at 00:10 ET):** lite-yas − lite and q1-yas − q1 are both **+0.62 [−0.78, 2.02]** (+12/−8). On these fresh hits lite and q1 are each −0.78 vs gates, so the stacked arms land at −0.16 vs gates. The sure-YES read adds the same hit gain on top of either parent. For q1 the g5 cell is +6/−2 here, against +15/−17 on development.

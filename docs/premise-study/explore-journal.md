@@ -1273,3 +1273,31 @@ The lead runs det gates, q1 and lite on H6-D as parents.
   - *not replicated*: Δ ≤ 0.
 - **Secondary (descriptive, s6's development value in brackets):** sandwich gold-only e4b − e2b (+0.1); T2 gold-only e4b − e2b (+3.8); P-B e4b − e2b on hits (+3.9); gates − P-B on hits for e2b (+3.9) and e4b (+0.8) and their difference (−3.1); e2b gates − e4b P-B on hits (0.0); e4b gates − e2b gates on hits (+0.8). Wall time per arm.
 - Tool: `tools/lead-s6fresh.js` (new). No change to arms or contrasts after this entry. Nothing here is an e2b-arm candidate.
+
+**Thu 07:45 ET: s6 scale control on fresh hits (H6-D, 600 hits; rule fixed 06:50 ET). Primary consistent, not replicated; the engineering-vs-scale contrasts point the same way as on development.** All 8 arms behind det; J1 $0.12, explore total $1.49 (`tools/lead-s6fresh.js H6-D`).
+
+| arm (hit accuracy) | e2b | e4b |
+|---|---|---|
+| gold only, sandwich | 91.00 (348 ms) | 91.50 (523 ms) |
+| gold only, T2 | 88.00 | 89.67 |
+| P-B | 84.00 (673 ms) | 86.00 (1,007 ms) |
+| gates | 89.00 (771 ms) | 89.17 (1,132 ms) |
+
+| contrast, hit points [question] [mailbox] | H6-D (fresh) | s6 development |
+|---|---|---|
+| **PRIMARY: gap the sandwich closes, [T2 e4b−e2b] − [sandwich e4b−e2b]** | **+1.17 [−1.83, 4.17] [−2.24, 4.76]** (+41/−33) | about +3.7 |
+| gold only, sandwich, e4b − e2b | +0.50 [−1.67, 2.67] | +0.1 |
+| gold only, T2, e4b − e2b | +1.67 [−0.83, 4.17] | +3.8 (FULL-0) |
+| P-B, e4b − e2b | +2.00 [−1.00, 5.00] | +3.9 |
+| gates − P-B, e2b | **+5.00 [2.33, 7.67]** | +3.9 |
+| gates − P-B, e4b | +3.17 [0.50, 5.83] | +0.8 |
+| gain difference, e4b − e2b | −1.83 [−5.33, 1.50] | −3.1 |
+| **e2b gates − e4b P-B** | **+3.00 [0.17, 6.00] [1.00, 5.27]** | 0.0 |
+| e4b gates − e2b gates | +0.17 [−2.33, 2.67] | +0.8 |
+
+- **By the rule, the primary is *consistent*, not *replicated*:** on fresh hits e4b's T2 reading edge was only +1.7 (FULL-0: +3.8), so there was less of a gap for the sandwich to close, and 600 hits cannot resolve it.
+- **What holds on fresh hits:**
+  - with only the gold email and the sandwich prompt, e4b and e2b read the same (+0.5);
+  - gates lifts e2b's hits by +5.0 [2.3, 7.7], more than e4b's (+3.2);
+  - **e2b + gates beats e4b P-B on fresh hits by +3.0 [0.2, 6.0]** (mailbox [1.0, 5.3]) at 0.77× the wall time; on development hits they were equal. With gates, the e2b → e4b step is worth +0.2 on hits.
+- **Caveats:** hits only (no fresh misses exist; on development e2b gates' miss advantage over e4b P-B was +30 points); one set of 600 hits; J1 only.

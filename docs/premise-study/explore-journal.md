@@ -1068,3 +1068,20 @@ The lead runs det gates, q1 and lite on H6-D as parents.
    - *Replicates*: weighted Δ vs i-det-gates ≥ +0.7, with a question-stratified 95% lower bound > 0.
    - Otherwise *not replicated*, and the line stops.
 3. **If it replicates:** H6-D (lead-ya vs i-det-gates, descriptive), then H6-C confirmation, with its own rule written here before that run.
+
+**Wed 21:40 ET: lead-ya screen (S300-4, S300-5, FULL-2, FULL-3; 1,800 questions; det vs det).**
+- **lead-ya − i-det-gates: +0.18 [−1.20, 1.52]**; hits +48/−46, misses +11/−8; wall 907 vs 802 ms.
+- **The offline estimate held where it applied.** The YES-alone reads are byte-identical to the det gold-only arm on all 1,032 YES = gold hits, and on those hits they are +42/−20 vs gates.
+- **A doubted YES on the wrong email is ruinous:** −17 of 34 hits read from another email, and −5 of 23 from a twin. In the doubted cells, neither YES rank, YES logprob nor answer agreement separates gold from non-gold usefully (`tools/lead-yafeat.js`).
+- **lead-yas** (sure YES only; declared before the run) is derived exactly from lead-ya + i-det-gates, because behind det its calls are one or the other's (`tools/lead-yasim.js`):
+  - **+0.82 [−0.12, 1.79]**; hits +28/−17, misses +4/−2;
+  - per set: S300-4 +0.86, S300-5 −0.80, FULL-2 +0.83, FULL-3 +1.50;
+  - on sure commits the gain sits mostly where the YES email is not gates' top email (+6 of 43 hits), the "another email read" class;
+  - where the sure YES is gates' top email, it is +5 of 801.
+- **lead-ya** fails the bar on the screen and is dropped.
+
+**Rule for lead-yas, fixed before its replication run** (the same bar as for lead-ya):
+- **Sets:** S300-1, S300-2, S300-3 and FULL-1 (1,500 questions); i-det-gates is run on S300-2, S300-3 and FULL-1, where it is missing.
+- *Replicates*: weighted Δ vs i-det-gates ≥ +0.7, with a question-stratified 95% lower bound > 0.
+- Also reported: the pooled screen + replication estimate over 3,300 questions.
+- **If it replicates:** H6-D (descriptive), then H6-C confirmation, with a rule written here first.

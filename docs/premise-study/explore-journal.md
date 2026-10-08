@@ -1085,3 +1085,29 @@ The lead runs det gates, q1 and lite on H6-D as parents.
 - *Replicates*: weighted Δ vs i-det-gates ≥ +0.7, with a question-stratified 95% lower bound > 0.
 - Also reported: the pooled screen + replication estimate over 3,300 questions.
 - **If it replicates:** H6-D (descriptive), then H6-C confirmation, with a rule written here first.
+
+**Wed 22:35 ET: lead-yas replication (S300-1, S300-2, S300-3, FULL-1; 1,500 questions; det vs det).**
+- **lead-yas − i-det-gates: +0.75 [−0.36, 1.91]**; mailbox-cluster [−0.51, 2.05]; sign-flip p 0.22.
+  - Hits +26/−17, misses +3/−6.
+  - Per set: S300-1 −0.07, S300-2 0.00, S300-3 +0.86, FULL-1 +1.40.
+  - Wall 973 vs 785 ms; 3.0 vs 1.0 real calls.
+- **By the rule fixed above, this is "not replicated":** the point estimate meets +0.7, but the lower bound is not above 0. As a promotion candidate, the line stops.
+- **Pooled screen + replication, descriptive** (3,300 questions, `tools/lead-yasim.js`): **+0.79 [0.05, 1.52]**.
+  - Hits +54/−34 (+0.85 hit points), the same direction in both halves (+28/−17 and +26/−17).
+  - Misses +7/−8.
+  - Where the sure YES is the gold: +42/−20 on the screen, +23/−11 on the replication.
+- **H6 baselines:** H6-D (600 hits): det gates 89.0, q1 88.2 (−0.8 [−2.8, 1.2]), lite 88.2 (−0.8 [−2.3, 0.5]).
+
+**Deviation (the lead's own stop clause), logged before any H6 run of lead-yas.**
+- **The reason:** the replication clause needed a lower bound above 0 at n = 1,500, which needs about +0.9 even for a real effect. The same flip pattern appeared on both halves, and the fresh hit sets are better powered for a hit-only effect of this size.
+- **What lead-yas is:** gates plus x1's commit check, with the sure-YES email read alone. It is the first hit-side mechanism in rounds 3–6 whose discordant pairs point the same way on two disjoint halves.
+- **Scope of the test:** a single confirmatory test on fresh sets, not a promotion.
+
+**Rule (fixed before any lead-yas answer on H6-D or H6-C):**
+- **Arms:** lead-yas@1 vs i-det-gates@2, both behind det, on H6-D (600 hits) and H6-C (1,800 hits + 8 misses). i-det-gates is run on H6-C first.
+- **Primary:** pooled H6-D + H6-C (2,408 questions), J1, design-weighted, question-stratified paired bootstrap (B = 10,000, `tools/lead-pair.js`).
+  - *Confirmed*: Δ ≥ +0.5 and the lower bound > 0;
+  - *consistent*: Δ > 0;
+  - *not confirmed*: Δ ≤ 0.
+- **Secondary:** H6-C alone, the mailbox-cluster interval, flips by YES cell, and wall time.
+- No change to lead-yas after this entry.

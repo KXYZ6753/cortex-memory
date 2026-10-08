@@ -1240,3 +1240,12 @@ The lead runs det gates, q1 and lite on H6-D as parents.
 - **e2b + gates vs e4b P-B: +2.0 [−0.1, 4.1]** (mailbox-cluster [0.2, 4.0]); equal on hits (+0.0), +30 on misses; 0.75× the wall time and about 0.6× the GPU energy per correct answer.
 - **Caveats:** gates was selected on FULL-0 (FULL-1 shows the same direction); the sandwich prompt was tuned on e2b's failures; the stored e2b P-B and gates runs are not behind det (on FULL-1, `gates` and `i-det-gates` score the same, 84.6); 31b has only P-B on FULL-0, and its gold-only reading cannot run on this GPU.
 - **A claim in s6's report checked and rejected:** s6 says `tools/a6-lib.js` drops pool keys with the `test:` prefix (EnronQA's own split, 17,234 of 37,336 pool records; 262 of FULL-0's 600). It does not: a6-lib keeps every key that is a pool record, and the `test:` keys are pool records (FULL-0: 600 of 600 in the pool). a6's dev counts (2,350 hits over eight sets) are the full sets. The problem was in s6's own first draft, which s6 fixed.
+
+**Thu 06:20 ET: p6 (prompt shape at large n, with placebos) is a clean negative** (`explore2/p6.md`; all arms behind det; J1 about $0.05).
+- **Placebos:** 64 periods before the emails (`p6-gpad`), and, added after S300-1 and before any other set ran, a swap of the first two rule lines (`p6-gperm`). The swap changes about as many answer texts as a reorder does; the periods change fewer.
+- **Gold only** (1,500 development hits; det parent 91.3): o4 −0.20 [−1.20, +0.80] (+28/−31), qadj (rules first, question next to the emails) −0.27, periods placebo −0.27, rule-swap placebo −0.33. Against the swap placebo, o4 is +0.13 [−0.80, +1.07] and qadj +0.07.
+  - The window mechanism behind qadj (e2b's sliding-window layers see the last 512 tokens) does not show: prompts up to 550 tokens +11/−13, longer ones +14/−16.
+  - 7.4% of hits are right under some of the five prompts and wrong under others, and o4's flips overlap the placebo's as much as qadj's.
+- **End to end** (gates behind det, 2,100 questions): o4 −0.17 [−1.40, +1.03] weighted, rule-swap placebo −0.06, o4 vs placebo −0.11. o4's earlier S300-1 win reproduces under det (+1.3) but is −1.1 to 0.0 on the other four sets; the placebo swings −1.8 to +1.7 by set.
+- Three independent det gold-only baselines (p6, a6, q8) agree on 1,300 of 1,300 hits.
+- **Reading for the paper:** the sandwich prompt's gain comes from putting the question before the emails at all. Beyond that, the position of the rules or of the question changes nothing for e2b; reorders re-roll the same 7–9% of fragile hits.

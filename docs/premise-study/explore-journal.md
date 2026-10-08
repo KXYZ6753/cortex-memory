@@ -1111,3 +1111,14 @@ The lead runs det gates, q1 and lite on H6-D as parents.
   - *not confirmed*: Δ ≤ 0.
 - **Secondary:** H6-C alone, the mailbox-cluster interval, flips by YES cell, and wall time.
 - No change to lead-yas after this entry.
+
+**Thu 00:05 ET: the H6 run moved to the lead's priority.** The lead-yas H6 run was queued 6th behind about 15 worker batches (several hours). It was restarted with `EXPLORE_PRIORITY=0`, the lead's priority under `lock.js`, before any of its answers existed. Nothing in the rule above changes. It needs about 1 GPU hour.
+
+**Thu 00:05 ET: v6 (aux encoder selector) is a clean negative** (`explore2/v6.md`).
+- **Encoders, CPU only:** an extractive QA reader (RoBERTa-base, SQuAD 2.0) and an NLI cross-encoder (DeBERTa-v3-base); 887 MB downloaded. Evidence was always the emails e2b actually read, never the gold email. The final answer is always one of e2b's own texts.
+- **The signal is real but weak.** On hits where several prompts read the same 5 emails (173 questions), the QA reader ranks the right answer above the wrong one 64.7% [58.5, 70.7] of the time. It holds at equal answer length (63.1%). e2b's own verifier and lexical grounding are at chance there. QA + NLI reach AUC 0.723.
+- **On the det systems' disagreements it is at chance** (55% on 125 mixed hits).
+- **Pre-registered det test** (rules R1/R2 written in `v6.md` before the data), gates + o4 layout + QA on 1,154 fresh det hits: **+0.09 [−0.69, 0.87]** (R1, flips +10/−9); with NLI +0.09 [−0.43, 0.61]. AUC on the 78 fresh discordant hits fell to 0.516. Not a candidate; v6 used neither H6-D slot.
+- **Side result for p6:** o4's layout alone was −0.69 hit points vs gates on those fresh hits; its earlier +1.0 on S300-1/2 was set noise.
+- **Why it can't pay:** each alternative fixes only a few hits (+1.5 to +4 hit points even with perfect selection); the parent is right on 55–64% of the disagreements, and the reader is decisive on only about a third. That caps the gain at about +0.3 to +0.6 hit points with this encoder.
+- **Data note:** FULL-0's answer store also holds 600 answers from the 31b model, and `l-lib.js`'s loader does not filter by model. v6's loader keeps e2b only; l's round-5 results were checked by v6 and are unaffected.

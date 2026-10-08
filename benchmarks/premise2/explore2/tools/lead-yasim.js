@@ -21,10 +21,10 @@ const verdicts = new Map()
 for (const line of readFileSync(join(dataDir, "explore", "verdicts.jsonl"), "utf8").split("\n")) { if (!line) continue; try { const e = JSON.parse(line); if (e.verdict) verdicts.set(e.vkey, e) } catch {} }
 const ya = new Map(), g = new Map()
 for (const line of readFileSync(join(dataDir, "explore", "answers.jsonl"), "utf8").split("\n")) {
-    if (!line || !(line.includes('"lead-ya"') || line.includes('"i-det-gates"'))) continue
+    if (!line || !(line.includes("\"lead-ya") || line.includes("\"i-det-gates\""))) continue
     const r = JSON.parse(line); const k = `${r.set}|${r.questionKey}`
     if (!keys.has(k) || !FINAL_STATUSES.has(r.status) || r.alias !== "small") continue
-    if (r.variant === "lead-ya") ya.set(k, r); else if (r.version === "2+cold") g.set(k, r)
+    if (r.variant === "lead-ya" && !ya.has(k)) ya.set(k, r); else if (r.variant === "lead-yas") ya.set(k, { ...r, fromYas: true }); else if (r.variant === "i-det-gates" && r.version === "2+cold") g.set(k, r)
 }
 const sc = (r) => { if (preGrade(r)) return 0; const v = verdicts.get(answerVerdictKey(r, pool.byKey.get(r.questionKey), judge)); return v ? (v.verdict === "CORRECT" ? 1 : 0) : null }
 const items = []

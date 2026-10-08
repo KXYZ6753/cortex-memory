@@ -1,0 +1,7 @@
+{
+  "note": "a6 package config read at run time by a6-*-pkg (a6.md 3e/3f). Final dev result: the best package (top2 on split with guard + TRUNC) is +0.43 hit points on det gates (2,350 dev hits) and +0.42 on det q1 (1,900): below the +1.0 bar, so no H6-D run (go stays false).",
+  "cells": ["split"],
+  "guard": true,
+  "trunc": true,
+  "go": false
+}

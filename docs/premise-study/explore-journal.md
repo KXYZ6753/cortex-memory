@@ -1301,3 +1301,13 @@ The lead runs det gates, q1 and lite on H6-D as parents.
   - gates lifts e2b's hits by +5.0 [2.3, 7.7], more than e4b's (+3.2);
   - **e2b + gates beats e4b P-B on fresh hits by +3.0 [0.2, 6.0]** (mailbox [1.0, 5.3]) at 0.77× the wall time; on development hits they were equal. With gates, the e2b → e4b step is worth +0.2 on hits.
 - **Caveats:** hits only (no fresh misses exist; on development e2b gates' miss advantage over e4b P-B was +30 points); one set of 600 hits; J1 only.
+
+**Thu 07:45 ET: rule for the scale contrast on H6-C, fixed before any s6 arm exists on H6-C.**
+- **Why:** H6-D's "e2b + gates − e4b P-B" (+3.0 [0.2, 6.0] on 600 hits) is the paper's question on fresh data, but its lower bound is near 0. H6-C's 1,800 hits give a pooled test on 2,400 fresh hits.
+- **Arms on H6-C**, behind det (s6's variants; runner `tools/lead-run-alias.js`, new, which refuses TEST, DEMO and 31b): `s6-det-pb` and `s6-det-gates` for e2b (alias small) and e4b (alias mid). The gold-only arms are not run on H6-C.
+- **Primary:** e2b gates − e4b P-B, in hit points, pooled over H6-D + H6-C (2,400 hits), question bootstrap and mailbox-cluster bootstrap (B = 10,000; tool `tools/lead-scale-h6.js`, new).
+  - *Confirmed*: lower bound > 0 (question bootstrap);
+  - *consistent*: Δ > 0;
+  - *not confirmed*: Δ ≤ 0.
+- **Secondary:** H6-C alone; P-B e4b − e2b; gates − P-B for each model and the difference; e4b gates − e2b gates; s6-det-gates (e2b) vs i-det-gates agreement; wall times. The 8 H6-C misses are reported separately and are not in the primary.
+- No change to arms or contrasts after this entry. Diagnostic for the paper; nothing goes to TEST.

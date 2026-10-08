@@ -8,13 +8,12 @@ All contrasts are det vs det (`variants/i-det.js`, mode "all"), J1-graded, desig
 
 1. **No round-6 change is a confirmed improvement.** The best candidate, lead-yas (gates plus a sure-YES email read alone), was +0.79 [0.05, 1.52] over 3,300 development questions, but only **+0.19 [−0.50, 0.89]** on 2,408 fresh questions (H6-D + H6-C). By the rule fixed before the run, that is *consistent*, not *confirmed*.
 2. **Fresh-hit headroom is about 2 points, and about 1 of it is reachable.** On H6-D (600 fresh hits), reading only the gold email scores 91.0, against gates 89.0, lead-yas 89.67 and q1 88.17. Everything else is e2b reading the right email wrongly.
-3. **Scale control (s6, e4b on FULL-0 + FULL-1, 1,200 development questions).** With the sandwich prompt, e4b reads the gold email on hits no better than e2b: **+0.1 [−1.8, 2.0] hit points**. With the plain T2 prompt e4b reads 3.8 points better, so the sandwich prompt substitutes for scale in reading. gates adds **+5.7** to e2b but only **+3.1** to e4b (difference −2.6 [−5.3, 0.1]), and **e2b + gates vs e4b P-B is +2.0 [−0.1, 4.1]** (mailbox-cluster [0.2, 4.0]): equal on hits, +30 on misses, at 0.75× the wall time and about 0.6× the GPU energy per correct answer (93.9 vs 157.0 J). This is direct evidence for the paper's question, with the caveat that gates was selected on FULL-0 (FULL-1 alone points the same way). The shared reading ceiling holds up to e4b only: 31b's plain P-B reads FULL-0's hits at 93.6, above both models' gold-only reads (unpaired, one set).
-   - **Fresh-hit replication (H6-D 600 hits, then H6-D + H6-C 2,400 hits; rules fixed first; all det).**
-     - Gold-only reading gap closed by the sandwich (H6-D): +1.17 [−1.83, 4.17], *consistent*, not replicated; gold-only sandwich e4b − e2b +0.5.
-     - **e2b gates − e4b P-B, 2,400 fresh hits: +0.92 [−0.50, 2.33]**, *consistent*, not confirmed (H6-D +3.0, H6-C +0.2). On hits, e2b + gates reads as well as e4b P-B, at 0.75× its wall time; the miss side cannot be checked fresh.
-     - Scale under P-B: e4b − e2b +2.96 [1.46, 4.46]. gates − P-B: e2b +3.88 [2.54, 5.21], e4b +2.00 [0.75, 3.25]. **The engineering gain is larger for e2b, by 1.88 [0.08, 3.67] hit points** (mailbox [0.66, 3.12]). With gates on both, e4b − e2b is +1.08 [−0.21, 2.38].
+3. **Engineering vs scale (s6 on development; the lead on fresh hits).** The clearest round-6 result for the paper.
+   - **On 2,400 fresh hits (H6-D + H6-C, all det, rules fixed first):** e4b − e2b under P-B is **+2.96 [1.46, 4.46]**; gates − P-B is **+3.88 [2.54, 5.21]** for e2b and +2.00 [0.75, 3.25] for e4b. **The engineering gain is larger for e2b, by 1.88 [0.08, 3.67] hit points** (mailbox [0.66, 3.12]). e2b gates − e4b P-B is +0.92 [−0.50, 2.33], *consistent*, not confirmed: on hits e2b + gates reads as well as e4b P-B, at 0.75× its wall time. With gates on both, e4b − e2b is +1.08 [−0.21, 2.38].
+   - **On development (s6, FULL-0 + FULL-1, 1,200 questions with misses):** e2b gates − e4b P-B is +2.0 [−0.1, 4.1] weighted (mailbox [0.2, 4.0]): equal on hits, +30 points on misses, at about 0.6× the GPU energy per correct answer (93.9 vs 157.0 J). gates was selected on FULL-0; FULL-1 alone points the same way. No fresh misses exist to check the miss side.
+   - **Reading:** with only the gold email and the sandwich prompt, e4b reads hits no better than e2b (development +0.1 [−1.8, 2.0]; H6-D +0.5). With the plain T2 prompt e4b reads better (+3.8 on FULL-0, +1.7 on H6-D), so the sandwich prompt substitutes for scale in reading. The pre-set H6-D test of that gap closure was +1.17 [−1.83, 4.17], *consistent*, not replicated. The shared ceiling holds up to e4b only: 31b's plain P-B reads FULL-0's hits at 93.6, above both models' gold-only reads (unpaired, one set).
 4. **Precision is not the floor** (q8). Q8_0 e2b minus the study's QAT Q4_0 on gold-only reading is −0.7 hit points [−1.9, +0.5] over 1,300 hits.
-5. **Every hit-side method tried in round 6 is null on fresh hits:** an aux encoder selector (v6), contrastive decoding (n6), prompt shape (p6) and error-class surgery (a6). See the table below.
+5. **Every hit-side method tried in round 6 is null:** an aux encoder selector (v6, on fresh det hits), error-class surgery (a6, on fresh hits), contrastive decoding (n6) and prompt shape (p6, both against placebos on development). See the table below.
 6. **The best stacked system on development is lite-yas** (lite + sure-YES read): +0.63 over lite and +1.91 [0.83, 3.00] over det gates on 2,700 development questions, at lite's cost (1,688 vs 1,738 ms). It reaches q1's accuracy for less energy. On fresh hits its gain over lite shrinks to +0.19, the same flips as lead-yas (§3).
 
 ## 1. Lines and outcomes
@@ -29,7 +28,7 @@ All contrasts are det vs det (`variants/i-det.js`, mode "all"), J1-graded, desig
 | n6 | contrastive decoding (document, classic CAD, neutral question) vs a re-roll placebo | document +0.38 [−0.62, 1.38]; best tuned CAD +0.62 [−0.38, 1.62]; placebo pooled +0.64 (2,350 hits) | – | null: no better than re-decoding unsure answers |
 | a6 | error-class surgery on hits; best: gates + two-email reread on two-part questions + truncation re-ask (`a6-g-pkg`) | +0.43 [+0.04, +0.81] hit pts (2,350 hits) | +0.08 [−0.29, 0.46] hit pts (2,400 hits); reread +9/−10, truncation re-ask +3/−0 | consistent, not confirmed; only the truncation fix is real (about +0.1–0.2) |
 | p6 | prompt shape (o4, question next to emails) against two placebos | gold-only o4 −0.20, qadj −0.27 (1,500 hits); vs rule-swap placebo +0.13 / +0.07; end to end o4 −0.17 (2,100 q) | – | null |
-| s6 | e4b scale control (diagnostic) | gold-only e4b − e2b +0.1 hit pts (sandwich), +3.8 (T2); gates gain e2b +5.7 vs e4b +3.1; e2b gates − e4b P-B +2.0 | – | diagnostic; see headline 3 |
+| s6 | e4b scale control (diagnostic) | gold-only e4b − e2b +0.1 hit pts (sandwich), +3.8 (T2); gates gain e2b +5.7 vs e4b +3.1; e2b gates − e4b P-B +2.0 | gain difference −1.88 [−3.67, −0.08] hit pts; e2b gates − e4b P-B +0.92 [−0.50, 2.33] (2,400 hits) | diagnostic; see headline 3 |
 
 ## 2. Where the remaining accuracy is
 
@@ -51,8 +50,9 @@ All six workers reported (q8, v6, a6, p6, n6, s6); details are in the table abov
 ## 5. Decisions for Kerem
 
 1. **Aux scope (v6).** v6 used an outside encoder; it was negative, so the scope question is moot for accuracy, but the paper may mention it as a tried-and-failed selector.
-2. **Scale finding (s6).** Whether the e4b control goes into the paper: the sandwich prompt closes the e2b → e4b gold-only reading gap, gates helps e4b about half as much as e2b, and e2b + gates ≥ e4b P-B at about 0.6× the energy. All on development sets, with gates selected on FULL-0.
-3. **q1's wall cap on hit-heavy mixes.** q1 runs at 3,314 ms per question on H6-D (all hits), above the 3,243 ms cap; on the design-weighted development mix it is 2,363 ms.
+2. **Scale finding (s6 + fresh replication).** Whether the e4b control goes into the paper. Fresh-hit facts: scale under P-B +3.0, gates on e2b +3.9, engineering gain larger for e2b by 1.9 [0.1, 3.7]; e2b gates ≈ e4b P-B on hits (+0.9, not confirmed). Development adds the miss side (+30 miss points) and energy (0.6×), with gates selected on FULL-0.
+3. **The 160-token answer cap.** a6's truncation re-ask (num_predict 400 for answers cut at 160) is +8/−0 over 4,750 development and fresh hits, about +0.1 to +0.2 hit points for gates. It bears on the logged num_predict deviation (addendum 3 said 320).
+4. **q1's wall cap on hit-heavy mixes.** q1 runs at 3,314 ms per question on H6-D (all hits), above the 3,243 ms cap; on the design-weighted development mix it is 2,363 ms.
 
 ## Cost
 

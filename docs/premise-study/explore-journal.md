@@ -1263,3 +1263,13 @@ The lead runs det gates, q1 and lite on H6-D as parents.
 - **Reading:** contrastive decoding adds nothing beyond re-decoding an unsure answer from another plausible token, which is re-roll scale (about +0.6 ± 0.8 hit points on development).
 
 **All six round-6 workers have reported** (q8, v6, a6, p6, n6, s6). No worker reached its development bar; only a6's package and the lead's lead-yas / lite-yas went to fresh hits, and none confirmed.
+
+**Thu 06:50 ET: rule for a fresh-hit replication of s6's scale control, fixed before any e4b answer exists on H6-D.**
+- **Why:** s6's findings are the round's most paper-relevant result, but they were measured on FULL-0 (the set gates was selected on) and FULL-1. H6-D's 600 hits are fresh for this question. No misses are available, so only the hit-side claims can be replicated.
+- **Arms** (s6's own det variants in `variants/s6-scale.js`, run with `tools/s6-run.js`, which refuses H6-C, TEST and DEMO), each for e2b (alias small) and e4b (alias mid): `s6-det-oracles` (gold only, sandwich), `s6-det-oracle` (gold only, T2), `s6-det-pb` (P-B), `s6-det-gates` (gates). 8 arms × 600 hits; J1.
+- **Primary:** the reading gap that the sandwich prompt closes, per question: [T2 gold-only (e4b − e2b)] − [sandwich gold-only (e4b − e2b)], in hit points, question bootstrap (B = 10,000, `tools/rng.js`) and mailbox-cluster bootstrap. s6 on FULL-0: +3.8 − (+0.1 pooled) ≈ +3.7.
+  - *Replicated*: lower bound > 0;
+  - *consistent*: Δ > 0;
+  - *not replicated*: Δ ≤ 0.
+- **Secondary (descriptive, s6's development value in brackets):** sandwich gold-only e4b − e2b (+0.1); T2 gold-only e4b − e2b (+3.8); P-B e4b − e2b on hits (+3.9); gates − P-B on hits for e2b (+3.9) and e4b (+0.8) and their difference (−3.1); e2b gates − e4b P-B on hits (0.0); e4b gates − e2b gates on hits (+0.8). Wall time per arm.
+- Tool: `tools/lead-s6fresh.js` (new). No change to arms or contrasts after this entry. Nothing here is an e2b-arm candidate.

@@ -1122,3 +1122,15 @@ The lead runs det gates, q1 and lite on H6-D as parents.
 - **Side result for p6:** o4's layout alone was −0.69 hit points vs gates on those fresh hits; its earlier +1.0 on S300-1/2 was set noise.
 - **Why it can't pay:** each alternative fixes only a few hits (+1.5 to +4 hit points even with perfect selection); the parent is right on 55–64% of the disagreements, and the reader is decisive on only about a third. That caps the gain at about +0.3 to +0.6 hit points with this encoder.
 - **Data note:** FULL-0's answer store also holds 600 answers from the 31b model, and `l-lib.js`'s loader does not filter by model. v6's loader keeps e2b only; l's round-5 results were checked by v6 and are unaffected.
+
+**Thu 00:50 ET: does the sure-YES read stack on q1 or lite?** Exact offline derivation, behind det (`tools/lead-q1yas.js`). The parent's W0 commit check is checked probe-for-probe against lead-ya's: 1 of 2,700 questions differs and is skipped. On a sure first YES with an accepted alone-read, the derived arm answers with lead-ya's read; otherwise it gives the parent's answer. Sets: S300-1…5, FULL-2, FULL-3 (2,700 questions; development, and the lead-yas screen is among them).
+
+| derived arm | − parent [95% CI] | hit flips | miss flips | − det gates |
+|---|---|---|---|---|
+| lite-det-ub + sure-YES read ("lite-yas") | **+0.63 [−0.17, 1.45]** | +42/−29 | +5/−6 | +1.91 [0.83, 3.00] |
+| q-det-q1 + sure-YES read ("q1-yas") | +0.23 [−0.54, 1.00] | +36/−30 | +5/−13 | +2.23 [1.13, 3.33] |
+
+- **lite keeps gates' answer A on every sure-YES commit**, so lead-yas's hit gain over gates carries over almost one for one. On the screen sets, lite-yas − lite is +0.80, and the hit flips (+28/−17) equal lead-yas − gates.
+- **q1 hands sure-YES commits with an unsure A to g5**, which already fixes most of what the alone read fixes. There the read is +15/−17 vs g5, so the stack adds little.
+- **lite-yas reaches q1's accuracy** (q1 − gates +2.01 on the same sets). Its cost is lite's plus at most 0.53 single-email reads per question. A live version could skip A when the read is accepted.
+- **Descriptive check, fixed now, before any lead-yas H6-D answer is graded.** When lead-yas H6-D is graded, the same derivation is reported on H6-D (lite-det-ub and q-det-q1 are already there). No rule, no promotion: this only says whether the stacking holds on fresh hits.

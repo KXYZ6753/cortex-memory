@@ -1198,14 +1198,14 @@ The lead runs det gates, q1 and lite on H6-D as parents.
 - **Cost on H6:** lite 1,563 ms and 3.85 real calls per question, against gates' 770 ms and 1.00.
 - **Reading.** On fresh hits the hybrids give up about 0.3 hit points to gates, and the sure-YES read gives back about 0.2. Both sit inside ±1 hit point of gates. That fits round 5: the hybrids' advantage is the miss stratum only. lite-yas stays a development-only result (+0.63 vs lite on 2,700 questions) and is not proposed for anything.
 
-**Thu 04:25 ET: a6 (error-class surgery on hits) closes below its bar** (`explore2/a6.md`).
+**Thu 04:35 ET: a6 (error-class surgery on hits) closes below its bar** (`explore2/a6.md`).
 - **Taxonomy** (1,300 dev hits, det answers of gates, x1, q1 and lite): wrong hits are 11.5–12.2% per system and a long tail. Mechanical classes are each ≤ 0.5% of hits (truncation at 160 tokens 0.2%, hedges, an email address for a person, relative dates, partial names). Wrong-email reads are 1.3–1.8%; no deployable trigger finds them. The one structural class is the genuine two-part question (`splitParts`): 7.4% of hits, read at 74–77% by every system vs 89% on the rest; gold-only 85.4%.
 - **Reformulation is a coin flip:** one call per part, or the parts listed, re-rolls e2b's answers (gold-only +8/−8, +4/−5, +2/−2; end to end −0.1 to −0.4).
 - **Fewer distractors helps a little:** answering split questions from the first 2 emails of the parent's own final context (same prompt), unless the parent's answer is attributed to email 3–5 (a guard chosen after seeing the flips). Re-asking answers cut at 160 tokens with num_predict 400 is +5/−0 on gates.
 - **Best package, `a6-g-pkg`** (det gates + top2 on split questions, guarded + truncation re-ask; `variants/a6-final.json`): **+0.43 [+0.04, +0.81] hit points** over 2,350 dev hits (+16/−6), misses −0.11; 838 vs 800 ms. On q1: +0.42 [0.00, +0.84]. Below a6's +1.0 bar, so no H6-D run. On the three dev sets not used to design top2, top2-on-split alone was +3/−4.
 - a6's J1 spend was about $0.04.
 
-**Thu 04:25 ET: rule for a fresh test of a6's package, fixed before any a6 answer exists on H6-D or H6-C.**
+**Thu 04:35 ET: rule for a fresh test of a6's package, fixed before any a6 answer exists on H6-D or H6-C.**
 - **Why test it although it missed a6's bar:** it is the only class-targeted change positive on both parents, it touches about 8% of answers (low variance, so 2,400 fresh hits resolve about ±0.4), and it is a cheap replay on stored det parents (a few GPU minutes, grading under $0.01). It is not a promotion; nothing goes to TEST.
 - **Arms:** `a6-rg-pkg@1` (exact replay of det gates + the package, config `variants/a6-final.json` as committed in f03bc23: cells ["split"], guard, trunc) vs `i-det-gates@2+cold`, on H6-D + H6-C.
 - **Primary:** Δ in hit points over the 2,400 fresh hits, question-stratified paired bootstrap (B = 10,000; new tool `tools/lead-hitpair.js`, which is `lead-pair.js` restricted to hits; the 8 misses would otherwise dominate a weighted Δ).

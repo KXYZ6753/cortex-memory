@@ -22,7 +22,7 @@ All contrasts are det vs det (`variants/i-det.js`, mode "all"), J1-graded, desig
 | q1-yas | q-det-q1 + the same read (offline) | +0.23 vs q1 | H6-D +0.62 | not pursued (g5 already fixes most) |
 | q8 | Q8_0 vs QAT Q4_0, gold-only | −0.7 [−1.9, 0.5] hit pts (1,300 hits) | – | null |
 | v6 (aux) | RoBERTa QA / DeBERTa NLI selector among e2b's answers | – | R1 +0.08 [−0.62, 0.77] (1,300 fresh det hits) | negative |
-| n6 | document-contrastive decoding | R1 +0.38 (1,300 hits) | – | fails bar; PENDING final |
+| n6 | contrastive decoding (document, classic CAD, neutral question) vs a re-roll placebo | document +0.38 [−0.62, 1.38]; best tuned CAD +0.62 [−0.38, 1.62]; placebo pooled +0.64 (2,350 hits) | – | null: no better than re-decoding unsure answers |
 | a6 | error-class surgery on hits; best: gates + two-email reread on two-part questions + truncation re-ask (`a6-g-pkg`) | +0.43 [+0.04, +0.81] hit pts (2,350 hits) | +0.08 [−0.29, 0.46] hit pts (2,400 hits); reread +9/−10, truncation re-ask +3/−0 | consistent, not confirmed; only the truncation fix is real (about +0.1–0.2) |
 | p6 | prompt shape (o4, question next to emails) against two placebos | gold-only o4 −0.20, qadj −0.27 (1,500 hits); vs rule-swap placebo +0.13 / +0.07; end to end o4 −0.17 (2,100 q) | – | null |
 | s6 | e4b scale control (diagnostic) | gold-only e4b − e2b +0.1 hit pts (sandwich), +3.8 (T2); gates gain e2b +5.7 vs e4b +3.1; e2b gates − e4b P-B +2.0 | – | diagnostic; see headline 3 |
@@ -42,7 +42,7 @@ All contrasts are det vs det (`variants/i-det.js`, mode "all"), J1-graded, desig
 
 ## 4. Worker reports
 
-PENDING: n6. a6, p6, s6 and v6 are in the table above and in the journal.
+All six workers reported (q8, v6, a6, p6, n6, s6); details are in the table above, in the journal and in each worker's note (`explore2/<prefix>.md`). No worker reached its development bar. The pattern across them: every hit-side change re-rolls the same 7–9% of fragile hits, and the net gain of any re-roll of unsure answers is about +0.5 hit points on development, which shrinks toward 0 on fresh hits (lead-yas +0.79 → +0.19; a6 +0.43 → +0.08; n6's placebo +1.15 → 0.00).
 
 ## 5. Decisions for Kerem
 

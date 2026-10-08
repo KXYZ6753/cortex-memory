@@ -1214,3 +1214,10 @@ The lead runs det gates, q1 and lite on H6-D as parents.
   - *not confirmed*: Δ ≤ 0.
 - **Secondary:** flips by component (top2 vs truncation re-ask), per set, the 8 misses, the mailbox-cluster interval.
 - No change to the package or its config after this entry.
+
+**Thu 05:05 ET: a6 package on fresh hits. Consistent, not confirmed** (rule fixed 04:35 ET; `a6-rg-pkg@1+cold` vs `i-det-gates@2+cold`, H6-D + H6-C; J1 $0.002, explore total $1.31).
+- **Primary** (2,400 fresh hits, `tools/lead-hitpair.js`): **+0.08 hit points [−0.29, 0.46]**, mailbox-cluster [−0.19, 0.42], sign-flip p 0.83; flips +12/−10 (H6-D −0.33, +1/−3; H6-C +0.22, +11/−7). The 8 misses are unchanged.
+- **By component:**
+  - **Two-email reread on two-part questions:** fired on 201 questions (76 texts unchanged), **+9/−10**. Null on fresh hits, like its +3/−4 on the dev sets not used to design it.
+  - **Truncation re-ask** (num_predict 400 for answers cut at 160 tokens): fired on 4, **+3/−0**. With the dev result (+5/−0), +8/−0 over 4,750 hits. A certain, mechanical gain of about +0.1 to +0.2 hit points. The 160-token cap (logged as a deviation from addendum 3's 320 in PREREG-EXPLORE.md) therefore cost gates about that much.
+- **Reading.** Fewer distractors on two-part questions was a dev artefact. Only the truncation fix is real, and it is too small to matter for a system comparison. The a6 line is closed.

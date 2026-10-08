@@ -1221,3 +1221,22 @@ The lead runs det gates, q1 and lite on H6-D as parents.
   - **Two-email reread on two-part questions:** fired on 201 questions (76 texts unchanged), **+9/−10**. Null on fresh hits, like its +3/−4 on the dev sets not used to design it.
   - **Truncation re-ask** (num_predict 400 for answers cut at 160 tokens): fired on 4, **+3/−0**. With the dev result (+5/−0), +8/−0 over 4,750 hits. A certain, mechanical gain of about +0.1 to +0.2 hit points. The 160-token cap (logged as a deviation from addendum 3's 320 in PREREG-EXPLORE.md) therefore cost gates about that much.
 - **Reading.** Fewer distractors on two-part questions was a dev artefact. Only the truncation fix is real, and it is too small to matter for a system comparison. The a6 line is closed.
+
+**Thu 05:50 ET: s6 (scale control with e4b) reports** (`explore2/s6.md`; FULL-0 + FULL-1, 1,200 development questions, 300 misses / 900 hits; every e4b arm behind det; J1 about $0.06). A diagnostic for the paper, not a candidate.
+
+| arm | pooled weighted (miss / hit) | ms/q | GPU J per correct (FULL-1) |
+|---|---|---|---|
+| e2b P-B | 80.0 (2.3 / 85.7) | 657 | 93.7 |
+| e4b P-B | 83.7 (3.3 / 89.6) | 997 | 157.0 |
+| e2b gates | 85.7 (33.3 / 89.6) | 746 | 93.9 |
+| e4b gates | 86.8 (38.3 / 90.3) | 1,187 | 164.1 |
+| e2b gold only, sandwich | 91.4 (83.0 / 92.0) | 334 | |
+| e4b gold only, sandwich | 91.9 (89.0 / 92.1) | 549 | |
+
+- **(1) Is e2b's hit-reading level a capacity floor?** Not between e2b and e4b. Gold only with the sandwich prompt, e4b − e2b on hits is **+0.1 [−1.8, 2.0]** (flips 38/37). With the plain T2 prompt it is +3.8 [0.4, 7.1] (FULL-0). The sandwich prompt closes exactly the gap that scale closes, and both models then read at about 92%.
+- **(2) Does engineering help the larger model as much?** Less. gates − P-B is **+5.7 [3.6, 7.8]** for e2b and **+3.1 [1.1, 5.0]** for e4b; the difference is −2.6 [−5.3, 0.1] (mailbox-cluster [−5.0, −0.5]). The direction is the same on each set (FULL-0 +6.5 vs +3.6; FULL-1 +5.0 vs +2.6).
+  - The prompt half of gates is a substitute for scale: it gives e2b +3.2 on hits and e4b −1.0.
+  - The retrieval half (the gated mailbox switch with the abstention retry) transfers fully, and is slightly larger for e4b (+1.3 [0.1, 2.6]), because e4b abstains on 40% of P-B misses (e2b 20%).
+- **e2b + gates vs e4b P-B: +2.0 [−0.1, 4.1]** (mailbox-cluster [0.2, 4.0]); equal on hits (+0.0), +30 on misses; 0.75× the wall time and about 0.6× the GPU energy per correct answer.
+- **Caveats:** gates was selected on FULL-0 (FULL-1 shows the same direction); the sandwich prompt was tuned on e2b's failures; the stored e2b P-B and gates runs are not behind det (on FULL-1, `gates` and `i-det-gates` score the same, 84.6); 31b has only P-B on FULL-0, and its gold-only reading cannot run on this GPU.
+- **A claim in s6's report checked and rejected:** s6 says `tools/a6-lib.js` drops pool keys with the `test:` prefix (EnronQA's own split, 17,234 of 37,336 pool records; 262 of FULL-0's 600). It does not: a6-lib keeps every key that is a pool record, and the `test:` keys are pool records (FULL-0: 600 of 600 in the pool). a6's dev counts (2,350 hits over eight sets) are the full sets. The problem was in s6's own first draft, which s6 fixed.

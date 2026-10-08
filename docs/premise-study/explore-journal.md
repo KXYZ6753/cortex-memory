@@ -1168,3 +1168,19 @@ The lead runs det gates, q1 and lite on H6-D as parents.
 - The live answers equal the offline derivation (lite-det-ub + lead-ya) byte for byte on **300/300** questions. The derived lite-yas numbers above are therefore the live system's numbers.
 - **Cost, against lite-det-ub on the same 300 questions:** 1,688 vs 1,738 ms mean wall, and 4.47 vs 4.46 real model calls. The memo serves 1.57 repeated probes per question. On the 150 yes-alone questions gates' five-email answer is skipped, which pays for the single-email read.
 - So lite-yas costs the same as lite. Its hit gain over lite is the sure-YES read's: +0.63 on development and +0.62 on H6-D. lead-yas's H6 result (+0.19 over gates) suggests that gain will also shrink on H6-C; the secondary above will tell.
+
+**Thu 01:30 ET: fresh-hit headroom on H6-D** (gold-only read behind det, `q8-det-oracle` alias small, 600 hits, $0.003).
+- **Gold-only reaches 91.0**, against gates 89.0 (+2.0 [−0.2, 4.2]), lead-yas 89.67 (+1.33) and q1 88.17 (+2.83 [0.7, 5.0]). On development the gold-only gap to gates was +3.0. On fresh hits even perfect single-email retrieval adds only 2 points.
+- **Where gold-only still beats lead-yas** (+17/−9; scratch analysis by lead-yas cell):
+
+  | lead-yas cell | n | lead-yas | gold-only | gold-only vs lead-yas |
+  |---|---|---|---|---|
+  | sure YES = gold | 386 | 369 | 369 | identical texts |
+  | doubted YES = gold | 127 | 106 | 108 | +6/−4 |
+  | doubted YES on another email, gold in W0 | 14 | 8 | 11 | +3/−0 |
+  | sure YES on another email, gold in W0 | 9 | 3 | 7 | +4/−0 |
+  | no YES, gold in W0 | 58 | 48 | 46 | +2/−4 |
+  | gold not in W0 (all cells) | 6 | 4 | 5 | +2/−1 |
+
+- **Reading.** What a non-oracle rule could still reach sits in about 25 questions where the YES lands on the wrong email (about +7 net, about 1 hit point at best). Everything else is e2b's reading of the gold itself. A "read every YES email" rule, which needs probes on all five W0 emails, could reach part of the 1 point at most. That is below what a fresh test can resolve (H6-C's interval half-width is ±0.8), so it is not pursued.
+- **Cost note:** q1's mean wall time on H6-D is 3,314 ms with 5.9 real calls, above the 3,243 ms cap on this hit-only mix. On the design-weighted development sets it is 2,363 ms.

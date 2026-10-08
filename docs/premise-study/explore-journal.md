@@ -1189,3 +1189,11 @@ The lead runs det gates, q1 and lite on H6-D as parents.
 - Δ in hit points against `i-det-gates`: o4 layout alone −0.38 [−1.77, 1.00] (+40/−45); **R1, QA encoder chooses (primary): +0.08 [−0.62, 0.77]** (+11/−10); R2, QA + NLI: +0.15 [−0.31, 0.62] (+6/−4).
 - The encoder's AUC on the 85 discordant hits is 0.522 (NLI 0.541, both 0.547), down from 0.676 in the offline pool. R1's edge over o4 alone comes from keeping gates' answer, not from the encoder.
 - The 00:05 ET verdict stands: v6 is a clean negative, and o4's +1.0 on S300-1/2 was set noise. `v6-o4` answers equal what p6's `p6-e4` would produce, so p6 can reuse them. J1 grading for v6 was about $0.02 in all.
+
+**Thu 04:05 ET: lite-yas H6 secondary (rule fixed Thu 00:20 ET). Consistent, not confirmed.** lite-det-ub on H6-C was run behind det and graded ($0.006; explore total $1.27).
+- **lite-yas − lite-det-ub**, pooled over H6-D + H6-C (2,408 questions, exact derivation `tools/lead-q1yas.js H6-D,H6-C all lite-det-ub@1+cold --allow-h6c`): **+0.19 [−0.50, 0.89]**; hit flips +46/−41 (H6-D +12/−8, H6-C +34/−33); the 8 misses are unchanged. By the rule this is *consistent*, not *confirmed*. The flips are exactly lead-yas − gates's, because lite keeps gates' answer A on every sure-YES commit.
+- **lite − i-det-gates on the 2,400 fresh hits:** 88.67 vs 89.00, **−0.33 hit points** (flips +32/−40; about [−1.0, +0.4] from the discordant pairs). On H6-C alone it is −0.17 (+25/−28), so H6-D's −0.83 was mostly set noise. The weighted pooled Δ (+0.54 [−0.78, 2.43]) is driven by 1 of 8 misses and says nothing.
+  - By step, the hit loss sits on the explore paths: nofound +8/−12, found +1/−5, recover-unsure +2/−5; commit-g5 is +21/−18.
+  - lite-yas on these hits: 88.88, −0.12 vs gates.
+- **Cost on H6:** lite 1,563 ms and 3.85 real calls per question, against gates' 770 ms and 1.00.
+- **Reading.** On fresh hits the hybrids give up about 0.3 hit points to gates, and the sure-YES read gives back about 0.2. Both sit inside ±1 hit point of gates. That fits round 5: the hybrids' advantage is the miss stratum only. lite-yas stays a development-only result (+0.63 vs lite on 2,700 questions) and is not proposed for anything.

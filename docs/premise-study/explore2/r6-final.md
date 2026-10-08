@@ -53,4 +53,4 @@ All six workers reported (q8, v6, a6, p6, n6, s6); details are in the table abov
 
 ## Cost
 
-Exploration total after round 6: **$1.49** of the $3.50 exploration budget ($5 overall; TEST runs used $1.29 of it earlier). Round 6 itself cost about $0.47 in J1 grading, mostly the workers' development sets and H6.
+From `.data/premise2/explore/spend.jsonl`: round 6 (since Wed 20:00 ET) cost **$0.57** in J1 grading. Exploration grading in all rounds is **$1.49** of its $3.50 budget; with the TEST grading ($0.38), total spend is **$1.86** of the $5 cap.

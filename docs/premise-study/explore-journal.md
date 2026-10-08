@@ -1311,3 +1311,29 @@ The lead runs det gates, q1 and lite on H6-D as parents.
   - *not confirmed*: Δ ≤ 0.
 - **Secondary:** H6-C alone; P-B e4b − e2b; gates − P-B for each model and the difference; e4b gates − e2b gates; s6-det-gates (e2b) vs i-det-gates agreement; wall times. The 8 H6-C misses are reported separately and are not in the primary.
 - No change to arms or contrasts after this entry. Diagnostic for the paper; nothing goes to TEST.
+
+**Thu 09:45 ET: e2b gates vs e4b P-B on 2,400 fresh hits (rule fixed 07:45 ET). Consistent, not confirmed; the engineering gain is confirmed larger for e2b than for e4b.** All arms behind det; `tools/lead-scale-h6.js H6-D,H6-C --allow-h6c`; J1 $0.20 on H6-C; explore grading total $1.69, total spend about $2.07 of the $5 cap.
+
+| hits | e2b P-B | e2b gates | e4b P-B | e4b gates |
+|---|---|---|---|---|
+| H6-D (600) | 84.00 | 89.00 | 86.00 | 89.17 |
+| H6-C (1,800) | 85.50 | 89.00 | 88.78 | 90.39 |
+| pooled (2,400) | 85.13 | 89.00 | 88.08 | 90.08 |
+| wall ms | 668 | 759 | 1,011 | 1,135 |
+
+| contrast, pooled 2,400 fresh hits | Δ hit points [question] [mailbox] | s6 development (hits) |
+|---|---|---|
+| **PRIMARY: e2b gates − e4b P-B** | **+0.92 [−0.50, 2.33] [−0.57, 2.52]** (+164/−142); H6-D +3.00, H6-C +0.22 | 0.0 |
+| P-B, e4b − e2b | +2.96 [1.46, 4.46] | +3.9 |
+| gates − P-B, e2b | +3.88 [2.54, 5.21] | +3.9 |
+| gates − P-B, e4b | +2.00 [0.75, 3.25] | +0.8 |
+| **gain difference, e4b − e2b** | **−1.88 [−3.67, −0.08] [−3.12, −0.66]** | −3.1 |
+| e4b gates − e2b gates | +1.08 [−0.21, 2.38] | +0.8 |
+
+- **By the rule the primary is *consistent* (Δ > 0), not *confirmed*.** H6-D's +3.0 was mostly set noise; over 2,400 fresh hits, e2b + gates and e4b P-B read hits about equally (+0.9), as on development (0.0). The 8 fresh misses are wrong under all four arms, so the miss side (development: e2b gates +30 miss points over e4b P-B) cannot be checked fresh.
+- **What the fresh hits do establish:**
+  - scale buys e2b → e4b about +3.0 hit points under P-B;
+  - gates buys e2b about +3.9, the same size, at 0.75× e4b P-B's wall time;
+  - **gates helps e2b more than e4b, by 1.9 hit points [−3.7, −0.1]** (mailbox [−3.1, −0.7]), replicating s6's development direction (−3.1);
+  - with gates on both, e4b's edge is +1.1 [−0.2, 2.4].
+- s6-det-gates (e2b) and i-det-gates gave byte-identical texts on all 2,400 hits, so det makes the two code paths the same system.

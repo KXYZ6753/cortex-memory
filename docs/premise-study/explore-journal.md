@@ -1253,3 +1253,13 @@ The lead runs det gates, q1 and lite on H6-D as parents.
 **Thu 06:05 ET: lead notes on scope.**
 - **The "shared ceiling" holds up to e4b, not to 31b.** On FULL-0's 450 hits, 31b's plain P-B (five BM25 emails, with distractors) reads at 93.6. That is above e2b's gold-only sandwich read (92.2) and e4b's (93.1); it is unpaired, on one set, and not behind det. s6's statement that the residual hit errors are judge strictness and reference noise rather than capacity is supported between e2b and e4b only. 31b's gold-only reading cannot run on this GPU.
 - **Miss-side retrieval stays closed.** On FULL-3, q1 never finds the gold email on 62 of 150 misses, the largest error pool by count. The round-5 recall lab (`explore2/d.md` §0, §1) already bounds it: perfect retrieval with gold-only reading ≤ +2.4 weighted, a perfect explore list ≤ +0.5, realistic list or ranking changes +0.1 to +0.3. Dense retrieval is weaker than BM25 in these mailboxes and too slow beside e2b. Only 8 fresh misses remain, so no miss-side change could be confirmed. No new miss-side line is opened.
+
+**Thu 06:45 ET: n6 (contrastive decoding) is a clean negative** (`explore2/n6.md`; all arms behind det vs `i-det-gates`, hits only; J1 about $0.07, explore total $1.36). The greedy pass equals det gates on 6,849 of 6,850 dev hits; unfired questions are byte-identical, so every discordant pair is the decoder's.
+- **Document contrast** (CAD against the context without its top email, α 0.5, unsure answers only; fixed before any result): +0.38 [−0.62, 1.38] (+24/−19) on 1,300 dev hits not used for tuning; 1,203 vs 764 ms.
+- **Best of a 30-cell tuning grid,** `n6-g-q1g` (classic CAD, α 1.0, unsure only): +1.33 on tuning, **+0.62 [−0.38, 1.62]** (+25/−17) out of sample; 1,178 ms.
+- **Neutral-question contrast:** −0.15 [−1.15, 0.92].
+- **Placebo** (branch to a random plausible token on unsure answers, no contrast): +1.15 [0.15, 2.15] on the same 1,300 hits, then 0.00 (+22/−22) on 1,050 unseen hits under a rule fixed beforehand; pooled +0.64 [−0.13, 1.40], the same size as the contrastive arms.
+- **Gold email alone:** CAD replicates u's single-email gain (+1.5 to +1.75 ungated, 400 hits) but carries to five-email reading under no contrast. The name, number and date choices it targets are a coin flip under every contrast (+15/−16).
+- **Reading:** contrastive decoding adds nothing beyond re-decoding an unsure answer from another plausible token, which is re-roll scale (about +0.6 ± 0.8 hit points on development).
+
+**All six round-6 workers have reported** (q8, v6, a6, p6, n6, s6). No worker reached its development bar; only a6's package and the lead's lead-yas / lite-yas went to fresh hits, and none confirmed.

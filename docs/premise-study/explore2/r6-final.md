@@ -8,7 +8,7 @@ All contrasts are det vs det (`variants/i-det.js`, mode "all"), J1-graded, desig
 
 1. **No round-6 change is a confirmed improvement.** The best candidate, lead-yas (gates plus a sure-YES email read alone), was +0.79 [0.05, 1.52] over 3,300 development questions, but only **+0.19 [−0.50, 0.89]** on 2,408 fresh questions (H6-D + H6-C). By the rule fixed before the run, that is *consistent*, not *confirmed*.
 2. **Fresh-hit headroom is about 2 points, and about 1 of it is reachable.** On H6-D (600 fresh hits), reading only the gold email scores 91.0, against gates 89.0, lead-yas 89.67 and q1 88.17. Everything else is e2b reading the right email wrongly.
-3. **The reading floor is a shared ceiling, not a capacity floor** (s6). With the plain T2 prompt, e4b reads the gold email 3.8 points better than e2b. The sandwich prompt closes exactly that gap: e2b 92.2 vs e4b 92.7–93.1 on gold-only reading. That is evidence for the paper's thesis: retrieval and prompt engineering substitute for scale in reading, up to e4b.
+3. **Scale control (s6, e4b on FULL-0 + FULL-1, 1,200 development questions).** With the sandwich prompt, e4b reads the gold email on hits no better than e2b: **+0.1 [−1.8, 2.0] hit points**. With the plain T2 prompt e4b reads 3.8 points better, so the sandwich prompt substitutes for scale in reading. gates adds **+5.7** to e2b but only **+3.1** to e4b (difference −2.6 [−5.3, 0.1]), and **e2b + gates vs e4b P-B is +2.0 [−0.1, 4.1]** (mailbox-cluster [0.2, 4.0]): equal on hits, +30 on misses, at 0.75× the wall time and about 0.6× the GPU energy per correct answer (93.9 vs 157.0 J). This is direct evidence for the paper's question, with the caveat that gates was selected on FULL-0 (FULL-1 alone points the same way).
 4. **Precision is not the floor** (q8). Q8_0 e2b minus the study's QAT Q4_0 on gold-only reading is −0.7 hit points [−1.9, +0.5] over 1,300 hits.
 5. **Every hit-side method tried in round 6 is null on fresh hits:** an aux encoder selector (v6), contrastive decoding (n6), prompt shape (p6) and error-class surgery (a6). See the table below.
 6. **The best stacked system on development is lite-yas** (lite + sure-YES read): +0.63 over lite and +1.91 [0.83, 3.00] over det gates on 2,700 development questions, at lite's cost (1,688 vs 1,738 ms). It reaches q1's accuracy for less energy. On fresh hits its gain over lite shrinks to +0.19, the same flips as lead-yas (§3).
@@ -25,7 +25,7 @@ All contrasts are det vs det (`variants/i-det.js`, mode "all"), J1-graded, desig
 | n6 | document-contrastive decoding | R1 +0.38 (1,300 hits) | – | fails bar; PENDING final |
 | a6 | error-class surgery on hits; best: gates + two-email reread on two-part questions + truncation re-ask (`a6-g-pkg`) | +0.43 [+0.04, +0.81] hit pts (2,350 hits) | +0.08 [−0.29, 0.46] hit pts (2,400 hits); reread +9/−10, truncation re-ask +3/−0 | consistent, not confirmed; only the truncation fix is real (about +0.1–0.2) |
 | p6 | prompt shape at large n with placebo | PENDING | – | PENDING |
-| s6 | e4b scale control (diagnostic) | e4b gold-only +0.9 hit pts over e2b with sandwich; +3.8 with T2 | – | diagnostic |
+| s6 | e4b scale control (diagnostic) | gold-only e4b − e2b +0.1 hit pts (sandwich), +3.8 (T2); gates gain e2b +5.7 vs e4b +3.1; e2b gates − e4b P-B +2.0 | – | diagnostic; see headline 3 |
 
 ## 2. Where the remaining accuracy is
 
@@ -42,12 +42,12 @@ All contrasts are det vs det (`variants/i-det.js`, mode "all"), J1-graded, desig
 
 ## 4. Worker reports
 
-PENDING: a6, p6, n6, s6.
+PENDING: p6, n6. a6, s6 and v6 are in the table above and in the journal.
 
 ## 5. Decisions for Kerem
 
 1. **Aux scope (v6).** v6 used an outside encoder; it was negative, so the scope question is moot for accuracy, but the paper may mention it as a tried-and-failed selector.
-2. **Scale finding (s6).** Whether "sandwich closes the e2b → e4b reading gap" goes into the paper.
+2. **Scale finding (s6).** Whether the e4b control goes into the paper: the sandwich prompt closes the e2b → e4b gold-only reading gap, gates helps e4b about half as much as e2b, and e2b + gates ≥ e4b P-B at about 0.6× the energy. All on development sets, with gates selected on FULL-0.
 3. **q1's wall cap on hit-heavy mixes.** q1 runs at 3,314 ms per question on H6-D (all hits), above the 3,243 ms cap; on the design-weighted development mix it is 2,363 ms.
 
 ## Cost

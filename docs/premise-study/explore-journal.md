@@ -1163,3 +1163,8 @@ The lead runs det gates, q1 and lite on H6-D as parents.
   - Reading one email in place of five does not lift e2b's hit floor by more than a few tenths of a point.
 - **The line closes.** No change to lead-yas follows this entry. The lite-yas H6-C secondary (fixed at 00:20 ET) still runs, because it also measures the hybrids' hit loss vs gates on fresh hits.
 - **Grading cost:** H6 grading was $0.14 in all; explore total $1.20.
+
+**Thu 01:20 ET: live lite-yas checked** (`variants/lead-liteyas.js`, S300-4, behind det; `tools/lead-liteyas-check.js`).
+- The live answers equal the offline derivation (lite-det-ub + lead-ya) byte for byte on **300/300** questions. The derived lite-yas numbers above are therefore the live system's numbers.
+- **Cost, against lite-det-ub on the same 300 questions:** 1,688 vs 1,738 ms mean wall, and 4.47 vs 4.46 real model calls. The memo serves 1.57 repeated probes per question. On the 150 yes-alone questions gates' five-email answer is skipped, which pays for the single-email read.
+- So lite-yas costs the same as lite. Its hit gain over lite is the sure-YES read's: +0.63 on development and +0.62 on H6-D. lead-yas's H6 result (+0.19 over gates) suggests that gain will also shrink on H6-C; the secondary above will tell.

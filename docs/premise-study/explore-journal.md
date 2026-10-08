@@ -1044,3 +1044,27 @@ Every gain since phase 1 came from misses. Hits carry about 93% of the weight (a
 The lead runs det gates, q1 and lite on H6-D as parents.
 
 **Wed 19:55 ET: precision diagnostic added.** Kerem freed disk space (59 GB free). The lead pulled `gemma4:e2b-it-q8_0` (8.1 GB; the same e2b weights at Q8_0). The study's tags and their digests are untouched. Worker **q8** asks whether part of e2b's hit-reading floor is the Q4 quantization: Q8 vs Q4 on gold-only reading behind det, then end to end only if gold-only gains ≥ +1.0 hit points. It is a diagnostic, not an e2b-arm candidate; any use in the paper is Kerem's decision.
+
+**Wed 20:55 ET: q8 (precision) is a clean negative** (`explore2/q8.md`).
+- On gold-only reading behind det, over 1,300 development hits, near-lossless Q8_0 e2b minus the study's QAT Q4_0 is **−0.7 hit points [−1.9, +0.5]**, with flips +25/−34.
+- 88 hits (6.8%) are wrong at both precisions.
+- Q8 costs +26% wall time and +35% GPU energy per question.
+- So e2b's hit-reading floor belongs to the weights, not the quantization, and the study's QAT Q4 choice stands.
+- Caveat: the Q8 tag is presumably a quantization of the original instruct weights, not of the QAT checkpoint.
+
+**Side result from q8's data, and a lead lead.** On these four sets, gold-only reading beats det gates by **+3.0 hit points [1.5, 4.5]** (+71/−32). On FULL-0, the set gates was chosen on, the gap is only 1.8.
+- Offline (`tools/lead-yesalone.js`): on the 1,104 of 1,300 hits where q1's first commit-check YES email is the gold (or a twin), reading that email alone with the sandwich prompt is byte-identical to the det gold-only arm.
+- That arm beats det gates by net +25 hits (+1.9 hit points): +12 on 828 sure commits, +13 on 276 doubted.
+- The other 57 hits (YES ≠ gold) are not measured offline.
+- j1 (round 3) tried a single-email read only on x1's doubted handover, against g5, and lost. On gates' own path it was never tested.
+
+**Variants** (`explore2/variants/lead-ya.js`, behind det):
+- **lead-ya:** gates' W0; x1's YES/NO commit check in rank order. On the first YES, a sandwich read of that email alone. If the read fails, abstains or hedges, or no email gets a YES, gates runs unchanged, so those questions are byte-identical to `i-det-gates`.
+- **lead-yas:** the same, but only a sure YES (logprob ≥ −0.1) is read alone.
+
+**Rule, fixed before any lead-ya answer exists:**
+1. **Screen** on S300-4, S300-5, FULL-2 and FULL-3 (the sets the offline estimate came from): measure the real Δ vs i-det-gates, including the YES ≠ gold cases.
+2. **Replication** on development sets not used for the idea: S300-1, S300-2, S300-3 and FULL-1 (1,500 questions). i-det-gates is run where it is missing.
+   - *Replicates*: weighted Δ vs i-det-gates ≥ +0.7, with a question-stratified 95% lower bound > 0.
+   - Otherwise *not replicated*, and the line stops.
+3. **If it replicates:** H6-D (lead-ya vs i-det-gates, descriptive), then H6-C confirmation, with its own rule written here before that run.

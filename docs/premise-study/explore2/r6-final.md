@@ -23,7 +23,7 @@ All contrasts are det vs det (`variants/i-det.js`, mode "all"), J1-graded, desig
 | q8 | Q8_0 vs QAT Q4_0, gold-only | −0.7 [−1.9, 0.5] hit pts (1,300 hits) | – | null |
 | v6 (aux) | RoBERTa QA / DeBERTa NLI selector among e2b's answers | – | R1 +0.08 [−0.62, 0.77] (1,300 fresh det hits) | negative |
 | n6 | document-contrastive decoding | R1 +0.38 (1,300 hits) | – | fails bar; PENDING final |
-| a6 | error-class surgery on hits | PENDING | PENDING | PENDING |
+| a6 | error-class surgery on hits; best: gates + two-email reread on two-part questions + truncation re-ask (`a6-g-pkg`) | +0.43 [+0.04, +0.81] hit pts (2,350 hits) | H6 test: PENDING | below a6's +1.0 bar; fresh test running |
 | p6 | prompt shape at large n with placebo | PENDING | – | PENDING |
 | s6 | e4b scale control (diagnostic) | e4b gold-only +0.9 hit pts over e2b with sandwich; +3.8 with T2 | – | diagnostic |
 

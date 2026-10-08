@@ -2,9 +2,7 @@
   "set": "FULL-3",
   "alias": "small",
   "missShare": 0.06800407113777587,
-  "baseline": "i-det-x1@2+cold",
-  "champion": "lite-det-ub@1+cold",
-  "at": "2026-10-07T18:25:12.636Z",
+  "at": "2026-10-08T07:23:25.875Z",
   "summaries": [
     {
       "variant": "q-det-q1@1+cold",
@@ -15,20 +13,8 @@
       "hit": 0.8711111111111111,
       "nMiss": 150,
       "nHit": 450,
-      "vsBaseline": {
-        "weighted": 0.0006490607813727234,
-        "miss": 0.040000000000000036,
-        "hit": -0.0022222222222222365,
-        "low": -0.004857039828165655,
-        "high": 0.0027201628455110205
-      },
-      "vsChampion": {
-        "weighted": 0.006862366973787504,
-        "miss": 0.040000000000000036,
-        "hit": 0.004444444444444362,
-        "low": -0.0017931346308194263,
-        "high": 0.01625537343064709
-      },
+      "vsBaseline": null,
+      "vsChampion": null,
       "buckets": {
         "never found": {
           "miss": 62,
@@ -56,7 +42,7 @@
         }
       },
       "wallMs": 2507.9983333333334,
-      "wallX": 1.244032393804966,
+      "wallX": null,
       "calls": 13.6,
       "reloads": 0,
       "outputLimit": 0
@@ -71,13 +57,7 @@
       "nMiss": 150,
       "nHit": 450,
       "vsBaseline": null,
-      "vsChampion": {
-        "weighted": 0.00621330619241478,
-        "miss": 0,
-        "hit": 0.006666666666666599,
-        "low": 0,
-        "high": 0.01491193486179565
-      },
+      "vsChampion": null,
       "buckets": {
         "never found": {
           "miss": 66,
@@ -105,8 +85,86 @@
         }
       },
       "wallMs": 2016.0233333333333,
-      "wallX": 1,
+      "wallX": null,
       "calls": 10.72,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "a6-rq-dec@1+cold",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8383626169559318,
+      "miss": 0.42,
+      "hit": 0.8688888888888889,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "never found": {
+          "miss": 73,
+          "hit": 1
+        },
+        "correct": {
+          "miss": 63,
+          "hit": 391
+        },
+        "read but wrong": {
+          "miss": 7,
+          "hit": 57
+        },
+        "abstained": {
+          "miss": 5,
+          "hit": 1
+        },
+        "technical": {
+          "miss": 2,
+          "hit": 0
+        }
+      },
+      "wallMs": 125.605,
+      "wallX": null,
+      "calls": 0.38,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "a6-rq-plist@1+cold",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8383626169559318,
+      "miss": 0.42,
+      "hit": 0.8688888888888889,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "never found": {
+          "miss": 73,
+          "hit": 1
+        },
+        "correct": {
+          "miss": 63,
+          "hit": 391
+        },
+        "read but wrong": {
+          "miss": 7,
+          "hit": 57
+        },
+        "abstained": {
+          "miss": 5,
+          "hit": 1
+        },
+        "technical": {
+          "miss": 2,
+          "hit": 0
+        }
+      },
+      "wallMs": 65.76833333333333,
+      "wallX": null,
+      "calls": 0.19,
       "reloads": 0,
       "outputLimit": 0
     },
@@ -119,13 +177,7 @@
       "hit": 0.8666666666666667,
       "nMiss": 150,
       "nHit": 450,
-      "vsBaseline": {
-        "weighted": -0.00621330619241478,
-        "miss": 0,
-        "hit": -0.006666666666666599,
-        "low": -0.01491193486179565,
-        "high": 0
-      },
+      "vsBaseline": null,
       "vsChampion": null,
       "buckets": {
         "never found": {
@@ -154,8 +206,47 @@
         }
       },
       "wallMs": 1825.7233333333334,
-      "wallX": 0.905606251250399,
+      "wallX": null,
       "calls": 9.34,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "a6-rg-top2@1+cold",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8245661024212556,
+      "miss": 0.18666666666666668,
+      "hit": 0.8711111111111111,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "correct": {
+          "miss": 28,
+          "hit": 392
+        },
+        "never found": {
+          "miss": 108,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 5,
+          "hit": 58
+        },
+        "technical": {
+          "miss": 4,
+          "hit": 0
+        },
+        "abstained": {
+          "miss": 5,
+          "hit": 0
+        }
+      },
+      "wallMs": 40.928333333333335,
+      "wallX": null,
+      "calls": 0.19,
       "reloads": 0,
       "outputLimit": 0
     },
@@ -168,20 +259,8 @@
       "hit": 0.8666666666666667,
       "nMiss": 150,
       "nHit": 450,
-      "vsBaseline": {
-        "weighted": -0.019814120419969994,
-        "miss": -0.19999999999999998,
-        "hit": -0.006666666666666599,
-        "low": -0.03651874690449497,
-        "high": -0.008031117441525959
-      },
-      "vsChampion": {
-        "weighted": -0.013600814227555214,
-        "miss": -0.19999999999999998,
-        "hit": 0,
-        "low": -0.02730663671082323,
-        "high": -0.0014969709955782173
-      },
+      "vsBaseline": null,
+      "vsChampion": null,
       "buckets": {
         "correct": {
           "miss": 28,
@@ -205,8 +284,412 @@
         }
       },
       "wallMs": 793.5083333333333,
-      "wallX": 0.3936007685096237,
+      "wallX": null,
       "calls": 2.05,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "q8-det-oracle@1+cold",
+      "n": 450,
+      "graded": 450,
+      "weighted": null,
+      "miss": null,
+      "hit": 0.9088888888888889,
+      "nMiss": 0,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "correct": {
+          "miss": 0,
+          "hit": 409
+        },
+        "read but wrong": {
+          "miss": 0,
+          "hit": 40
+        },
+        "abstained": {
+          "miss": 0,
+          "hit": 1
+        }
+      },
+      "wallMs": 390.3933333333333,
+      "wallX": null,
+      "calls": 2,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "lead-ya@1+cold",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8337572316263124,
+      "miss": 0.2,
+      "hit": 0.88,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "correct": {
+          "miss": 30,
+          "hit": 396
+        },
+        "never found": {
+          "miss": 110,
+          "hit": 11
+        },
+        "read but wrong": {
+          "miss": 2,
+          "hit": 43
+        },
+        "technical": {
+          "miss": 3,
+          "hit": 0
+        },
+        "abstained": {
+          "miss": 5,
+          "hit": 0
+        }
+      },
+      "wallMs": 872.3866666666667,
+      "wallX": null,
+      "calls": 5.96,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "n6-g-r1g@1+cold",
+      "n": 450,
+      "graded": 450,
+      "weighted": null,
+      "miss": null,
+      "hit": 0.8711111111111111,
+      "nMiss": 0,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "correct": {
+          "miss": 0,
+          "hit": 392
+        },
+        "read but wrong": {
+          "miss": 0,
+          "hit": 58
+        }
+      },
+      "wallMs": 1204.7,
+      "wallX": null,
+      "calls": 0,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "a6-rg-dec@1+cold",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8183527962288408,
+      "miss": 0.18666666666666668,
+      "hit": 0.8644444444444445,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "correct": {
+          "miss": 28,
+          "hit": 389
+        },
+        "never found": {
+          "miss": 108,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 5,
+          "hit": 61
+        },
+        "technical": {
+          "miss": 4,
+          "hit": 0
+        },
+        "abstained": {
+          "miss": 5,
+          "hit": 0
+        }
+      },
+      "wallMs": 124.87833333333333,
+      "wallX": null,
+      "calls": 0.37333333333333335,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "a6-rg-plist@1+cold",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8183527962288408,
+      "miss": 0.18666666666666668,
+      "hit": 0.8644444444444445,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "correct": {
+          "miss": 28,
+          "hit": 389
+        },
+        "never found": {
+          "miss": 108,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 5,
+          "hit": 61
+        },
+        "technical": {
+          "miss": 4,
+          "hit": 0
+        },
+        "abstained": {
+          "miss": 5,
+          "hit": 0
+        }
+      },
+      "wallMs": 68.045,
+      "wallX": null,
+      "calls": 0.19,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "a6-det-oracle@1+cold",
+      "n": 450,
+      "graded": 450,
+      "weighted": null,
+      "miss": null,
+      "hit": 0.9088888888888889,
+      "nMiss": 0,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "correct": {
+          "miss": 0,
+          "hit": 409
+        },
+        "read but wrong": {
+          "miss": 0,
+          "hit": 40
+        },
+        "abstained": {
+          "miss": 0,
+          "hit": 1
+        }
+      },
+      "wallMs": 348.48,
+      "wallX": null,
+      "calls": 2,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "a6-gold@1+cold",
+      "n": 35,
+      "graded": 35,
+      "weighted": null,
+      "miss": null,
+      "hit": 0.8285714285714286,
+      "nMiss": 0,
+      "nHit": 35,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "correct": {
+          "miss": 0,
+          "hit": 29
+        },
+        "read but wrong": {
+          "miss": 0,
+          "hit": 6
+        }
+      },
+      "wallMs": 2432.9142857142856,
+      "wallX": null,
+      "calls": 14,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "v6-o4@1+cold",
+      "n": 450,
+      "graded": 450,
+      "weighted": null,
+      "miss": null,
+      "hit": 0.86,
+      "nMiss": 0,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "read but wrong": {
+          "miss": 0,
+          "hit": 63
+        },
+        "correct": {
+          "miss": 0,
+          "hit": 387
+        }
+      },
+      "wallMs": 724.1177777777777,
+      "wallX": null,
+      "calls": 2.0044444444444443,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "a6-rq-trunc@1+cold",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8408870794943218,
+      "miss": 0.4266666666666667,
+      "hit": 0.8711111111111111,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "never found": {
+          "miss": 72,
+          "hit": 1
+        },
+        "correct": {
+          "miss": 64,
+          "hit": 392
+        },
+        "read but wrong": {
+          "miss": 7,
+          "hit": 56
+        },
+        "abstained": {
+          "miss": 5,
+          "hit": 1
+        },
+        "technical": {
+          "miss": 2,
+          "hit": 0
+        }
+      },
+      "wallMs": 1.6433333333333333,
+      "wallX": null,
+      "calls": 0,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "a6-rg-top3@1+cold",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8245661024212556,
+      "miss": 0.18666666666666668,
+      "hit": 0.8711111111111111,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "correct": {
+          "miss": 28,
+          "hit": 392
+        },
+        "never found": {
+          "miss": 108,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 5,
+          "hit": 58
+        },
+        "technical": {
+          "miss": 4,
+          "hit": 0
+        },
+        "abstained": {
+          "miss": 5,
+          "hit": 0
+        }
+      },
+      "wallMs": 40.348333333333336,
+      "wallX": null,
+      "calls": 0.19,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "a6-rg-trunc@1+cold",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8204238982929791,
+      "miss": 0.18666666666666668,
+      "hit": 0.8666666666666667,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "correct": {
+          "miss": 28,
+          "hit": 390
+        },
+        "never found": {
+          "miss": 108,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 5,
+          "hit": 60
+        },
+        "technical": {
+          "miss": 4,
+          "hit": 0
+        },
+        "abstained": {
+          "miss": 5,
+          "hit": 0
+        }
+      },
+      "wallMs": 1.6283333333333334,
+      "wallX": null,
+      "calls": 0,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "n6-g-q1g@1+cold",
+      "n": 450,
+      "graded": 450,
+      "weighted": null,
+      "miss": null,
+      "hit": 0.88,
+      "nMiss": 0,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "read but wrong": {
+          "miss": 0,
+          "hit": 54
+        },
+        "correct": {
+          "miss": 0,
+          "hit": 396
+        }
+      },
+      "wallMs": 1201.0777777777778,
+      "wallX": null,
+      "calls": 0,
       "reloads": 0,
       "outputLimit": 0
     }

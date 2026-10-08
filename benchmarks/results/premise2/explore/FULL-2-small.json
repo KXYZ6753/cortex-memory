@@ -2,9 +2,7 @@
   "set": "FULL-2",
   "alias": "small",
   "missShare": 0.06800407113777587,
-  "baseline": "i-det-x1@2+cold",
-  "champion": "lite-det-ub@1+cold",
-  "at": "2026-10-07T18:32:22.377Z",
+  "at": "2026-10-08T07:23:15.156Z",
   "summaries": [
     {
       "variant": "q-det-q1@1+cold",
@@ -15,20 +13,8 @@
       "hit": 0.8955555555555555,
       "nMiss": 150,
       "nHit": 450,
-      "vsBaseline": {
-        "weighted": 0.014178094421827048,
-        "miss": 0.08666666666666667,
-        "hit": 0.008888888888888835,
-        "low": 0.005893686165273859,
-        "high": 0.022032143807909965
-      },
-      "vsChampion": {
-        "weighted": 0.013550332454680847,
-        "miss": 0.04697986577181207,
-        "hit": 0.011111111111111072,
-        "low": -0.0018294146792839916,
-        "high": 0.030606467100525503
-      },
+      "vsBaseline": null,
+      "vsChampion": null,
       "buckets": {
         "read but wrong": {
           "miss": 13,
@@ -56,10 +42,49 @@
         }
       },
       "wallMs": 2363.145,
-      "wallX": 1.2154636789137105,
+      "wallX": null,
       "calls": 13.016666666666667,
       "reloads": 0,
       "outputLimit": 1
+    },
+    {
+      "variant": "a6-rq-trunc@1+cold",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8682028069423613,
+      "miss": 0.49333333333333335,
+      "hit": 0.8955555555555555,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "read but wrong": {
+          "miss": 7,
+          "hit": 44
+        },
+        "correct": {
+          "miss": 74,
+          "hit": 403
+        },
+        "never found": {
+          "miss": 63,
+          "hit": 2
+        },
+        "abstained": {
+          "miss": 2,
+          "hit": 0
+        },
+        "technical": {
+          "miss": 4,
+          "hit": 1
+        }
+      },
+      "wallMs": 3.7683333333333335,
+      "wallX": null,
+      "calls": 0.0033333333333333335,
+      "reloads": 0,
+      "outputLimit": 0
     },
     {
       "variant": "q-det-q2@1+cold",
@@ -70,20 +95,8 @@
       "hit": 0.8911111111111111,
       "nMiss": 150,
       "nHit": 450,
-      "vsBaseline": {
-        "weighted": 0.009129169345046817,
-        "miss": 0.0733333333333333,
-        "hit": 0.004444444444444362,
-        "low": -0.015496461791190685,
-        "high": 0.031166626139866427
-      },
-      "vsChampion": {
-        "weighted": 0.008495322002407213,
-        "miss": 0.03355704697986572,
-        "hit": 0.006666666666666599,
-        "low": -0.015017212567960736,
-        "high": 0.029640017635693794
-      },
+      "vsBaseline": null,
+      "vsChampion": null,
       "buckets": {
         "read but wrong": {
           "miss": 14,
@@ -111,7 +124,7 @@
         }
       },
       "wallMs": 2361.9483333333333,
-      "wallX": 1.2148481835170675,
+      "wallX": null,
       "calls": 13.056666666666667,
       "reloads": 0,
       "outputLimit": 2
@@ -125,13 +138,7 @@
       "hit": 0.8844444444444445,
       "nMiss": 149,
       "nHit": 450,
-      "vsBaseline": {
-        "weighted": 0.0002109137458542465,
-        "miss": 0.03355704697986578,
-        "hit": -0.0022222222222222365,
-        "low": -0.016064360742413353,
-        "high": 0.013883624882966239
-      },
+      "vsBaseline": null,
       "vsChampion": null,
       "buckets": {
         "read but wrong": {
@@ -160,7 +167,7 @@
         }
       },
       "wallMs": 1683.7395659432386,
-      "wallX": 0.8660172300700731,
+      "wallX": null,
       "calls": 8.634390651085141,
       "reloads": 0,
       "outputLimit": 2
@@ -175,13 +182,7 @@
       "nMiss": 150,
       "nHit": 450,
       "vsBaseline": null,
-      "vsChampion": {
-        "weighted": -0.0002109137458542465,
-        "miss": -0.03355704697986578,
-        "hit": 0.0022222222222222365,
-        "low": -0.013883624882966239,
-        "high": 0.016064360742413353
-      },
+      "vsChampion": null,
       "buckets": {
         "correct": {
           "miss": 61,
@@ -209,10 +210,127 @@
         }
       },
       "wallMs": 1944.2333333333333,
-      "wallX": 1,
+      "wallX": null,
       "calls": 10.986666666666666,
       "reloads": 0,
       "outputLimit": 1
+    },
+    {
+      "variant": "a6-rg-dec@1+cold",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8470286050996357,
+      "miss": 0.2733333333333333,
+      "hit": 0.8888888888888888,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "never found": {
+          "miss": 98,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 3,
+          "hit": 49
+        },
+        "correct": {
+          "miss": 41,
+          "hit": 400
+        },
+        "abstained": {
+          "miss": 7,
+          "hit": 0
+        },
+        "technical": {
+          "miss": 1,
+          "hit": 1
+        }
+      },
+      "wallMs": 152.42166666666665,
+      "wallX": null,
+      "calls": 0.38333333333333336,
+      "reloads": 0,
+      "outputLimit": 2
+    },
+    {
+      "variant": "a6-rg-trunc@1+cold",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8449575030354975,
+      "miss": 0.2733333333333333,
+      "hit": 0.8866666666666667,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "never found": {
+          "miss": 98,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 3,
+          "hit": 50
+        },
+        "correct": {
+          "miss": 41,
+          "hit": 399
+        },
+        "abstained": {
+          "miss": 7,
+          "hit": 0
+        },
+        "technical": {
+          "miss": 1,
+          "hit": 1
+        }
+      },
+      "wallMs": 7.01,
+      "wallX": null,
+      "calls": 0.006666666666666667,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "a6-rg-plist@1+cold",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8440507820869938,
+      "miss": 0.26,
+      "hit": 0.8866666666666667,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "never found": {
+          "miss": 98,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 5,
+          "hit": 50
+        },
+        "correct": {
+          "miss": 39,
+          "hit": 399
+        },
+        "abstained": {
+          "miss": 7,
+          "hit": 0
+        },
+        "technical": {
+          "miss": 1,
+          "hit": 1
+        }
+      },
+      "wallMs": 80.28833333333333,
+      "wallX": null,
+      "calls": 0.19333333333333333,
+      "reloads": 0,
+      "outputLimit": 3
     },
     {
       "variant": "i-det-gates@2+cold",
@@ -223,20 +341,8 @@
       "hit": 0.8844444444444445,
       "nMiss": 150,
       "nHit": 450,
-      "vsBaseline": {
-        "weighted": -0.011138311549174995,
-        "miss": -0.13333333333333336,
-        "hit": -0.0022222222222222365,
-        "low": -0.03569566459538609,
-        "high": 0.008152114835743407
-      },
-      "vsChampion": {
-        "weighted": -0.011410079049962385,
-        "miss": -0.1677852348993289,
-        "hit": 0,
-        "low": -0.024945289635098455,
-        "high": -0.002326298066899768
-      },
+      "vsBaseline": null,
+      "vsChampion": null,
       "buckets": {
         "never found": {
           "miss": 98,
@@ -260,10 +366,491 @@
         }
       },
       "wallMs": 806.69,
-      "wallX": 0.41491419068355995,
+      "wallX": null,
       "calls": 2.05,
       "reloads": 0,
       "outputLimit": 2
+    },
+    {
+      "variant": "q8-det-oracle@1+cold",
+      "n": 450,
+      "graded": 450,
+      "weighted": null,
+      "miss": null,
+      "hit": 0.9111111111111111,
+      "nMiss": 0,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "correct": {
+          "miss": 0,
+          "hit": 410
+        },
+        "read but wrong": {
+          "miss": 0,
+          "hit": 40
+        }
+      },
+      "wallMs": 373.88,
+      "wallX": null,
+      "calls": 2,
+      "reloads": 0,
+      "outputLimit": 1
+    },
+    {
+      "variant": "lead-ya@1+cold",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8428864009713593,
+      "miss": 0.2733333333333333,
+      "hit": 0.8844444444444445,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "never found": {
+          "miss": 99,
+          "hit": 9
+        },
+        "read but wrong": {
+          "miss": 3,
+          "hit": 42
+        },
+        "correct": {
+          "miss": 41,
+          "hit": 398
+        },
+        "abstained": {
+          "miss": 7,
+          "hit": 0
+        },
+        "technical": {
+          "miss": 0,
+          "hit": 1
+        }
+      },
+      "wallMs": 903.9616666666667,
+      "wallX": null,
+      "calls": 6.246666666666667,
+      "reloads": 0,
+      "outputLimit": 1
+    },
+    {
+      "variant": "a6-det-oracle@1+cold",
+      "n": 450,
+      "graded": 450,
+      "weighted": null,
+      "miss": null,
+      "hit": 0.9111111111111111,
+      "nMiss": 0,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "correct": {
+          "miss": 0,
+          "hit": 410
+        },
+        "read but wrong": {
+          "miss": 0,
+          "hit": 40
+        }
+      },
+      "wallMs": 344.6311111111111,
+      "wallX": null,
+      "calls": 2,
+      "reloads": 0,
+      "outputLimit": 1
+    },
+    {
+      "variant": "n6-g-r1g@1+cold",
+      "n": 450,
+      "graded": 450,
+      "weighted": null,
+      "miss": null,
+      "hit": 0.8955555555555555,
+      "nMiss": 0,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "correct": {
+          "miss": 0,
+          "hit": 403
+        },
+        "read but wrong": {
+          "miss": 0,
+          "hit": 46
+        },
+        "technical": {
+          "miss": 0,
+          "hit": 1
+        }
+      },
+      "wallMs": 1180.7844444444445,
+      "wallX": null,
+      "calls": 0,
+      "reloads": 0,
+      "outputLimit": 1
+    },
+    {
+      "variant": "a6-gold@1+cold",
+      "n": 32,
+      "graded": 32,
+      "weighted": null,
+      "miss": null,
+      "hit": 0.78125,
+      "nMiss": 0,
+      "nHit": 32,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "correct": {
+          "miss": 0,
+          "hit": 25
+        },
+        "read but wrong": {
+          "miss": 0,
+          "hit": 7
+        }
+      },
+      "wallMs": 2576.71875,
+      "wallX": null,
+      "calls": 14,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "v6-o4@1+cold",
+      "n": 450,
+      "graded": 450,
+      "weighted": null,
+      "miss": null,
+      "hit": 0.8844444444444445,
+      "nMiss": 0,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "correct": {
+          "miss": 0,
+          "hit": 398
+        },
+        "read but wrong": {
+          "miss": 0,
+          "hit": 51
+        },
+        "technical": {
+          "miss": 0,
+          "hit": 1
+        }
+      },
+      "wallMs": 719.9688888888888,
+      "wallX": null,
+      "calls": 2,
+      "reloads": 0,
+      "outputLimit": 1
+    },
+    {
+      "variant": "p6-g4@1+cold",
+      "n": 450,
+      "graded": 450,
+      "weighted": null,
+      "miss": null,
+      "hit": 0.9133333333333333,
+      "nMiss": 0,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "correct": {
+          "miss": 0,
+          "hit": 411
+        },
+        "read but wrong": {
+          "miss": 0,
+          "hit": 38
+        },
+        "abstained": {
+          "miss": 0,
+          "hit": 1
+        }
+      },
+      "wallMs": 319.1355555555556,
+      "wallX": null,
+      "calls": 2,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "p6-gqa@1+cold",
+      "n": 450,
+      "graded": 450,
+      "weighted": null,
+      "miss": null,
+      "hit": 0.9155555555555556,
+      "nMiss": 0,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "correct": {
+          "miss": 0,
+          "hit": 412
+        },
+        "read but wrong": {
+          "miss": 0,
+          "hit": 38
+        }
+      },
+      "wallMs": 351.50444444444446,
+      "wallX": null,
+      "calls": 2,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "p6-gpad@1+cold",
+      "n": 153,
+      "graded": 153,
+      "weighted": null,
+      "miss": null,
+      "hit": 0.9281045751633987,
+      "nMiss": 0,
+      "nHit": 153,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "correct": {
+          "miss": 0,
+          "hit": 142
+        },
+        "read but wrong": {
+          "miss": 0,
+          "hit": 11
+        }
+      },
+      "wallMs": 346.34640522875816,
+      "wallX": null,
+      "calls": 2,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "a6-rg-top2@1+cold",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8523351903435469,
+      "miss": 0.26,
+      "hit": 0.8955555555555555,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "never found": {
+          "miss": 98,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 5,
+          "hit": 46
+        },
+        "correct": {
+          "miss": 39,
+          "hit": 403
+        },
+        "abstained": {
+          "miss": 7,
+          "hit": 0
+        },
+        "technical": {
+          "miss": 1,
+          "hit": 1
+        }
+      },
+      "wallMs": 47.81,
+      "wallX": null,
+      "calls": 0.19333333333333333,
+      "reloads": 0,
+      "outputLimit": 2
+    },
+    {
+      "variant": "a6-rg-top3@1+cold",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8486463466895222,
+      "miss": 0.26666666666666666,
+      "hit": 0.8911111111111111,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "never found": {
+          "miss": 98,
+          "hit": 0
+        },
+        "read but wrong": {
+          "miss": 4,
+          "hit": 48
+        },
+        "correct": {
+          "miss": 40,
+          "hit": 401
+        },
+        "abstained": {
+          "miss": 7,
+          "hit": 0
+        },
+        "technical": {
+          "miss": 1,
+          "hit": 1
+        }
+      },
+      "wallMs": 42.67,
+      "wallX": null,
+      "calls": 0.19333333333333333,
+      "reloads": 0,
+      "outputLimit": 2
+    },
+    {
+      "variant": "n6-g-q1g@1+cold",
+      "n": 450,
+      "graded": 450,
+      "weighted": null,
+      "miss": null,
+      "hit": 0.8933333333333333,
+      "nMiss": 0,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "correct": {
+          "miss": 0,
+          "hit": 402
+        },
+        "read but wrong": {
+          "miss": 0,
+          "hit": 47
+        },
+        "technical": {
+          "miss": 0,
+          "hit": 1
+        }
+      },
+      "wallMs": 1138.9266666666667,
+      "wallX": null,
+      "calls": 0,
+      "reloads": 0,
+      "outputLimit": 1
+    },
+    {
+      "variant": "n6-gq@1+cold",
+      "n": 142,
+      "graded": 142,
+      "weighted": null,
+      "miss": null,
+      "hit": 0.9084507042253521,
+      "nMiss": 0,
+      "nHit": 142,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "correct": {
+          "miss": 0,
+          "hit": 129
+        },
+        "read but wrong": {
+          "miss": 0,
+          "hit": 13
+        }
+      },
+      "wallMs": 1361.7887323943662,
+      "wallX": null,
+      "calls": 0,
+      "reloads": 0,
+      "outputLimit": 0
+    },
+    {
+      "variant": "a6-rq-plist@1+cold",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8656783444039712,
+      "miss": 0.4866666666666667,
+      "hit": 0.8933333333333333,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "read but wrong": {
+          "miss": 8,
+          "hit": 45
+        },
+        "correct": {
+          "miss": 73,
+          "hit": 402
+        },
+        "never found": {
+          "miss": 63,
+          "hit": 2
+        },
+        "abstained": {
+          "miss": 2,
+          "hit": 0
+        },
+        "technical": {
+          "miss": 4,
+          "hit": 1
+        }
+      },
+      "wallMs": 66.58666666666667,
+      "wallX": null,
+      "calls": 0.18666666666666668,
+      "reloads": 0,
+      "outputLimit": 1
+    },
+    {
+      "variant": "a6-rq-dec@1+cold",
+      "n": 600,
+      "graded": 600,
+      "weighted": 0.8636072423398329,
+      "miss": 0.4866666666666667,
+      "hit": 0.8911111111111111,
+      "nMiss": 150,
+      "nHit": 450,
+      "vsBaseline": null,
+      "vsChampion": null,
+      "buckets": {
+        "read but wrong": {
+          "miss": 8,
+          "hit": 46
+        },
+        "correct": {
+          "miss": 73,
+          "hit": 401
+        },
+        "never found": {
+          "miss": 63,
+          "hit": 2
+        },
+        "abstained": {
+          "miss": 2,
+          "hit": 0
+        },
+        "technical": {
+          "miss": 4,
+          "hit": 1
+        }
+      },
+      "wallMs": 128.53666666666666,
+      "wallX": null,
+      "calls": 0.37,
+      "reloads": 0,
+      "outputLimit": 1
     }
   ]
 }
